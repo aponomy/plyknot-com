@@ -1,0 +1,27 @@
+name = "plyknot-hub-com"
+main = "src/index.ts"
+compatibility_date = "2026-04-14"
+compatibility_flags = ["nodejs_compat"]
+
+routes = [
+  { pattern = "hub.plyknot.com", custom_domain = true }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "plyknot-hub-com-prod"
+database_id = "9929f003-c413-4056-a425-397256443f2a"
+
+[ai]
+binding = "AI"
+
+[vars]
+ENVIRONMENT = "production"
+GITHUB_OWNER = "plyknot"
+GITHUB_REPO = "plyknot-com"
+REQUIRED_ORG = "plyknot"
+
+# Secrets (set via wrangler secret put):
+# GITHUB_CLIENT_ID      — OAuth app for hub.plyknot.com
+# GITHUB_CLIENT_SECRET  — OAuth app secret
+# GITHUB_TOKEN          — For PR submission to plyknot-com repo

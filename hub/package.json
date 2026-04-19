@@ -1,0 +1,26 @@
+{
+  "name": "@plyknot/hub-com",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plyknot Hub Commercial — factory research API at hub.plyknot.com. Cloudflare Workers + D1.",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev --port 8791 --persist-to .wrangler/state",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:init": "wrangler d1 execute plyknot-hub-com-prod --local --file=./schema.sql",
+    "db:init-remote": "wrangler d1 execute plyknot-hub-com-prod --remote --file=./schema.sql",
+    "db:seed": "npx tsx scripts/seed-d1.ts",
+    "db:seed-remote": "npx tsx scripts/seed-d1.ts --remote",
+    "db:reset": "npm run db:init && npm run db:seed",
+    "embeddings": "npx tsx scripts/generate-embeddings.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241106.0",
+    "@types/node": "^20.16.5",
+    "tsx": "^4.21.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^3.84.0"
+  }
+}

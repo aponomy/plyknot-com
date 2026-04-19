@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plyknot.com/schemas/hypothesis.schema.json",
+  "title": "HypothesisRecord",
+  "description": "A typed hypothesis record produced by a Proposer agent. Stored in research-private/plans/{date}-{crack-id}/hypothesis-tree/.",
+  "type": "object",
+  "required": ["hypothesis_id", "crack_id", "proposer_id", "target_entity", "target_property", "proposed_mechanism", "required_measurements", "predicted_convergence_delta", "timestamp"],
+  "properties": {
+    "hypothesis_id": {
+      "type": "string",
+      "description": "Unique identifier for this hypothesis."
+    },
+    "crack_id": {
+      "type": "string",
+      "description": "The crack or opening this hypothesis addresses."
+    },
+    "proposer_id": {
+      "type": "string",
+      "description": "Agent ID that generated this hypothesis, e.g. 'proposer-claude'."
+    },
+    "parent_hypothesis_id": {
+      "type": ["string", "null"],
+      "description": "If this is a mutation, the parent hypothesis. Mutations never overwrite parents."
+    },
+    "target_entity": {
+      "type": "string",
+      "description": "The entity this hypothesis targets."
+    },
+    "target_property": {
+      "type": "string",
+      "description": "The property this hypothesis addresses."
+    },
+    "proposed_mechanism": {
+      "type": "string",
+      "description": "Description of the proposed mechanism."
+    },
+    "required_measurements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["property", "instrument_type"],
+        "properties": {
+          "property": { "type": "string" },
+          "instrument_type": { "type": "string" },
+          "estimated_cost_usd": { "type": "number" }
+        }
+      },
+      "description": "Measurements needed to test this hypothesis."
+    },
+    "predicted_convergence_delta": {
+      "type": "number",
+      "description": "Expected shift in convergence map if experiments succeed."
+    },
+    "depends": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Operational depends chain for this hypothesis."
+    },
+    "elo_rating": {
+      "type": "number",
+      "description": "Current Elo rating from tournament matches."
+    },
+    "tournament_matches": {
+      "type": "integer",
+      "description": "Number of tournament matches this hypothesis has participated in."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "tournament-active", "promoted", "eliminated", "resolved"],
+      "description": "Current status in the pipeline."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

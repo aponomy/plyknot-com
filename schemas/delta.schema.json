@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plyknot.com/schemas/delta.schema.json",
+  "title": "ConvergenceDelta",
+  "description": "A delta in the convergence map produced by a factory research run. The unit of output — not a document.",
+  "type": "object",
+  "required": ["delta_id", "crack_id", "timestamp", "type", "entries"],
+  "properties": {
+    "delta_id": {
+      "type": "string",
+      "description": "Unique identifier for this delta."
+    },
+    "crack_id": {
+      "type": "string",
+      "description": "The crack or opening this delta addresses."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this delta was computed."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["crack-resolution", "opening-extension", "extraction", "surveillance", "rendering"],
+      "description": "Which factory pipeline produced this delta."
+    },
+    "entries": {
+      "type": "array",
+      "description": "Coupling entries added or modified by this delta.",
+      "items": {
+        "type": "object",
+        "required": ["entity_a", "entity_b", "property", "value", "method", "call_type"],
+        "properties": {
+          "entity_a": { "type": "string" },
+          "entity_b": { "type": "string" },
+          "property": { "type": "string" },
+          "value": {},
+          "sigma": { "type": "number" },
+          "method": { "type": "string" },
+          "call_type": {
+            "type": "string",
+            "enum": ["measure", "predict"],
+            "description": "Whether this is a measure() or predict() entry."
+          },
+          "instrument": { "type": "string" },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "doi": { "type": "string" },
+              "arxiv_id": { "type": "string" },
+              "commit": { "type": "string" }
+            }
+          },
+          "embargo": {
+            "$ref": "embargo.schema.json"
+          }
+        }
+      }
+    },
+    "convergence_shift": {
+      "type": "object",
+      "description": "Computed convergence metrics before and after this delta.",
+      "properties": {
+        "crack_resolution_score": {
+          "type": "number",
+          "description": "Negative shift in sigma-tension at the cracked inference step."
+        },
+        "opening_extension_score": {
+          "type": "number",
+          "description": "Positive shift in convergence status for the opening's target property."
+        },
+        "echo_chamber_break_score": {
+          "type": "number",
+          "description": "Introduction of independent instrument cluster previously absent."
+        },
+        "common_ground_depth_score": {
+          "type": "number",
+          "description": "Increase in independent instruments for the Common-Ground entity."
+        }
+      }
+    },
+    "cost_usd": {
+      "type": "number",
+      "description": "Total cost of the research run that produced this delta."
+    }
+  },
+  "additionalProperties": false
+}

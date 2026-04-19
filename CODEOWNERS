@@ -1,0 +1,22 @@
+# CODEOWNERS — enforces the boundary between infrastructure and scientific content.
+#
+# Rule: Copilot/automation may change how the code looks, runs, and is packaged.
+#       It may NOT change what the code says about the world.
+#
+# Human approval required for all paths touching the scientific content layer.
+
+# Default — all changes require owner review
+* @klas-ehnemark
+
+# Scientific content — human-only, no automation
+/universe-private/                          @klas-ehnemark
+/research-private/plans/**/deltas/          @klas-ehnemark
+/research-private/plans/**/failures/        @klas-ehnemark
+/research-private/common-ground-private/    @klas-ehnemark
+/research-private/failure-graph/            @klas-ehnemark
+
+# Rendering validator — Copilot cannot modify its own constraints
+/rendering/validator/                       @klas-ehnemark
+
+# Schemas — structural changes require human review
+/schemas/                                   @klas-ehnemark

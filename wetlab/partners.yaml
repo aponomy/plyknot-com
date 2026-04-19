@@ -1,0 +1,70 @@
+# Wet-lab partner registry.
+# Each partner is a registry-phone-book entity with declared instrument
+# coverage, turnaround time, per-assay cost, and a depends chain
+# documenting the platform.
+#
+# Architectural rule: any property-value claim promoted from predict()
+# to measure() must clear at least two independent instrument clusters.
+# Two different CROs with different platforms, or one CRO plus one
+# academic partner, or one wet lab plus one cloud lab.
+
+partners:
+
+  # Contract Research Organizations (India)
+  # - syngene:
+  #     name: Syngene International
+  #     type: cro
+  #     region: india
+  #     instruments: []
+  #     turnaround_days: null
+  #     cost_per_assay_usd: null
+  #     depends: []
+  #     status: Phase B — to map
+
+  # - jubilant_biosys:
+  #     name: Jubilant Biosys
+  #     type: cro
+  #     region: india
+  #     instruments: []
+  #     status: Phase B — to map
+
+  # - aragen:
+  #     name: Aragen Life Sciences
+  #     type: cro
+  #     region: india
+  #     instruments: []
+  #     status: Phase B — to map
+
+  # - gvk_bio:
+  #     name: GVK Biosciences
+  #     type: cro
+  #     region: india
+  #     instruments: []
+  #     status: Phase B — to map
+
+  # Cloud Labs
+  # - emerald:
+  #     name: Emerald Cloud Lab
+  #     type: cloud_lab
+  #     instruments: []
+  #     status: Phase B — to map
+
+  # - strateos:
+  #     name: Strateos
+  #     type: cloud_lab
+  #     instruments: []
+  #     status: Phase B — to map
+
+  # - arctoris:
+  #     name: Arctoris
+  #     type: cloud_lab
+  #     instruments: []
+  #     status: Phase B — to map
+
+  # Academic Partners
+  # - nbis_scilifelab:
+  #     name: NBIS/SciLifeLab
+  #     type: academic
+  #     region: sweden
+  #     instruments: []
+  #     status: Phase B — to map

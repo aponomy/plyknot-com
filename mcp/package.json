@@ -1,0 +1,26 @@
+{
+  "name": "@plyknot-com/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plyknot commercial MCP server — factory tools for hypothesis tournament, experiments, projects, and agent prompts.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "bin": {
+    "plyknot-com-mcp": "./src/index.ts"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts --remote https://hub.plyknot.org --factory https://hub.plyknot.com",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@plyknot/simulator": "file:../../plyknot/plyknot-ts",
+    "@plyknot/mcp": "file:../../mcp"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "license": "UNLICENSED"
+}

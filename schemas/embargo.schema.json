@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plyknot.com/schemas/embargo.schema.json",
+  "title": "Embargo",
+  "description": "Embargo block for commercial universe entries. Every coupling entry and chain step in universe-private/ carries an optional embargo block with an automatic date-gated promotion path.",
+  "type": "object",
+  "required": ["until", "reason", "owner"],
+  "properties": {
+    "until": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date when this entry promotes to the public universe."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Machine-readable reason code, e.g. 'patent-pending-20260517'."
+    },
+    "owner": {
+      "type": "string",
+      "description": "Legal entity that owns the embargo, e.g. 'Solarplexor AB'."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Human-readable rationale, e.g. 'Filing ID AB-2026-001'."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,109 @@
+# Failure graph — AlphaFold binding-site crack (alphafold-binding-site-v1)
+#
+# 100% divergent with median 13.7Å shift across 1,807 proteins.
+# These entries record known-failed approaches so the Planner can
+# prune branches that replay them.
+
+- id: fg-af-bs-001
+  crack_id: alphafold-binding-site-v1
+  hypothesis_summary: >
+    Naive Cα-RMSD on flexible loop regions overstates divergence between
+    AF2 predictions and holo PDB structures.
+  experiment_config:
+    metric: ca_rmsd
+    region: full_chain
+    subset: flexible_loops
+    pipeline: pymol_align
+  outcome: >
+    Cα-RMSD on flexible loops is dominated by noise from intrinsic loop
+    flexibility rather than AF2 prediction error. Divergence values inflate
+    by 2-5x compared to structured regions. Not a useful metric for this crack.
+  instrument_stack:
+    - pymol_align
+    - af2_v2.3
+    - pdb_holo
+
+- id: fg-af-bs-002
+  crack_id: alphafold-binding-site-v1
+  hypothesis_summary: >
+    Single-template homology modeling comparison — comparing AF2 to a
+    single-template homology model to isolate AF2-specific error.
+  experiment_config:
+    method: homology_modeling
+    templates: single_best_hit
+    pipeline: modeller
+    comparison: af2_vs_modeller
+  outcome: >
+    Single-template homology models perform worse than AF2 on 94% of targets.
+    The comparison does not isolate AF2-specific binding-site error; it only
+    confirms AF2 is better than single-template modeling. Not informative
+    for the crack.
+  instrument_stack:
+    - modeller_v10
+    - af2_v2.3
+    - pdb_holo
+    - blast_nr
+
+- id: fg-af-bs-003
+  crack_id: alphafold-binding-site-v1
+  hypothesis_summary: >
+    MSA depth < 64 sequences causes low AF2 confidence in binding-site
+    residues, explaining the divergence.
+  experiment_config:
+    filter: msa_depth_lt_64
+    metric: plddt_binding_site
+    pipeline: colabfold
+  outcome: >
+    Only 12% of the 1,807 proteins have MSA depth < 64. The divergence
+    pattern persists in the remaining 88% with deep MSAs (median depth 1,200+).
+    MSA depth is not the primary driver. Filtering by MSA depth removes
+    a small subset but does not resolve the crack.
+  instrument_stack:
+    - colabfold
+    - mmseqs2
+    - af2_v2.3
+    - pdb_holo
+
+- id: fg-af-bs-004
+  crack_id: alphafold-binding-site-v1
+  hypothesis_summary: >
+    Crystallization pH artifact — holo PDB structures crystallized at
+    extreme pH (< 5.0 or > 9.0) show systematic binding-site shifts
+    that are artifacts of crystallization, not real conformational differences.
+  experiment_config:
+    filter: ph_extreme
+    threshold_low: 5.0
+    threshold_high: 9.0
+    metric: binding_site_rmsd
+    pipeline: pdb_metadata_filter
+  outcome: >
+    Only 8% of structures have extreme pH conditions. Excluding them
+    reduces median divergence from 13.7Å to 12.9Å — a marginal improvement.
+    pH artifact is a contributor but not the primary mechanism. Must be
+    combined with other filters.
+  instrument_stack:
+    - pdb_metadata
+    - af2_v2.3
+    - pdb_holo
+
+- id: fg-af-bs-005
+  crack_id: alphafold-binding-site-v1
+  hypothesis_summary: >
+    Apo-only AF2 comparison — AF2 predicts apo-like conformations, so
+    comparing to holo structures is inherently unfair. The divergence
+    is expected and not a crack.
+  experiment_config:
+    comparison: af2_vs_apo_pdb
+    metric: binding_site_rmsd
+    control: apo_vs_holo_pdb
+  outcome: >
+    AF2 predictions do correlate more strongly with apo structures
+    (median 4.2Å vs 13.7Å for holo). However, this reframes rather than
+    resolves the crack: the question becomes "why can't AF2 predict
+    ligand-induced conformational change?" The crack is partially
+    characterized but not resolved. Filed as opening for pocket-flexibility
+    hypothesis tree.
+  instrument_stack:
+    - af2_v2.3
+    - pdb_apo
+    - pdb_holo

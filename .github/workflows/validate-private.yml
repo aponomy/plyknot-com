@@ -1,0 +1,79 @@
+name: Validate private universe schemas
+
+on:
+  pull_request:
+    paths:
+      - "universe-private/**"
+      - "research-private/**/deltas/**"
+      - "research-private/**/hypothesis-tree/**"
+      - "schemas/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout plyknot-com
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install jsonschema pyyaml
+
+      - name: Validate universe-private entries
+        run: |
+          python -c "
+          import json, glob, sys
+          from jsonschema import validate, ValidationError
+
+          schemas = {}
+          for sf in glob.glob('schemas/*.schema.json'):
+              with open(sf) as f:
+                  s = json.load(f)
+                  schemas[s['title']] = s
+
+          errors = []
+
+          # Validate embargo blocks in universe-private
+          for pattern in ['universe-private/**/*.json', 'universe-private/**/*.yaml']:
+              for fp in glob.glob(pattern, recursive=True):
+                  try:
+                      with open(fp) as f:
+                          data = json.load(f)
+                      if 'embargo' in data:
+                          validate(data['embargo'], schemas['Embargo'])
+                  except (json.JSONDecodeError, ValidationError, KeyError) as e:
+                      errors.append(f'{fp}: {e}')
+
+          # Validate hypothesis records
+          for fp in glob.glob('research-private/**/hypothesis-tree/*.json', recursive=True):
+              try:
+                  with open(fp) as f:
+                      data = json.load(f)
+                  validate(data, schemas['HypothesisRecord'])
+              except (json.JSONDecodeError, ValidationError, KeyError) as e:
+                  errors.append(f'{fp}: {e}')
+
+          # Validate deltas
+          for fp in glob.glob('research-private/**/deltas/*.json', recursive=True):
+              try:
+                  with open(fp) as f:
+                      data = json.load(f)
+                  validate(data, schemas['ConvergenceDelta'])
+              except (json.JSONDecodeError, ValidationError, KeyError) as e:
+                  errors.append(f'{fp}: {e}')
+
+          if errors:
+              print('Schema validation failures:')
+              for e in errors:
+                  print(f'  - {e}')
+              sys.exit(1)
+          else:
+              print('All schemas valid.')
+          "

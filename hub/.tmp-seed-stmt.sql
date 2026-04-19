@@ -1,0 +1,1 @@
+INSERT INTO couplings (entity_a, entity_b, property, value, method, sigma, source, provenance) VALUES (1002, 1089, '200', 25.758747341967908, 'AF2-vs-XRay', NULL, 'prediction', '{"url":"https://alphafold.ebi.ac.uk/entry/P07900"}');

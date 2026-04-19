@@ -1,0 +1,177 @@
+# Agent registry — defines all factory agents by role.
+# Each agent is a registry-phone-book entity with a known model,
+# tool set, and behavior history.
+#
+# Roles are defined by tool access and output schema, not free-form prompts.
+# Every invocation produces a measure() or predict() entry attributed
+# to the agent as the instrument.
+
+agents:
+
+  proposer:
+    description: >
+      Generates candidate hypotheses from a crack or opening descriptor.
+      Multi-vendor: Claude, GPT, Gemini proposers run in parallel per crack
+      to avoid single-model mode collapse.
+    variants:
+      - id: proposer-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+      - id: proposer-gpt
+        model: gpt-4o
+        model_version: "2026-04"
+      - id: proposer-gemini
+        model: gemini-2.5-pro
+        model_version: "2026-04"
+    input_schema: CrackDescriptor | OpeningDescriptor
+    output_schema: HypothesisRecord
+    tools:
+      - universe_read
+      - chain_query
+      - common_ground_query
+      - coupling_query
+    trust_weight: 1.0
+
+  measurer_wrapper:
+    description: >
+      Wraps any external tool as a measure() or predict() call.
+      Instruments with physical coupling produce measure().
+      Pipelines that compute from prior measurements produce predict().
+    variants: []  # Registered dynamically per instrument/pipeline
+    input_schema: MeasurementRequest
+    output_schema: CouplingEntry
+    tools:
+      - instrument_invoke
+      - depends_declare
+    trust_weight: 1.0
+
+  critic:
+    description: >
+      Reads a hypothesis against the reference state. Runs structural
+      checks grounded in the map, not in its own judgment.
+    variants:
+      - id: critic-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+    input_schema: HypothesisRecord
+    output_schema: CriticReport
+    tools:
+      - universe_read
+      - chain_query
+      - failure_graph_query
+      - structural_absence_check
+      - echo_chamber_check
+    trust_weight: 1.0
+
+  judge:
+    description: >
+      Evaluation primitive for pairwise hypothesis comparisons.
+      Multi-vendor panel (minimum: Claude + GPT + Gemini).
+      Output recorded as predict() attributed to the judge.
+    variants:
+      - id: judge-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+      - id: judge-gpt
+        model: gpt-4o
+        model_version: "2026-04"
+      - id: judge-gemini
+        model: gemini-2.5-pro
+        model_version: "2026-04"
+    input_schema: TournamentMatch
+    output_schema: JudgeVerdict
+    tools:
+      - universe_read
+      - coupling_query
+    trust_weight: 1.0
+
+  planner:
+    description: >
+      Runs agentic tree search over experiment configurations.
+      Typed nodes: Preliminary, Hyperparameter, Replication,
+      Aggregation, Ablation, Contradiction.
+    variants:
+      - id: planner-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+    input_schema: HypothesisRecord
+    output_schema: ExperimentTree
+    tools:
+      - universe_read
+      - failure_graph_query
+      - cost_estimate
+      - instrument_registry_query
+    trust_weight: 1.0
+
+  extractor:
+    description: >
+      Reads text using guided-extraction with classifier-free guidance
+      anchored to the coupling map. Output is structured coupling entries.
+    variants:
+      - id: extractor-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+    input_schema: ExtractionRequest
+    output_schema: CouplingEntry[]
+    tools:
+      - universe_read
+      - common_ground_query
+      - grounding_check
+    trust_weight: 1.0
+
+  writer:
+    description: >
+      Runs Layer 5 two-pass rendering: structural scaffolding from
+      universe entries, then constrained glue prose under the
+      no-new-claims validator. Cannot produce claims not in the universe.
+    variants:
+      - id: writer-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+    input_schema: RenderRequest
+    output_schema: RenderedDocument
+    tools:
+      - universe_read
+      - coupling_query
+      - chain_query
+      - provenance_query
+    trust_weight: 1.0
+
+  archivist:
+    description: >
+      Writes deltas to GitHub. Every commit is DCO-signed, atomic
+      (data file + events JSONL), and PR-gated. The only agent
+      permitted to open PRs against universe repos.
+    variants:
+      - id: archivist
+        model: claude-opus-4-6
+        model_version: "2026-04"
+    input_schema: ArchiveIntent
+    output_schema: CommitRecord
+    tools:
+      - github_pr_create
+      - github_commit
+      - schema_validate
+    trust_weight: 1.0
+
+  vlm_critic:
+    description: >
+      Optional, stage-2. Reads figures in extracted papers and generated
+      plots. Flags figure-caption-text alignment failures.
+    variants:
+      - id: vlm-critic-claude
+        model: claude-opus-4-6
+        model_version: "2026-04"
+    input_schema: FigureReviewRequest
+    output_schema: ConfidenceAdjustment
+    tools:
+      - universe_read
+      - coupling_query
+    trust_weight: 1.0
+    stage: 2
+
+# Forced-call safety tools — required before any synthesis-adjacent
+# or high-stakes action.
+forced_call_tools:
+  - StructuralAbsenceCheck
+  - EchoChamberCheck
