@@ -110,7 +110,7 @@ const HIGH_PRIORITY_EVENTS: StreamEventType[] = [
 
 // --- Provider ---
 
-const SSE_URL = "https://hub.plyknot.com/v1/stream";
+const SSE_URL = import.meta.env.DEV ? "/api/stream" : "https://hub.plyknot.com/v1/stream";
 const RECONNECT_BASE_MS = 1000;
 const RECONNECT_MAX_MS = 30000;
 const MAX_EVENTS = 200;

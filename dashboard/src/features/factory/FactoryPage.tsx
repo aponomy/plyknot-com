@@ -21,7 +21,150 @@ import {
   type RenderingStatus,
 } from "../../lib/mock-data";
 
-type FactoryView = "live-runs" | "judges" | "experts" | "wetlab" | "extraction" | "rendering" | "costs";
+type FactoryView = "agents" | "live-runs" | "judges" | "experts" | "wetlab" | "extraction" | "rendering" | "costs";
+
+/* ── Agent fleet types (from orchestrator gateway) ── */
+type ContainerState = "provisioning" | "idle" | "busy" | "draining" | "terminated";
+type AuthStatus = "ok" | "token-expiring" | "token-expired" | "rate-limited" | "quota-exhausted";
+
+interface AgentContainer {
+  id: string;
+  vendor: string;
+  model: string;
+  role: string | null;
+  project_id: string | null;
+  state: ContainerState;
+  account_id: string | null;
+  total_tasks: number;
+  total_tokens_in: number;
+  total_tokens_out: number;
+  total_cost_usd: number;
+  last_active: string;
+}
+
+interface VendorAccount {
+  id: string;
+  vendor: string;
+  label: string;
+  plan: string;
+  credential_status: string;
+  spend_limit_usd: number | null;
+  period_spend_usd: number;
+  period_requests: number;
+  period_tokens_in: number;
+  period_tokens_out: number;
+  rate_limit_rpm: number | null;
+  rate_limit_tpm: number | null;
+}
+
+interface ContainerHealth {
+  container_id: string;
+  heartbeat_ok: boolean;
+  missed_heartbeats: number;
+  current_task_id: string | null;
+  task_started_at: string | null;
+  stuck_detected_at: string | null;
+  consecutive_errors: number;
+  auth_status: AuthStatus;
+}
+
+interface FleetStatus {
+  containers: AgentContainer[];
+  accounts: VendorAccount[];
+  health: Record<string, ContainerHealth>;
+  alerts: string[];
+  overall: "OPERATIONAL" | "DEGRADED" | "CRITICAL";
+  cost_today: number;
+  burn_rate: number;
+  tasks_today: number;
+  tasks_ok: number;
+  tasks_failed: number;
+  tasks_queued: number;
+}
+
+// Fetch fleet status from orchestrator gateway
+async function fetchFleetStatus(): Promise<FleetStatus> {
+  // In production: fetches from hub.plyknot.com/v1/fleet or orchestrator gateway
+  // For now: returns mock data so the UI renders
+  return {
+    overall: "DEGRADED",
+    containers: [
+      { id: "claude-1", vendor: "claude", model: "opus", role: "proposer", project_id: "crack-17", state: "busy", account_id: "acct-claude", total_tasks: 42, total_tokens_in: 120000, total_tokens_out: 48000, total_cost_usd: 5.20, last_active: new Date().toISOString() },
+      { id: "claude-2", vendor: "claude", model: "sonnet", role: "critic", project_id: "crack-17", state: "idle", account_id: "acct-claude", total_tasks: 31, total_tokens_in: 89000, total_tokens_out: 34000, total_cost_usd: 1.80, last_active: new Date().toISOString() },
+      { id: "codex-1", vendor: "codex", model: "o3", role: "planner", project_id: "crack-17", state: "busy", account_id: "acct-codex", total_tasks: 12, total_tokens_in: 45000, total_tokens_out: 18000, total_cost_usd: 0.95, last_active: new Date().toISOString() },
+      { id: "gemini-1", vendor: "gemini", model: "gemini-2.5-pro", role: "critic", project_id: "extraction-5", state: "idle", account_id: "acct-gemini", total_tasks: 8, total_tokens_in: 22000, total_tokens_out: 9000, total_cost_usd: 0.32, last_active: new Date().toISOString() },
+      { id: "claude-3", vendor: "claude", model: "haiku", role: "executor", project_id: null, state: "draining", account_id: "acct-claude", total_tasks: 45, total_tokens_in: 15000, total_tokens_out: 6000, total_cost_usd: 0.20, last_active: new Date().toISOString() },
+    ],
+    accounts: [
+      { id: "acct-claude", vendor: "claude", label: "Anthropic Max (klas)", plan: "max", credential_status: "valid", spend_limit_usd: 200, period_spend_usd: 34.20, period_requests: 142, period_tokens_in: 2100000, period_tokens_out: 890000, rate_limit_rpm: 50, rate_limit_tpm: 200000 },
+      { id: "acct-codex", vendor: "codex", label: "OpenAI PAYG (solarplexor)", plan: "pay-as-you-go", credential_status: "valid", spend_limit_usd: 500, period_spend_usd: 12.80, period_requests: 89, period_tokens_in: 450000, period_tokens_out: 180000, rate_limit_rpm: 500, rate_limit_tpm: 2000000 },
+      { id: "acct-gemini", vendor: "gemini", label: "Google AI Studio (klas)", plan: "pay-as-you-go", credential_status: "expiring", spend_limit_usd: 300, period_spend_usd: 3.20, period_requests: 31, period_tokens_in: 220000, period_tokens_out: 90000, rate_limit_rpm: 1000, rate_limit_tpm: 4000000 },
+    ],
+    health: {
+      "claude-1": { container_id: "claude-1", heartbeat_ok: true, missed_heartbeats: 0, current_task_id: "T-42", task_started_at: new Date(Date.now() - 18000).toISOString(), stuck_detected_at: null, consecutive_errors: 0, auth_status: "ok" },
+      "claude-2": { container_id: "claude-2", heartbeat_ok: true, missed_heartbeats: 0, current_task_id: null, task_started_at: null, stuck_detected_at: null, consecutive_errors: 0, auth_status: "ok" },
+      "codex-1": { container_id: "codex-1", heartbeat_ok: true, missed_heartbeats: 0, current_task_id: "T-43", task_started_at: new Date(Date.now() - 252000).toISOString(), stuck_detected_at: null, consecutive_errors: 0, auth_status: "ok" },
+      "gemini-1": { container_id: "gemini-1", heartbeat_ok: true, missed_heartbeats: 0, current_task_id: null, task_started_at: null, stuck_detected_at: null, consecutive_errors: 0, auth_status: "token-expiring" },
+      "claude-3": { container_id: "claude-3", heartbeat_ok: true, missed_heartbeats: 0, current_task_id: null, task_started_at: null, stuck_detected_at: null, consecutive_errors: 0, auth_status: "ok" },
+    },
+    alerts: [
+      "Gemini credential expiring in 47 min",
+      "codex-1 task T-43 running 4m12s (approaching timeout)",
+    ],
+    cost_today: 8.47,
+    burn_rate: 1.23,
+    tasks_today: 127,
+    tasks_ok: 112,
+    tasks_failed: 11,
+    tasks_queued: 4,
+  };
+}
+
+const stateColor: Record<ContainerState, string> = {
+  provisioning: "bg-[var(--muted)] text-[var(--muted-foreground)]",
+  idle: "bg-[color:var(--color-success)]/10 text-[var(--color-success)]",
+  busy: "bg-[color:var(--color-accent)]/10 text-[var(--color-accent)]",
+  draining: "bg-[color:var(--color-warning)]/10 text-[var(--color-warning)]",
+  terminated: "bg-[var(--muted)] text-[var(--muted-foreground)]",
+};
+
+const stateDot: Record<ContainerState, string> = {
+  provisioning: "bg-[var(--muted-foreground)]",
+  idle: "bg-[var(--color-success)]",
+  busy: "bg-[var(--color-accent)]",
+  draining: "bg-[var(--color-warning)]",
+  terminated: "bg-[var(--muted-foreground)]",
+};
+
+const credColor: Record<string, string> = {
+  valid: "text-[var(--color-success)]",
+  expiring: "text-[var(--color-warning)]",
+  expired: "text-[var(--color-danger)]",
+  revoked: "text-[var(--color-danger)]",
+  refreshing: "text-[var(--color-accent)]",
+  error: "text-[var(--color-danger)]",
+};
+
+const credDot: Record<string, string> = {
+  valid: "bg-[var(--color-success)]",
+  expiring: "bg-[var(--color-warning)]",
+  expired: "bg-[var(--color-danger)]",
+  revoked: "bg-[var(--color-danger)]",
+  refreshing: "bg-[var(--color-accent)]",
+  error: "bg-[var(--color-danger)]",
+};
+
+const overallColor: Record<string, string> = {
+  OPERATIONAL: "text-[var(--color-success)]",
+  DEGRADED: "text-[var(--color-warning)]",
+  CRITICAL: "text-[var(--color-danger)]",
+};
+
+const overallBg: Record<string, string> = {
+  OPERATIONAL: "bg-[color:var(--color-success)]/10",
+  DEGRADED: "bg-[color:var(--color-warning)]/10",
+  CRITICAL: "bg-[color:var(--color-danger)]/10",
+};
 
 const agreementColor: Record<JudgeAgreement, string> = {
   "3-agree": "bg-[var(--color-success)]",
@@ -67,7 +210,7 @@ const levelIcon: Record<string, string> = { error: "✕", warning: "⚠", info: 
 const levelColor: Record<string, string> = { error: "text-[var(--color-danger)]", warning: "text-[var(--color-warning)]", info: "text-[var(--muted-foreground)]" };
 
 export function FactoryPage() {
-  const [view, setView] = useState<FactoryView>("live-runs");
+  const [view, setView] = useState<FactoryView>("agents");
 
   const runsQuery = useQuery({
     queryKey: ["supervisor-runs"],
@@ -113,6 +256,17 @@ export function FactoryPage() {
     }
   }
 
+  const fleetQuery = useQuery({
+    queryKey: ["fleet-status"],
+    queryFn: fetchFleetStatus,
+    retry: false,
+    refetchInterval: 5_000,
+  });
+
+  const fleet = fleetQuery.data;
+  const activeContainers = fleet?.containers.filter((c) => c.state === "busy" || c.state === "idle").length ?? 0;
+  const busyContainers = fleet?.containers.filter((c) => c.state === "busy").length ?? 0;
+
   const activeExpertConsultations = experts.reduce((s, e) => s + e.active_consultations, 0);
 
   const rewardsQuery = useQuery({
@@ -135,7 +289,8 @@ export function FactoryPage() {
       </div>
 
       {/* KPI boxes — clickable navigation */}
-      <div className="grid grid-cols-4 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
+        <KpiCard title="Agents" value={activeContainers} delta={busyContainers > 0 ? `${busyContainers} busy` : "all idle"} trend={busyContainers > 0 ? "up" : undefined} active={view === "agents"} onClick={() => setView("agents")} />
         <KpiCard title="Live Runs" value={activeRunCount} delta={activeRunCount > 0 ? "running" : "idle"} trend={activeRunCount > 0 ? "up" : undefined} active={view === "live-runs"} onClick={() => setView("live-runs")} />
         <KpiCard title="Judges" value={recentMatches.length} delta={`${queueDepth.reduce((s, q) => s + q.count, 0)} in queue`} active={view === "judges"} onClick={() => setView("judges")} />
         <KpiCard title="Experts" value={activeExpertConsultations} delta={`${experts.length} registered`} active={view === "experts"} onClick={() => setView("experts")} />
@@ -144,6 +299,239 @@ export function FactoryPage() {
         <KpiCard title="Rendering" value={renderingDrafts.length} delta={`${pendingDrafts} pending`} active={view === "rendering"} onClick={() => setView("rendering")} />
         <KpiCard title="Costs" value={`$${totalCost}`} delta="+11% vs prior week" trend="up" active={view === "costs"} onClick={() => setView("costs")} />
       </div>
+
+      {/* === VIEW: Agents === */}
+      {view === "agents" && fleet && (
+        <>
+          {/* Status banner */}
+          <Card>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h2 className="text-sm font-semibold">Agent Factory</h2>
+                <span className={cn("text-xs font-mono px-2 py-0.5 rounded-full", overallBg[fleet.overall], overallColor[fleet.overall])}>
+                  {fleet.overall}
+                </span>
+              </div>
+              <div className="flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
+                <span>{fleet.containers.length} containers</span>
+                <span className="font-mono">${fleet.cost_today.toFixed(2)} today</span>
+                <span className="font-mono">${fleet.burn_rate.toFixed(2)}/hr</span>
+              </div>
+            </div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-4 gap-4 mt-3">
+              <div>
+                <p className="text-xs text-[var(--muted-foreground)]">Containers</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-lg font-mono font-semibold">{busyContainers}</span>
+                  <span className="text-xs text-[var(--muted-foreground)]">busy</span>
+                  <span className="text-lg font-mono font-semibold ml-2">{fleet.containers.filter((c) => c.state === "idle").length}</span>
+                  <span className="text-xs text-[var(--muted-foreground)]">idle</span>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-[var(--muted-foreground)]">Accounts</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-lg font-mono font-semibold">{fleet.accounts.length}</span>
+                  <span className="text-xs text-[var(--muted-foreground)]">
+                    {fleet.accounts.filter((a) => a.credential_status !== "valid").length > 0
+                      ? `${fleet.accounts.filter((a) => a.credential_status !== "valid").length} issues`
+                      : "all healthy"}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-[var(--muted-foreground)]">Tasks today</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-lg font-mono font-semibold">{fleet.tasks_today}</span>
+                  <span className="text-xs text-[var(--color-success)]">{fleet.tasks_ok} ok</span>
+                  {fleet.tasks_failed > 0 && <span className="text-xs text-[var(--color-danger)]">{fleet.tasks_failed} fail</span>}
+                  {fleet.tasks_queued > 0 && <span className="text-xs text-[var(--muted-foreground)]">{fleet.tasks_queued} queued</span>}
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-[var(--muted-foreground)]">Cost</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-lg font-mono font-semibold">${fleet.cost_today.toFixed(2)}</span>
+                  <span className="text-xs text-[var(--muted-foreground)]">${fleet.burn_rate.toFixed(2)}/hr</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Alerts */}
+            {fleet.alerts.length > 0 && (
+              <div className="mt-3 space-y-1">
+                {fleet.alerts.map((alert, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs">
+                    <span className="text-[var(--color-warning)]">!</span>
+                    <span className="text-[var(--muted-foreground)]">{alert}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          {/* Container fleet table */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Fleet</CardTitle>
+              <span className="text-xs text-[var(--muted-foreground)]">
+                {fleet.containers.length} containers · {busyContainers} busy · ${fleet.containers.reduce((s, c) => s + c.total_cost_usd, 0).toFixed(2)} total cost
+              </span>
+            </CardHeader>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-xs text-[var(--muted-foreground)] border-b border-[var(--border)]">
+                  <th className="text-left py-2 font-medium">Container</th>
+                  <th className="text-left py-2 font-medium">Vendor</th>
+                  <th className="text-left py-2 font-medium">Model</th>
+                  <th className="text-left py-2 font-medium">Role</th>
+                  <th className="text-center py-2 font-medium">State</th>
+                  <th className="text-center py-2 font-medium">Health</th>
+                  <th className="text-left py-2 font-medium">Project</th>
+                  <th className="text-right py-2 font-medium">Tasks</th>
+                  <th className="text-right py-2 font-medium">Cost</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border)]">
+                {fleet.containers.map((c) => {
+                  const h = fleet.health[c.id];
+                  const isStuck = h?.stuck_detected_at != null;
+                  const hasErrors = (h?.consecutive_errors ?? 0) > 0;
+                  const authBad = h?.auth_status !== "ok";
+                  return (
+                    <tr key={c.id} className="hover:bg-[var(--muted)] transition-colors">
+                      <td className="py-2 font-mono text-xs">{c.id}</td>
+                      <td className="py-2">
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">{c.vendor}</span>
+                      </td>
+                      <td className="py-2 font-mono text-xs">{c.model}</td>
+                      <td className="py-2 text-xs text-[var(--muted-foreground)]">{c.role ?? "—"}</td>
+                      <td className="py-2 text-center">
+                        <span className={cn("text-xs px-1.5 py-0.5 rounded inline-flex items-center gap-1", stateColor[c.state])}>
+                          <span className={cn("w-1.5 h-1.5 rounded-full", stateDot[c.state], c.state === "busy" && "animate-pulse")} />
+                          {c.state}
+                        </span>
+                        {h?.current_task_id && (
+                          <span className="block text-[10px] text-[var(--muted-foreground)] mt-0.5 font-mono">{h.current_task_id}</span>
+                        )}
+                      </td>
+                      <td className="py-2 text-center">
+                        {isStuck ? (
+                          <span className="text-xs text-[var(--color-danger)]">STUCK</span>
+                        ) : hasErrors ? (
+                          <span className="text-xs text-[var(--color-warning)]">{h.consecutive_errors} errs</span>
+                        ) : authBad ? (
+                          <span className="text-xs text-[var(--color-warning)]">{h?.auth_status}</span>
+                        ) : (
+                          <span className="text-xs text-[var(--color-success)]">OK</span>
+                        )}
+                      </td>
+                      <td className="py-2">
+                        {c.project_id ? (
+                          <Link to={`/process/${c.project_id}`} className="text-xs font-mono text-[var(--muted-foreground)] hover:text-[var(--primary)]">{c.project_id}</Link>
+                        ) : (
+                          <span className="text-xs text-[var(--muted-foreground)]">—</span>
+                        )}
+                      </td>
+                      <td className="py-2 text-right font-mono text-xs">{c.total_tasks}</td>
+                      <td className="py-2 text-right font-mono text-xs">${c.total_cost_usd.toFixed(2)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </Card>
+
+          {/* Vendor accounts */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Vendor accounts</CardTitle>
+              <span className="text-xs text-[var(--muted-foreground)]">{fleet.accounts.length} accounts</span>
+            </CardHeader>
+            <div className="divide-y divide-[var(--border)]">
+              {fleet.accounts.map((acct) => {
+                const spendPct = acct.spend_limit_usd ? Math.round((acct.period_spend_usd / acct.spend_limit_usd) * 100) : 0;
+                return (
+                  <div key={acct.id} className="py-3 first:pt-0 last:pb-0">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">{acct.label}</span>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">{acct.plan}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className={cn("w-1.5 h-1.5 rounded-full", credDot[acct.credential_status] ?? "bg-[var(--muted-foreground)]")} />
+                        <span className={cn("text-xs", credColor[acct.credential_status] ?? "text-[var(--muted-foreground)]")}>{acct.credential_status}</span>
+                      </div>
+                    </div>
+
+                    {/* Spend bar */}
+                    {acct.spend_limit_usd && (
+                      <div className="mb-1.5">
+                        <div className="flex items-center justify-between text-xs mb-0.5">
+                          <span className="text-[var(--muted-foreground)]">Spend</span>
+                          <span className="font-mono">${acct.period_spend_usd.toFixed(2)} / ${acct.spend_limit_usd} ({spendPct}%)</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-[var(--muted)] rounded-full overflow-hidden">
+                          <div
+                            className={cn("h-full rounded-full transition-all",
+                              spendPct >= 80 ? "bg-[var(--color-danger)]" : spendPct >= 50 ? "bg-[var(--color-warning)]" : "bg-[var(--color-success)]",
+                            )}
+                            style={{ width: `${Math.min(spendPct, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
+                      <span>{acct.period_requests} requests</span>
+                      <span className="font-mono">{((acct.period_tokens_in + acct.period_tokens_out) / 1000000).toFixed(1)}M tokens</span>
+                      {acct.rate_limit_rpm && <span>RPM: {acct.rate_limit_rpm}</span>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+
+          {/* Health details */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Health</CardTitle>
+            </CardHeader>
+            <div className="space-y-2">
+              {fleet.containers.filter((c) => c.state !== "terminated").map((c) => {
+                const h = fleet.health[c.id];
+                if (!h) return null;
+                const isHealthy = h.heartbeat_ok && !h.stuck_detected_at && h.consecutive_errors === 0 && h.auth_status === "ok";
+                return (
+                  <div key={c.id} className="flex items-center gap-3 text-xs">
+                    <span className="w-20 font-mono">{c.id}</span>
+                    <span className={cn("w-1.5 h-1.5 rounded-full",
+                      isHealthy ? "bg-[var(--color-success)]" : h.stuck_detected_at ? "bg-[var(--color-danger)]" : "bg-[var(--color-warning)]",
+                    )} />
+                    <span className={cn("w-16",
+                      isHealthy ? "text-[var(--color-success)]" : "text-[var(--color-warning)]",
+                    )}>
+                      {isHealthy ? "HEALTHY" : h.stuck_detected_at ? "STUCK" : h.auth_status !== "ok" ? h.auth_status : `${h.consecutive_errors} errs`}
+                    </span>
+                    <span className="text-[var(--muted-foreground)]">
+                      heartbeat: {h.heartbeat_ok ? "ok" : `${h.missed_heartbeats} misses`}
+                    </span>
+                    {h.current_task_id && (
+                      <span className="text-[var(--muted-foreground)] font-mono">
+                        running {h.current_task_id}
+                        {h.task_started_at && ` (${Math.round((Date.now() - new Date(h.task_started_at).getTime()) / 1000)}s)`}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+        </>
+      )}
 
       {/* === VIEW: Live Runs === */}
       {view === "live-runs" && (
