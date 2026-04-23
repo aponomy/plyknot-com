@@ -1,9 +1,9 @@
 /**
  * Tracker — D1-backed project issue tracker.
- * Categories → work_containers → issues, with batch updates for masterplan patches.
+ * Categories → tracker_themes → issues, with batch updates for masterplan patches.
  *
- * Updated for Process Unification: tracker_themes replaced by work_containers.
- * See research/project/strategy/13-process-unification.md
+ * Tracker and Pipeline are separate systems. Tracker queries tracker_themes,
+ * Pipeline queries pipeline_projects.
  */
 
 import { json, notFound } from '../lib/response.js';
@@ -16,12 +16,12 @@ export async function handleListCategories(db: D1Database, auth: AuthContext): P
 
   const { results } = await db.prepare(
     `SELECT c.slug, c.label, c.sort_order,
-            COUNT(DISTINCT wc.id) AS theme_count,
+            COUNT(DISTINCT t.id) AS theme_count,
             SUM(CASE WHEN i.status = 'done' THEN 1 ELSE 0 END) AS done_count,
             COUNT(i.id) AS issue_count
      FROM tracker_categories c
-     LEFT JOIN work_containers wc ON wc.category_slug = c.slug
-     LEFT JOIN tracker_issues i ON i.container_id = wc.id
+     LEFT JOIN tracker_themes t ON t.category_slug = c.slug
+     LEFT JOIN tracker_issues i ON i.theme_id = t.id
      GROUP BY c.slug
      ORDER BY c.sort_order`
   ).all();
@@ -29,47 +29,47 @@ export async function handleListCategories(db: D1Database, auth: AuthContext): P
   return json({ categories: results });
 }
 
-// ── List containers (replaces list themes) ──────────────────────────────
+// ── List themes ─────────────────────────────────────────────────────────
 
 export async function handleListThemes(db: D1Database, auth: AuthContext, url: URL): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
   const category = url.searchParams.get('category');
-  let query = `SELECT wc.*, c.label AS category_label,
+  let query = `SELECT t.*, c.label AS category_label,
                       SUM(CASE WHEN i.status = 'done' THEN 1 ELSE 0 END) AS done_count,
                       COUNT(i.id) AS issue_count
-               FROM work_containers wc
-               JOIN tracker_categories c ON c.slug = wc.category_slug
-               LEFT JOIN tracker_issues i ON i.container_id = wc.id`;
+               FROM tracker_themes t
+               JOIN tracker_categories c ON c.slug = t.category_slug
+               LEFT JOIN tracker_issues i ON i.theme_id = t.id`;
   const binds: string[] = [];
 
   if (category) {
-    query += ' WHERE wc.category_slug = ?';
+    query += ' WHERE t.category_slug = ?';
     binds.push(category);
   }
-  query += ' GROUP BY wc.id ORDER BY c.sort_order, wc.sort_order';
+  query += ' GROUP BY t.id ORDER BY c.sort_order, t.sort_order';
 
   const { results } = await db.prepare(query).bind(...binds).all();
-  return json({ themes: results, containers: results });
+  return json({ themes: results });
 }
 
-// ── Get single container with issues ────────────────────────────────────
+// ── Get single theme with issues ─────────────────────────────────────────
 
 export async function handleGetTheme(db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const container = await db.prepare('SELECT * FROM work_containers WHERE id = ?').bind(id).first();
-  if (!container) return notFound(`container "${id}" not found`);
+  const theme = await db.prepare('SELECT * FROM tracker_themes WHERE id = ?').bind(id).first();
+  if (!theme) return notFound(`theme "${id}" not found`);
 
   const { results: issues } = await db.prepare(
-    `SELECT * FROM tracker_issues WHERE container_id = ?
+    `SELECT * FROM tracker_issues WHERE theme_id = ?
      ORDER BY CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, sort_order`
   ).bind(id).all();
 
   // Attach comment counts per issue
   const { results: commentCounts } = await db.prepare(
     `SELECT issue_id, COUNT(*) as count FROM tracker_comments
-     WHERE issue_id IN (SELECT id FROM tracker_issues WHERE container_id = ?)
+     WHERE issue_id IN (SELECT id FROM tracker_issues WHERE theme_id = ?)
      GROUP BY issue_id`
   ).bind(id).all() as { results: Array<{ issue_id: string; count: number }> };
   const countMap = new Map(commentCounts.map(c => [c.issue_id, c.count]));
@@ -78,7 +78,7 @@ export async function handleGetTheme(db: D1Database, auth: AuthContext, id: stri
     comment_count: countMap.get(i.id as string) ?? 0,
   }));
 
-  return json({ ...container, issues: issuesWithCounts });
+  return json({ ...theme, issues: issuesWithCounts });
 }
 
 // ── List issues ──────────────────────────────────────────────────────────
@@ -86,26 +86,23 @@ export async function handleGetTheme(db: D1Database, auth: AuthContext, id: stri
 export async function handleListIssues(db: D1Database, auth: AuthContext, url: URL): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const containerId = url.searchParams.get('container_id') ?? url.searchParams.get('theme_id');
+  // Accept both container_id and theme_id for backward compat
+  const themeId = url.searchParams.get('container_id') ?? url.searchParams.get('theme_id');
   const status = url.searchParams.get('status');
   const priority = url.searchParams.get('priority');
   const q = url.searchParams.get('q');
   const executionMode = url.searchParams.get('execution_mode');
-  const pipeline = url.searchParams.get('pipeline');
 
-  let query = `SELECT i.*, wc.title AS theme_title, wc.kind AS container_kind, wc.track AS container_track,
-                      wc.status AS container_status
+  let query = `SELECT i.*, t.title AS theme_title
                FROM tracker_issues i
-               JOIN work_containers wc ON wc.id = i.container_id WHERE 1=1`;
+               JOIN tracker_themes t ON t.id = i.theme_id WHERE 1=1`;
   const binds: (string | number)[] = [];
 
-  if (containerId) { query += ' AND i.container_id = ?'; binds.push(containerId); }
+  if (themeId) { query += ' AND i.theme_id = ?'; binds.push(themeId); }
   if (status) { query += ' AND i.status = ?'; binds.push(status); }
   if (priority) { query += ' AND i.priority = ?'; binds.push(priority); }
   if (q) { query += ' AND i.title LIKE ?'; binds.push(`%${q}%`); }
   if (executionMode) { query += ' AND i.execution_mode = ?'; binds.push(executionMode); }
-  // pipeline=true filters to issues under containers that are in the pipeline (kind IS NOT NULL)
-  if (pipeline === 'true') { query += ' AND wc.kind IS NOT NULL'; }
 
   query += ` ORDER BY CASE i.priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, i.sort_order`;
 
@@ -120,14 +117,14 @@ export async function handleCreateIssue(request: Request, db: D1Database, auth: 
 
   const body = (await request.json()) as Record<string, unknown>;
   // Accept both container_id and theme_id for backward compat
-  const containerId = (body.container_id ?? body.theme_id) as string;
+  const themeId = (body.container_id ?? body.theme_id) as string;
   const title = body.title as string;
 
-  if (!containerId) return json({ error: 'container_id is required' }, 400);
+  if (!themeId) return json({ error: 'theme_id is required' }, 400);
   if (!title) return json({ error: 'title is required' }, 400);
 
-  const container = await db.prepare('SELECT id FROM work_containers WHERE id = ?').bind(containerId).first();
-  if (!container) return json({ error: `container "${containerId}" not found` }, 400);
+  const theme = await db.prepare('SELECT id, category_slug, title, sort_order FROM tracker_themes WHERE id = ?').bind(themeId).first() as { id: string; category_slug: string; title: string; sort_order: number } | null;
+  if (!theme) return json({ error: `theme "${themeId}" not found` }, 400);
 
   const id = `trk-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const priority = (body.priority as string) ?? 'P2';
@@ -141,18 +138,18 @@ export async function handleCreateIssue(request: Request, db: D1Database, auth: 
 
   // Get next sort_order
   const last = await db.prepare(
-    'SELECT MAX(sort_order) as max_sort FROM tracker_issues WHERE container_id = ?'
-  ).bind(containerId).first() as { max_sort: number | null };
+    'SELECT MAX(sort_order) as max_sort FROM tracker_issues WHERE theme_id = ?'
+  ).bind(themeId).first() as { max_sort: number | null };
   const sortOrder = (last?.max_sort ?? -1) + 1;
 
   await db.prepare(
-    `INSERT INTO tracker_issues (id, container_id, title, description, section, priority, status, target_date,
+    `INSERT INTO tracker_issues (id, theme_id, title, description, section, priority, status, target_date,
        sort_order, execution_mode, autonomy, blocked_by, created_by, updated_by)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  ).bind(id, containerId, title, description, section, priority, status, targetDate,
+  ).bind(id, themeId, title, description, section, priority, status, targetDate,
     sortOrder, executionMode, autonomy, blockedBy, auth.userId, auth.userId).run();
 
-  return json({ id, container_id: containerId, theme_id: containerId, title, priority, status }, 201);
+  return json({ id, theme_id: themeId, title, priority, status }, 201);
 }
 
 // ── Update issue ─────────────────────────────────────────────────────────
@@ -170,9 +167,9 @@ export async function handleUpdateIssue(request: Request, db: D1Database, auth: 
   if (body.title !== undefined) { updates.push('title = ?'); binds.push(body.title as string); }
   if (body.description !== undefined) { updates.push('description = ?'); binds.push(body.description as string | null); }
   if (body.section !== undefined) { updates.push('section = ?'); binds.push(body.section as string | null); }
-  // Accept both container_id and theme_id
-  const newContainerId = body.container_id ?? body.theme_id;
-  if (newContainerId !== undefined) { updates.push('container_id = ?'); binds.push(newContainerId as string); }
+  // Accept both container_id and theme_id for backward compat
+  const newThemeId = body.container_id ?? body.theme_id;
+  if (newThemeId !== undefined) { updates.push('theme_id = ?'); binds.push(newThemeId as string); }
   if (body.priority !== undefined) { updates.push('priority = ?'); binds.push(body.priority as string); }
   if (body.status !== undefined) { updates.push('status = ?'); binds.push(body.status as string); }
   if (body.target_date !== undefined) { updates.push('target_date = ?'); binds.push(body.target_date as string | null); }
@@ -221,7 +218,7 @@ export async function handleMarkDone(request: Request, db: D1Database, auth: Aut
   return json({ id, status: 'done' });
 }
 
-// ── Create container (replaces create theme) ────────────────────────────
+// ── Create theme ─────────────────────────────────────────────────────────
 
 export async function handleCreateTheme(request: Request, db: D1Database, auth: AuthContext): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
@@ -239,44 +236,24 @@ export async function handleCreateTheme(request: Request, db: D1Database, auth: 
   if (!cat) return json({ error: `category "${categorySlug}" not found` }, 400);
 
   const last = await db.prepare(
-    'SELECT MAX(sort_order) as max_sort FROM work_containers WHERE category_slug = ?'
+    'SELECT MAX(sort_order) as max_sort FROM tracker_themes WHERE category_slug = ?'
   ).bind(categorySlug).first() as { max_sort: number | null };
   const sortOrder = (body.sort_order as number) ?? ((last?.max_sort ?? -1) + 1);
 
-  // Pipeline fields
-  const kind = (body.kind as string) ?? null;
-  const status = (body.status as string) ?? 'active';
-  const description = (body.description as string) ?? null;
-  const track = (body.track as string) ?? null;
-  const executionMode = (body.execution_mode as string) ?? null;
-  const autonomy = (body.autonomy as string) ?? 'manual';
-  const budgetUsd = (body.budget_usd as number) ?? null;
-  const crackIds = body.crack_ids ? JSON.stringify(body.crack_ids) : '[]';
-  const entityScope = body.entity_scope ? JSON.stringify(body.entity_scope) : '[]';
-  const scope = body.scope ? JSON.stringify(body.scope) : null;
-  const sourceType = (body.source_type as string) ?? null;
-  const sourceRef = (body.source_ref as string) ?? null;
-  const parentId = (body.parent_id as string) ?? null;
-
   await db.prepare(
-    `INSERT INTO work_containers (id, category_slug, title, sort_order, kind, status, description,
-       track, execution_mode, autonomy, budget_usd, crack_ids, entity_scope, scope,
-       source_type, source_ref, parent_id, owner_id)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  ).bind(id, categorySlug, title, sortOrder, kind, status, description,
-    track, executionMode, autonomy, budgetUsd, crackIds, entityScope, scope,
-    sourceType, sourceRef, parentId, auth.userId).run();
+    `INSERT INTO tracker_themes (id, category_slug, title, sort_order) VALUES (?, ?, ?, ?)`
+  ).bind(id, categorySlug, title, sortOrder).run();
 
-  return json({ id, title, category_slug: categorySlug, kind, status }, 201);
+  return json({ id, title, category_slug: categorySlug }, 201);
 }
 
-// ── Update container (replaces update theme) ────────────────────────────
+// ── Update theme ─────────────────────────────────────────────────────────
 
 export async function handleUpdateTheme(request: Request, db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const existing = await db.prepare('SELECT id FROM work_containers WHERE id = ?').bind(id).first();
-  if (!existing) return notFound(`container "${id}" not found`);
+  const existing = await db.prepare('SELECT id FROM tracker_themes WHERE id = ?').bind(id).first();
+  if (!existing) return notFound(`theme "${id}" not found`);
 
   const body = (await request.json()) as Record<string, unknown>;
   const updates: string[] = [];
@@ -284,28 +261,12 @@ export async function handleUpdateTheme(request: Request, db: D1Database, auth: 
 
   if (body.title !== undefined) { updates.push('title = ?'); binds.push(body.title as string); }
   if (body.sort_order !== undefined) { updates.push('sort_order = ?'); binds.push(body.sort_order as number); }
-  if (body.description !== undefined) { updates.push('description = ?'); binds.push(body.description as string | null); }
-  if (body.kind !== undefined) { updates.push('kind = ?'); binds.push(body.kind as string | null); }
-  if (body.status !== undefined) { updates.push('status = ?'); binds.push(body.status as string); }
-  if (body.track !== undefined) { updates.push('track = ?'); binds.push(body.track as string | null); }
-  if (body.delivery_status !== undefined) { updates.push('delivery_status = ?'); binds.push(body.delivery_status as string | null); }
-  if (body.execution_mode !== undefined) { updates.push('execution_mode = ?'); binds.push(body.execution_mode as string | null); }
-  if (body.autonomy !== undefined) { updates.push('autonomy = ?'); binds.push(body.autonomy as string | null); }
-  if (body.budget_usd !== undefined) { updates.push('budget_usd = ?'); binds.push(body.budget_usd as number | null); }
-  if (body.spent_usd !== undefined) { updates.push('spent_usd = ?'); binds.push(body.spent_usd as number); }
-  if (body.crack_ids !== undefined) { updates.push('crack_ids = ?'); binds.push(JSON.stringify(body.crack_ids)); }
-  if (body.entity_scope !== undefined) { updates.push('entity_scope = ?'); binds.push(JSON.stringify(body.entity_scope)); }
-  if (body.scope !== undefined) { updates.push('scope = ?'); binds.push(JSON.stringify(body.scope)); }
-  if (body.parent_id !== undefined) { updates.push('parent_id = ?'); binds.push(body.parent_id as string | null); }
-  if (body.source_type !== undefined) { updates.push('source_type = ?'); binds.push(body.source_type as string | null); }
-  if (body.source_ref !== undefined) { updates.push('source_ref = ?'); binds.push(body.source_ref as string | null); }
 
   if (updates.length === 0) return json({ error: 'No fields to update' }, 400);
 
-  updates.push("updated_at = datetime('now')");
   binds.push(id);
 
-  await db.prepare(`UPDATE work_containers SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
+  await db.prepare(`UPDATE tracker_themes SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
   return json({ id, updated: true });
 }
 
@@ -332,21 +293,20 @@ export async function handleTrackerStats(db: D1Database, auth: AuthContext): Pro
             COUNT(i.id) AS total,
             SUM(CASE WHEN i.status = 'done' THEN 1 ELSE 0 END) AS done
      FROM tracker_categories c
-     LEFT JOIN work_containers wc ON wc.category_slug = c.slug
-     LEFT JOIN tracker_issues i ON i.container_id = wc.id
+     LEFT JOIN tracker_themes t ON t.category_slug = c.slug
+     LEFT JOIN tracker_issues i ON i.theme_id = t.id
      GROUP BY c.slug
      ORDER BY c.sort_order`
   ).all();
 
-  const containerCount = await db.prepare('SELECT COUNT(*) AS count FROM work_containers').first() as { count: number };
+  const themeCount = await db.prepare('SELECT COUNT(*) AS count FROM tracker_themes').first() as { count: number };
 
   return json({
     total: totals.total,
     done: totals.done,
     doing: totals.doing,
     todo: totals.todo,
-    theme_count: containerCount.count,
-    container_count: containerCount.count,
+    theme_count: themeCount.count,
     by_priority: byPriority,
     by_category: byCategory,
   });
@@ -361,29 +321,29 @@ export async function handleTrackerExport(db: D1Database, auth: AuthContext): Pr
     'SELECT * FROM tracker_categories ORDER BY sort_order'
   ).all() as { results: Array<{ slug: string; label: string }> };
 
-  const { results: containers } = await db.prepare(
-    'SELECT * FROM work_containers ORDER BY category_slug, sort_order'
-  ).all() as { results: Array<{ id: string; category_slug: string; title: string; kind: string | null; track: string | null }> };
+  const { results: themes } = await db.prepare(
+    'SELECT * FROM tracker_themes ORDER BY category_slug, sort_order'
+  ).all() as { results: Array<{ id: string; category_slug: string; title: string }> };
 
   const { results: issues } = await db.prepare(
     `SELECT * FROM tracker_issues
-     ORDER BY container_id, CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, sort_order`
-  ).all() as { results: Array<{ container_id: string; title: string; priority: string; status: string; target_date: string | null; execution_mode: string | null }> };
+     ORDER BY theme_id, CASE priority WHEN 'P0' THEN 0 WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, sort_order`
+  ).all() as { results: Array<{ theme_id: string; title: string; priority: string; status: string; target_date: string | null; execution_mode: string | null }> };
 
-  // Group issues by container
-  const issuesByContainer = new Map<string, typeof issues>();
+  // Group issues by theme
+  const issuesByTheme = new Map<string, typeof issues>();
   for (const issue of issues) {
-    const arr = issuesByContainer.get(issue.container_id) ?? [];
+    const arr = issuesByTheme.get(issue.theme_id) ?? [];
     arr.push(issue);
-    issuesByContainer.set(issue.container_id, arr);
+    issuesByTheme.set(issue.theme_id, arr);
   }
 
-  // Group containers by category
-  const containersByCat = new Map<string, typeof containers>();
-  for (const c of containers) {
-    const arr = containersByCat.get(c.category_slug) ?? [];
-    arr.push(c);
-    containersByCat.set(c.category_slug, arr);
+  // Group themes by category
+  const themesByCat = new Map<string, typeof themes>();
+  for (const t of themes) {
+    const arr = themesByCat.get(t.category_slug) ?? [];
+    arr.push(t);
+    themesByCat.set(t.category_slug, arr);
   }
 
   // Count totals
@@ -401,25 +361,24 @@ export async function handleTrackerExport(db: D1Database, auth: AuthContext): Pr
   ];
 
   for (const cat of categories) {
-    const catContainers = containersByCat.get(cat.slug) ?? [];
+    const catThemes = themesByCat.get(cat.slug) ?? [];
     let catDone = 0, catTotal = 0, catActive = 0;
-    for (const c of catContainers) {
-      const ci = issuesByContainer.get(c.id) ?? [];
-      catDone += ci.filter(i => i.status === 'done').length;
-      catTotal += ci.length;
-      catActive += ci.filter(i => i.status === 'doing').length;
+    for (const t of catThemes) {
+      const ti = issuesByTheme.get(t.id) ?? [];
+      catDone += ti.filter(i => i.status === 'done').length;
+      catTotal += ti.length;
+      catActive += ti.filter(i => i.status === 'doing').length;
     }
 
     const activeStr = catActive > 0 ? `, ${catActive} active` : '';
     lines.push('', `### ${cat.slug}/ (${catDone}/${catTotal} done${activeStr})`, '');
 
-    for (const container of catContainers) {
-      const ci = issuesByContainer.get(container.id) ?? [];
-      const cDone = ci.filter(i => i.status === 'done').length;
-      const kindStr = container.kind ? ` [${container.kind}${container.track ? ':' + container.track : ''}]` : '';
-      lines.push(`- [${container.id}](${container.id}) — **${container.title}**${kindStr} (${cDone}/${ci.length} done)`);
+    for (const theme of catThemes) {
+      const ti = issuesByTheme.get(theme.id) ?? [];
+      const tDone = ti.filter(i => i.status === 'done').length;
+      lines.push(`- [${theme.id}](${theme.id}) — **${theme.title}** (${tDone}/${ti.length} done)`);
 
-      for (const issue of ci) {
+      for (const issue of ti) {
         const check = issue.status === 'done' ? '[x]' : (issue.status === 'doing' ? '[~]' : '[ ]');
         const priStr = issue.priority !== '-' ? `**${issue.priority}** ` : '';
         const targetStr = issue.target_date ? ` *(target: ${issue.target_date})*` : '';
@@ -480,18 +439,19 @@ export async function handleTrackerBatch(request: Request, db: D1Database, auth:
           break;
         }
         case 'add': {
-          const containerId = op.container_id ?? op.theme_id;
-          if (!containerId || !op.title) { results.push({ action: 'add', id: '', ok: false, error: 'container_id and title required' }); break; }
+          // Accept both container_id and theme_id for backward compat
+          const themeId = op.container_id ?? op.theme_id;
+          if (!themeId || !op.title) { results.push({ action: 'add', id: '', ok: false, error: 'theme_id and title required' }); break; }
           const id = `trk-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
           const last = await db.prepare(
-            'SELECT MAX(sort_order) as max_sort FROM tracker_issues WHERE container_id = ?'
-          ).bind(containerId).first() as { max_sort: number | null };
+            'SELECT MAX(sort_order) as max_sort FROM tracker_issues WHERE theme_id = ?'
+          ).bind(themeId).first() as { max_sort: number | null };
           const sortOrder = (last?.max_sort ?? -1) + 1;
           await db.prepare(
-            `INSERT INTO tracker_issues (id, container_id, title, priority, status, target_date, sort_order,
+            `INSERT INTO tracker_issues (id, theme_id, title, priority, status, target_date, sort_order,
                execution_mode, autonomy, created_by, updated_by)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-          ).bind(id, containerId, op.title, op.priority ?? 'P2', op.status ?? 'todo', op.target_date ?? null,
+          ).bind(id, themeId, op.title, op.priority ?? 'P2', op.status ?? 'todo', op.target_date ?? null,
             sortOrder, op.execution_mode ?? null, op.autonomy ?? null, auth.userId, auth.userId).run();
           results.push({ action: 'add', id, ok: true });
           break;

@@ -13,11 +13,11 @@ export async function handleProcessPipeline(db: D1Database, auth: AuthContext): 
 
   // Count containers by pipeline stage
   const backlog = await db.prepare(
-    `SELECT COUNT(*) AS count FROM work_containers WHERE status = 'backlog' AND kind IS NOT NULL`
+    `SELECT COUNT(*) AS count FROM pipeline_projects WHERE status = 'backlog' AND kind IS NOT NULL`
   ).first() as { count: number };
 
   const active = await db.prepare(
-    `SELECT COUNT(*) AS count FROM work_containers WHERE status = 'active' AND kind IS NOT NULL AND (kind != 'delivery' OR kind IS NULL)`
+    `SELECT COUNT(*) AS count FROM pipeline_projects WHERE status = 'active' AND kind IS NOT NULL AND (kind != 'delivery' OR kind IS NULL)`
   ).first() as { count: number };
 
   const findings = await db.prepare(
@@ -25,11 +25,11 @@ export async function handleProcessPipeline(db: D1Database, auth: AuthContext): 
   ).first() as { count: number };
 
   const deliveries = await db.prepare(
-    `SELECT COUNT(*) AS count FROM work_containers WHERE kind = 'delivery' AND status = 'active'`
+    `SELECT COUNT(*) AS count FROM pipeline_projects WHERE kind = 'delivery' AND status = 'active'`
   ).first() as { count: number };
 
   const done = await db.prepare(
-    `SELECT COUNT(*) AS count FROM work_containers WHERE status = 'completed' AND kind IS NOT NULL`
+    `SELECT COUNT(*) AS count FROM pipeline_projects WHERE status = 'completed' AND kind IS NOT NULL`
   ).first() as { count: number };
 
   return json({
@@ -57,7 +57,7 @@ export async function handleListContainers(db: D1Database, auth: AuthContext, ur
   let query = `SELECT wc.*, c.label AS category_label,
                       (SELECT COUNT(*) FROM tracker_issues WHERE container_id = wc.id) AS issue_count,
                       (SELECT COUNT(*) FROM tracker_issues WHERE container_id = wc.id AND status = 'done') AS done_count
-               FROM work_containers wc
+               FROM pipeline_projects wc
                JOIN tracker_categories c ON c.slug = wc.category_slug
                WHERE 1=1`;
   const binds: (string | number)[] = [];
@@ -81,7 +81,7 @@ export async function handleGetContainer(db: D1Database, auth: AuthContext, id: 
 
   const container = await db.prepare(
     `SELECT wc.*, c.label AS category_label
-     FROM work_containers wc
+     FROM pipeline_projects wc
      JOIN tracker_categories c ON c.slug = wc.category_slug
      WHERE wc.id = ?`
   ).bind(id).first();
@@ -98,7 +98,7 @@ export async function handleGetContainer(db: D1Database, auth: AuthContext, id: 
   // Get sub-containers
   const { results: children } = await db.prepare(
     `SELECT id, title, kind, status, track, delivery_status, execution_mode
-     FROM work_containers WHERE parent_id = ?
+     FROM pipeline_projects WHERE parent_id = ?
      ORDER BY sort_order`
   ).bind(id).all();
 
@@ -128,7 +128,7 @@ export async function handleCreateContainer(request: Request, db: D1Database, au
   const id = (body.id as string) ?? `wc-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
   const last = await db.prepare(
-    'SELECT MAX(sort_order) as max_sort FROM work_containers WHERE category_slug = ?'
+    'SELECT MAX(sort_order) as max_sort FROM pipeline_projects WHERE category_slug = ?'
   ).bind(categorySlug).first() as { max_sort: number | null };
   const sortOrder = (body.sort_order as number) ?? ((last?.max_sort ?? -1) + 1);
 
@@ -149,7 +149,7 @@ export async function handleCreateContainer(request: Request, db: D1Database, au
   const spawnedByFindingId = (body.spawned_by_finding_id as string) ?? null;
 
   await db.prepare(
-    `INSERT INTO work_containers (id, category_slug, title, sort_order, kind, status, description,
+    `INSERT INTO pipeline_projects (id, category_slug, title, sort_order, kind, status, description,
        track, delivery_status, execution_mode, autonomy, budget_usd, crack_ids, entity_scope, scope,
        source_type, source_ref, parent_id, spawned_by_finding_id, owner_id)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
@@ -165,7 +165,7 @@ export async function handleCreateContainer(request: Request, db: D1Database, au
 export async function handleUpdateContainer(request: Request, db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const existing = await db.prepare('SELECT id FROM work_containers WHERE id = ?').bind(id).first();
+  const existing = await db.prepare('SELECT id FROM pipeline_projects WHERE id = ?').bind(id).first();
   if (!existing) return notFound(`container "${id}" not found`);
 
   const body = (await request.json()) as Record<string, unknown>;
@@ -194,7 +194,7 @@ export async function handleUpdateContainer(request: Request, db: D1Database, au
   updates.push("updated_at = datetime('now')");
   binds.push(id);
 
-  await db.prepare(`UPDATE work_containers SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
+  await db.prepare(`UPDATE pipeline_projects SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
   return json({ id, updated: true });
 }
 
@@ -203,12 +203,12 @@ export async function handleUpdateContainer(request: Request, db: D1Database, au
 export async function handlePromoteContainer(request: Request, db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const container = await db.prepare('SELECT id, status FROM work_containers WHERE id = ?').bind(id).first() as { id: string; status: string } | null;
+  const container = await db.prepare('SELECT id, status FROM pipeline_projects WHERE id = ?').bind(id).first() as { id: string; status: string } | null;
   if (!container) return notFound(`container "${id}" not found`);
   if (container.status !== 'backlog') return json({ error: `Container is "${container.status}", not "backlog"` }, 400);
 
   await db.prepare(
-    `UPDATE work_containers SET status = 'active', updated_at = datetime('now') WHERE id = ?`
+    `UPDATE pipeline_projects SET status = 'active', updated_at = datetime('now') WHERE id = ?`
   ).bind(id).run();
 
   return json({ id, status: 'active', promoted: true });
@@ -238,7 +238,7 @@ export async function handleSpawnDelivery(request: Request, db: D1Database, auth
   const id = `delivery-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
   await db.prepare(
-    `INSERT INTO work_containers (id, category_slug, title, kind, status, track, delivery_status,
+    `INSERT INTO pipeline_projects (id, category_slug, title, kind, status, track, delivery_status,
        source_type, source_ref, spawned_by_finding_id, parent_id, owner_id)
      VALUES (?, ?, ?, 'delivery', 'active', ?, 'draft', 'finding', ?, ?, ?, ?)`
   ).bind(id, categorySlug, title, track, findingId, findingId, parentId ?? finding.project_id ?? null, auth.userId).run();
@@ -269,7 +269,7 @@ export async function handleProcessStreams(db: D1Database, auth: AuthContext): P
     `SELECT wc.*, c.label AS category_label,
             (SELECT COUNT(*) FROM tracker_issues WHERE container_id = wc.id) AS issue_count,
             (SELECT COUNT(*) FROM tracker_issues WHERE container_id = wc.id AND status = 'done') AS done_count
-     FROM work_containers wc
+     FROM pipeline_projects wc
      JOIN tracker_categories c ON c.slug = wc.category_slug
      WHERE wc.kind IS NOT NULL
      ORDER BY c.sort_order, wc.sort_order`

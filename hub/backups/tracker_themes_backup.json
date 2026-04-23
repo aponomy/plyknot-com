@@ -1,0 +1,234 @@
+
+
+
+
+
+🌀 Executing on remote database plyknot-hub-com-prod (9929f003-c413-4056-a425-397256443f2a):
+🚣 Executed 1 command in 0.18ms
+[
+  {
+    "results": [
+      {
+        "id": "plyknot-com/platform",
+        "category_slug": "plyknot-com",
+        "title": "Platform",
+        "sort_order": 0,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "plyknot-com/website",
+        "category_slug": "plyknot-com",
+        "title": "Website",
+        "sort_order": 1,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research-lab/agents",
+        "category_slug": "research-lab",
+        "title": "Agents",
+        "sort_order": 0,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research-lab/commercial",
+        "category_slug": "research-lab",
+        "title": "Commercial",
+        "sort_order": 1,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research-lab/extraction",
+        "category_slug": "research-lab",
+        "title": "Extraction",
+        "sort_order": 2,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research-lab/factory",
+        "category_slug": "research-lab",
+        "title": "Factory",
+        "sort_order": 3,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research-lab/infrastructure",
+        "category_slug": "research-lab",
+        "title": "Infrastructure",
+        "sort_order": 4,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "plyknot-org/core",
+        "category_slug": "plyknot-org",
+        "title": "Core",
+        "sort_order": 0,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "plyknot-org/hub",
+        "category_slug": "plyknot-org",
+        "title": "Hub",
+        "sort_order": 1,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "plyknot-org/website",
+        "category_slug": "plyknot-org",
+        "title": "Website",
+        "sort_order": 2,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/canvas-architecture",
+        "category_slug": "research",
+        "title": "Canvas Architecture",
+        "sort_order": 0,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/experiments",
+        "category_slug": "research",
+        "title": "Experiments",
+        "sort_order": 1,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/flagship-paper",
+        "category_slug": "research",
+        "title": "Flagship Paper",
+        "sort_order": 2,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/llm-benchmark",
+        "category_slug": "research",
+        "title": "Llm Benchmark",
+        "sort_order": 3,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/protein-pipeline",
+        "category_slug": "research",
+        "title": "Protein Pipeline",
+        "sort_order": 4,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/satellite-1-cxr",
+        "category_slug": "research",
+        "title": "S1 CXR",
+        "sort_order": 5,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/satellite-2-text",
+        "category_slug": "research",
+        "title": "S2 Text",
+        "sort_order": 6,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/satellite-3-materials",
+        "category_slug": "research",
+        "title": "S3 Materials",
+        "sort_order": 7,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/satellite-4-alphafold",
+        "category_slug": "research",
+        "title": "S4 AlphaFold",
+        "sort_order": 8,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/satellite-5-emergence",
+        "category_slug": "research",
+        "title": "S5 Emergence",
+        "sort_order": 9,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "research/satellite-6",
+        "category_slug": "research",
+        "title": "S6 Clustering",
+        "sort_order": 10,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "ip-legal/company",
+        "category_slug": "ip-legal",
+        "title": "Company",
+        "sort_order": 0,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "ip-legal/patent",
+        "category_slug": "ip-legal",
+        "title": "Patent",
+        "sort_order": 1,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "other/grants",
+        "category_slug": "other",
+        "title": "Grants",
+        "sort_order": 0,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "other/infrastructure",
+        "category_slug": "other",
+        "title": "Infrastructure",
+        "sort_order": 1,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "other/outreach",
+        "category_slug": "other",
+        "title": "Outreach",
+        "sort_order": 2,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "other/uncategorized",
+        "category_slug": "other",
+        "title": "Uncategorized",
+        "sort_order": 3,
+        "created_at": "2026-04-23 07:21:36",
+      },
+      {
+        "id": "cybernetics/commercial",
+        "category_slug": "cybernetics",
+        "title": "Commercial",
+        "sort_order": 0,
+        "created_at": "2026-04-23 11:21:40",
+      },
+      {
+        "id": "research/act-verb",
+        "category_slug": "research",
+        "title": "Act-Verb",
+        "sort_order": 11,
+        "created_at": "2026-04-23 13:11:13",
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "ARN",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.1798
+      },
+      "duration": 0.1798,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 577536,
+      "rows_read": 29,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

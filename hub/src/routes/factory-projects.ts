@@ -52,7 +52,7 @@ function parseProject(row: ProjectRow, members: MemberRow[] = []) {
 /** Check if user has access to a project (owner or member). */
 async function hasAccess(db: D1Database, projectId: string, userId: string): Promise<boolean> {
   const row = await db.prepare(
-    `SELECT 1 FROM work_containers WHERE id = ? AND owner_id = ?
+    `SELECT 1 FROM pipeline_projects WHERE id = ? AND owner_id = ?
      UNION SELECT 1 FROM container_members WHERE container_id = ? AND user_id = ?`
   ).bind(projectId, userId, projectId, userId).first();
   return !!row;
@@ -64,7 +64,7 @@ export async function handleListProjects(db: D1Database, auth: AuthContext): Pro
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
   const { results } = await db.prepare(
-    `SELECT DISTINCT p.* FROM work_containers p
+    `SELECT DISTINCT p.* FROM pipeline_projects p
      LEFT JOIN container_members cm ON p.id = cm.container_id
      WHERE p.owner_id = ? OR cm.user_id = ?
      ORDER BY p.updated_at DESC`
@@ -78,7 +78,7 @@ export async function handleListProjects(db: D1Database, auth: AuthContext): Pro
 export async function handleGetProject(db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const row = await db.prepare('SELECT * FROM work_containers WHERE id = ?').bind(id).first<ProjectRow>();
+  const row = await db.prepare('SELECT * FROM pipeline_projects WHERE id = ?').bind(id).first<ProjectRow>();
   if (!row) return notFound(`project "${id}" not found`);
   if (!(await hasAccess(db, id, auth.userId))) return json({ error: 'Access denied' }, 403);
 
@@ -133,7 +133,7 @@ export async function handleCreateProject(request: Request, db: D1Database, auth
   const categorySlug = (body.category_slug as string) ?? 'research-lab';
 
   await db.prepare(
-    `INSERT INTO work_containers (id, title, description, kind, category_slug, crack_ids, entity_scope, budget_usd, owner_id, scope, status)
+    `INSERT INTO pipeline_projects (id, title, description, kind, category_slug, crack_ids, entity_scope, budget_usd, owner_id, scope, status)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')`
   ).bind(
     id,
@@ -180,7 +180,7 @@ export async function handleUpdateProject(request: Request, db: D1Database, auth
 
   updates.push("updated_at = datetime('now')");
   binds.push(id);
-  await db.prepare(`UPDATE work_containers SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
+  await db.prepare(`UPDATE pipeline_projects SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
 
   return json({ id, updated: true });
 }
@@ -190,7 +190,7 @@ export async function handleUpdateProject(request: Request, db: D1Database, auth
 export async function handleDeleteProject(db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const row = await db.prepare('SELECT owner_id FROM work_containers WHERE id = ?').bind(id).first<{ owner_id: string }>();
+  const row = await db.prepare('SELECT owner_id FROM pipeline_projects WHERE id = ?').bind(id).first<{ owner_id: string }>();
   if (!row) return notFound(`project "${id}" not found`);
   if (row.owner_id !== auth.userId) return json({ error: 'Only the owner can delete a project' }, 403);
 
@@ -199,7 +199,7 @@ export async function handleDeleteProject(db: D1Database, auth: AuthContext, id:
     db.prepare('UPDATE hypotheses SET project_id = NULL WHERE project_id = ?').bind(id),
     db.prepare('UPDATE deltas SET project_id = NULL WHERE project_id = ?').bind(id),
     db.prepare('DELETE FROM container_members WHERE container_id = ?').bind(id),
-    db.prepare('DELETE FROM work_containers WHERE id = ?').bind(id),
+    db.prepare('DELETE FROM pipeline_projects WHERE id = ?').bind(id),
   ]);
 
   return json({ id, deleted: true });
