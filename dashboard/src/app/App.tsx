@@ -5,13 +5,10 @@ import { useAuth } from "../lib/auth";
 import { LoginPage } from "../features/auth/LoginPage";
 
 const UniversePage = lazy(() => import("../features/universe/UniversePage").then((m) => ({ default: m.UniversePage })));
-const ProjectsPage = lazy(() => import("../features/projects/ProjectsPage").then((m) => ({ default: m.ProjectsPage })));
-const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailPage").then((m) => ({ default: m.ProjectDetailPage })));
 const FactoryPage = lazy(() => import("../features/factory/FactoryPage").then((m) => ({ default: m.FactoryPage })));
-const FindingsPage = lazy(() => import("../features/findings/FindingsPage").then((m) => ({ default: m.FindingsPage })));
-const PublicationsPage = lazy(() => import("../features/publications/PublicationsPage").then((m) => ({ default: m.PublicationsPage })));
+const ProcessPage = lazy(() => import("../features/process/ProcessPage").then((m) => ({ default: m.ProcessPage })));
+const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailPage").then((m) => ({ default: m.ProjectDetailPage })));
 const AccessControlPage = lazy(() => import("../features/settings/AccessControlPage").then((m) => ({ default: m.AccessControlPage })));
-const TrackerPage = lazy(() => import("../features/tracker/TrackerPage").then((m) => ({ default: m.TrackerPage })));
 
 function PageLoader() {
   return (
@@ -47,13 +44,16 @@ export function App() {
         <Route element={<RequireAuth />}>
           <Route element={<Shell />}>
             <Route index element={<UniversePage />} />
-            <Route path="projects" element={<ProjectsPage />} />
-            <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="factory" element={<FactoryPage />} />
-            <Route path="findings" element={<FindingsPage />} />
-            <Route path="publications" element={<PublicationsPage />} />
-            <Route path="tracker" element={<TrackerPage />} />
+            <Route path="process" element={<ProcessPage />} />
+            <Route path="process/:id" element={<ProjectDetailPage />} />
             <Route path="settings/access" element={<AccessControlPage />} />
+            {/* Legacy redirects */}
+            <Route path="projects" element={<Navigate to="/process" replace />} />
+            <Route path="projects/:id" element={<Navigate to="/process" replace />} />
+            <Route path="findings" element={<Navigate to="/process" replace />} />
+            <Route path="publications" element={<Navigate to="/process" replace />} />
+            <Route path="tracker" element={<Navigate to="/process" replace />} />
           </Route>
         </Route>
       </Routes>

@@ -4,7 +4,7 @@ const isDev = import.meta.env.DEV;
 
 const BASE_URLS: Record<DataSource, string> = {
   "plyknot.org": "https://hub.plyknot.org/v1",
-  "plyknot.com": isDev ? "http://localhost:8791/v1" : "https://hub.plyknot.com/v1",
+  "plyknot.com": isDev ? "/api" : "https://hub.plyknot.com/v1",
 };
 
 export function hubUrl(source: DataSource, path: string): string {
@@ -413,6 +413,73 @@ export function fetchExpertRewards(expertId?: string) {
   const qs = expertId ? `?expert_id=${encodeURIComponent(expertId)}` : "";
   return fetchJson<{ rewards: ExpertReward[]; total_pending_usd: number; total_paid_usd: number }>(
     hubUrl("plyknot.com", `/factory/experts/rewards${qs}`), "plyknot.com",
+  );
+}
+
+// --- Process pipeline ---
+
+export interface PipelineStage {
+  stage: string;
+  count: number;
+  items: Array<{
+    id: string;
+    title: string;
+    kind: string | null;
+    status: string;
+    track: string | null;
+    category_slug: string;
+    execution_mode: string | null;
+    issue_count: number;
+    done_count: number;
+  }>;
+}
+
+export interface ProcessPipeline {
+  stages: PipelineStage[];
+}
+
+export function fetchProcessPipeline() {
+  return fetchJson<ProcessPipeline>(hubUrl("plyknot.com", "/process/pipeline"), "plyknot.com");
+}
+
+export interface WorkContainer {
+  id: string;
+  title: string;
+  category_slug: string;
+  kind: string | null;
+  status: string;
+  description: string | null;
+  track: string | null;
+  delivery_status: string | null;
+  execution_mode: string | null;
+  autonomy: string | null;
+  budget_usd: number | null;
+  spent_usd: number | null;
+  crack_ids: string | null;
+  entity_scope: string | null;
+  scope: string | null;
+  source_type: string | null;
+  source_ref: string | null;
+  parent_id: string | null;
+  spawned_by_finding_id: string | null;
+  issue_count: number;
+  done_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export function fetchWorkContainers(params?: { kind?: string; status?: string; category?: string }) {
+  const qs = new URLSearchParams();
+  if (params?.kind) qs.set("kind", params.kind);
+  if (params?.status) qs.set("status", params.status);
+  if (params?.category) qs.set("category", params.category);
+  const query = qs.toString() ? `?${qs}` : "";
+  return fetchJson<{ containers: WorkContainer[] }>(hubUrl("plyknot.com", `/process/containers${query}`), "plyknot.com");
+}
+
+export function fetchWorkContainer(id: string) {
+  return fetchJson<WorkContainer & { issues: TrackerIssue[]; children: WorkContainer[]; findings: Finding[] }>(
+    hubUrl("plyknot.com", `/process/containers/${encodeURIComponent(id)}`), "plyknot.com",
   );
 }
 

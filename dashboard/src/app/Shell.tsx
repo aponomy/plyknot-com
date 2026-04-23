@@ -3,11 +3,8 @@ import { Outlet, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Globe,
-  FolderKanban,
   Factory,
-  Lightbulb,
-  BookOpen,
-  ListChecks,
+  Workflow,
   Shield,
   Settings,
   LogOut,
@@ -28,11 +25,8 @@ import { AgentPanel } from "../components/agent/AgentPanel";
 
 const navItems = [
   { to: "/", icon: Globe, label: "Universe" },
-  { to: "/projects", icon: FolderKanban, label: "Projects" },
   { to: "/factory", icon: Factory, label: "Factory" },
-  { to: "/findings", icon: Lightbulb, label: "Findings" },
-  { to: "/publications", icon: BookOpen, label: "Publications" },
-  { to: "/tracker", icon: ListChecks, label: "Tracker" },
+  { to: "/process", icon: Workflow, label: "Process" },
 ] as const;
 
 function NavRail() {
