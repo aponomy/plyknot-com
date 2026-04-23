@@ -468,11 +468,12 @@ export interface WorkContainer {
   updated_at: string;
 }
 
-export function fetchWorkContainers(params?: { kind?: string; status?: string; category?: string }) {
+export function fetchWorkContainers(params?: { kind?: string; status?: string; category?: string; pipeline?: boolean }) {
   const qs = new URLSearchParams();
   if (params?.kind) qs.set("kind", params.kind);
   if (params?.status) qs.set("status", params.status);
   if (params?.category) qs.set("category", params.category);
+  if (params?.pipeline) qs.set("pipeline", "true");
   const query = qs.toString() ? `?${qs}` : "";
   return fetchJson<{ containers: WorkContainer[] }>(hubUrl("plyknot.com", `/process/containers${query}`), "plyknot.com");
 }
