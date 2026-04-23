@@ -25,4 +25,6 @@ Thumbs.db
 *.pem
 *.key
 credentials.json
-/mcp/node_modules
+.dev.vars
+node_modules/
+.wrangler/

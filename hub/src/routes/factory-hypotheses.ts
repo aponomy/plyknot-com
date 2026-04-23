@@ -4,6 +4,7 @@
 
 import { json, notFound } from '../lib/response.js';
 import type { AuthContext } from '../auth/middleware.js';
+import { emitEvent } from './stream.js';
 
 interface HypothesisRow {
   id: string;
@@ -85,6 +86,12 @@ export async function handleCreateHypothesis(request: Request, db: D1Database, a
     body.depends ? JSON.stringify(body.depends) : null,
     'proposed',
   ).run();
+
+  await emitEvent(db, 'hypothesis-proposed', `${proposerId} proposed hypothesis ${id} for crack ${crackId}`, {
+    projectId: (body.project_id as string) ?? undefined,
+    userId: auth.userId ?? undefined,
+    payload: { hypothesisId: id, crackId, proposerId },
+  });
 
   return json({ id, status: 'proposed', project_id: (body.project_id as string) ?? null }, 201);
 }

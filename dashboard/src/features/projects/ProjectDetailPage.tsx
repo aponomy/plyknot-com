@@ -4,6 +4,9 @@ import { getProject } from "../../lib/mock-data";
 import { CrackResolutionDetail } from "./CrackResolutionDetail";
 import { ExtractionBatchDetail } from "./ExtractionBatchDetail";
 import { SurveillanceDetail } from "./SurveillanceDetail";
+import { ProjectActivity } from "./ProjectActivity";
+import { ProjectFailures } from "./ProjectFailures";
+import { ProjectBlockingItems } from "./ProjectBlockingItems";
 
 export function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,10 +34,16 @@ export function ProjectDetailPage() {
         <span className="text-[var(--foreground)]">{project.name}</span>
       </div>
 
+      <ProjectBlockingItems projectId={project.id} />
+
       {project.kind === "crack-resolution" && <CrackResolutionDetail project={project} />}
       {project.kind === "extraction-batch" && <ExtractionBatchDetail project={project} />}
       {project.kind === "surveillance" && <SurveillanceDetail project={project} />}
       {project.kind === "opening-extension" && <CrackResolutionDetail project={project} />}
+      {project.kind === "investigation" && <CrackResolutionDetail project={project} />}
+
+      <ProjectFailures projectId={project.id} />
+      <ProjectActivity projectId={project.id} />
     </div>
   );
 }

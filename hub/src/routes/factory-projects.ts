@@ -10,6 +10,7 @@ interface ProjectRow {
   id: string;
   name: string;
   description: string | null;
+  kind: string;
   crack_ids: string;
   entity_scope: string;
   status: string;
@@ -18,6 +19,8 @@ interface ProjectRow {
   owner_id: string;
   created_at: string;
   updated_at: string;
+  scope: string | null;
+  schedule: string | null;
 }
 
 interface MemberRow {
@@ -32,6 +35,7 @@ function parseProject(row: ProjectRow, members: MemberRow[] = []) {
     id: row.id,
     name: row.name,
     description: row.description,
+    kind: row.kind,
     crack_ids: JSON.parse(row.crack_ids),
     entity_scope: JSON.parse(row.entity_scope),
     status: row.status,
@@ -41,6 +45,8 @@ function parseProject(row: ProjectRow, members: MemberRow[] = []) {
     members: members.map((m) => ({ user_id: m.user_id, role: m.role })),
     created_at: row.created_at,
     updated_at: row.updated_at,
+    scope: row.scope ? JSON.parse(row.scope) : null,
+    schedule: row.schedule,
   };
 }
 
@@ -119,17 +125,26 @@ export async function handleCreateProject(request: Request, db: D1Database, auth
 
   if (!name) return json({ error: 'name is required' }, 400);
 
+  const kind = (body.kind as string) ?? 'crack-resolution';
+  const validKinds = ['crack-resolution', 'opening-extension', 'extraction-batch', 'surveillance'];
+  if (!validKinds.includes(kind)) {
+    return json({ error: `kind must be one of: ${validKinds.join(', ')}` }, 400);
+  }
+
   await db.prepare(
-    `INSERT INTO projects (id, name, description, crack_ids, entity_scope, budget_usd, owner_id)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO projects (id, name, description, kind, crack_ids, entity_scope, budget_usd, owner_id, scope, schedule)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).bind(
     id,
     name,
     (body.description as string) ?? null,
+    kind,
     JSON.stringify(body.crack_ids ?? []),
     JSON.stringify(body.entity_scope ?? []),
     (body.budget_usd as number) ?? null,
     auth.userId,
+    body.scope ? JSON.stringify(body.scope) : null,
+    (body.schedule as string) ?? null,
   ).run();
 
   // Owner is also a member
@@ -137,7 +152,7 @@ export async function handleCreateProject(request: Request, db: D1Database, auth
     'INSERT INTO project_members (project_id, user_id, role) VALUES (?, ?, ?)'
   ).bind(id, auth.userId, 'owner').run();
 
-  return json({ id, name, status: 'active' }, 201);
+  return json({ id, name, kind, status: 'active' }, 201);
 }
 
 // ── Update project ──────────────────────────────────────────────────────
@@ -152,10 +167,13 @@ export async function handleUpdateProject(request: Request, db: D1Database, auth
 
   if (body.name !== undefined) { updates.push('name = ?'); binds.push(body.name as string); }
   if (body.description !== undefined) { updates.push('description = ?'); binds.push(body.description as string); }
+  if (body.kind !== undefined) { updates.push('kind = ?'); binds.push(body.kind as string); }
   if (body.crack_ids !== undefined) { updates.push('crack_ids = ?'); binds.push(JSON.stringify(body.crack_ids)); }
   if (body.entity_scope !== undefined) { updates.push('entity_scope = ?'); binds.push(JSON.stringify(body.entity_scope)); }
   if (body.status !== undefined) { updates.push('status = ?'); binds.push(body.status as string); }
   if (body.budget_usd !== undefined) { updates.push('budget_usd = ?'); binds.push(body.budget_usd as number); }
+  if (body.scope !== undefined) { updates.push('scope = ?'); binds.push(JSON.stringify(body.scope)); }
+  if (body.schedule !== undefined) { updates.push('schedule = ?'); binds.push(body.schedule as string); }
 
   if (updates.length === 0) return json({ error: 'No fields to update' }, 400);
 

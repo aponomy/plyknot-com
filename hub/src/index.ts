@@ -42,10 +42,20 @@ import { handleListEmbargoed } from './routes/factory-embargo.js';
 import { handleFactoryStats } from './routes/factory-stats.js';
 import { handleListPrompts, handleGetPrompt } from './routes/factory-prompts.js';
 import { handleListProjects, handleGetProject, handleCreateProject, handleUpdateProject, handleDeleteProject, handleAddMember } from './routes/factory-projects.js';
+import { handleUpsertRun, handleRecordRound, handleRecordTasks, handleGetRun, handleListRuns, handleQueueStats } from './routes/factory-supervisor.js';
+import { handleCreateAttention, handleListAttention, handleGetAttention, handleUpdateAttention, handleResolveAttention, handleAttentionStats } from './routes/factory-attention.js';
+import { handleListExperts, handleGetExpert, handleAddExpert, handleUpdateExpert, handleCreateReward, handlePayReward, handleListRewards } from './routes/factory-experts.js';
+import { handleListFindings, handleGetFinding, handleCreateFinding, handleUpdateFinding, handleReviewFinding } from './routes/factory-findings.js';
+import { handleListPublications, handleGetPublication, handleCreatePublication, handleUpdatePublication } from './routes/factory-publications.js';
+import { handleListCategories, handleListThemes, handleGetTheme, handleListIssues, handleCreateIssue, handleUpdateIssue, handleDeleteIssue, handleMarkDone, handleCreateTheme, handleUpdateTheme, handleTrackerStats, handleTrackerExport, handleTrackerBatch, handleListComments, handleCreateComment } from './routes/factory-tracker.js';
+import { handleProcessPipeline, handleListContainers, handleGetContainer, handleCreateContainer, handleUpdateContainer, handlePromoteContainer, handleSpawnDelivery } from './routes/process-containers.js';
+import { handleStream } from './routes/stream.js';
+import { handleAgentChat, handleGetRunMessages } from './routes/factory-agent.js';
 
 interface Env {
   DB: D1Database;
   AI?: { run(model: string, input: { text: string[] }): Promise<{ data: number[][] }> };
+  ANTHROPIC_API_KEY?: string;
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
   GITHUB_TOKEN?: string;
@@ -67,9 +77,12 @@ export default {
       if (path === '/auth/github') {
         if (!env.GITHUB_CLIENT_ID) return json({ error: 'OAuth not configured' }, 500);
         const wantNew = url.searchParams.get('new') === 'true';
+        const dashboardRedirect = url.searchParams.get('redirect');
         const callbackUrl = `${url.origin}/auth/github/callback`;
+        // Encode dashboard redirect URL in state so we can redirect back after auth
+        const state = dashboardRedirect ? `redirect:${dashboardRedirect}` : (wantNew ? 'new' : undefined);
         return Response.redirect(
-          authorizationUrl(env.GITHUB_CLIENT_ID, callbackUrl, wantNew ? 'new' : undefined),
+          authorizationUrl(env.GITHUB_CLIENT_ID, callbackUrl, state),
           302,
         );
       }
@@ -101,6 +114,27 @@ export default {
         const userId = await upsertUser(env.DB, ghUser);
         const existingKeys = await listUserKeys(env.DB, userId);
         const state = url.searchParams.get('state') ?? '';
+
+        // Dashboard redirect flow: state="redirect:<url>"
+        if (state.startsWith('redirect:')) {
+          const redirectUrl = state.slice('redirect:'.length);
+          // Reuse existing key or create one
+          const apiKey = existingKeys.length > 0
+            ? existingKeys[0].name  // name field contains the key prefix for lookup
+            : await createApiKey(env.DB, userId, `${ghUser.login}-dashboard-${Date.now()}`);
+          // For existing keys we need to create a new one since we can't retrieve the raw key
+          const freshKey = existingKeys.length > 0
+            ? await createApiKey(env.DB, userId, `${ghUser.login}-dashboard-${Date.now()}`)
+            : apiKey;
+          const params = new URLSearchParams({
+            key: freshKey as string,
+            login: ghUser.login,
+            name: ghUser.name ?? ghUser.login,
+            avatar: `https://avatars.githubusercontent.com/u/${ghUser.id}`,
+          });
+          return Response.redirect(`${redirectUrl}?${params}`, 302);
+        }
+
         const forceNew = state === 'new';
 
         if (existingKeys.length > 0 && !forceNew) {
@@ -180,6 +214,11 @@ curl -H "Authorization: Bearer ${apiKey}" \\
           return json({ error: 'Authentication required. Visit /auth/github to get an API key.' }, 401);
         }
 
+        // ── SSE stream ──────────────────────────────────────────────────
+        if (request.method === 'GET' && route === '/stream') {
+          return handleStream(env.DB, auth);
+        }
+
         // ── Public-equivalent read endpoints ────────────────────────────
         if (request.method === 'GET') {
           if (route === '/chains') return handleListChains(env.DB);
@@ -206,7 +245,7 @@ curl -H "Authorization: Bearer ${apiKey}" \\
           if (route === '/factory/hypotheses') return handleListHypotheses(env.DB, url);
           if (route.startsWith('/factory/hypotheses/')) return handleGetHypothesis(env.DB, route.slice(22));
           if (route === '/factory/deltas') return handleListDeltas(env.DB, url);
-          if (route.startsWith('/factory/deltas/')) return handleGetDelta(env.DB, route.slice(17));
+          if (route.startsWith('/factory/deltas/')) return handleGetDelta(env.DB, route.slice(16));
           if (route === '/factory/experiments') return handleListExperiments(env.DB, url);
           if (route === '/factory/embargoed') return handleListEmbargoed(env.DB, url);
           if (route === '/factory/prompts') return handleListPrompts();
@@ -214,6 +253,47 @@ curl -H "Authorization: Bearer ${apiKey}" \\
           if (route === '/factory/projects') return handleListProjects(env.DB, auth);
           if (route.startsWith('/factory/projects/') && !route.includes('/members')) {
             return handleGetProject(env.DB, auth, route.slice(18));
+          }
+          if (route === '/factory/supervisor/runs') return handleListRuns(env.DB, auth);
+          if (route === '/factory/supervisor/queue') return handleQueueStats(env.DB, auth);
+          if (route.startsWith('/factory/supervisor/runs/')) {
+            const runSuffix = route.slice(24);
+            if (runSuffix.endsWith('/messages')) {
+              return handleGetRunMessages(env.DB, auth, runSuffix.replace('/messages', ''));
+            }
+            return handleGetRun(env.DB, auth, runSuffix);
+          }
+          if (route === '/factory/findings') return handleListFindings(env.DB, auth, url);
+          if (route.match(/^\/factory\/findings\/[^/]+$/) && !route.includes('/review')) return handleGetFinding(env.DB, auth, route.slice(18));
+          if (route === '/factory/publications') return handleListPublications(env.DB, auth, url);
+          if (route.match(/^\/factory\/publications\/[^/]+$/)) return handleGetPublication(env.DB, auth, route.slice(22));
+          if (route === '/factory/experts') return handleListExperts(env.DB, auth, url);
+          if (route === '/factory/experts/rewards') return handleListRewards(env.DB, auth, url);
+          if (route.match(/^\/factory\/experts\/[^/]+$/) && !route.includes('/rewards')) return handleGetExpert(env.DB, auth, route.slice(17));
+          if (route === '/factory/attention') return handleListAttention(env.DB, auth, url);
+          if (route === '/factory/attention/stats') return handleAttentionStats(env.DB, auth);
+          if (route.match(/^\/factory\/attention\/[^/]+$/) && !route.includes('/resolve')) {
+            return handleGetAttention(env.DB, auth, route.slice(19));
+          }
+
+          // ── Process read endpoints ──────────────────────────────────────
+          if (route === '/process/pipeline') return handleProcessPipeline(env.DB, auth);
+          if (route === '/process/containers') return handleListContainers(env.DB, auth, url);
+          if (route.match(/^\/process\/containers\/[^/]+$/) && !route.includes('/promote') && !route.includes('/spawn')) {
+            return handleGetContainer(env.DB, auth, decodeURIComponent(route.slice(21)));
+          }
+
+          // ── Tracker read endpoints ──────────────────────────────────────
+          if (route === '/factory/tracker/categories') return handleListCategories(env.DB, auth);
+          if (route === '/factory/tracker/themes') return handleListThemes(env.DB, auth, url);
+          if (route === '/factory/tracker/issues') return handleListIssues(env.DB, auth, url);
+          if (route === '/factory/tracker/stats') return handleTrackerStats(env.DB, auth);
+          if (route === '/factory/tracker/export') return handleTrackerExport(env.DB, auth);
+          if (route.match(/^\/factory\/tracker\/themes\/[^/]+$/)) {
+            return handleGetTheme(env.DB, auth, decodeURIComponent(route.slice(24)));
+          }
+          if (route.match(/^\/factory\/tracker\/issues\/[^/]+\/comments$/)) {
+            return handleListComments(env.DB, auth, decodeURIComponent(route.slice(24).replace('/comments', '')));
           }
         }
 
@@ -255,17 +335,72 @@ curl -H "Authorization: Bearer ${apiKey}" \\
           if (route.match(/^\/factory\/projects\/[^/]+\/members$/)) {
             return handleAddMember(request, env.DB, auth, route.slice(18).replace('/members', ''));
           }
+          if (route === '/factory/supervisor/runs') return handleUpsertRun(request, env.DB, auth);
+          if (route === '/factory/supervisor/rounds') return handleRecordRound(request, env.DB, auth);
+          if (route === '/factory/supervisor/tasks') return handleRecordTasks(request, env.DB, auth);
+          if (route === '/factory/findings') return handleCreateFinding(request, env.DB, auth);
+          if (route.match(/^\/factory\/findings\/[^/]+\/review$/)) {
+            return handleReviewFinding(request, env.DB, auth, route.slice(18).replace('/review', ''));
+          }
+          if (route === '/factory/publications') return handleCreatePublication(request, env.DB, auth);
+          if (route === '/factory/experts') return handleAddExpert(request, env.DB, auth);
+          if (route === '/factory/experts/rewards') return handleCreateReward(request, env.DB, auth);
+          if (route.match(/^\/factory\/experts\/rewards\/[^/]+\/pay$/)) {
+            return handlePayReward(request, env.DB, auth, route.slice(25).replace('/pay', ''));
+          }
+          if (route === '/factory/attention') return handleCreateAttention(request, env.DB, auth);
+          if (route.match(/^\/factory\/attention\/[^/]+\/resolve$/)) {
+            return handleResolveAttention(request, env.DB, auth, route.slice(19).replace('/resolve', ''));
+          }
+
+          // ── Agent chat ─────────────────────────────────────────────────
+          if (route === '/agent/chat') return handleAgentChat(request, { DB: env.DB, ANTHROPIC_API_KEY: env.ANTHROPIC_API_KEY }, auth);
+
+          // ── Process write endpoints ────────────────────────────────────
+          if (route === '/process/containers') return handleCreateContainer(request, env.DB, auth);
+          if (route === '/process/spawn-delivery') return handleSpawnDelivery(request, env.DB, auth);
+          if (route.match(/^\/process\/containers\/[^/]+\/promote$/)) {
+            return handlePromoteContainer(request, env.DB, auth, decodeURIComponent(route.slice(21).replace('/promote', '')));
+          }
+
+          // ── Tracker write endpoints ─────────────────────────────────────
+          if (route === '/factory/tracker/issues') return handleCreateIssue(request, env.DB, auth);
+          if (route === '/factory/tracker/themes') return handleCreateTheme(request, env.DB, auth);
+          if (route === '/factory/tracker/batch') return handleTrackerBatch(request, env.DB, auth);
+          if (route.match(/^\/factory\/tracker\/issues\/[^/]+\/done$/)) {
+            return handleMarkDone(request, env.DB, auth, decodeURIComponent(route.slice(24).replace('/done', '')));
+          }
+          if (route.match(/^\/factory\/tracker\/issues\/[^/]+\/comments$/)) {
+            return handleCreateComment(request, env.DB, auth, decodeURIComponent(route.slice(24).replace('/comments', '')));
+          }
         }
 
         // ── PATCH for updates ─────────────────────────────────────────
         if (request.method === 'PATCH') {
           if (route.startsWith('/factory/experiments/')) return handleUpdateExperiment(request, env.DB, route.slice(23));
           if (route.startsWith('/factory/projects/')) return handleUpdateProject(request, env.DB, auth, route.slice(18));
+          if (route.startsWith('/factory/findings/')) return handleUpdateFinding(request, env.DB, auth, route.slice(18));
+          if (route.startsWith('/factory/publications/')) return handleUpdatePublication(request, env.DB, auth, route.slice(22));
+          if (route.startsWith('/factory/experts/')) return handleUpdateExpert(request, env.DB, auth, route.slice(17));
+          if (route.startsWith('/factory/attention/')) return handleUpdateAttention(request, env.DB, auth, route.slice(19));
+          if (route.match(/^\/factory\/tracker\/issues\/[^/]+$/)) {
+            return handleUpdateIssue(request, env.DB, auth, decodeURIComponent(route.slice(24)));
+          }
+          if (route.match(/^\/factory\/tracker\/themes\/[^/]+$/)) {
+            return handleUpdateTheme(request, env.DB, auth, decodeURIComponent(route.slice(24)));
+          }
+          // Process container PATCH
+          if (route.match(/^\/process\/containers\/[^/]+$/)) {
+            return handleUpdateContainer(request, env.DB, auth, decodeURIComponent(route.slice(21)));
+          }
         }
 
         // ── DELETE ──────────────────────────────────────────────────────
         if (request.method === 'DELETE') {
           if (route.startsWith('/factory/projects/')) return handleDeleteProject(env.DB, auth, route.slice(18));
+          if (route.match(/^\/factory\/tracker\/issues\/[^/]+$/)) {
+            return handleDeleteIssue(env.DB, auth, decodeURIComponent(route.slice(24)));
+          }
         }
 
         return notFound(`No route: ${request.method} ${path}`);
@@ -288,15 +423,52 @@ curl -H "Authorization: Bearer ${apiKey}" \\
             'POST /v1/chains/:name/measurements', 'POST /v1/chains/:name/hypotheses',
             '--- Factory (commercial) ---',
             'GET  /v1/factory/stats',
-            'GET  /v1/factory/hypotheses', 'GET  /v1/factory/hypotheses/:id',
-            'POST /v1/factory/hypotheses',
-            'GET  /v1/factory/deltas', 'GET  /v1/factory/deltas/:id',
-            'POST /v1/factory/deltas',
-            'GET  /v1/factory/experiments',
-            'POST /v1/factory/experiments',
+            'GET|POST /v1/factory/hypotheses',
+            'GET  /v1/factory/hypotheses/:id',
+            'GET|POST /v1/factory/deltas',
+            'GET  /v1/factory/deltas/:id',
+            'GET|POST /v1/factory/experiments',
             'PATCH /v1/factory/experiments/:id',
             'POST /v1/factory/tournament',
             'GET  /v1/factory/embargoed',
+            'GET|POST /v1/factory/projects',
+            'GET|PATCH|DELETE /v1/factory/projects/:id',
+            'POST /v1/factory/projects/:id/members',
+            'GET|POST /v1/factory/findings',
+            'GET|PATCH /v1/factory/findings/:id',
+            'POST /v1/factory/findings/:id/review',
+            'GET|POST /v1/factory/publications',
+            'GET|PATCH /v1/factory/publications/:id',
+            'GET|POST /v1/factory/experts',
+            'GET|PATCH /v1/factory/experts/:id',
+            'GET|POST /v1/factory/experts/rewards',
+            'POST /v1/factory/experts/rewards/:id/pay',
+            'GET|POST /v1/factory/attention',
+            'GET  /v1/factory/attention/stats',
+            'GET|PATCH /v1/factory/attention/:id',
+            'POST /v1/factory/attention/:id/resolve',
+            'GET  /v1/factory/supervisor/runs',
+            'GET  /v1/factory/supervisor/runs/:id',
+            'GET  /v1/factory/supervisor/queue',
+            'POST /v1/factory/supervisor/runs|rounds|tasks',
+            'GET  /v1/factory/prompts',
+            'GET  /v1/factory/prompts/:role',
+            '--- Tracker ---',
+            'GET  /v1/factory/tracker/categories',
+            'GET  /v1/factory/tracker/themes',
+            'GET  /v1/factory/tracker/themes/:id',
+            'GET  /v1/factory/tracker/issues',
+            'POST /v1/factory/tracker/issues',
+            'PATCH /v1/factory/tracker/issues/:id',
+            'DELETE /v1/factory/tracker/issues/:id',
+            'POST /v1/factory/tracker/issues/:id/done',
+            'GET  /v1/factory/tracker/issues/:id/comments',
+            'POST /v1/factory/tracker/issues/:id/comments',
+            'POST /v1/factory/tracker/themes',
+            'PATCH /v1/factory/tracker/themes/:id',
+            'GET  /v1/factory/tracker/stats',
+            'GET  /v1/factory/tracker/export',
+            'POST /v1/factory/tracker/batch',
           ],
           auth: 'GET /auth/github (requires org membership)',
         });

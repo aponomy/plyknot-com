@@ -7,6 +7,7 @@ const kindIcon: Record<ProjectKind, string> = {
   "extraction-batch": "□",
   "surveillance": "⬡",
   "opening-extension": "◌",
+  "investigation": "◇",
 };
 
 const attentionItems = [

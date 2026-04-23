@@ -4,7 +4,10 @@ import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { KpiCard } from "../../components/ui/kpi-card";
 import { DataSourceToggle } from "./DataSourceToggle";
 import { ConvergenceMap, type CellSelection } from "./ConvergenceMap";
+import { ProjectsMap, type ProjectCellSelection } from "./ProjectsMap";
+import { EntityRef } from "../../components/ui/entity-ref";
 import { cn } from "../../lib/utils";
+import { Link, useNavigate } from "react-router-dom";
 import {
   fetchStats,
   fetchHeatmap,
@@ -14,8 +17,9 @@ import {
   type Crack,
   type HeatmapCell,
 } from "../../lib/hub-api";
+import { projects as allProjects, type Project, type ProjectKind } from "../../lib/mock-data";
 
-type ActiveView = "cracks" | "openings" | "chains" | "couplings" | "entities";
+type ActiveView = "cracks" | "openings" | "chains" | "projects";
 
 const INFERENCE_LEVELS = ["signal", "measurement", "pattern", "model", "hypothesis"];
 const COMPLEXITY_LEVELS = [0, 1, 2, 3, 4, 5];
@@ -38,30 +42,47 @@ const inferenceGlyph: Record<string, string> = {
   hypothesis: "⑤",
 };
 
+const projectKindIcon: Record<ProjectKind, string> = {
+  "crack-resolution": "◈",
+  "extraction-batch": "□",
+  "surveillance": "⬡",
+  "opening-extension": "◌",
+  "investigation": "◇",
+};
+
 export function UniversePage() {
+  const navigate = useNavigate();
   const [source, setSource] = useState<DataSource>("plyknot.org");
   const [view, setView] = useState<ActiveView>("cracks");
   const [selectedCell, setSelectedCell] = useState<CellSelection | null>(null);
   const [selectedCellData, setSelectedCellData] = useState<HeatmapCell | null>(null);
+  const [crackFilter, setCrackFilter] = useState<"all" | "divergent" | "tension" | "solid" | "single">("all");
+  const [projectsCell, setProjectsCell] = useState<ProjectCellSelection | null>(null);
+  const [projectsCellProjects, setProjectsCellProjects] = useState<Project[]>([]);
+  const [projectsShowArchived, setProjectsShowArchived] = useState(false);
 
   const stats = useQuery({
     queryKey: ["stats", source],
     queryFn: () => fetchStats(source),
+    retry: false,
   });
 
   const heatmap = useQuery({
     queryKey: ["heatmap", source],
     queryFn: () => fetchHeatmap(source),
+    retry: false,
   });
 
   const chains = useQuery({
     queryKey: ["chains", source],
     queryFn: () => fetchChains(source),
+    retry: false,
   });
 
   const cracks = useQuery({
     queryKey: ["cracks", source],
     queryFn: () => fetchCracks(source),
+    retry: false,
   });
 
   const isLoading = stats.isLoading || heatmap.isLoading;
@@ -74,6 +95,9 @@ export function UniversePage() {
     return TOTAL_CELLS - filledCells;
   }, [heatmap.data]);
 
+  const activeProjectCount = allProjects.filter((p) => !p.archived).length;
+  const archivedProjectCount = allProjects.filter((p) => p.archived).length;
+
   function handleCellClick(cell: HeatmapCell, selection: CellSelection) {
     if (
       selectedCell?.inferenceLevel === selection.inferenceLevel &&
@@ -83,12 +107,14 @@ export function UniversePage() {
     } else {
       setSelectedCell(selection);
       setSelectedCellData(cell);
+      setCrackFilter("all");
     }
   }
 
   function deselect() {
     setSelectedCell(null);
     setSelectedCellData(null);
+    setCrackFilter("all");
   }
 
   // Filter cracks to the selected cell's inference level
@@ -104,21 +130,30 @@ export function UniversePage() {
         <DataSourceToggle value={source} onChange={setSource} />
       </div>
 
-      {/* Error state */}
-      {hasError && (
-        <div className="rounded-lg border border-[var(--color-danger)] bg-[var(--color-danger)]/5 p-3 text-sm text-[var(--color-danger)]">
-          Failed to load from {source}. {source === "plyknot.com" ? "Check authentication." : "Hub may be down."}
+      {/* KPI boxes — always visible, hub data optional */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <KpiCard title="Cracks" value={stats.data?.crackCount ?? "—"} delta={stats.data ? `across ${stats.data.chainCount} chains` : ""} trend={stats.data ? "down" : undefined} active={view === "cracks"} onClick={() => { setView("cracks"); deselect(); }} />
+        <KpiCard title="Openings" value={stats.data ? openingsCount : "—"} delta={stats.data ? `of ${TOTAL_CELLS} positions` : ""} active={view === "openings"} onClick={() => { setView("openings"); deselect(); }} />
+        <KpiCard title="Chains" value={stats.data?.chainCount ?? "—"} active={view === "chains"} onClick={() => { setView("chains"); deselect(); }} />
+        <KpiCard title="Projects" value={activeProjectCount} delta={`${archivedProjectCount} archived`} active={view === "projects"} onClick={() => { setView("projects"); deselect(); setProjectsCell(null); }} />
+      </div>
+
+      {/* Hub connection notice */}
+      {hasError && source === "plyknot.com" && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-[var(--muted)] text-xs text-[var(--muted-foreground)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--color-warning)] shrink-0" />
+          <span>
+            hub.plyknot.com requires authentication.{" "}
+            <button onClick={() => navigate("/settings/access")} className="text-[var(--primary)] hover:underline">
+              Request access
+            </button>
+          </span>
         </div>
       )}
-
-      {/* KPI boxes — clickable navigation */}
-      {stats.data && (
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-          <KpiCard title="Cracks" value={stats.data.crackCount} delta={`across ${stats.data.chainCount} chains`} trend="down" active={view === "cracks"} onClick={() => { setView("cracks"); deselect(); }} />
-          <KpiCard title="Openings" value={openingsCount} delta={`of ${TOTAL_CELLS} positions`} active={view === "openings"} onClick={() => { setView("openings"); deselect(); }} />
-          <KpiCard title="Chains" value={stats.data.chainCount} active={view === "chains"} onClick={() => { setView("chains"); deselect(); }} />
-          <KpiCard title="Couplings" value={stats.data.couplingCount.toLocaleString()} active={view === "couplings"} onClick={() => { setView("couplings"); deselect(); }} />
-          <KpiCard title="Entities" value={stats.data.entityCount} active={view === "entities"} onClick={() => { setView("entities"); deselect(); }} />
+      {hasError && source === "plyknot.org" && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-[var(--muted)] text-xs text-[var(--muted-foreground)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--color-danger)] shrink-0" />
+          Could not reach hub.plyknot.org.
         </div>
       )}
 
@@ -159,23 +194,32 @@ export function UniversePage() {
                 <CardTitle>
                   {inferenceGlyph[selectedCell.inferenceLevel]} {selectedCell.inferenceLevel} · {complexityLabel[selectedCell.complexityLevel]}
                 </CardTitle>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-[var(--muted-foreground)]">
-                    {selectedCellData.total} claims · {selectedCellData.cracked} cracked
-                  </span>
-                  <span className={cn(
-                    "text-xs px-1.5 py-0.5 rounded",
-                    selectedCellData.status === "divergent" && "bg-[color:var(--color-danger)]/10 text-[var(--color-danger)]",
-                    selectedCellData.status === "tension" && "bg-[color:var(--color-warning)]/10 text-[var(--color-warning)]",
-                    selectedCellData.status === "solid" && "bg-[color:var(--color-success)]/10 text-[var(--color-success)]",
-                    (selectedCellData.status === "single" || selectedCellData.status === "empty") && "bg-[var(--muted)] text-[var(--muted-foreground)]",
-                  )}>
-                    {selectedCellData.status}
-                  </span>
+                <div className="flex items-center gap-1.5">
+                  {(["all", "divergent", "tension", "solid", "single"] as const).map((f) => {
+                    const count = f === "all"
+                      ? cellCracks.length
+                      : cellCracks.filter((c) => c.convergence === f).length;
+                    if (f !== "all" && count === 0) return null;
+                    const colorMap: Record<string, string> = {
+                      all: crackFilter === "all" ? "bg-[var(--foreground)] text-[var(--background)]" : "bg-[var(--muted)] text-[var(--muted-foreground)]",
+                      divergent: crackFilter === "divergent" ? "bg-[var(--color-danger)] text-white" : "bg-[color:var(--color-danger)]/10 text-[var(--color-danger)]",
+                      tension: crackFilter === "tension" ? "bg-[var(--color-warning)] text-white" : "bg-[color:var(--color-warning)]/10 text-[var(--color-warning)]",
+                      solid: crackFilter === "solid" ? "bg-[var(--color-success)] text-white" : "bg-[color:var(--color-success)]/10 text-[var(--color-success)]",
+                      single: crackFilter === "single" ? "bg-[var(--color-zinc-500)] text-white" : "bg-[var(--muted)] text-[var(--muted-foreground)]",
+                    };
+                    return (
+                      <button
+                        key={f}
+                        onClick={() => setCrackFilter(crackFilter === f ? "all" : f)}
+                        className={cn("text-xs px-1.5 py-0.5 rounded cursor-pointer transition-colors font-mono", colorMap[f])}
+                      >
+                        {f === "all" ? `${count} claims` : `${count} ${f}`}
+                      </button>
+                    );
+                  })}
                   <button
                     onClick={deselect}
-                    className="w-5 h-5 flex items-center justify-center rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors ml-2"
-                    title="Close"
+                    className="w-5 h-5 flex items-center justify-center rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors ml-1"
                   >
                     ✕
                   </button>
@@ -184,11 +228,12 @@ export function UniversePage() {
 
               {view === "cracks" ? (
                 cellCracks.length > 0 ? (
-                  <div className="divide-y divide-[var(--border)]">
-                    {cellCracks.map((crack) => (
+                  <>
+                    <div className="divide-y divide-[var(--border)]">
+                    {cellCracks.filter((c) => crackFilter === "all" || c.convergence === crackFilter).map((crack) => (
                       <div key={crack.crack_id} className="py-3 first:pt-0 last:pb-0">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">{crack.chain}</span>
+                          <span className="text-sm font-medium relative"><EntityRef label={crack.chain} /></span>
                           <span className="font-mono text-sm font-semibold">
                             {crack.sigmaTension}σ
                           </span>
@@ -208,7 +253,8 @@ export function UniversePage() {
                         </div>
                       </div>
                     ))}
-                  </div>
+                    </div>
+                  </>
                 ) : (
                   <p className="text-sm text-[var(--muted-foreground)]">
                     No cracks at this position — all claims converge.
@@ -318,38 +364,88 @@ export function UniversePage() {
         </Card>
       )}
 
-      {/* === VIEW: Couplings === */}
-      {view === "couplings" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Couplings</CardTitle>
-            {stats.data && (
-              <span className="text-xs text-[var(--muted-foreground)]">
-                {stats.data.couplingCount.toLocaleString()} total
-              </span>
-            )}
-          </CardHeader>
-          <p className="text-sm text-[var(--muted-foreground)]">
-            Coupling browser — query via Hub API or MCP tools.
-          </p>
-        </Card>
-      )}
+      {/* === VIEW: Projects overlay === */}
+      {view === "projects" && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Project coverage</CardTitle>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => { setProjectsShowArchived(false); setProjectsCell(null); }}
+                  className={cn(
+                    "text-xs px-2 py-1 rounded-md transition-colors",
+                    !projectsShowArchived ? "bg-[var(--foreground)] text-[var(--background)]" : "bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
+                  )}
+                >
+                  Current
+                </button>
+                <button
+                  onClick={() => { setProjectsShowArchived(true); setProjectsCell(null); }}
+                  className={cn(
+                    "text-xs px-2 py-1 rounded-md transition-colors",
+                    projectsShowArchived ? "bg-[var(--foreground)] text-[var(--background)]" : "bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
+                  )}
+                >
+                  + Archived
+                </button>
+              </div>
+            </CardHeader>
+            <ProjectsMap
+              includeArchived={projectsShowArchived}
+              selected={projectsCell}
+              onCellClick={(sel, projs) => {
+                if (projectsCell?.inferenceLevel === sel.inferenceLevel && projectsCell?.complexityLevel === sel.complexityLevel && projectsCell?.category === sel.category) {
+                  setProjectsCell(null);
+                  setProjectsCellProjects([]);
+                } else {
+                  setProjectsCell(sel);
+                  setProjectsCellProjects(projs);
+                }
+              }}
+              onDeselect={() => { setProjectsCell(null); setProjectsCellProjects([]); }}
+            />
+          </Card>
 
-      {/* === VIEW: Entities === */}
-      {view === "entities" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Entities</CardTitle>
-            {stats.data && (
-              <span className="text-xs text-[var(--muted-foreground)]">
-                {stats.data.entityCount} total
-              </span>
-            )}
-          </CardHeader>
-          <p className="text-sm text-[var(--muted-foreground)]">
-            Entity browser — query via Hub API or MCP tools.
-          </p>
-        </Card>
+          {/* Project list for selected cell */}
+          {projectsCell && (
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  {inferenceGlyph[projectsCell.inferenceLevel]} {projectsCell.inferenceLevel} · {complexityLabel[projectsCell.complexityLevel]} · {projectsCell.category}
+                </CardTitle>
+                <span className="text-xs text-[var(--muted-foreground)]">{projectsCellProjects.length} project{projectsCellProjects.length !== 1 ? "s" : ""}</span>
+              </CardHeader>
+              {projectsCellProjects.length === 0 ? (
+                <p className="text-sm text-[var(--muted-foreground)]">No {projectsCell.category} projects at this position.</p>
+              ) : (
+                <div className="divide-y divide-[var(--border)]">
+                  {projectsCellProjects.map((p) => (
+                    <div key={p.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
+                      <span className="font-mono text-sm text-[var(--muted-foreground)]">
+                        {projectKindIcon[p.kind]}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <Link to={`/projects/${p.id}`} className="text-sm font-medium hover:text-[var(--primary)] transition-colors">
+                          {p.name}
+                        </Link>
+                        <p className="text-xs text-[var(--muted-foreground)] truncate">{p.description}</p>
+                      </div>
+                      <span className={cn(
+                        "text-xs px-1.5 py-0.5 rounded shrink-0",
+                        p.status === "active" && "bg-[color:var(--color-success)]/10 text-[var(--color-success)]",
+                        p.status === "paused" && "bg-[color:var(--color-warning)]/10 text-[var(--color-warning)]",
+                        p.status === "completed" && "bg-[var(--muted)] text-[var(--muted-foreground)]",
+                      )}>
+                        {p.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          )}
+        </>
       )}
     </div>
   );
@@ -375,7 +471,7 @@ function CrackTable({ cracks }: { cracks: Crack[] }) {
             <td className="py-2 text-xs max-w-[200px] truncate" title={crack.claim}>
               {crack.claim}
             </td>
-            <td className="py-2 font-mono text-xs">{crack.chain}</td>
+            <td className="py-2 relative"><EntityRef label={crack.chain} /></td>
             <td className="py-2 text-xs">{crack.level}</td>
             <td className="py-2 text-center font-mono font-semibold">
               {crack.sigmaTension}

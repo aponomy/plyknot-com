@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Command } from "cmdk";
 import {
-  Home,
   Globe,
   FolderKanban,
   Factory,
-  FileInput,
-  ClipboardCheck,
+  Lightbulb,
+  BookOpen,
+  Shield,
   Plus,
 } from "lucide-react";
-import { projects } from "../lib/mock-data";
+import { projects, registry } from "../lib/mock-data";
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -49,12 +49,12 @@ export function CommandPalette() {
             </Command.Empty>
 
             <Command.Group heading="Navigation" className="text-xs text-[var(--muted-foreground)] px-2 py-1.5">
-              <CommandItem icon={<Home size={14} />} label="Home" onSelect={() => go("/")} />
-              <CommandItem icon={<Globe size={14} />} label="Universe" onSelect={() => go("/universe")} />
+              <CommandItem icon={<Globe size={14} />} label="Universe" onSelect={() => go("/")} />
               <CommandItem icon={<FolderKanban size={14} />} label="Projects" onSelect={() => go("/projects")} />
               <CommandItem icon={<Factory size={14} />} label="Factory" onSelect={() => go("/factory")} />
-              <CommandItem icon={<FileInput size={14} />} label="Extraction" onSelect={() => go("/extraction")} />
-              <CommandItem icon={<ClipboardCheck size={14} />} label="Review queue" onSelect={() => go("/review")} />
+              <CommandItem icon={<Lightbulb size={14} />} label="Findings" onSelect={() => go("/findings")} />
+              <CommandItem icon={<BookOpen size={14} />} label="Publications" onSelect={() => go("/publications")} />
+              <CommandItem icon={<Shield size={14} />} label="Access control" onSelect={() => go("/settings/access")} />
             </Command.Group>
 
             <Command.Separator className="h-px bg-[var(--border)] my-1" />
@@ -66,6 +66,19 @@ export function CommandPalette() {
                   icon={<span className="text-xs font-mono w-3.5 text-center">◈</span>}
                   label={p.name}
                   onSelect={() => go(`/projects/${p.id}`)}
+                />
+              ))}
+            </Command.Group>
+
+            <Command.Separator className="h-px bg-[var(--border)] my-1" />
+
+            <Command.Group heading="Registry" className="text-xs text-[var(--muted-foreground)] px-2 py-1.5">
+              {registry.slice(0, 10).map((e) => (
+                <CommandItem
+                  key={e.id}
+                  icon={<span className="text-[10px] font-mono w-3.5 text-center text-[var(--muted-foreground)]">#{e.id}</span>}
+                  label={e.labels[0]}
+                  onSelect={() => { setOpen(false); }}
                 />
               ))}
             </Command.Group>

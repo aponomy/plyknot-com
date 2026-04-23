@@ -7,6 +7,7 @@
 
 import { json } from '../lib/response.js';
 import type { AuthContext } from '../auth/middleware.js';
+import { emitEvent } from './stream.js';
 
 const K_FACTOR = 32; // Elo K-factor
 
@@ -57,6 +58,11 @@ export async function handleTournamentMatch(request: Request, db: D1Database, au
     db.prepare('UPDATE hypotheses SET elo_rating = ?, tournament_matches = ? WHERE id = ?').bind(newRatingA, a.tournament_matches + 1, hypothesisA),
     db.prepare('UPDATE hypotheses SET elo_rating = ?, tournament_matches = ? WHERE id = ?').bind(newRatingB, b.tournament_matches + 1, hypothesisB),
   ]);
+
+  await emitEvent(db, 'match-judged', `${judgeId} judged ${hypothesisA} vs ${hypothesisB} → winner: ${winner}`, {
+    userId: auth.userId ?? undefined,
+    payload: { hypothesisA, hypothesisB, winner, judgeId, confidence, eloA: newRatingA, eloB: newRatingB },
+  });
 
   return json({
     match: { hypothesis_a: hypothesisA, hypothesis_b: hypothesisB, winner, judge_id: judgeId, confidence },

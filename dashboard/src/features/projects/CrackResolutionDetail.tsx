@@ -26,6 +26,7 @@ export function CrackResolutionDetail({ project: p }: { project: Project }) {
           <ActionButton label={p.status === "active" ? "pause" : "resume"} />
           <ActionButton label="allocate budget" />
           <ActionButton label="export deltas" />
+          <ActionButton label={p.archived ? "unarchive" : "archive"} />
         </div>
       </Card>
 

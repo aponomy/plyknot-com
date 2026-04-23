@@ -1,5 +1,6 @@
 import * as d1 from '../lib/d1.js';
 import { json } from '../lib/response.js';
+import { emitEvent } from './stream.js';
 import { validateCoupling } from '../lib/validate.js';
 import { createPullRequest, readFile, buildPrBody, type GitHubEnv } from '../lib/github-pr.js';
 import type { AuthContext } from '../auth/middleware.js';
@@ -109,6 +110,11 @@ export async function handleAddCoupling(
       { path: filePath, content: newContent, message: `Add coupling: ${b.property} via ${b.method}` },
       { path: eventPath, content: eventContent, message: `Log event: coupling-added` },
     ],
+  });
+
+  await emitEvent(db, 'coupling-added', `Coupling added: ${b.property} via ${b.method} (${entities.find((e) => e.id === b.entityA)?.name} → ${entities.find((e) => e.id === b.entityB)?.name})`, {
+    userId: auth.userId ?? undefined,
+    payload: { entityA: b.entityA, entityB: b.entityB, property: b.property, method: b.method },
   });
 
   return json(pr);

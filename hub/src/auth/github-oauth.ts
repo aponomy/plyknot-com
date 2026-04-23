@@ -44,7 +44,10 @@ export async function exchangeCode(clientId: string, clientSecret: string, code:
     headers: { 'content-type': 'application/json', accept: 'application/json' },
     body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, code }),
   });
-  if (!resp.ok) throw new Error(`GitHub token exchange failed: ${resp.status}`);
+  if (!resp.ok) {
+    const body = await resp.text().catch(() => '');
+    throw new Error(`GitHub token exchange failed: ${resp.status} ${body.slice(0, 200)}`);
+  }
   const data = (await resp.json()) as { access_token?: string; error?: string };
   if (data.error || !data.access_token) throw new Error(`GitHub OAuth error: ${data.error}`);
   return data.access_token;
@@ -52,9 +55,17 @@ export async function exchangeCode(clientId: string, clientSecret: string, code:
 
 export async function fetchGitHubUser(accessToken: string): Promise<GitHubUser> {
   const resp = await fetch('https://api.github.com/user', {
-    headers: { authorization: `Bearer ${accessToken}`, 'user-agent': 'plyknot-hub', accept: 'application/vnd.github+json' },
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      'user-agent': 'plyknot-hub-com/0.1',
+      accept: 'application/vnd.github+json',
+    },
   });
-  if (!resp.ok) throw new Error(`GitHub user fetch failed: ${resp.status}`);
+  if (!resp.ok) {
+    const body = await resp.text().catch(() => '');
+    throw new Error(`GitHub user fetch failed: ${resp.status} ${body.slice(0, 200)}`);
+  }
   return (await resp.json()) as GitHubUser;
 }
 

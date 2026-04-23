@@ -83,14 +83,16 @@ export function ConvergenceMap({ cells, mode = "cracks", selected, onCellClick, 
                   const hasData = cell && cell.total > 0;
                   const isEmpty = !hasData;
 
-                  // Openings mode: empty cells are highlighted, filled cells are dimmed
+                  // Openings mode: empty cells highlighted as accent, populated cells dim muted
                   // Cracks mode: normal convergence colouring
                   let bgClass: string;
                   let opacityClass = "";
                   if (isOpenings) {
-                    bgClass = "bg-[var(--color-accent)]";
-                    if (!isEmpty) {
-                      opacityClass = "opacity-25";
+                    if (isEmpty) {
+                      bgClass = "bg-[var(--color-accent)]";
+                    } else {
+                      bgClass = "bg-[var(--muted)]";
+                      opacityClass = "opacity-40";
                     }
                   } else {
                     bgClass = cracksStatusColor[status];
@@ -146,7 +148,7 @@ export function ConvergenceMap({ cells, mode = "cracks", selected, onCellClick, 
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-4 mt-3 text-xs text-[var(--muted-foreground)]">
+      <div className="flex items-center justify-end gap-4 mt-3 text-xs text-[var(--muted-foreground)]">
         {isOpenings ? (
           <>
             <div className="flex items-center gap-1.5">
@@ -154,7 +156,7 @@ export function ConvergenceMap({ cells, mode = "cracks", selected, onCellClick, 
               <span>opening (unmeasured)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded-sm bg-[var(--color-zinc-700)] opacity-30" />
+              <div className="w-3 h-3 rounded-sm bg-[var(--muted)] opacity-40" />
               <span>populated</span>
             </div>
           </>
