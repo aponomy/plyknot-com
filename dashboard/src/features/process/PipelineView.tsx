@@ -76,67 +76,6 @@ function ProgressBar({ done, total, wide }: { done: number; total: number; wide?
   );
 }
 
-/* ── Container card (used in stage views) ───────────────────────────── */
-
-function ContainerCard({ c, onClick }: { c: Stream | StreamDelivery; onClick: () => void }) {
-  const s = c as Stream;
-  return (
-    <button
-      onClick={onClick}
-      className="w-full text-left px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
-    >
-      <div className="flex items-center gap-1.5 mb-1">
-        {"kind" in c && c.kind && (
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-            {c.kind === "delivery" && "track" in c && c.track
-              ? TRACK_LABELS[(c as StreamDelivery).track ?? ""] || (c as StreamDelivery).track
-              : KIND_LABELS[c.kind] || c.kind}
-          </span>
-        )}
-        {"execution_mode" in s && <ExecIcon mode={s.execution_mode} />}
-        <span className={cn("text-[10px] ml-auto", STATUS_COLORS[c.status] || "text-zinc-400")}>
-          {c.status}
-        </span>
-      </div>
-      <p className="text-xs font-medium text-[var(--foreground)] line-clamp-2 leading-tight mb-1">
-        {c.title}
-      </p>
-      <ProgressBar done={c.done_count} total={c.issue_count} />
-    </button>
-  );
-}
-
-/* ── Finding card (used in findings stage view) ─────────────────────── */
-
-function FindingCard({ f }: { f: StreamFinding }) {
-  return (
-    <div className="px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)]">
-      <div className="flex items-center gap-1.5 mb-1">
-        <Lightbulb size={11} className="text-amber-400 shrink-0" />
-        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-          {f.finding_type}
-        </span>
-        <span className={cn(
-          "text-[10px] px-1.5 py-0.5 rounded ml-auto",
-          f.status === "confirmed" ? "bg-green-500/10 text-green-400" :
-          f.status === "draft" ? "bg-zinc-500/10 text-zinc-400" :
-          "bg-amber-500/10 text-amber-400",
-        )}>
-          {f.status}
-        </span>
-      </div>
-      <p className="text-xs font-medium text-[var(--foreground)] line-clamp-2 leading-tight">
-        {f.title}
-      </p>
-      {f.sigma_resolved != null && f.sigma_after != null && (
-        <p className="mt-1 text-[10px] text-[var(--muted-foreground)]">
-          {f.sigma_resolved.toFixed(1)} &rarr; {f.sigma_after.toFixed(1)}
-        </p>
-      )}
-    </div>
-  );
-}
-
 /* ════════════════════════════════════════════════════════════════════════
    Stream row (for pipeline view)
    ════════════════════════════════════════════════════════════════════════ */
@@ -557,60 +496,37 @@ export function PipelineView() {
           )}
         </div>
       ) : view === "backlog" ? (
-        /* ── Backlog cards ────────────────────────────────────────── */
-        <StageCardGrid
+        <StreamListTable
           title="Backlog"
           items={backlogStreams}
+          columns={["title", "kind", "source", "issues", "category"]}
           empty="No backlog items. Create a container with status 'backlog' to add ideas."
           onOpen={setDrawerId}
         />
       ) : view === "active" ? (
-        /* ── Active project cards ─────────────────────────────────── */
-        <StageCardGrid
+        <StreamListTable
           title="Active Projects"
           items={activeStreams}
+          columns={["title", "kind", "exec", "progress", "findings", "category"]}
           empty="No active projects. Promote backlog items or create a project."
           onOpen={setDrawerId}
         />
       ) : view === "findings" ? (
-        /* ── Findings cards ───────────────────────────────────────── */
-        <div>
-          <h2 className="text-sm font-semibold mb-3">
-            Findings <span className="text-[var(--muted-foreground)] font-normal">({allFindings.length})</span>
-          </h2>
-          {allFindings.length === 0 ? (
-            <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">
-              No findings yet. Run experiments to generate findings.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {allFindings.map((f) => <FindingCard key={f.id} f={f} />)}
-            </div>
-          )}
-        </div>
+        <FindingsListTable
+          findings={allFindings}
+          empty="No findings yet. Run experiments to generate findings."
+        />
       ) : view === "deliveries" ? (
-        /* ── Delivery cards ───────────────────────────────────────── */
-        <div>
-          <h2 className="text-sm font-semibold mb-3">
-            Deliveries <span className="text-[var(--muted-foreground)] font-normal">({allDeliveries.length})</span>
-          </h2>
-          {allDeliveries.length === 0 ? (
-            <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">
-              No active deliveries. Spawn a delivery from a finding.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {allDeliveries.map((d) => (
-                <ContainerCard key={d.id} c={d} onClick={() => setDrawerId(d.id)} />
-              ))}
-            </div>
-          )}
-        </div>
+        <DeliveriesListTable
+          deliveries={allDeliveries}
+          empty="No active deliveries. Spawn a delivery from a finding."
+          onOpen={setDrawerId}
+        />
       ) : view === "done" ? (
-        /* ── Done cards ───────────────────────────────────────────── */
-        <StageCardGrid
+        <StreamListTable
           title="Completed"
           items={doneStreams}
+          columns={["title", "kind", "progress", "findings", "category"]}
           empty="No completed items yet."
           onOpen={setDrawerId}
         />
@@ -624,16 +540,31 @@ export function PipelineView() {
   );
 }
 
-/* ── Generic stage card grid ────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════
+   List tables — used for Backlog, Projects, Findings, Deliveries, Done
+   ════════════════════════════════════════════════════════════════════════ */
 
-function StageCardGrid({
+const COL_HEADERS: Record<string, string> = {
+  title: "Name",
+  kind: "Kind",
+  exec: "Mode",
+  progress: "Progress",
+  issues: "Issues",
+  findings: "Findings",
+  category: "Category",
+  source: "Source",
+};
+
+function StreamListTable({
   title,
   items,
+  columns,
   empty,
   onOpen,
 }: {
   title: string;
   items: Stream[];
+  columns: string[];
   empty: string;
   onOpen: (id: string) => void;
 }) {
@@ -645,9 +576,197 @@ function StageCardGrid({
       {items.length === 0 ? (
         <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">{empty}</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {items.map((c) => (
-            <ContainerCard key={c.id} c={c} onClick={() => onOpen(c.id)} />
+        <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+          {/* Header */}
+          <div className="grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]"
+            style={{ gridTemplateColumns: columns.map((c) => c === "title" ? "1fr" : "auto").join(" ") }}
+          >
+            {columns.map((col) => (
+              <span key={col} className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+                {COL_HEADERS[col] || col}
+              </span>
+            ))}
+          </div>
+          {/* Rows */}
+          {items.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onOpen(item.id)}
+              className="grid items-center gap-3 px-3 py-2 w-full text-left border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
+              style={{ gridTemplateColumns: columns.map((c) => c === "title" ? "1fr" : "auto").join(" ") }}
+            >
+              {columns.map((col) => (
+                <StreamCell key={col} col={col} item={item} />
+              ))}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StreamCell({ col, item }: { col: string; item: Stream }) {
+  switch (col) {
+    case "title":
+      return (
+        <div className="min-w-0">
+          <p className="text-xs font-medium text-[var(--foreground)] truncate">{item.title}</p>
+        </div>
+      );
+    case "kind":
+      return (
+        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
+          {KIND_LABELS[item.kind] || item.kind || "—"}
+        </span>
+      );
+    case "exec":
+      return (
+        <div className="flex items-center gap-1">
+          <ExecIcon mode={item.execution_mode} />
+          <span className="text-[10px] text-[var(--muted-foreground)]">
+            {item.execution_mode || "—"}
+          </span>
+        </div>
+      );
+    case "progress":
+      return item.issue_count > 0
+        ? <ProgressBar done={item.done_count} total={item.issue_count} />
+        : <span className="text-[10px] text-[var(--muted-foreground)]">—</span>;
+    case "issues":
+      return (
+        <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
+          {item.issue_count}
+        </span>
+      );
+    case "findings":
+      return (
+        <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
+          {item.findings.length || "—"}
+        </span>
+      );
+    case "category":
+      return (
+        <span className="text-[10px] text-[var(--muted-foreground)] whitespace-nowrap">
+          {item.category_label}
+        </span>
+      );
+    case "source":
+      return (
+        <span className="text-[10px] text-[var(--muted-foreground)] whitespace-nowrap">
+          {item.source_type || "—"}
+        </span>
+      );
+    default:
+      return <span />;
+  }
+}
+
+/* ── Findings list table ────────────────────────────────────────────── */
+
+function FindingsListTable({ findings, empty }: { findings: StreamFinding[]; empty: string }) {
+  return (
+    <div>
+      <h2 className="text-sm font-semibold mb-3">
+        Findings <span className="text-[var(--muted-foreground)] font-normal">({findings.length})</span>
+      </h2>
+      {findings.length === 0 ? (
+        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">{empty}</p>
+      ) : (
+        <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Title</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Type</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Triage</span>
+          </div>
+          {findings.map((f) => (
+            <div
+              key={f.id}
+              className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0"
+            >
+              <div className="min-w-0 flex items-center gap-1.5">
+                <Lightbulb size={11} className="text-amber-400 shrink-0" />
+                <p className="text-xs text-[var(--foreground)] truncate">{f.title}</p>
+              </div>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
+                {f.finding_type}
+              </span>
+              <span className={cn(
+                "text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap",
+                f.status === "confirmed" ? "bg-green-500/10 text-green-400" :
+                f.status === "draft" ? "bg-zinc-500/10 text-zinc-400" :
+                "bg-amber-500/10 text-amber-400",
+              )}>
+                {f.status}
+              </span>
+              <span className={cn(
+                "text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap",
+                f.triage === "actioned" ? "bg-green-500/10 text-green-400" :
+                f.triage === "parked" ? "bg-zinc-500/10 text-zinc-400" :
+                "bg-amber-500/10 text-amber-400",
+              )}>
+                {f.triage || "pending"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Deliveries list table ──────────────────────────────────────────── */
+
+function DeliveriesListTable({
+  deliveries,
+  empty,
+  onOpen,
+}: {
+  deliveries: StreamDelivery[];
+  empty: string;
+  onOpen: (id: string) => void;
+}) {
+  return (
+    <div>
+      <h2 className="text-sm font-semibold mb-3">
+        Deliveries <span className="text-[var(--muted-foreground)] font-normal">({deliveries.length})</span>
+      </h2>
+      {deliveries.length === 0 ? (
+        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">{empty}</p>
+      ) : (
+        <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Title</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Track</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Progress</span>
+          </div>
+          {deliveries.map((d) => (
+            <button
+              key={d.id}
+              onClick={() => onOpen(d.id)}
+              className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 w-full text-left border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
+            >
+              <div className="min-w-0 flex items-center gap-1.5">
+                {d.track === "paper" ? (
+                  <FileText size={11} className="text-violet-400 shrink-0" />
+                ) : (
+                  <Package size={11} className="text-violet-400 shrink-0" />
+                )}
+                <p className="text-xs text-[var(--foreground)] truncate">{d.title}</p>
+              </div>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
+                {d.track ? TRACK_LABELS[d.track] || d.track : "—"}
+              </span>
+              <span className={cn("text-[10px] whitespace-nowrap", STATUS_COLORS[d.status])}>
+                {d.delivery_status || d.status}
+              </span>
+              {d.issue_count > 0
+                ? <ProgressBar done={d.done_count} total={d.issue_count} />
+                : <span className="text-[10px] text-[var(--muted-foreground)]">—</span>
+              }
+            </button>
           ))}
         </div>
       )}
