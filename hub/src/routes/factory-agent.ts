@@ -148,13 +148,13 @@ async function executeTool(
       case 'list_projects': {
         const status = input.status as string | undefined;
         const q = status
-          ? db.prepare(`SELECT * FROM projects WHERE status = ? ORDER BY updated_at DESC`).bind(status)
-          : db.prepare(`SELECT * FROM projects ORDER BY updated_at DESC LIMIT 50`);
+          ? db.prepare(`SELECT * FROM work_containers WHERE status = ? ORDER BY updated_at DESC`).bind(status)
+          : db.prepare(`SELECT * FROM work_containers ORDER BY updated_at DESC LIMIT 50`);
         const rows = await q.all();
         return { result: rows.results };
       }
       case 'get_project': {
-        const row = await db.prepare('SELECT * FROM projects WHERE id = ?').bind(input.project_id).first();
+        const row = await db.prepare('SELECT * FROM work_containers WHERE id = ?').bind(input.project_id).first();
         return row ? { result: row } : { result: 'Project not found', error: true };
       }
       case 'propose_hypothesis': {
@@ -209,9 +209,9 @@ export async function handleAgentChat(
   if (!runId) {
     runId = `agent-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     await env.DB.prepare(
-      `INSERT INTO supervisor_runs (id, project_id, status, mode, current_round, total_cost_usd, budget_usd, started_at)
-       VALUES (?, ?, 'running', 'interactive', 0, 0, 2.0, datetime('now'))`
-    ).bind(runId, body.project_id ?? null).run();
+      `INSERT INTO supervisor_runs (id, project_id, crack_id, status, mode, current_round, total_cost_usd, budget_usd, started_at)
+       VALUES (?, ?, '', 'running', 'interactive', 0, 0, 2.0, datetime('now'))`
+    ).bind(runId, body.project_id ?? '').run();
   }
 
   // Load conversation history
@@ -265,7 +265,7 @@ export async function handleAgentChat(
 Use the available tools to answer questions, find cracks (σ-tensions between measurements), query couplings, search entities, and manage projects. Be precise and cite data from the tools.`;
 
   if (body.project_id) {
-    const project = await env.DB.prepare('SELECT * FROM projects WHERE id = ?').bind(body.project_id).first();
+    const project = await env.DB.prepare('SELECT * FROM work_containers WHERE id = ?').bind(body.project_id).first();
     if (project) {
       systemPrompt += `\n\nYou are currently scoped to project "${project.name}" (${project.kind}, ${project.status}). ${project.description ?? ''}`;
     }

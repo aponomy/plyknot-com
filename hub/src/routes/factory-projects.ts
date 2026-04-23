@@ -8,7 +8,7 @@ import type { AuthContext } from '../auth/middleware.js';
 
 interface ProjectRow {
   id: string;
-  name: string;
+  title: string;
   description: string | null;
   kind: string;
   crack_ids: string;
@@ -20,7 +20,6 @@ interface ProjectRow {
   created_at: string;
   updated_at: string;
   scope: string | null;
-  schedule: string | null;
 }
 
 interface MemberRow {
@@ -33,11 +32,12 @@ interface MemberRow {
 function parseProject(row: ProjectRow, members: MemberRow[] = []) {
   return {
     id: row.id,
-    name: row.name,
+    name: row.title,
+    title: row.title,
     description: row.description,
     kind: row.kind,
-    crack_ids: JSON.parse(row.crack_ids),
-    entity_scope: JSON.parse(row.entity_scope),
+    crack_ids: JSON.parse(row.crack_ids || '[]'),
+    entity_scope: JSON.parse(row.entity_scope || '[]'),
     status: row.status,
     budget_usd: row.budget_usd,
     spent_usd: row.spent_usd,
@@ -46,15 +46,14 @@ function parseProject(row: ProjectRow, members: MemberRow[] = []) {
     created_at: row.created_at,
     updated_at: row.updated_at,
     scope: row.scope ? JSON.parse(row.scope) : null,
-    schedule: row.schedule,
   };
 }
 
 /** Check if user has access to a project (owner or member). */
 async function hasAccess(db: D1Database, projectId: string, userId: string): Promise<boolean> {
   const row = await db.prepare(
-    `SELECT 1 FROM projects WHERE id = ? AND owner_id = ?
-     UNION SELECT 1 FROM project_members WHERE project_id = ? AND user_id = ?`
+    `SELECT 1 FROM work_containers WHERE id = ? AND owner_id = ?
+     UNION SELECT 1 FROM container_members WHERE container_id = ? AND user_id = ?`
   ).bind(projectId, userId, projectId, userId).first();
   return !!row;
 }
@@ -65,9 +64,9 @@ export async function handleListProjects(db: D1Database, auth: AuthContext): Pro
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
   const { results } = await db.prepare(
-    `SELECT DISTINCT p.* FROM projects p
-     LEFT JOIN project_members pm ON p.id = pm.project_id
-     WHERE p.owner_id = ? OR pm.user_id = ?
+    `SELECT DISTINCT p.* FROM work_containers p
+     LEFT JOIN container_members cm ON p.id = cm.container_id
+     WHERE p.owner_id = ? OR cm.user_id = ?
      ORDER BY p.updated_at DESC`
   ).bind(auth.userId, auth.userId).all<ProjectRow>();
 
@@ -79,12 +78,12 @@ export async function handleListProjects(db: D1Database, auth: AuthContext): Pro
 export async function handleGetProject(db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const row = await db.prepare('SELECT * FROM projects WHERE id = ?').bind(id).first<ProjectRow>();
+  const row = await db.prepare('SELECT * FROM work_containers WHERE id = ?').bind(id).first<ProjectRow>();
   if (!row) return notFound(`project "${id}" not found`);
   if (!(await hasAccess(db, id, auth.userId))) return json({ error: 'Access denied' }, 403);
 
   const { results: members } = await db.prepare(
-    'SELECT * FROM project_members WHERE project_id = ?'
+    'SELECT container_id as project_id, user_id, role, added_at FROM container_members WHERE container_id = ?'
   ).bind(id).all<MemberRow>();
 
   // Fetch scoped data
@@ -126,30 +125,32 @@ export async function handleCreateProject(request: Request, db: D1Database, auth
   if (!name) return json({ error: 'name is required' }, 400);
 
   const kind = (body.kind as string) ?? 'crack-resolution';
-  const validKinds = ['crack-resolution', 'opening-extension', 'extraction-batch', 'surveillance'];
+  const validKinds = ['crack-resolution', 'opening-extension', 'extraction-batch', 'surveillance', 'investigation', 'delivery'];
   if (!validKinds.includes(kind)) {
     return json({ error: `kind must be one of: ${validKinds.join(', ')}` }, 400);
   }
 
+  const categorySlug = (body.category_slug as string) ?? 'research-lab';
+
   await db.prepare(
-    `INSERT INTO projects (id, name, description, kind, crack_ids, entity_scope, budget_usd, owner_id, scope, schedule)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO work_containers (id, title, description, kind, category_slug, crack_ids, entity_scope, budget_usd, owner_id, scope, status)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')`
   ).bind(
     id,
     name,
     (body.description as string) ?? null,
     kind,
+    categorySlug,
     JSON.stringify(body.crack_ids ?? []),
     JSON.stringify(body.entity_scope ?? []),
     (body.budget_usd as number) ?? null,
     auth.userId,
     body.scope ? JSON.stringify(body.scope) : null,
-    (body.schedule as string) ?? null,
   ).run();
 
   // Owner is also a member
   await db.prepare(
-    'INSERT INTO project_members (project_id, user_id, role) VALUES (?, ?, ?)'
+    'INSERT OR IGNORE INTO container_members (container_id, user_id, role) VALUES (?, ?, ?)'
   ).bind(id, auth.userId, 'owner').run();
 
   return json({ id, name, kind, status: 'active' }, 201);
@@ -165,7 +166,7 @@ export async function handleUpdateProject(request: Request, db: D1Database, auth
   const updates: string[] = [];
   const binds: (string | number)[] = [];
 
-  if (body.name !== undefined) { updates.push('name = ?'); binds.push(body.name as string); }
+  if (body.name !== undefined) { updates.push('title = ?'); binds.push(body.name as string); }
   if (body.description !== undefined) { updates.push('description = ?'); binds.push(body.description as string); }
   if (body.kind !== undefined) { updates.push('kind = ?'); binds.push(body.kind as string); }
   if (body.crack_ids !== undefined) { updates.push('crack_ids = ?'); binds.push(JSON.stringify(body.crack_ids)); }
@@ -179,7 +180,7 @@ export async function handleUpdateProject(request: Request, db: D1Database, auth
 
   updates.push("updated_at = datetime('now')");
   binds.push(id);
-  await db.prepare(`UPDATE projects SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
+  await db.prepare(`UPDATE work_containers SET ${updates.join(', ')} WHERE id = ?`).bind(...binds).run();
 
   return json({ id, updated: true });
 }
@@ -189,7 +190,7 @@ export async function handleUpdateProject(request: Request, db: D1Database, auth
 export async function handleDeleteProject(db: D1Database, auth: AuthContext, id: string): Promise<Response> {
   if (!auth.userId) return json({ error: 'Auth required' }, 401);
 
-  const row = await db.prepare('SELECT owner_id FROM projects WHERE id = ?').bind(id).first<{ owner_id: string }>();
+  const row = await db.prepare('SELECT owner_id FROM work_containers WHERE id = ?').bind(id).first<{ owner_id: string }>();
   if (!row) return notFound(`project "${id}" not found`);
   if (row.owner_id !== auth.userId) return json({ error: 'Only the owner can delete a project' }, 403);
 
@@ -197,8 +198,8 @@ export async function handleDeleteProject(db: D1Database, auth: AuthContext, id:
   await db.batch([
     db.prepare('UPDATE hypotheses SET project_id = NULL WHERE project_id = ?').bind(id),
     db.prepare('UPDATE deltas SET project_id = NULL WHERE project_id = ?').bind(id),
-    db.prepare('DELETE FROM project_members WHERE project_id = ?').bind(id),
-    db.prepare('DELETE FROM projects WHERE id = ?').bind(id),
+    db.prepare('DELETE FROM container_members WHERE container_id = ?').bind(id),
+    db.prepare('DELETE FROM work_containers WHERE id = ?').bind(id),
   ]);
 
   return json({ id, deleted: true });
@@ -215,7 +216,7 @@ export async function handleAddMember(request: Request, db: D1Database, auth: Au
   if (!userId) return json({ error: 'user_id is required' }, 400);
 
   await db.prepare(
-    'INSERT OR IGNORE INTO project_members (project_id, user_id, role) VALUES (?, ?, ?)'
+    'INSERT OR IGNORE INTO container_members (container_id, user_id, role) VALUES (?, ?, ?)'
   ).bind(projectId, userId, 'member').run();
 
   return json({ project_id: projectId, user_id: userId, role: 'member' }, 201);
