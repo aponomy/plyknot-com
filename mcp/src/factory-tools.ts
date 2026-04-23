@@ -3,7 +3,7 @@
  * Imports shared types from @plyknot/mcp.
  */
 
-import { type Tool, factoryGet, factoryPost } from '@plyknot/mcp/src/shared.js';
+import { type Tool, factoryGet, factoryPost, factoryPatch } from '@plyknot/mcp/src/shared.js';
 
 export const FACTORY_TOOLS: Tool[] = [
   // ── Agent prompts ──────────────────────────────────────────────────────
@@ -323,83 +323,131 @@ export const FACTORY_TOOLS: Tool[] = [
     },
   },
 
-  // ── Projects ───────────────────────────────────────────────────────────
+  // ── Process pipeline ─────────────────────────────────────────────────
+  {
+    name: 'get_process_pipeline',
+    description:
+      'Get the process pipeline overview: counts per stage (backlog, active projects, pending findings, active deliveries, done).',
+    inputSchema: { type: 'object', properties: {} },
+    handler: async (_p, _repo, write) => factoryGet(write, '/process/pipeline'),
+  },
+
+  // ── Work containers (replaces projects + publications) ────────────────
   {
     name: 'list_projects',
     description:
-      'List all projects you own or are a member of.',
+      'List all work containers (projects, deliveries, operational buckets). Alias for backward compat.',
     inputSchema: { type: 'object', properties: {} },
     handler: async (_p, _repo, write) => factoryGet(write, '/factory/projects'),
   },
   {
     name: 'open_project',
     description:
-      'Open a project by ID. Returns full context: metadata, crack scope, hypotheses, experiments, deltas, members, and budget.',
+      'Open a work container by ID. Returns full context: metadata, issues, children, findings, and budget.',
     inputSchema: {
       type: 'object',
       properties: {
-        project_id: { type: 'string', description: 'Project ID (required)' },
+        project_id: { type: 'string', description: 'Container/project ID (required)' },
       },
       required: ['project_id'],
     },
     handler: async (p, _repo, write) => {
       const { project_id } = p as { project_id: string };
-      return factoryGet(write, `/factory/projects/${project_id}`);
+      return factoryGet(write, `/process/containers/${encodeURIComponent(project_id)}`);
     },
   },
   {
     name: 'create_project',
     description:
-      'Create a new research project. Four kinds: crack-resolution (hypothesis tournament + experiments), extraction-batch (ingest literature by scope), opening-extension (extend a measurer-correlation cluster), surveillance (scheduled echo-chamber scan).',
+      'Create a work container. Kinds: crack-resolution, extraction-batch, surveillance, opening-extension, investigation, delivery. Containers with kind=null are operational task buckets.',
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Project name (required)' },
+        title: { type: 'string', description: 'Container title (required)' },
         id: { type: 'string', description: 'Short slug ID (auto-generated if omitted)' },
-        kind: { type: 'string', enum: ['crack-resolution', 'opening-extension', 'extraction-batch', 'surveillance'], description: 'Project kind (default: crack-resolution)' },
-        description: { type: 'string', description: 'What this project investigates' },
+        category_slug: { type: 'string', description: 'Category: research-lab, research, plyknot-org, plyknot-com, ip-legal, cybernetics, other (required)' },
+        kind: { type: 'string', enum: ['crack-resolution', 'opening-extension', 'extraction-batch', 'surveillance', 'investigation', 'delivery'], description: 'Pipeline kind (null for operational bucket)' },
+        description: { type: 'string', description: 'What this container is for' },
+        status: { type: 'string', enum: ['backlog', 'active', 'paused', 'completed', 'blocked'], description: 'Status (default: backlog for pipeline, active for operational)' },
+        track: { type: 'string', enum: ['paper', 'patent', 'customer-report'], description: 'Delivery track (only when kind=delivery)' },
         crack_ids: { type: 'array', items: { type: 'string' }, description: 'Crack IDs this project targets' },
         entity_scope: { type: 'array', items: { type: 'string' }, description: 'Entity names in scope' },
-        budget_usd: { type: 'number', description: 'Compute budget for this project' },
-        scope: { type: 'object', description: 'Kind-specific scope (extraction-batch: topic_keywords, venues, date_range, target_count)' },
-        schedule: { type: 'string', enum: ['daily', 'weekly'], description: 'Surveillance schedule' },
+        budget_usd: { type: 'number', description: 'Compute budget' },
+        execution_mode: { type: 'string', enum: ['automated', 'manual', 'assisted'], description: 'Execution mode' },
+        autonomy: { type: 'string', enum: ['full', 'review', 'plan-only', 'manual'], description: 'Agent autonomy level (default: manual)' },
+        scope: { type: 'object', description: 'Kind-specific scope data' },
+        source_type: { type: 'string', enum: ['customer', 'internal', 'crack', 'finding', 'tracker'], description: 'What initiated this' },
+        source_ref: { type: 'string', description: 'ID of source entity' },
+        parent_id: { type: 'string', description: 'Parent container ID (for sub-projects)' },
       },
-      required: ['name'],
+      required: ['title', 'category_slug'],
     },
     handler: async (p, _repo, write) => {
       const body = p as Record<string, unknown>;
-      return factoryPost(write, '/factory/projects', body);
+      return factoryPost(write, '/process/containers', body);
     },
   },
   {
     name: 'update_project',
     description:
-      'Update a project: change name, description, status, crack scope, entity scope, or budget.',
+      'Update a work container: title, description, status, kind, track, execution_mode, autonomy, budget, scope, etc.',
     inputSchema: {
       type: 'object',
       properties: {
-        project_id: { type: 'string', description: 'Project ID (required)' },
-        name: { type: 'string' },
+        project_id: { type: 'string', description: 'Container ID (required)' },
+        title: { type: 'string' },
         description: { type: 'string' },
-        status: { type: 'string', enum: ['active', 'paused', 'completed'] },
+        status: { type: 'string', enum: ['backlog', 'active', 'paused', 'completed', 'blocked', 'archived'] },
+        kind: { type: 'string' },
+        track: { type: 'string' },
+        delivery_status: { type: 'string' },
+        execution_mode: { type: 'string', enum: ['automated', 'manual', 'assisted'] },
+        autonomy: { type: 'string', enum: ['full', 'review', 'plan-only', 'manual'] },
         crack_ids: { type: 'array', items: { type: 'string' } },
         entity_scope: { type: 'array', items: { type: 'string' } },
         budget_usd: { type: 'number' },
+        scope: { type: 'object' },
       },
       required: ['project_id'],
     },
     handler: async (p, _repo, write) => {
       const { project_id, ...body } = p as { project_id: string } & Record<string, unknown>;
-      if (!write.factoryHubUrl || !write.apiKey) {
-        return { error: 'Factory hub required.' };
-      }
-      const url = `${write.factoryHubUrl}/v1/factory/projects/${project_id}`;
-      const resp = await fetch(url, {
-        method: 'PATCH',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${write.apiKey}` },
-        body: JSON.stringify(body),
-      });
-      return resp.json();
+      return factoryPatch(write, `/process/containers/${encodeURIComponent(project_id)}`, body);
+    },
+  },
+  {
+    name: 'promote_to_active',
+    description:
+      'Promote a container from backlog to active status.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project_id: { type: 'string', description: 'Container ID to promote (required)' },
+      },
+      required: ['project_id'],
+    },
+    handler: async (p, _repo, write) => {
+      const { project_id } = p as { project_id: string };
+      return factoryPost(write, `/process/containers/${encodeURIComponent(project_id)}/promote`, {});
+    },
+  },
+  {
+    name: 'spawn_delivery',
+    description:
+      'Create a delivery container from a finding. Sets finding triage to actioned.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        finding_id: { type: 'string', description: 'Source finding ID (required)' },
+        title: { type: 'string', description: 'Delivery title (required)' },
+        track: { type: 'string', enum: ['paper', 'patent', 'customer-report'], description: 'Delivery track (required)' },
+        parent_id: { type: 'string', description: 'Parent container (defaults to finding source project)' },
+      },
+      required: ['finding_id', 'title', 'track'],
+    },
+    handler: async (p, _repo, write) => {
+      const body = p as Record<string, unknown>;
+      return factoryPost(write, '/process/spawn-delivery', body);
     },
   },
   {
@@ -409,7 +457,7 @@ export const FACTORY_TOOLS: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        project_id: { type: 'string', description: 'Project ID (required)' },
+        project_id: { type: 'string', description: 'Container/project ID (required)' },
         user_id: { type: 'string', description: 'GitHub user ID to add (required)' },
       },
       required: ['project_id', 'user_id'],
@@ -446,21 +494,23 @@ export const FACTORY_TOOLS: Tool[] = [
   },
   {
     name: 'list_findings',
-    description: 'List findings. Filter by status (draft/expert-reviewed/confirmed/retracted), type, or project_id.',
+    description: 'List findings. Filter by status (draft/expert-reviewed/confirmed/retracted), type, project_id, or triage (pending/actioned/parked).',
     inputSchema: {
       type: 'object',
       properties: {
         status: { type: 'string' },
         type: { type: 'string' },
         project_id: { type: 'string' },
+        triage: { type: 'string', enum: ['pending', 'actioned', 'parked'], description: 'Finding backlog triage status' },
       },
     },
     handler: async (p, _repo, write) => {
-      const { status, type, project_id } = p as Record<string, string>;
+      const { status, type, project_id, triage } = p as Record<string, string>;
       const params = new URLSearchParams();
       if (status) params.set('status', status);
       if (type) params.set('type', type);
       if (project_id) params.set('project_id', project_id);
+      if (triage) params.set('triage', triage);
       return factoryGet(write, `/factory/findings${params.toString() ? '?' + params : ''}`);
     },
   },
@@ -484,21 +534,17 @@ export const FACTORY_TOOLS: Tool[] = [
     },
   },
 
-  // ── Publications ──────────────────────────────────────────────────────
+  // ── Publications (deprecated — use create_project with kind=delivery + spawn_delivery) ──
   {
     name: 'create_publication',
     description:
-      'Create a publication from a finding. Three tracks: paper (arXiv/journal), patent (filing), customer-report (tenant-scoped deliverable).',
+      'DEPRECATED: Use spawn_delivery or create_project with kind=delivery instead. Creates a delivery container.',
     inputSchema: {
       type: 'object',
       properties: {
-        title: { type: 'string', description: 'Publication title (required)' },
-        track: { type: 'string', enum: ['paper', 'patent', 'customer-report'], description: 'Output track (required)' },
+        title: { type: 'string', description: 'Title (required)' },
+        track: { type: 'string', enum: ['paper', 'patent', 'customer-report'], description: 'Track (required)' },
         finding_ids: { type: 'array', items: { type: 'string' }, description: 'Source findings (required)' },
-        project_ids: { type: 'array', items: { type: 'string' }, description: 'Related projects' },
-        paper_data: { type: 'object', description: 'Paper-specific: {target_venue, word_count, draft_id}' },
-        patent_data: { type: 'object', description: 'Patent-specific: {counsel_id, filing_jurisdiction, claims, embargo_until}' },
-        report_data: { type: 'object', description: 'Customer-report-specific: {customer_id, scope}' },
       },
       required: ['title', 'track', 'finding_ids'],
     },
@@ -506,22 +552,21 @@ export const FACTORY_TOOLS: Tool[] = [
   },
   {
     name: 'list_publications',
-    description: 'List publications. Filter by track (paper/patent/customer-report), status, or finding_id.',
+    description: 'DEPRECATED: Use list_projects with kind=delivery filter. Lists delivery containers.',
     inputSchema: {
       type: 'object',
       properties: {
         track: { type: 'string' },
         status: { type: 'string' },
-        finding_id: { type: 'string' },
       },
     },
     handler: async (p, _repo, write) => {
-      const { track, status, finding_id } = p as Record<string, string>;
+      const { track, status } = p as Record<string, string>;
       const params = new URLSearchParams();
+      params.set('kind', 'delivery');
       if (track) params.set('track', track);
       if (status) params.set('status', status);
-      if (finding_id) params.set('finding_id', finding_id);
-      return factoryGet(write, `/factory/publications${params.toString() ? '?' + params : ''}`);
+      return factoryGet(write, `/process/containers?${params}`);
     },
   },
 
@@ -808,6 +853,246 @@ export const FACTORY_TOOLS: Tool[] = [
 
       const supervisor = new Supervisor(config as any);
       return supervisor.runExtraction();
+    },
+  },
+
+  // ── Tracker: themes & categories ──────────────────────────────────────
+  {
+    name: 'list_tracker_categories',
+    description: 'List all tracker categories with theme and issue counts.',
+    inputSchema: { type: 'object', properties: {} },
+    handler: async (_p, _repo, write) => factoryGet(write, '/factory/tracker/categories'),
+  },
+  {
+    name: 'list_tracker_themes',
+    description: 'List tracker themes. Optionally filter by category slug.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        category: { type: 'string', description: 'Filter by category slug (e.g. "research", "cybernetics")' },
+      },
+    },
+    handler: async (p, _repo, write) => {
+      const { category } = p as { category?: string };
+      const params = new URLSearchParams();
+      if (category) params.set('category', category);
+      const qs = params.toString();
+      return factoryGet(write, `/factory/tracker/themes${qs ? '?' + qs : ''}`);
+    },
+  },
+  {
+    name: 'get_tracker_theme',
+    description: 'Get a single tracker theme with all its issues.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Theme ID (e.g. "research/satellite-6")' },
+      },
+      required: ['id'],
+    },
+    handler: async (p, _repo, write) => {
+      const { id } = p as { id: string };
+      return factoryGet(write, `/factory/tracker/themes/${encodeURIComponent(id)}`);
+    },
+  },
+  {
+    name: 'create_tracker_theme',
+    description: 'Create a new tracker theme in a category.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Theme ID (e.g. "research/act-verb")' },
+        title: { type: 'string', description: 'Theme title' },
+        category_slug: { type: 'string', description: 'Category slug (e.g. "research", "cybernetics")' },
+        description: { type: 'string', description: 'Optional description' },
+      },
+      required: ['id', 'title', 'category_slug'],
+    },
+    handler: async (p, _repo, write) => {
+      const body = p as Record<string, unknown>;
+      return factoryPost(write, '/factory/tracker/themes', body);
+    },
+  },
+  {
+    name: 'update_tracker_theme',
+    description: 'Update an existing tracker theme. Only provided fields are changed.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Theme ID' },
+        title: { type: 'string', description: 'New title' },
+        description: { type: 'string', description: 'New description' },
+        status: { type: 'string', description: 'New status' },
+      },
+      required: ['id'],
+    },
+    handler: async (p, _repo, write) => {
+      const { id, ...body } = p as { id: string } & Record<string, unknown>;
+      return factoryPatch(write, `/factory/tracker/themes/${encodeURIComponent(id)}`, body);
+    },
+  },
+
+  // ── Tracker: issues ─────────────────────────────────────────────────────
+  {
+    name: 'list_tracker_issues',
+    description:
+      'List tracker issues. Filter by container_id (or theme_id), status, priority, text search, execution_mode, or pipeline-only.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        container_id: { type: 'string', description: 'Filter by container ID (e.g. "research/flagship-paper")' },
+        status: { type: 'string', enum: ['todo', 'doing', 'done'], description: 'Filter by status' },
+        priority: { type: 'string', enum: ['P0', 'P1', 'P2', '-'], description: 'Filter by priority' },
+        q: { type: 'string', description: 'Text search in issue titles' },
+        execution_mode: { type: 'string', enum: ['agent', 'manual', 'assisted'], description: 'Filter by execution mode' },
+        pipeline: { type: 'string', enum: ['true'], description: 'Only issues under pipeline containers (kind IS NOT NULL)' },
+      },
+    },
+    handler: async (p, _repo, write) => {
+      const params = new URLSearchParams();
+      const fields = p as Record<string, string | undefined>;
+      if (fields.container_id) params.set('container_id', fields.container_id);
+      if (fields.status) params.set('status', fields.status);
+      if (fields.priority) params.set('priority', fields.priority);
+      if (fields.q) params.set('q', fields.q);
+      if (fields.execution_mode) params.set('execution_mode', fields.execution_mode);
+      if (fields.pipeline) params.set('pipeline', fields.pipeline);
+      const qs = params.toString();
+      return factoryGet(write, `/factory/tracker/issues${qs ? '?' + qs : ''}`);
+    },
+  },
+  {
+    name: 'create_tracker_issue',
+    description:
+      'Create a tracker issue in a work container.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        container_id: { type: 'string', description: 'Container ID (e.g. "research/flagship-paper") (required)' },
+        title: { type: 'string', description: 'Issue title (required)' },
+        priority: { type: 'string', enum: ['P0', 'P1', 'P2', '-'], description: 'Priority (default: P2)' },
+        description: { type: 'string', description: 'Longer description' },
+        section: { type: 'string', description: 'Section sub-header within container' },
+        status: { type: 'string', enum: ['todo', 'doing', 'done'], description: 'Status (default: todo)' },
+        target_date: { type: 'string', description: 'Target date ISO format' },
+        execution_mode: { type: 'string', enum: ['agent', 'manual', 'assisted'], description: 'Who does this work' },
+        autonomy: { type: 'string', enum: ['full', 'review', 'plan-only', 'manual'], description: 'Agent autonomy level' },
+        blocked_by: { type: 'array', items: { type: 'string' }, description: 'Issue IDs that must complete first' },
+      },
+      required: ['container_id', 'title'],
+    },
+    handler: async (p, _repo, write) => {
+      const body = p as Record<string, unknown>;
+      return factoryPost(write, '/factory/tracker/issues', body);
+    },
+  },
+  {
+    name: 'update_tracker_issue',
+    description:
+      'Update a tracker issue. Only provided fields are changed.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', description: 'Issue ID (e.g. "trk-seed-0042") (required)' },
+        title: { type: 'string' },
+        description: { type: 'string' },
+        section: { type: 'string' },
+        priority: { type: 'string', enum: ['P0', 'P1', 'P2', '-'] },
+        status: { type: 'string', enum: ['todo', 'doing', 'done'] },
+        target_date: { type: 'string' },
+        container_id: { type: 'string', description: 'Move to different container' },
+        execution_mode: { type: 'string', enum: ['agent', 'manual', 'assisted'] },
+        autonomy: { type: 'string', enum: ['full', 'review', 'plan-only', 'manual'] },
+        blocked_by: { type: 'array', items: { type: 'string' } },
+        finding_id: { type: 'string', description: 'Link finding produced by this issue' },
+      },
+      required: ['id'],
+    },
+    handler: async (p, _repo, write) => {
+      const { id, ...body } = p as { id: string } & Record<string, unknown>;
+      return factoryPatch(write, `/factory/tracker/issues/${encodeURIComponent(id)}`, body);
+    },
+  },
+  {
+    name: 'mark_tracker_done',
+    description: 'Mark a tracker issue as done.',
+    inputSchema: {
+      type: 'object',
+      properties: { id: { type: 'string', description: 'Issue ID' } },
+      required: ['id'],
+    },
+    handler: async (p, _repo, write) => {
+      const { id } = p as { id: string };
+      return factoryPost(write, `/factory/tracker/issues/${encodeURIComponent(id)}/done`, {});
+    },
+  },
+  {
+    name: 'tracker_stats',
+    description: 'Get aggregate tracker statistics: total/done/doing/todo counts, breakdown by priority and category.',
+    inputSchema: { type: 'object', properties: {} },
+    handler: async (_p, _repo, write) => factoryGet(write, '/factory/tracker/stats'),
+  },
+  {
+    name: 'batch_tracker_update',
+    description: 'Apply multiple tracker updates atomically. Each update has an action (done|add|update|delete) and relevant fields.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        updates: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              action: { type: 'string', enum: ['done', 'add', 'update', 'delete'] },
+              id: { type: 'string', description: 'Issue ID (for done/update/delete)' },
+              container_id: { type: 'string', description: 'Container ID (for add)' },
+              title: { type: 'string' },
+              priority: { type: 'string' },
+              status: { type: 'string' },
+              target_date: { type: 'string' },
+              execution_mode: { type: 'string' },
+            },
+            required: ['action'],
+          },
+        },
+      },
+      required: ['updates'],
+    },
+    handler: async (p, _repo, write) => {
+      const { updates } = p as { updates: unknown[] };
+      return factoryPost(write, '/factory/tracker/batch', { updates });
+    },
+  },
+  {
+    name: 'list_tracker_comments',
+    description: 'List comments on a tracker issue, ordered oldest first.',
+    inputSchema: {
+      type: 'object',
+      properties: { issue_id: { type: 'string', description: 'Issue ID' } },
+      required: ['issue_id'],
+    },
+    handler: async (p, _repo, write) => {
+      const { issue_id } = p as { issue_id: string };
+      return factoryGet(write, `/factory/tracker/issues/${encodeURIComponent(issue_id)}/comments`);
+    },
+  },
+  {
+    name: 'add_tracker_comment',
+    description: 'Add a comment to a tracker issue.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        issue_id: { type: 'string', description: 'Issue ID' },
+        body: { type: 'string', description: 'Comment text' },
+        author: { type: 'string', description: 'Author name (defaults to authenticated user)' },
+      },
+      required: ['issue_id', 'body'],
+    },
+    handler: async (p, _repo, write) => {
+      const { issue_id, body, author } = p as { issue_id: string; body: string; author?: string };
+      const data: Record<string, unknown> = { body };
+      if (author) data.author = author;
+      return factoryPost(write, `/factory/tracker/issues/${encodeURIComponent(issue_id)}/comments`, data);
     },
   },
 
