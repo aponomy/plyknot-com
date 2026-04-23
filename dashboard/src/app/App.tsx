@@ -9,6 +9,7 @@ const FactoryPage = lazy(() => import("../features/factory/FactoryPage").then((m
 const ProcessPage = lazy(() => import("../features/process/ProcessPage").then((m) => ({ default: m.ProcessPage })));
 const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailPage").then((m) => ({ default: m.ProjectDetailPage })));
 const TrackerPage = lazy(() => import("../features/tracker/TrackerPage").then((m) => ({ default: m.TrackerPage })));
+const TimelinePage = lazy(() => import("../features/timeline/TimelinePage").then((m) => ({ default: m.TimelinePage })));
 const AccessControlPage = lazy(() => import("../features/settings/AccessControlPage").then((m) => ({ default: m.AccessControlPage })));
 
 function PageLoader() {
@@ -49,6 +50,7 @@ export function App() {
             <Route path="process" element={<ProcessPage />} />
             <Route path="process/:id" element={<ProjectDetailPage />} />
             <Route path="tracker" element={<TrackerPage />} />
+            <Route path="timeline" element={<TimelinePage />} />
             <Route path="settings/access" element={<AccessControlPage />} />
             {/* Legacy redirects */}
             <Route path="projects" element={<Navigate to="/process" replace />} />

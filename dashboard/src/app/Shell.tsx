@@ -6,6 +6,7 @@ import {
   Factory,
   Workflow,
   ListChecks,
+  CalendarRange,
   Shield,
   Settings,
   LogOut,
@@ -29,6 +30,7 @@ const navItems = [
   { to: "/factory", icon: Factory, label: "Factory" },
   { to: "/process", icon: Workflow, label: "Process" },
   { to: "/tracker", icon: ListChecks, label: "Tracker" },
+  { to: "/timeline", icon: CalendarRange, label: "Timeline" },
 ] as const;
 
 function NavRail() {
