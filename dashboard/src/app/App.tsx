@@ -8,6 +8,7 @@ const UniversePage = lazy(() => import("../features/universe/UniversePage").then
 const FactoryPage = lazy(() => import("../features/factory/FactoryPage").then((m) => ({ default: m.FactoryPage })));
 const ProcessPage = lazy(() => import("../features/process/ProcessPage").then((m) => ({ default: m.ProcessPage })));
 const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailPage").then((m) => ({ default: m.ProjectDetailPage })));
+const TrackerPage = lazy(() => import("../features/tracker/TrackerPage").then((m) => ({ default: m.TrackerPage })));
 const AccessControlPage = lazy(() => import("../features/settings/AccessControlPage").then((m) => ({ default: m.AccessControlPage })));
 
 function PageLoader() {
@@ -47,13 +48,13 @@ export function App() {
             <Route path="factory" element={<FactoryPage />} />
             <Route path="process" element={<ProcessPage />} />
             <Route path="process/:id" element={<ProjectDetailPage />} />
+            <Route path="tracker" element={<TrackerPage />} />
             <Route path="settings/access" element={<AccessControlPage />} />
             {/* Legacy redirects */}
             <Route path="projects" element={<Navigate to="/process" replace />} />
             <Route path="projects/:id" element={<Navigate to="/process" replace />} />
             <Route path="findings" element={<Navigate to="/process" replace />} />
             <Route path="publications" element={<Navigate to="/process" replace />} />
-            <Route path="tracker" element={<Navigate to="/process" replace />} />
           </Route>
         </Route>
       </Routes>

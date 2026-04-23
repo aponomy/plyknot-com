@@ -5,6 +5,7 @@ import {
   Globe,
   Factory,
   Workflow,
+  ListChecks,
   Shield,
   Settings,
   LogOut,
@@ -27,6 +28,7 @@ const navItems = [
   { to: "/", icon: Globe, label: "Universe" },
   { to: "/factory", icon: Factory, label: "Factory" },
   { to: "/process", icon: Workflow, label: "Process" },
+  { to: "/tracker", icon: ListChecks, label: "Tracker" },
 ] as const;
 
 function NavRail() {
