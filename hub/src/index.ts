@@ -48,7 +48,7 @@ import { handleListExperts, handleGetExpert, handleAddExpert, handleUpdateExpert
 import { handleListFindings, handleGetFinding, handleCreateFinding, handleUpdateFinding, handleReviewFinding } from './routes/factory-findings.js';
 import { handleListPublications, handleGetPublication, handleCreatePublication, handleUpdatePublication } from './routes/factory-publications.js';
 import { handleListCategories, handleListThemes, handleGetTheme, handleListIssues, handleCreateIssue, handleUpdateIssue, handleDeleteIssue, handleMarkDone, handleCreateTheme, handleUpdateTheme, handleTrackerStats, handleTrackerExport, handleTrackerBatch, handleListComments, handleCreateComment } from './routes/factory-tracker.js';
-import { handleProcessPipeline, handleListContainers, handleGetContainer, handleCreateContainer, handleUpdateContainer, handlePromoteContainer, handleSpawnDelivery } from './routes/process-containers.js';
+import { handleProcessPipeline, handleProcessStreams, handleListContainers, handleGetContainer, handleCreateContainer, handleUpdateContainer, handlePromoteContainer, handleSpawnDelivery } from './routes/process-containers.js';
 import { handleStream } from './routes/stream.js';
 import { handleAgentChat, handleGetRunMessages } from './routes/factory-agent.js';
 
@@ -278,6 +278,7 @@ curl -H "Authorization: Bearer ${apiKey}" \\
 
           // ── Process read endpoints ──────────────────────────────────────
           if (route === '/process/pipeline') return handleProcessPipeline(env.DB, auth);
+          if (route === '/process/streams') return handleProcessStreams(env.DB, auth);
           if (route === '/process/containers') return handleListContainers(env.DB, auth, url);
           if (route.match(/^\/process\/containers\/[^/]+$/) && !route.includes('/promote') && !route.includes('/spawn')) {
             return handleGetContainer(env.DB, auth, decodeURIComponent(route.slice(21)));

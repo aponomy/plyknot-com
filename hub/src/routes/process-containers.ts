@@ -258,3 +258,116 @@ export async function handleSpawnDelivery(request: Request, db: D1Database, auth
 
   return json({ id, title, kind: 'delivery', track, status: 'active', delivery_status: 'draft', finding_id: findingId }, 201);
 }
+
+// ── Stream view — value streams flowing through pipeline ──────────────
+
+export async function handleProcessStreams(db: D1Database, auth: AuthContext): Promise<Response> {
+  if (!auth.userId) return json({ error: 'Auth required' }, 401);
+
+  // Get all pipeline containers (kind IS NOT NULL) with issue counts
+  const { results: containers } = await db.prepare(
+    `SELECT wc.*, c.label AS category_label,
+            (SELECT COUNT(*) FROM tracker_issues WHERE container_id = wc.id) AS issue_count,
+            (SELECT COUNT(*) FROM tracker_issues WHERE container_id = wc.id AND status = 'done') AS done_count
+     FROM work_containers wc
+     JOIN tracker_categories c ON c.slug = wc.category_slug
+     WHERE wc.kind IS NOT NULL
+     ORDER BY c.sort_order, wc.sort_order`
+  ).all();
+
+  // Get all findings
+  const { results: findings } = await db.prepare(
+    `SELECT id, title, finding_type, status, triage, project_id,
+            sigma_resolved, sigma_after, spawned_container_ids, created_at
+     FROM findings ORDER BY created_at DESC`
+  ).all();
+
+  // Build streams: group by root container (no parent) and trace downstream
+  const rootContainers = containers.filter((c: any) => !c.parent_id);
+  const childMap = new Map<string, any[]>();
+  for (const c of containers) {
+    const pid = (c as any).parent_id;
+    if (pid) {
+      if (!childMap.has(pid)) childMap.set(pid, []);
+      childMap.get(pid)!.push(c);
+    }
+  }
+
+  const streams = rootContainers.map((root: any) => {
+    // Findings produced by this container
+    const containerFindings = findings.filter((f: any) => f.project_id === root.id);
+
+    // Deliveries: children with kind=delivery, or spawned from findings
+    const childDeliveries = (childMap.get(root.id) || []).filter((c: any) => c.kind === 'delivery');
+    const findingSpawnedIds = new Set<string>();
+    for (const f of containerFindings) {
+      const spawned = JSON.parse((f as any).spawned_container_ids || '[]');
+      for (const sid of spawned) findingSpawnedIds.add(sid);
+    }
+    const spawnedDeliveries = containers.filter((c: any) =>
+      findingSpawnedIds.has(c.id) && !childDeliveries.some((d: any) => d.id === c.id)
+    );
+    const allDeliveries = [...childDeliveries, ...spawnedDeliveries];
+
+    // Sub-projects (non-delivery children)
+    const subProjects = (childMap.get(root.id) || []).filter((c: any) => c.kind !== 'delivery');
+
+    return {
+      id: root.id,
+      title: root.title,
+      kind: root.kind,
+      status: root.status,
+      category_slug: root.category_slug,
+      category_label: root.category_label,
+      execution_mode: root.execution_mode,
+      autonomy: root.autonomy,
+      issue_count: root.issue_count,
+      done_count: root.done_count,
+      source_type: root.source_type,
+      source_ref: root.source_ref,
+      findings: containerFindings.map((f: any) => ({
+        id: f.id,
+        title: f.title,
+        finding_type: f.finding_type,
+        status: f.status,
+        triage: f.triage,
+        sigma_resolved: f.sigma_resolved,
+        sigma_after: f.sigma_after,
+      })),
+      deliveries: allDeliveries.map((d: any) => ({
+        id: d.id,
+        title: d.title,
+        track: d.track,
+        status: d.status,
+        delivery_status: d.delivery_status,
+        issue_count: d.issue_count,
+        done_count: d.done_count,
+      })),
+      sub_projects: subProjects.map((s: any) => ({
+        id: s.id,
+        title: s.title,
+        kind: s.kind,
+        status: s.status,
+        issue_count: s.issue_count,
+        done_count: s.done_count,
+      })),
+    };
+  });
+
+  // Also include orphan findings (no project_id) and orphan deliveries (no parent)
+  const linkedProjectIds = new Set(streams.map((s: any) => s.id));
+  const orphanFindings = findings.filter((f: any) => !f.project_id || !linkedProjectIds.has(f.project_id));
+  const orphanDeliveries = containers.filter((c: any) =>
+    c.kind === 'delivery' && !c.parent_id && !streams.some((s: any) => s.deliveries.some((d: any) => d.id === c.id))
+  );
+
+  return json({
+    streams,
+    orphan_findings: orphanFindings.map((f: any) => ({
+      id: f.id, title: f.title, finding_type: f.finding_type, status: f.status, triage: f.triage,
+    })),
+    orphan_deliveries: orphanDeliveries.map((d: any) => ({
+      id: d.id, title: d.title, track: d.track, status: d.status, delivery_status: d.delivery_status,
+    })),
+  });
+}

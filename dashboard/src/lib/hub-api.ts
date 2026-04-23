@@ -442,6 +442,56 @@ export function fetchProcessPipeline() {
   return fetchJson<ProcessPipeline>(hubUrl("plyknot.com", "/process/pipeline"), "plyknot.com");
 }
 
+// ── Streams (value stream view) ──────────────────────────────────────
+
+export interface StreamFinding {
+  id: string;
+  title: string;
+  finding_type: string;
+  status: string;
+  triage: string | null;
+  sigma_resolved: number | null;
+  sigma_after: number | null;
+}
+
+export interface StreamDelivery {
+  id: string;
+  title: string;
+  track: string | null;
+  status: string;
+  delivery_status: string | null;
+  issue_count: number;
+  done_count: number;
+}
+
+export interface Stream {
+  id: string;
+  title: string;
+  kind: string;
+  status: string;
+  category_slug: string;
+  category_label: string;
+  execution_mode: string | null;
+  autonomy: string | null;
+  issue_count: number;
+  done_count: number;
+  source_type: string | null;
+  source_ref: string | null;
+  findings: StreamFinding[];
+  deliveries: StreamDelivery[];
+  sub_projects: Array<{ id: string; title: string; kind: string; status: string; issue_count: number; done_count: number }>;
+}
+
+export interface StreamsData {
+  streams: Stream[];
+  orphan_findings: StreamFinding[];
+  orphan_deliveries: StreamDelivery[];
+}
+
+export function fetchProcessStreams() {
+  return fetchJson<StreamsData>(hubUrl("plyknot.com", "/process/streams"), "plyknot.com");
+}
+
 export interface WorkContainer {
   id: string;
   title: string;

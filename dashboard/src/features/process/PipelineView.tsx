@@ -1,34 +1,25 @@
-import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import {
   Bot,
   Hand,
   Sparkles,
+  ArrowRight,
+  CircleDot,
+  FileText,
+  Lightbulb,
+  Package,
 } from "lucide-react";
 import {
-  fetchWorkContainers,
-  fetchFindings,
-  type WorkContainer,
-  type Finding,
+  fetchProcessStreams,
+  type Stream,
+  type StreamFinding,
+  type StreamDelivery,
 } from "../../lib/hub-api";
 import { KpiCard } from "../../components/ui/kpi-card";
 import { cn } from "../../lib/utils";
 
-/* ── Execution mode icon ────────────────────────────────────────────── */
-
-function ExecBadge({ mode }: { mode: string | null }) {
-  if (!mode) return null;
-  const Icon = mode === "automated" ? Bot : mode === "assisted" ? Sparkles : Hand;
-  const label = mode === "automated" ? "Automated" : mode === "assisted" ? "Assisted" : "Manual";
-  return (
-    <span title={label} className="text-[var(--muted-foreground)]">
-      <Icon size={12} />
-    </span>
-  );
-}
-
-/* ── Kind badge ─────────────────────────────────────────────────────── */
+/* ── Helpers ────────────────────────────────────────────────────────── */
 
 const KIND_LABELS: Record<string, string> = {
   "crack-resolution": "Crack",
@@ -45,76 +36,114 @@ const TRACK_LABELS: Record<string, string> = {
   "customer-report": "Report",
 };
 
-function KindBadge({ kind, track }: { kind: string | null; track: string | null }) {
-  if (!kind) return null;
-  const label = kind === "delivery" && track
-    ? TRACK_LABELS[track] || track
-    : KIND_LABELS[kind] || kind;
-  return (
-    <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-      {label}
-    </span>
-  );
-}
-
-/* ── Category badge ─────────────────────────────────────────────────── */
-
-const CAT_ICONS: Record<string, string> = {
-  "plyknot-com": "C",
-  "research-lab": "L",
-  cybernetics: "Y",
-  "plyknot-org": "O",
-  research: "R",
-  "ip-legal": "I",
-  other: "X",
+const STATUS_COLORS: Record<string, string> = {
+  backlog: "text-zinc-400",
+  active: "text-indigo-400",
+  paused: "text-amber-400",
+  completed: "text-green-400",
+  blocked: "text-red-400",
+  archived: "text-zinc-500",
 };
 
-/* ── Container card ─────────────────────────────────────────────────── */
+function ExecIcon({ mode }: { mode: string | null }) {
+  if (!mode) return null;
+  const Icon = mode === "automated" ? Bot : mode === "assisted" ? Sparkles : Hand;
+  return <Icon size={11} className="text-[var(--muted-foreground)]" />;
+}
 
-function ContainerCard({ c, onClick }: { c: WorkContainer; onClick: () => void }) {
-  const progress = c.issue_count > 0 ? Math.round((c.done_count / c.issue_count) * 100) : 0;
-
+function ProgressBar({ done, total }: { done: number; total: number }) {
+  if (total === 0) return null;
+  const pct = Math.round((done / total) * 100);
   return (
-    <button
-      onClick={onClick}
-      className="w-full text-left px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors group"
-    >
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-[10px] font-mono px-1 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-          {CAT_ICONS[c.category_slug] || "?"}
-        </span>
-        <KindBadge kind={c.kind} track={c.track} />
-        <ExecBadge mode={c.execution_mode} />
-        <span className="ml-auto text-[10px] text-[var(--muted-foreground)]">
-          {c.done_count}/{c.issue_count}
-        </span>
+    <div className="flex items-center gap-1.5">
+      <div className="w-12 h-1 rounded-full bg-[var(--muted)] overflow-hidden">
+        <div className="h-full rounded-full bg-[var(--primary)]" style={{ width: `${pct}%` }} />
       </div>
-      <p className="text-xs font-medium text-[var(--foreground)] line-clamp-2 leading-tight">
-        {c.title}
-      </p>
-      {c.issue_count > 0 && (
-        <div className="mt-2 h-1 rounded-full bg-[var(--muted)] overflow-hidden">
-          <div
-            className="h-full rounded-full bg-[var(--primary)] transition-all"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      )}
-    </button>
+      <span className="text-[9px] text-[var(--muted-foreground)] tabular-nums">{done}/{total}</span>
+    </div>
   );
 }
 
-/* ── Finding card ───────────────────────────────────────────────────── */
+/* ── Stream row ─────────────────────────────────────────────────────── */
 
-function FindingCard({ f }: { f: Finding }) {
+function StreamRow({ stream }: { stream: Stream }) {
+  const navigate = useNavigate();
+
   return (
-    <div className="px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)]">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-          {f.finding_type}
-        </span>
+    <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 border-b border-[var(--border)] last:border-0">
+      {/* Initiation / Source */}
+      <div className="min-w-0">
+        <div className="flex items-center gap-1.5 mb-0.5">
+          <CircleDot size={11} className={STATUS_COLORS[stream.status] || "text-zinc-400"} />
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
+            {stream.source_type || "internal"}
+          </span>
+        </div>
+        <p className="text-[10px] text-[var(--muted-foreground)] truncate">
+          {stream.source_ref || "—"}
+        </p>
+      </div>
+
+      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+
+      {/* Project */}
+      <button
+        onClick={() => navigate(`/process/${encodeURIComponent(stream.id)}`)}
+        className="min-w-0 text-left px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
+      >
+        <div className="flex items-center gap-1.5 mb-0.5">
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
+            {KIND_LABELS[stream.kind] || stream.kind}
+          </span>
+          <ExecIcon mode={stream.execution_mode} />
+          <span className={cn("text-[10px] ml-auto", STATUS_COLORS[stream.status])}>
+            {stream.status}
+          </span>
+        </div>
+        <p className="text-xs font-medium text-[var(--foreground)] truncate leading-tight">
+          {stream.title}
+        </p>
+        <ProgressBar done={stream.done_count} total={stream.issue_count} />
+      </button>
+
+      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+
+      {/* Findings */}
+      <div className="min-w-0 space-y-1">
+        {stream.findings.length === 0 ? (
+          <p className="text-[10px] text-[var(--muted-foreground)] py-2">—</p>
+        ) : (
+          stream.findings.map((f) => (
+            <FindingPill key={f.id} f={f} />
+          ))
+        )}
+      </div>
+
+      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+
+      {/* Deliveries */}
+      <div className="min-w-0 space-y-1">
+        {stream.deliveries.length === 0 ? (
+          <p className="text-[10px] text-[var(--muted-foreground)] py-2">—</p>
+        ) : (
+          stream.deliveries.map((d) => (
+            <DeliveryPill key={d.id} d={d} />
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── Finding pill ───────────────────────────────────────────────────── */
+
+function FindingPill({ f }: { f: StreamFinding }) {
+  return (
+    <div className="px-2 py-1 rounded border border-[var(--border)] bg-[var(--card)]">
+      <div className="flex items-center gap-1 mb-0.5">
+        <Lightbulb size={10} className="text-amber-400 shrink-0" />
         <span className={cn(
-          "text-[10px] px-1.5 py-0.5 rounded",
+          "text-[9px] px-1 rounded",
           f.status === "confirmed" ? "bg-green-500/10 text-green-400" :
           f.status === "draft" ? "bg-zinc-500/10 text-zinc-400" :
           "bg-amber-500/10 text-amber-400",
@@ -122,147 +151,121 @@ function FindingCard({ f }: { f: Finding }) {
           {f.status}
         </span>
       </div>
-      <p className="text-xs font-medium text-[var(--foreground)] line-clamp-2 leading-tight">
-        {f.title}
-      </p>
-      {f.sigma_resolved != null && f.sigma_after != null && (
-        <p className="mt-1 text-[10px] text-[var(--muted-foreground)]">
-          {f.sigma_resolved.toFixed(1)} &rarr; {f.sigma_after.toFixed(1)}
-        </p>
-      )}
+      <p className="text-[10px] text-[var(--foreground)] line-clamp-2 leading-tight">{f.title}</p>
     </div>
   );
 }
 
-/* ── Stage key ──────────────────────────────────────────────────────── */
+/* ── Delivery pill ──────────────────────────────────────────────────── */
 
-type StageKey = "backlog" | "active" | "findings" | "delivery" | "completed";
+function DeliveryPill({ d }: { d: StreamDelivery }) {
+  const navigate = useNavigate();
+  return (
+    <button
+      onClick={() => navigate(`/process/${encodeURIComponent(d.id)}`)}
+      className="w-full text-left px-2 py-1 rounded border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
+    >
+      <div className="flex items-center gap-1 mb-0.5">
+        {d.track === "paper" ? (
+          <FileText size={10} className="text-violet-400 shrink-0" />
+        ) : (
+          <Package size={10} className="text-violet-400 shrink-0" />
+        )}
+        <span className="text-[9px] px-1 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
+          {d.track ? TRACK_LABELS[d.track] || d.track : "Delivery"}
+        </span>
+        {d.delivery_status && (
+          <span className="text-[9px] text-[var(--muted-foreground)] ml-auto">
+            {d.delivery_status}
+          </span>
+        )}
+      </div>
+      <p className="text-[10px] text-[var(--foreground)] line-clamp-2 leading-tight">{d.title}</p>
+      <ProgressBar done={d.done_count} total={d.issue_count} />
+    </button>
+  );
+}
+
+/* ── Column headers ─────────────────────────────────────────────────── */
+
+function ColumnHeaders() {
+  return (
+    <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-center gap-x-3 pb-2 border-b border-[var(--border)]">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Initiation</p>
+      <span />
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Project</p>
+      <span />
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Findings</p>
+      <span />
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Deliveries</p>
+    </div>
+  );
+}
 
 /* ── Main pipeline view ─────────────────────────────────────────────── */
 
 export function PipelineView() {
-  const navigate = useNavigate();
-  const [selectedStage, setSelectedStage] = useState<StageKey>("active");
-
-  // Only fetch pipeline containers (kind IS NOT NULL)
-  const { data: containersData } = useQuery({
-    queryKey: ["pipeline-containers"],
-    queryFn: () => fetchWorkContainers({ pipeline: true }),
+  const { data, isLoading } = useQuery({
+    queryKey: ["process-streams"],
+    queryFn: fetchProcessStreams,
   });
 
-  const { data: findingsData } = useQuery({
-    queryKey: ["findings-all"],
-    queryFn: () => fetchFindings(),
-  });
+  const streams = data?.streams ?? [];
+  const orphanFindings = data?.orphan_findings ?? [];
+  const orphanDeliveries = data?.orphan_deliveries ?? [];
 
-  const containers = containersData?.containers ?? [];
-  const findings = findingsData?.findings ?? [];
-
-  // Bucket containers into pipeline stages
-  const staged = useMemo(() => {
-    const backlog = containers.filter((c) => c.status === "backlog");
-    const active = containers.filter((c) => c.status === "active" && c.kind !== "delivery");
-    const delivery = containers.filter(
-      (c) => c.kind === "delivery" && c.status !== "completed",
-    );
-    const completed = containers.filter((c) => c.status === "completed" || c.status === "archived");
-    return { backlog, active, delivery, completed };
-  }, [containers]);
-
-  const pendingFindings = findings.filter((f) => f.triage === "pending" || !f.triage);
-
-  // What to show in the detail panel
-  const stageItems = useMemo(() => {
-    switch (selectedStage) {
-      case "backlog": return staged.backlog;
-      case "active": return staged.active;
-      case "delivery": return staged.delivery;
-      case "completed": return staged.completed;
-      default: return [];
-    }
-  }, [selectedStage, staged]);
+  const backlogCount = streams.filter((s) => s.status === "backlog").length;
+  const activeCount = streams.filter((s) => s.status === "active" && s.kind !== "delivery").length;
+  const findingsCount = streams.reduce((n, s) => n + s.findings.length, 0) + orphanFindings.length;
+  const deliveryCount = streams.reduce((n, s) => n + s.deliveries.length, 0) + orphanDeliveries.length;
+  const doneCount = streams.filter((s) => s.status === "completed").length;
 
   return (
-    <div className="space-y-6 max-w-5xl">
-      {/* KPI header row — matching Universe / Factory style */}
+    <div className="space-y-6 max-w-6xl">
+      {/* KPI header */}
       <div className="grid grid-cols-5 gap-4">
-        <KpiCard
-          title="Backlog"
-          value={staged.backlog.length}
-          active={selectedStage === "backlog"}
-          onClick={() => setSelectedStage("backlog")}
-        />
-        <KpiCard
-          title="Projects"
-          value={staged.active.length}
-          delta={staged.active.length > 0 ? `${containers.filter((c) => c.execution_mode === "automated").length} automated` : undefined}
-          active={selectedStage === "active"}
-          onClick={() => setSelectedStage("active")}
-        />
-        <KpiCard
-          title="Findings"
-          value={pendingFindings.length}
-          delta={findings.length > 0 ? `${findings.length} total` : undefined}
-          active={selectedStage === "findings"}
-          onClick={() => setSelectedStage("findings")}
-        />
-        <KpiCard
-          title="Deliveries"
-          value={staged.delivery.length}
-          active={selectedStage === "delivery"}
-          onClick={() => setSelectedStage("delivery")}
-        />
-        <KpiCard
-          title="Done"
-          value={staged.completed.length}
-          active={selectedStage === "completed"}
-          onClick={() => setSelectedStage("completed")}
-        />
+        <KpiCard title="Backlog" value={backlogCount} />
+        <KpiCard title="Projects" value={activeCount} />
+        <KpiCard title="Findings" value={findingsCount} />
+        <KpiCard title="Deliveries" value={deliveryCount} />
+        <KpiCard title="Done" value={doneCount} />
       </div>
 
-      {/* Detail panel */}
+      {/* Stream table */}
       <div>
-        <h2 className="text-sm font-semibold mb-3">
-          {selectedStage === "backlog" ? "Backlog" :
-           selectedStage === "active" ? "Active Projects" :
-           selectedStage === "findings" ? "Pending Findings" :
-           selectedStage === "delivery" ? "Active Deliveries" :
-           "Completed"}
-          <span className="text-[var(--muted-foreground)] font-normal ml-2">
-            ({selectedStage === "findings" ? pendingFindings.length : stageItems.length})
-          </span>
-        </h2>
+        <ColumnHeaders />
 
-        {selectedStage === "findings" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {pendingFindings.length === 0 ? (
-              <p className="text-xs text-[var(--muted-foreground)] col-span-full py-8 text-center">
-                No pending findings. Run experiments to generate findings.
-              </p>
-            ) : (
-              pendingFindings.map((f) => <FindingCard key={f.id} f={f} />)
-            )}
-          </div>
+        {isLoading ? (
+          <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Loading...</p>
+        ) : streams.length === 0 && orphanFindings.length === 0 && orphanDeliveries.length === 0 ? (
+          <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">
+            No pipeline streams yet. Create a project with a kind (crack-resolution, investigation, etc.) to start a stream.
+          </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {stageItems.length === 0 ? (
-              <p className="text-xs text-[var(--muted-foreground)] col-span-full py-8 text-center">
-                {selectedStage === "backlog"
-                  ? "No backlog items. Create a container with status \"backlog\" to add ideas."
-                  : selectedStage === "active"
-                  ? "No active projects. Promote backlog items or create a project."
-                  : selectedStage === "delivery"
-                  ? "No active deliveries. Spawn a delivery from a finding."
-                  : "No completed items yet."}
-              </p>
-            ) : (
-              stageItems.map((c) => (
-                <ContainerCard
-                  key={c.id}
-                  c={c}
-                  onClick={() => navigate(`/process/${encodeURIComponent(c.id)}`)}
-                />
-              ))
+          <div>
+            {streams.map((s) => (
+              <StreamRow key={s.id} stream={s} />
+            ))}
+
+            {/* Orphan findings / deliveries at the bottom */}
+            {(orphanFindings.length > 0 || orphanDeliveries.length > 0) && (
+              <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 border-t border-dashed border-[var(--border)]">
+                <div />
+                <span />
+                <div />
+                <span />
+                <div className="space-y-1">
+                  {orphanFindings.map((f) => (
+                    <FindingPill key={f.id} f={f} />
+                  ))}
+                </div>
+                <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+                <div className="space-y-1">
+                  {orphanDeliveries.map((d) => (
+                    <DeliveryPill key={d.id} d={d} />
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         )}
