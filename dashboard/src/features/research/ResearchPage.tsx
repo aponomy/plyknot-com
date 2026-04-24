@@ -191,11 +191,11 @@ export function ResearchPage() {
         <TabToggle value={tab} onChange={handleTabChange} />
       </div>
 
-      {/* Three-column layout */}
-      <div className="flex gap-4" style={{ minHeight: "calc(100vh - 140px)" }}>
+      {/* Three-column layout — each column scrolls independently */}
+      <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 140px)" }}>
 
-        {/* Column 1: Folder cards — 20% wider */}
-        <div className="w-[17rem] shrink-0 space-y-1.5 overflow-y-auto">
+        {/* Column 1: Folder cards */}
+        <div className="w-[17rem] shrink-0 space-y-1.5 overflow-y-auto pr-1">
           {folderCards.map(({ folder, meta, todoStats }) => {
             const isActive = selectedFolder === folder.folder;
             const statusColor =
@@ -238,7 +238,7 @@ export function ResearchPage() {
         </div>
 
         {/* Column 2: Files or Todo (toggled) */}
-        <div className="w-72 shrink-0 overflow-y-auto border-l border-[var(--border)] pl-4">
+        <div className="w-72 shrink-0 overflow-y-auto border-l border-[var(--border)] pl-4 pr-1">
           {!activeFolder ? (
             <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Select a topic</p>
           ) : (
@@ -311,7 +311,7 @@ export function ResearchPage() {
         </div>
 
         {/* Column 3: File content */}
-        <div className="flex-1 overflow-y-auto border-l border-[var(--border)] pl-4">
+        <div className="flex-1 overflow-y-auto border-l border-[var(--border)] pl-4 pr-1">
           {!selectedFile ? (
             <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">
               {activeFolder ? "Select a document to read" : ""}
