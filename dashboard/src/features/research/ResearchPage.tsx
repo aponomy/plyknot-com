@@ -191,47 +191,50 @@ function TopicDetail({
         </div>
       )}
 
-      {/* Todo list */}
-      {todoContent && todoStats && (
-        <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] px-4 py-3">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckSquare size={14} className="text-[var(--muted-foreground)]" />
-            <span className="text-sm font-semibold">Todo</span>
-            <span className="text-[10px] text-[var(--muted-foreground)]">{todoStats.done}/{todoStats.total} done</span>
-            <div className="flex-1 h-1.5 rounded-full bg-[var(--muted)] overflow-hidden ml-2">
-              <div
-                className="h-full rounded-full bg-[var(--primary)]"
-                style={{ width: todoStats.total > 0 ? `${(todoStats.done / todoStats.total) * 100}%` : "0%" }}
-              />
+      {/* Todo + Documents side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Todo list */}
+        {todoContent && todoStats ? (
+          <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] px-4 py-3">
+            <div className="flex items-center gap-2 mb-2">
+              <CheckSquare size={14} className="text-[var(--muted-foreground)]" />
+              <span className="text-sm font-semibold">Todo</span>
+              <span className="text-[10px] text-[var(--muted-foreground)]">{todoStats.done}/{todoStats.total} done</span>
+              <div className="flex-1 h-1.5 rounded-full bg-[var(--muted)] overflow-hidden ml-2">
+                <div
+                  className="h-full rounded-full bg-[var(--primary)]"
+                  style={{ width: todoStats.total > 0 ? `${(todoStats.done / todoStats.total) * 100}%` : "0%" }}
+                />
+              </div>
             </div>
+            <MarkdownContent content={todoContent} />
           </div>
-          <MarkdownContent content={todoContent} />
-        </div>
-      )}
+        ) : <div />}
 
-      {/* Document list */}
-      {folder.files.length > 0 && (
-        <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] overflow-hidden">
-          <div className="px-4 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
-              Documents ({folder.files.length})
-            </span>
-          </div>
-          {folder.files.map((file) => (
-            <button
-              key={file}
-              onClick={() => onOpenFile(folder.folder, file)}
-              className="w-full text-left flex items-center gap-2 px-4 py-2 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
-            >
-              <FileText size={12} className="text-[var(--muted-foreground)] shrink-0" />
-              <span className="text-xs text-[var(--foreground)] truncate">{file.replace(/\.md$/, "")}</span>
-              <span className="text-[10px] text-[var(--muted-foreground)] ml-auto shrink-0">
-                {file.endsWith(".svg") ? ".svg" : ".md"}
+        {/* Document list */}
+        {folder.files.length > 0 && (
+          <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] overflow-hidden self-start">
+            <div className="px-4 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+                Documents ({folder.files.length})
               </span>
-            </button>
-          ))}
-        </div>
-      )}
+            </div>
+            {folder.files.map((file) => (
+              <button
+                key={file}
+                onClick={() => onOpenFile(folder.folder, file)}
+                className="w-full text-left flex items-center gap-2 px-4 py-2 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
+              >
+                <FileText size={12} className="text-[var(--muted-foreground)] shrink-0" />
+                <span className="text-xs text-[var(--foreground)] truncate">{file.replace(/\.md$/, "")}</span>
+                <span className="text-[10px] text-[var(--muted-foreground)] ml-auto shrink-0">
+                  {file.endsWith(".svg") ? ".svg" : ".md"}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
