@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { X, Pin, FileText, CheckSquare, ChevronDown, ChevronRight } from "lucide-react";
+import { X, FileText, CheckSquare, ArrowLeft } from "lucide-react";
+import { KpiCard } from "../../components/ui/kpi-card";
 import { cn } from "../../lib/utils";
 
 /* ── Types ──────────────────────────────────────────────────────────── */
@@ -19,6 +20,12 @@ interface Manifest {
   folders: SynthesisFolder[];
 }
 
+interface IndexMeta {
+  title: string;
+  status: string;
+  body: string;
+}
+
 /* ── API ────────────────────────────────────────────────────────────── */
 
 async function fetchManifest(): Promise<Manifest> {
@@ -34,10 +41,35 @@ async function fetchFile(folder: string, file: string): Promise<string> {
   return data.content;
 }
 
-/* ── Markdown renderer (minimal) ────────────────────────────────────── */
+function parseIndexMeta(content: string): IndexMeta {
+  let title = "";
+  let status = "idea";
+  let body = content;
+  const fmMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (fmMatch) {
+    const fm = fmMatch[1];
+    body = fmMatch[2].trim();
+    const titleMatch = fm.match(/title:\s*(.+)/);
+    const statusMatch = fm.match(/status:\s*(.+)/);
+    if (titleMatch) title = titleMatch[1].trim();
+    if (statusMatch) status = statusMatch[1].trim();
+  }
+  if (!title) {
+    const h1 = body.match(/^#\s+(.+)/m);
+    title = h1 ? h1[1] : "Untitled";
+  }
+  return { title, status, body };
+}
+
+function parseTodoStats(content: string) {
+  const lines = content.split("\n").filter((l) => l.match(/^- \[[ x]\]/));
+  const done = lines.filter((l) => l.startsWith("- [x]")).length;
+  return { total: lines.length, done, lines };
+}
+
+/* ── Markdown renderer ──────────────────────────────────────────────── */
 
 function MarkdownContent({ content }: { content: string }) {
-  // Very basic markdown → HTML: headers, bold, italic, lists, links, code
   const html = content
     .replace(/^#### (.+)$/gm, '<h4 class="text-xs font-semibold mt-3 mb-1">$1</h4>')
     .replace(/^### (.+)$/gm, '<h3 class="text-sm font-semibold mt-4 mb-1">$1</h3>')
@@ -54,46 +86,11 @@ function MarkdownContent({ content }: { content: string }) {
     .replace(/^---$/gm, '<hr class="border-[var(--border)] my-3" />')
     .replace(/\n\n/g, '<div class="h-2"></div>')
     .replace(/\n/g, '<br />');
-
   return (
     <div
-      className="text-xs leading-relaxed text-[var(--foreground)] prose-sm"
+      className="text-xs leading-relaxed text-[var(--foreground)]"
       dangerouslySetInnerHTML={{ __html: html }}
     />
-  );
-}
-
-/* ── Todo list from markdown ────────────────────────────────────────── */
-
-function TodoList({ content }: { content: string }) {
-  const lines = content.split("\n").filter((l) => l.match(/^- \[[ x]\]/));
-  const done = lines.filter((l) => l.startsWith("- [x]")).length;
-  return (
-    <div>
-      <div className="flex items-center gap-2 mb-1">
-        <CheckSquare size={12} className="text-[var(--muted-foreground)]" />
-        <span className="text-[10px] text-[var(--muted-foreground)]">{done}/{lines.length} done</span>
-      </div>
-      <div className="space-y-0.5 text-[10px]">
-        {lines.slice(0, 8).map((line, i) => {
-          const isDone = line.startsWith("- [x]");
-          const text = line.replace(/^- \[[ x]\] /, "");
-          return (
-            <div key={i} className="flex items-center gap-1.5">
-              <span className={isDone ? "text-green-400" : "text-[var(--muted-foreground)]"}>
-                {isDone ? "\u2611" : "\u2610"}
-              </span>
-              <span className={cn("truncate", isDone && "line-through text-[var(--muted-foreground)]")}>
-                {text}
-              </span>
-            </div>
-          );
-        })}
-        {lines.length > 8 && (
-          <span className="text-[var(--muted-foreground)]">+{lines.length - 8} more</span>
-        )}
-      </div>
-    </div>
   );
 }
 
@@ -104,7 +101,6 @@ function FileDrawer({ folder, file, onClose }: { folder: string; file: string; o
     queryKey: ["research-file", folder, file],
     queryFn: () => fetchFile(folder, file),
   });
-
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
     window.addEventListener("keydown", onKey);
@@ -139,99 +135,101 @@ function FileDrawer({ folder, file, onClose }: { folder: string; file: string; o
   );
 }
 
-/* ── Folder card ────────────────────────────────────────────────────── */
+/* ── Topic detail page ──────────────────────────────────────────────── */
 
-function FolderCard({
+function TopicDetail({
   folder,
+  onBack,
   onOpenFile,
 }: {
   folder: SynthesisFolder;
+  onBack: () => void;
   onOpenFile: (folder: string, file: string) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
-
-  // Fetch index.md content if present
   const { data: indexContent } = useQuery({
     queryKey: ["research-file", folder.folder, folder.indexFile],
     queryFn: () => fetchFile(folder.folder, folder.indexFile!),
     enabled: !!folder.indexFile,
   });
-
-  // Fetch todo.md content if present
   const { data: todoContent } = useQuery({
     queryKey: ["research-file", folder.folder, folder.todoFile],
     queryFn: () => fetchFile(folder.folder, folder.todoFile!),
     enabled: !!folder.todoFile,
   });
 
-  // Extract first paragraph from index for summary
-  const summary = indexContent
-    ? indexContent.split("\n\n").find((p) => p.trim() && !p.startsWith("#"))?.slice(0, 200)
-    : null;
+  const meta = indexContent ? parseIndexMeta(indexContent) : null;
+  const todoStats = todoContent ? parseTodoStats(todoContent) : null;
 
   return (
-    <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] overflow-hidden">
-      {/* Header — always visible */}
+    <div className="space-y-4">
       <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-[var(--muted)]/30 transition-colors"
+        onClick={onBack}
+        className="flex items-center gap-1 text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
       >
-        {expanded ? (
-          <ChevronDown size={14} className="text-[var(--muted-foreground)] shrink-0" />
-        ) : (
-          <ChevronRight size={14} className="text-[var(--muted-foreground)] shrink-0" />
-        )}
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-[var(--foreground)]">{folder.folder}</p>
-          {summary && !expanded && (
-            <p className="text-[10px] text-[var(--muted-foreground)] truncate mt-0.5">{summary}</p>
-          )}
-        </div>
-        <div className="flex items-center gap-3 text-[10px] text-[var(--muted-foreground)] shrink-0">
-          {folder.hasIndex && <span className="px-1.5 py-0.5 rounded bg-[var(--muted)]">Index</span>}
-          {folder.hasTodo && <span className="px-1.5 py-0.5 rounded bg-[var(--muted)]">Todo</span>}
-          <span>{folder.fileCount} files</span>
-        </div>
+        <ArrowLeft size={14} /> Back to Research
       </button>
 
-      {/* Expanded content */}
-      {expanded && (
-        <div className="px-4 pb-4 border-t border-[var(--border)] space-y-3">
-          {/* Index content */}
-          {indexContent && (
-            <div className="pt-3">
-              <MarkdownContent content={indexContent} />
-            </div>
-          )}
+      <div className="flex items-center gap-3">
+        <h2 className="text-lg font-semibold">{meta?.title || folder.folder}</h2>
+        {meta?.status && (
+          <span className={cn(
+            "text-[10px] px-1.5 py-0.5 rounded",
+            meta.status === "active" ? "bg-green-500/10 text-green-400" :
+            meta.status === "completed" ? "bg-blue-500/10 text-blue-400" :
+            meta.status === "paused" ? "bg-amber-500/10 text-amber-400" :
+            "bg-zinc-500/10 text-zinc-400",
+          )}>
+            {meta.status}
+          </span>
+        )}
+      </div>
 
-          {/* Todo list */}
-          {todoContent && (
-            <div className="pt-2">
-              <TodoList content={todoContent} />
-            </div>
-          )}
+      {/* Index content */}
+      {meta?.body && (
+        <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] px-4 py-3">
+          <MarkdownContent content={meta.body} />
+        </div>
+      )}
 
-          {/* File list */}
-          {folder.files.length > 0 && (
-            <div className="pt-2">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1.5">
-                Documents ({folder.files.length})
-              </p>
-              <div className="space-y-0.5">
-                {folder.files.map((file) => (
-                  <button
-                    key={file}
-                    onClick={() => onOpenFile(folder.folder, file)}
-                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-[var(--muted)]/50 transition-colors text-xs"
-                  >
-                    <FileText size={12} className="text-[var(--muted-foreground)] shrink-0" />
-                    <span className="text-[var(--foreground)] truncate">{file.replace(/\.md$/, "")}</span>
-                    <span className="text-[10px] text-[var(--muted-foreground)] ml-auto shrink-0">.md</span>
-                  </button>
-                ))}
-              </div>
+      {/* Todo list */}
+      {todoContent && todoStats && (
+        <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] px-4 py-3">
+          <div className="flex items-center gap-2 mb-2">
+            <CheckSquare size={14} className="text-[var(--muted-foreground)]" />
+            <span className="text-sm font-semibold">Todo</span>
+            <span className="text-[10px] text-[var(--muted-foreground)]">{todoStats.done}/{todoStats.total} done</span>
+            <div className="flex-1 h-1.5 rounded-full bg-[var(--muted)] overflow-hidden ml-2">
+              <div
+                className="h-full rounded-full bg-[var(--primary)]"
+                style={{ width: todoStats.total > 0 ? `${(todoStats.done / todoStats.total) * 100}%` : "0%" }}
+              />
             </div>
-          )}
+          </div>
+          <MarkdownContent content={todoContent} />
+        </div>
+      )}
+
+      {/* Document list */}
+      {folder.files.length > 0 && (
+        <div className="border border-[var(--border)] rounded-lg bg-[var(--card)] overflow-hidden">
+          <div className="px-4 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+              Documents ({folder.files.length})
+            </span>
+          </div>
+          {folder.files.map((file) => (
+            <button
+              key={file}
+              onClick={() => onOpenFile(folder.folder, file)}
+              className="w-full text-left flex items-center gap-2 px-4 py-2 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
+            >
+              <FileText size={12} className="text-[var(--muted-foreground)] shrink-0" />
+              <span className="text-xs text-[var(--foreground)] truncate">{file.replace(/\.md$/, "")}</span>
+              <span className="text-[10px] text-[var(--muted-foreground)] ml-auto shrink-0">
+                {file.endsWith(".svg") ? ".svg" : ".md"}
+              </span>
+            </button>
+          ))}
         </div>
       )}
     </div>
@@ -239,7 +237,7 @@ function FolderCard({
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   Main Research page
+   Main Research page — KPI boxes overview
    ════════════════════════════════════════════════════════════════════════ */
 
 export function ResearchPage() {
@@ -248,45 +246,113 @@ export function ResearchPage() {
     queryFn: fetchManifest,
   });
 
+  const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [drawerFile, setDrawerFile] = useState<{ folder: string; file: string } | null>(null);
   const closeDrawer = useCallback(() => setDrawerFile(null), []);
 
   const folders = data?.folders ?? [];
 
+  // Fetch all index files for the overview boxes
+  const indexQueries = folders.map((f) => ({
+    folder: f,
+    query: useQuery({
+      queryKey: ["research-file", f.folder, f.indexFile],
+      queryFn: () => fetchFile(f.folder, f.indexFile!),
+      enabled: !!f.indexFile,
+    }),
+    todoQuery: useQuery({
+      queryKey: ["research-file", f.folder, f.todoFile],
+      queryFn: () => fetchFile(f.folder, f.todoFile!),
+      enabled: !!f.todoFile,
+    }),
+  }));
+
+  // If a folder is selected, show its detail page
+  const activeFolderData = selectedFolder ? folders.find((f) => f.folder === selectedFolder) : null;
+
+  if (activeFolderData) {
+    return (
+      <div className="max-w-5xl">
+        <TopicDetail
+          folder={activeFolderData}
+          onBack={() => setSelectedFolder(null)}
+          onOpenFile={(f, file) => setDrawerFile({ folder: f, file })}
+        />
+        {drawerFile && (
+          <FileDrawer folder={drawerFile.folder} file={drawerFile.file} onClose={closeDrawer} />
+        )}
+      </div>
+    );
+  }
+
+  // Overview: KPI boxes
+  const totalDocs = folders.reduce((n, f) => n + f.fileCount, 0);
+  const activeTopics = indexQueries.filter((q) => {
+    const content = q.query.data;
+    return content && parseIndexMeta(content).status === "active";
+  }).length;
+
   return (
-    <div className="space-y-4 max-w-5xl">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-lg font-semibold">Research</h1>
-          <p className="text-xs text-[var(--muted-foreground)]">
-            Synthesis notes from research/notes/synthesis &mdash; {folders.length} topics, {folders.reduce((n, f) => n + f.fileCount, 0)} documents
-          </p>
-        </div>
+    <div className="space-y-6 max-w-5xl">
+      <div>
+        <h1 className="text-lg font-semibold">Research</h1>
+        <p className="text-xs text-[var(--muted-foreground)]">
+          {folders.length} topics, {totalDocs} documents
+        </p>
       </div>
 
       {isLoading ? (
-        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Loading research manifest...</p>
-      ) : folders.length === 0 ? (
-        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">No synthesis folders found.</p>
+        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Loading...</p>
       ) : (
-        <div className="space-y-3">
-          {folders.map((folder) => (
-            <FolderCard
-              key={folder.folder}
-              folder={folder}
-              onOpenFile={(f, file) => setDrawerFile({ folder: f, file })}
-            />
-          ))}
-        </div>
-      )}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          {indexQueries.map(({ folder, query, todoQuery }) => {
+            const meta = query.data ? parseIndexMeta(query.data) : null;
+            const todoStats = todoQuery.data ? parseTodoStats(todoQuery.data) : null;
+            const statusBadge = meta?.status === "active"
+              ? { bg: "bg-green-500/10", text: "text-green-400" }
+              : meta?.status === "completed"
+              ? { bg: "bg-blue-500/10", text: "text-blue-400" }
+              : meta?.status === "paused"
+              ? { bg: "bg-amber-500/10", text: "text-amber-400" }
+              : { bg: "bg-zinc-500/10", text: "text-zinc-400" };
 
-      {/* File drawer */}
-      {drawerFile && (
-        <FileDrawer
-          folder={drawerFile.folder}
-          file={drawerFile.file}
-          onClose={closeDrawer}
-        />
+            return (
+              <button
+                key={folder.folder}
+                onClick={() => setSelectedFolder(folder.folder)}
+                className="text-left rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 hover:border-[var(--primary)]/40 transition-colors"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={cn("text-[10px] px-1.5 py-0.5 rounded", statusBadge.bg, statusBadge.text)}>
+                    {meta?.status || "idea"}
+                  </span>
+                  <span className="text-[10px] text-[var(--muted-foreground)] ml-auto">
+                    {folder.fileCount} docs
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-[var(--foreground)] mb-1 line-clamp-1">
+                  {meta?.title || folder.folder}
+                </p>
+                <p className="text-[10px] text-[var(--muted-foreground)] line-clamp-2 leading-relaxed mb-2">
+                  {meta?.body?.split("\n").find((l) => l.trim() && !l.startsWith("#"))?.slice(0, 120) || "No description"}
+                </p>
+                {todoStats && todoStats.total > 0 && (
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex-1 h-1 rounded-full bg-[var(--muted)] overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-[var(--primary)]"
+                        style={{ width: `${(todoStats.done / todoStats.total) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-[9px] text-[var(--muted-foreground)] tabular-nums">
+                      {todoStats.done}/{todoStats.total}
+                    </span>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
       )}
     </div>
   );
