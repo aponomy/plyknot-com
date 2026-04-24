@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { KpiCard } from "../../components/ui/kpi-card";
 import { DataSourceToggle } from "./DataSourceToggle";
 import { CyberneticsView } from "./cybernetics/CyberneticsView";
+import { ExistenceView } from "./existence/ExistenceView";
 import { ConvergenceMap, type CellSelection } from "./ConvergenceMap";
 import { ProjectsMap, type ProjectCellSelection } from "./ProjectsMap";
 import { EntityRef } from "../../components/ui/entity-ref";
@@ -142,9 +143,7 @@ export function UniversePage() {
       {source === "cybernetics" ? (
         <CyberneticsView />
       ) : source === "existence" ? (
-        <div className="text-sm text-[var(--muted-foreground)] py-12 text-center">
-          Existence view — subjective truth instrumentation — coming soon.
-        </div>
+        <ExistenceView />
       ) : (
       <>
       {/* KPI boxes — always visible, hub data optional */}
