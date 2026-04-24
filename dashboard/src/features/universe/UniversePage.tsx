@@ -126,7 +126,14 @@ export function UniversePage() {
     <div className="space-y-6 max-w-6xl">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Universe</h1>
+        <h1 className="text-lg font-semibold">
+          Universe, <span className="text-[var(--muted-foreground)] font-normal">{
+            source === "plyknot.org" ? "open truth" :
+            source === "plyknot.com" ? "hidden truth" :
+            source === "cybernetics" ? "moving truth" :
+            "subjective truth"
+          }</span>
+        </h1>
         <DataSourceToggle value={source} onChange={setSource} />
       </div>
 

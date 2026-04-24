@@ -1,10 +1,12 @@
-export type DataSource = "plyknot.org" | "plyknot.com";
+export type DataSource = "plyknot.org" | "plyknot.com" | "cybernetics" | "existence";
 
 const isDev = import.meta.env.DEV;
 
 const BASE_URLS: Record<DataSource, string> = {
   "plyknot.org": "https://hub.plyknot.org/v1",
   "plyknot.com": isDev ? "/api" : "https://hub.plyknot.com/v1",
+  "cybernetics": isDev ? "/api" : "https://hub.plyknot.com/v1",
+  "existence": isDev ? "/api" : "https://hub.plyknot.com/v1",
 };
 
 export function hubUrl(source: DataSource, path: string): string {

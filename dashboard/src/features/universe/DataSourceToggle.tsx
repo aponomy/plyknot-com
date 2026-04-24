@@ -7,8 +7,10 @@ interface DataSourceToggleProps {
 }
 
 const sources: { value: DataSource; label: string }[] = [
-  { value: "plyknot.org", label: "plyknot.org" },
-  { value: "plyknot.com", label: "plyknot.com" },
+  { value: "plyknot.org", label: "Open" },
+  { value: "plyknot.com", label: "Research Lab" },
+  { value: "cybernetics", label: "Cybernetics" },
+  { value: "existence", label: "Existence" },
 ];
 
 export function DataSourceToggle({ value, onChange }: DataSourceToggleProps) {
