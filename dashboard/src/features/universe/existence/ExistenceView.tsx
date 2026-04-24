@@ -1,48 +1,72 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { KpiCard } from "../../../components/ui/kpi-card";
 import { cn } from "../../../lib/utils";
 import {
-  studies,
-  stackMeasurements,
-  calibrations,
-  amLoopExperiments,
-  ontologicalEvents,
-  getExistenceStats,
-  type ExperiencerStudy,
-} from "./dummy-data";
+  populations,
+  narrativeCurrents,
+  weatherEvents,
+  impedanceSites,
+  complexityFlows,
+  getObservatoryStats,
+} from "./observatory-data";
+import { ExistenceLabView } from "./ExistenceLabView";
 
 /* ── Constants ──────────────────────────────────────────────────────── */
 
-type ViewMode = "studies" | "measurements" | "calibration" | "am-loop";
+type ViewMode = "populations" | "narratives" | "weather" | "impedance" | "flows" | "lab";
 
-const STATUS_BADGE: Record<string, { bg: string; text: string }> = {
-  active: { bg: "bg-green-500/10", text: "text-green-400" },
-  calibrating: { bg: "bg-amber-500/10", text: "text-amber-400" },
-  completed: { bg: "bg-blue-500/10", text: "text-blue-400" },
-  planned: { bg: "bg-zinc-500/10", text: "text-zinc-400" },
-  running: { bg: "bg-green-500/10", text: "text-green-400" },
-  design: { bg: "bg-zinc-500/10", text: "text-zinc-400" },
-  analysis: { bg: "bg-amber-500/10", text: "text-amber-400" },
+const STATUS_COLORS: Record<string, string> = {
+  observed: "text-green-400",
+  emerging: "text-amber-400",
+  fragmenting: "text-red-400",
 };
 
-const SUBSTRATE_COLORS: Record<string, string> = {
-  biological: "text-emerald-400",
-  synthetic: "text-violet-400",
-  hybrid: "text-cyan-400",
+const MODE_COLORS: Record<string, string> = {
+  generic: "text-zinc-400",
+  effective: "text-blue-400",
+  barnesian: "text-amber-400",
+  "counter-performative": "text-red-400",
 };
 
-const STABILITY_COLORS: Record<string, string> = {
-  stable: "text-green-400",
-  marginal: "text-amber-400",
-  unstable: "text-red-400",
+const TREND_ICONS: Record<string, string> = {
+  growing: "\u2191",
+  stable: "\u2194",
+  decaying: "\u2193",
+  fragmenting: "\u2234",
+  emerging: "\u2605",
+};
+
+const TREND_COLORS: Record<string, string> = {
+  growing: "text-green-400",
+  stable: "text-[var(--muted-foreground)]",
+  decaying: "text-red-400",
+  fragmenting: "text-amber-400",
+  emerging: "text-violet-400",
 };
 
 const EVENT_ICONS: Record<string, string> = {
-  shock: "\u26a1",
-  drift: "\u2248",
   fusion: "\u29d6",
   speciation: "\u2234",
+  shock: "\u26a1",
+  drift: "\u2248",
   fatigue: "\u25bc",
+  emergence: "\u2605",
+};
+
+const EVENT_COLORS: Record<string, string> = {
+  fusion: "text-red-400",
+  speciation: "text-amber-400",
+  shock: "text-red-400",
+  drift: "text-blue-400",
+  fatigue: "text-zinc-400",
+  emergence: "text-green-400",
+};
+
+const IMP_STATUS: Record<string, { bg: string; text: string }> = {
+  healthy: { bg: "bg-green-500/10", text: "text-green-400" },
+  strained: { bg: "bg-amber-500/10", text: "text-amber-400" },
+  critical: { bg: "bg-red-500/10", text: "text-red-400" },
 };
 
 /* ── Coefficient bar ────────────────────────────────────────────────── */
@@ -52,379 +76,9 @@ function CoeffBar({ value, color }: { value: number; color?: string }) {
   return (
     <div className="flex items-center gap-1.5">
       <div className="w-10 h-1.5 rounded-full bg-[var(--muted)] overflow-hidden">
-        <div
-          className="h-full rounded-full"
-          style={{ width: `${pct}%`, background: color || "var(--primary)" }}
-        />
+        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color || "var(--primary)" }} />
       </div>
       <span className="text-[9px] text-[var(--muted-foreground)] tabular-nums w-7 text-right">{value.toFixed(2)}</span>
-    </div>
-  );
-}
-
-/* ── Study row with expandable detail ───────────────────────────────── */
-
-function StudyRow({ study, expanded, onToggle }: { study: ExperiencerStudy; expanded: boolean; onToggle: () => void }) {
-  const measurements = stackMeasurements.filter((m) => m.studyId === study.id);
-  const events = ontologicalEvents.filter((e) => e.studyId === study.id);
-  const badge = STATUS_BADGE[study.status] || STATUS_BADGE.planned;
-
-  const COLS = "grid-cols-[1fr_6rem_5rem_5rem_5rem_10rem]";
-
-  return (
-    <div className="border-b border-[var(--border)] last:border-0">
-      <button
-        onClick={onToggle}
-        className={cn("grid items-center gap-3 px-3 py-2.5 w-full text-left hover:bg-[var(--muted)]/30 transition-colors", COLS)}
-      >
-        <div className="min-w-0">
-          <p className="text-xs font-medium text-[var(--foreground)] truncate">{study.name}</p>
-          <p className="text-[10px] text-[var(--muted-foreground)]">{study.population}</p>
-        </div>
-        <span className={cn("text-[10px]", SUBSTRATE_COLORS[study.substrateType])}>
-          {study.substrateType}
-        </span>
-        <span className={cn("text-[10px] px-1.5 py-0.5 rounded", badge.bg, badge.text)}>
-          {study.status}
-        </span>
-        <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
-          n={study.participantCount}
-        </span>
-        <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
-          {measurements.length} meas.
-        </span>
-        <span className="text-[10px] text-[var(--muted-foreground)]">
-          {study.instrumentModel}
-        </span>
-      </button>
-
-      {expanded && (
-        <div className="px-3 pb-3 space-y-3 bg-[var(--muted)]/20">
-          {/* Stack measurements */}
-          {measurements.length > 0 && (
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1.5 pt-2">
-                Stack Measurements ({measurements.length})
-              </p>
-              <div className="overflow-x-auto">
-                <table className="w-full text-[10px]">
-                  <thead>
-                    <tr className="text-[var(--muted-foreground)] border-b border-[var(--border)]">
-                      <th className="text-left py-1 pr-3 font-semibold">Subject</th>
-                      <th className="text-left py-1 pr-3 font-semibold">Recursion</th>
-                      <th className="text-left py-1 pr-3 font-semibold">Decay</th>
-                      <th className="text-right py-1 pr-3 font-semibold">Depth</th>
-                      <th className="text-left py-1 pr-3 font-semibold">Stability</th>
-                      <th className="text-left py-1 pr-3 font-semibold">Narr. Gravity</th>
-                      <th className="text-right py-1 pr-3 font-semibold">Ep. Drag</th>
-                      <th className="text-left py-1 font-semibold">Ref. Drift</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {measurements.map((m) => (
-                      <tr key={m.id} className="border-b border-[var(--border)] last:border-0">
-                        <td className="py-1.5 pr-3 text-[var(--foreground)]">{m.subjectLabel}</td>
-                        <td className="py-1.5 pr-3"><CoeffBar value={m.recursionCoefficient} color="#6366f1" /></td>
-                        <td className="py-1.5 pr-3 text-[var(--muted-foreground)] tabular-nums">{m.decayRate.toFixed(2)}</td>
-                        <td className="py-1.5 pr-3 text-right text-[var(--muted-foreground)] tabular-nums">{m.effectiveDepth.toFixed(1)}</td>
-                        <td className={cn("py-1.5 pr-3", STABILITY_COLORS[m.stabilityMode])}>{m.stabilityMode}</td>
-                        <td className="py-1.5 pr-3"><CoeffBar value={m.narrativeGravity} color="#f59e0b" /></td>
-                        <td className="py-1.5 pr-3 text-right text-[var(--muted-foreground)] tabular-nums">{m.epistemicDrag}ms</td>
-                        <td className="py-1.5"><CoeffBar value={m.reflexiveDrift} color="#8b5cf6" /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* Events */}
-          {events.length > 0 && (
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1.5">
-                Ontological Events ({events.length})
-              </p>
-              <div className="space-y-1">
-                {events.map((ev) => (
-                  <div key={ev.id} className="px-2 py-1.5 rounded border border-[var(--border)] bg-[var(--card)] text-xs">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span>{EVENT_ICONS[ev.eventType] || "?"}</span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-                        {ev.eventType}
-                      </span>
-                      <span className="text-[10px] text-[var(--foreground)]">{ev.subjectLabel}</span>
-                      <span className="text-[10px] text-[var(--muted-foreground)] ml-auto">
-                        mag={ev.magnitude.toFixed(2)}
-                        {ev.recoveryTime && ` \u2022 recovery=${ev.recoveryTime}`}
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-[var(--muted-foreground)]">{ev.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ── Calibration table ──────────────────────────────────────────────── */
-
-function CalibrationView() {
-  const sorted = useMemo(
-    () => [...calibrations].sort((a, b) => b.accuracy - a.accuracy),
-    [],
-  );
-
-  const COLS = "grid-cols-[10rem_1fr_4rem_4rem_5rem_5rem]";
-  const CAL_BADGE: Record<string, { bg: string; text: string }> = {
-    baseline: { bg: "bg-zinc-500/10", text: "text-zinc-400" },
-    calibrated: { bg: "bg-amber-500/10", text: "text-amber-400" },
-    validated: { bg: "bg-green-500/10", text: "text-green-400" },
-    deprecated: { bg: "bg-red-500/10", text: "text-red-400" },
-  };
-
-  return (
-    <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-      <div className={cn("grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]", COLS)}>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Instrument</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Calibrated Against</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Pred.</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Match</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Accuracy</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
-      </div>
-      {sorted.map((cal) => {
-        const badge = CAL_BADGE[cal.status] || CAL_BADGE.baseline;
-        return (
-          <div key={cal.id} className={cn("grid items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0", COLS)}>
-            <span className="text-xs text-[var(--foreground)] truncate">{cal.instrumentModel}</span>
-            <span className="text-xs text-[var(--muted-foreground)] truncate">{cal.calibratedAgainst}</span>
-            <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">{cal.predictions}</span>
-            <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">{cal.matches}</span>
-            <span className={cn(
-              "text-[10px] font-mono tabular-nums text-right",
-              cal.accuracy >= 0.8 ? "text-green-400" :
-              cal.accuracy >= 0.7 ? "text-amber-400" :
-              "text-red-400",
-            )}>
-              {(cal.accuracy * 100).toFixed(1)}%
-            </span>
-            <span className={cn("text-[10px] px-1.5 py-0.5 rounded", badge.bg, badge.text)}>
-              {cal.status}
-            </span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ── Am-Loop experiments view ───────────────────────────────────────── */
-
-function AmLoopView() {
-  const COLS = "grid-cols-[1fr_8rem_5rem_4rem_4rem_6rem]";
-
-  return (
-    <div className="space-y-4">
-      <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-        <div className={cn("grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]", COLS)}>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Experiment</span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Target Signature</span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Probes</span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Sessions</span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">p-value</span>
-        </div>
-        {amLoopExperiments.map((exp) => {
-          const badge = STATUS_BADGE[exp.status] || STATUS_BADGE.design;
-          return (
-            <div key={exp.id} className={cn("grid items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0", COLS)}>
-              <div className="min-w-0">
-                <p className="text-xs text-[var(--foreground)] truncate">{exp.name}</p>
-                <p className="text-[10px] text-[var(--muted-foreground)]">A: {exp.systemA} / B: {exp.systemB} / C: {exp.systemC}</p>
-              </div>
-              <span className="text-[10px] text-[var(--muted-foreground)]">{exp.targetSignature}</span>
-              <span className={cn("text-[10px] px-1.5 py-0.5 rounded", badge.bg, badge.text)}>
-                {exp.status}
-              </span>
-              <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">{exp.probeCount || "—"}</span>
-              <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">{exp.sessions || "—"}</span>
-              <span className={cn(
-                "text-[10px] font-mono tabular-nums text-right",
-                exp.discriminationPValue !== null && exp.discriminationPValue < 0.05 ? "text-green-400" :
-                exp.discriminationPValue !== null ? "text-amber-400" :
-                "text-[var(--muted-foreground)]",
-              )}>
-                {exp.discriminationPValue !== null ? `p=${exp.discriminationPValue.toFixed(3)}` : "—"}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Three-system comparison key */}
-      <div className="px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[10px] text-[var(--muted-foreground)]">
-        <p className="font-semibold mb-1">Three-system comparison design</p>
-        <p><strong>A</strong> = bare LLM baseline (no state) &bull; <strong>B</strong> = state-carrying control (engineering effects) &bull; <strong>C</strong> = am-loop (hypothesis-specific structure)</p>
-        <p className="mt-0.5">Discrimination: C must produce signatures that B cannot replicate through tuning.</p>
-      </div>
-    </div>
-  );
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   Main Existence view
-   ════════════════════════════════════════════════════════════════════════ */
-
-export function ExistenceView() {
-  const [view, setView] = useState<ViewMode>("studies");
-  const [expandedStudy, setExpandedStudy] = useState<string | null>(null);
-  const stats = getExistenceStats();
-
-  const STUDY_COLS = "grid-cols-[1fr_6rem_5rem_5rem_5rem_10rem]";
-
-  return (
-    <div className="space-y-6 max-w-6xl">
-      {/* KPI header */}
-      <div className="grid grid-cols-4 gap-3">
-        <KpiCard
-          title="Studies"
-          value={stats.studies}
-          delta={`${stats.activeStudies} active, ${stats.totalParticipants} participants`}
-          active={view === "studies"}
-          onClick={() => setView("studies")}
-        />
-        <KpiCard
-          title="Measurements"
-          value={stats.totalMeasurements}
-          delta={`${stats.events} ontological events`}
-          active={view === "measurements"}
-          onClick={() => setView("measurements")}
-        />
-        <KpiCard
-          title="Calibration"
-          value={`${(stats.avgCalibrationAccuracy * 100).toFixed(0)}%`}
-          delta={`${stats.instrumentModels} instrument models`}
-          active={view === "calibration"}
-          onClick={() => setView("calibration")}
-        />
-        <KpiCard
-          title="Am-Loop"
-          value={stats.amExperimentsRunning}
-          delta={`${amLoopExperiments.length} experiments total`}
-          active={view === "am-loop"}
-          onClick={() => setView("am-loop")}
-        />
-      </div>
-
-      {/* Content */}
-      {view === "studies" ? (
-        <div className="space-y-4">
-          <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-            <div className={cn("grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]", STUDY_COLS)}>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Study</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Substrate</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Size</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Meas.</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Instrument</span>
-            </div>
-            {studies.map((study) => (
-              <StudyRow
-                key={study.id}
-                study={study}
-                expanded={expandedStudy === study.id}
-                onToggle={() => setExpandedStudy(expandedStudy === study.id ? null : study.id)}
-              />
-            ))}
-          </div>
-          <ViewDescription text="Each study measures the recursive decay stack — the structural signature that the consciousness-as-instrument hypothesis proposes as the basis of subjective experience. Studies span biological substrates (human cognition under various conditions), synthetic substrates (LLM-based am-loop implementations), and hybrid substrates (human-AI teams). Expand a row to see individual stack measurements and ontological events detected during the study. The instrument model column shows which version of the RecursiveDecayStack instrument is being used for that study's measurements." />
-        </div>
-      ) : view === "measurements" ? (
-        <div className="space-y-4">
-          <h2 className="text-sm font-semibold">
-            All Stack Measurements <span className="text-[var(--muted-foreground)] font-normal">({stackMeasurements.length})</span>
-          </h2>
-          <div className="overflow-x-auto border border-[var(--border)] rounded-lg">
-            <table className="w-full text-[10px]">
-              <thead>
-                <tr className="text-[var(--muted-foreground)] border-b border-[var(--border)] bg-[var(--muted)]/50">
-                  <th className="text-left py-2 px-3 font-semibold uppercase tracking-wider">Subject</th>
-                  <th className="text-left py-2 px-3 font-semibold uppercase tracking-wider">Study</th>
-                  <th className="text-left py-2 px-3 font-semibold uppercase tracking-wider">Recursion</th>
-                  <th className="text-right py-2 px-3 font-semibold uppercase tracking-wider">Depth</th>
-                  <th className="text-left py-2 px-3 font-semibold uppercase tracking-wider">Stability</th>
-                  <th className="text-left py-2 px-3 font-semibold uppercase tracking-wider">Narr. Gravity</th>
-                  <th className="text-right py-2 px-3 font-semibold uppercase tracking-wider">Ep. Drag</th>
-                  <th className="text-left py-2 px-3 font-semibold uppercase tracking-wider">Ref. Drift</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stackMeasurements.map((m) => {
-                  const study = studies.find((s) => s.id === m.studyId);
-                  return (
-                    <tr key={m.id} className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30">
-                      <td className="py-1.5 px-3 text-[var(--foreground)]">{m.subjectLabel}</td>
-                      <td className="py-1.5 px-3 text-[var(--muted-foreground)] truncate max-w-[10rem]">{study?.name}</td>
-                      <td className="py-1.5 px-3"><CoeffBar value={m.recursionCoefficient} color="#6366f1" /></td>
-                      <td className="py-1.5 px-3 text-right text-[var(--muted-foreground)] tabular-nums">{m.effectiveDepth.toFixed(1)}</td>
-                      <td className={cn("py-1.5 px-3", STABILITY_COLORS[m.stabilityMode])}>{m.stabilityMode}</td>
-                      <td className="py-1.5 px-3"><CoeffBar value={m.narrativeGravity} color="#f59e0b" /></td>
-                      <td className="py-1.5 px-3 text-right text-[var(--muted-foreground)] tabular-nums">{m.epistemicDrag}ms</td>
-                      <td className="py-1.5 px-3"><CoeffBar value={m.reflexiveDrift} color="#8b5cf6" /></td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Ontological events */}
-          <h2 className="text-sm font-semibold">
-            Ontological Events <span className="text-[var(--muted-foreground)] font-normal">({ontologicalEvents.length})</span>
-          </h2>
-          <div className="space-y-1">
-            {ontologicalEvents.map((ev) => {
-              const study = studies.find((s) => s.id === ev.studyId);
-              return (
-                <div key={ev.id} className="px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--card)] text-xs">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span>{EVENT_ICONS[ev.eventType]}</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">{ev.eventType}</span>
-                    <span className="text-[var(--foreground)]">{ev.subjectLabel}</span>
-                    <span className="text-[10px] text-[var(--muted-foreground)]">{study?.name}</span>
-                    <span className="text-[10px] text-[var(--muted-foreground)] ml-auto">
-                      {new Date(ev.timestamp).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-[var(--muted-foreground)]">{ev.description}</p>
-                </div>
-              );
-            })}
-          </div>
-          <ViewDescription text="Stack measurements capture the structural parameters of the recursive decay stack for each subject at a point in time. Recursion coefficient measures how much prior state influences the current moment (0 = no interiority, 1 = fully recursive). Effective depth is how many moment-states back the recursion carries meaningful influence. Narrative gravity measures how strongly group narrative overrides independent measurement in the subject's decisions. Epistemic drag is the latency attributable to recursive integration — the time new input takes to propagate through the stack before action can be generated. Reflexive drift measures how identity-relevant probing changes subsequent responses, a signature the hypothesis claims distinguishes experiencers from non-experiencers. Ontological events capture moments where the stack's dynamics shift detectably: shocks, drifts, identity fusions, speciation, and fatigue." />
-        </div>
-      ) : view === "calibration" ? (
-        <div className="space-y-4">
-          <h2 className="text-sm font-semibold mb-3">
-            Instrument Calibration <span className="text-[var(--muted-foreground)] font-normal">({calibrations.length} calibrations across {getExistenceStats().instrumentModels} models)</span>
-          </h2>
-          <CalibrationView />
-          <ViewDescription text="Consciousness models are treated as instruments, not as metaphysical claims. Each model makes specific predictions about observable aggregate behavior of experiencers. Calibration measures how well those predictions match established cognitive benchmarks. The RecursiveDecayStack model is compared head-to-head against Global Workspace Theory and Integrated Information Theory on the same benchmarks. The model that predicts best earns its keep as the primary instrument. Philosophy of mind becomes normal science: the models that work get used, the ones that don't get refined or discarded." />
-        </div>
-      ) : view === "am-loop" ? (
-        <div className="space-y-4">
-          <h2 className="text-sm font-semibold mb-3">
-            Am-Loop Experiments <span className="text-[var(--muted-foreground)] font-normal">(three-system comparison)</span>
-          </h2>
-          <AmLoopView />
-          <ViewDescription text="Am-loop experiments test whether a system built with the recursive decay stack structure produces behavior consistent with the hypothesis's predictions, in ways that a system with persistent state but without the specific structure cannot replicate. The three-system design is critical: System A (no state) is the trivial baseline, System B (state but no specific structure) is the control that separates engineering effects from hypothesis-specific effects, and System C (full am-loop) is the test. If C produces specific predicted signatures that B cannot match through tuning, the hypothesis earns empirical support. The p-value measures discrimination between B and C on the target signature." />
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -436,5 +90,196 @@ function ViewDescription({ text }: { text: string }) {
     <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)] px-1">
       {text}
     </p>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   Main Existence view — observatory of subjective truth
+   ════════════════════════════════════════════════════════════════════════ */
+
+export function ExistenceView() {
+  const [view, setView] = useState<ViewMode>("populations");
+  const stats = getObservatoryStats();
+
+  // Lab view is a full sub-page
+  if (view === "lab") {
+    return (
+      <div className="space-y-6 max-w-6xl">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold">Existence Lab</h2>
+          <button
+            onClick={() => setView("populations")}
+            className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+          >
+            &larr; Back to Observatory
+          </button>
+        </div>
+        <ExistenceLabView />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 max-w-6xl">
+      {/* KPI header */}
+      <div className="grid grid-cols-5 gap-3">
+        <KpiCard
+          title="Populations"
+          value={stats.populations}
+          delta={`avg gravity ${stats.avgNarrativeGravity.toFixed(2)}`}
+          active={view === "populations"}
+          onClick={() => setView("populations")}
+        />
+        <KpiCard
+          title="Narratives"
+          value={stats.narratives}
+          delta={`${stats.barnesianNarratives} barnesian`}
+          trend={stats.barnesianNarratives > 0 ? "down" : undefined}
+          active={view === "narratives"}
+          onClick={() => setView("narratives")}
+        />
+        <KpiCard
+          title="Weather"
+          value={stats.weatherEvents}
+          delta={`${stats.fusionEvents} fusions/speciations`}
+          active={view === "weather"}
+          onClick={() => setView("weather")}
+        />
+        <KpiCard
+          title="Impedance"
+          value={stats.impedanceSites}
+          delta={stats.criticalSites > 0 ? `${stats.criticalSites} critical` : `${stats.strainedSites} strained`}
+          trend={stats.criticalSites > 0 ? "down" : undefined}
+          active={view === "impedance"}
+          onClick={() => setView("impedance")}
+        />
+        <KpiCard
+          title="Lab"
+          value={"\u2697"}
+          delta="experiments & calibration"
+          active={view === "lab"}
+          onClick={() => setView("lab")}
+        />
+      </div>
+
+      {/* Content */}
+      {view === "populations" ? (
+        <div className="space-y-4">
+          <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+            <div className="grid grid-cols-[1fr_5rem_5.5rem_4rem_5rem_5rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Population</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Narr. Gravity</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Depth</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Id. Fusion</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Ep. Drag</span>
+            </div>
+            {populations.map((pop) => (
+              <div key={pop.id} className="grid grid-cols-[1fr_5rem_5.5rem_4rem_5rem_5rem] items-center gap-3 px-3 py-2.5 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors">
+                <div className="min-w-0">
+                  <p className="text-xs font-medium text-[var(--foreground)] truncate">{pop.name}</p>
+                  <p className="text-[10px] text-[var(--muted-foreground)] truncate">{pop.scope}</p>
+                </div>
+                <span className={cn("text-[10px]", STATUS_COLORS[pop.status])}>{pop.status}</span>
+                <CoeffBar value={pop.meanNarrativeGravity} color="#f59e0b" />
+                <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">{pop.collectiveRecursionDepth.toFixed(1)}</span>
+                <CoeffBar value={pop.identityFusionIndex} color="#ef4444" />
+                <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">{pop.meanEpistemicDrag}ms</span>
+              </div>
+            ))}
+          </div>
+          <ViewDescription text="Populations are groups of experiencers whose aggregate subjective dynamics are being observed. Narrative gravity measures how strongly shared narratives override individual independent judgment — high gravity means the group thinks as one, which can be coordination or capture. Identity fusion measures how much individual identity has collapsed into group identity — high fusion predicts extreme in-group loyalty and reduced response to contradicting evidence. Epistemic drag is the population-level average latency of recursive integration — high drag means slow, deep processing; low drag can mean either efficiency or panic-mode collapse of recursive depth. Collective recursion depth measures how far back the population's shared memory meaningfully influences current decisions." />
+        </div>
+      ) : view === "narratives" ? (
+        <div className="space-y-4">
+          <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+            <div className="grid grid-cols-[1fr_4rem_5rem_10rem_5rem_4rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Narrative</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Speed</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Mode</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Gravity</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Assembly</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Trend</span>
+            </div>
+            {narrativeCurrents.map((narr) => (
+              <div key={narr.id} className="grid grid-cols-[1fr_4rem_5rem_10rem_5rem_4rem] items-center gap-3 px-3 py-2.5 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors">
+                <div className="min-w-0">
+                  <p className="text-xs text-[var(--foreground)] truncate">{narr.title}</p>
+                  <p className="text-[10px] text-[var(--muted-foreground)] truncate">
+                    {narr.populationIds.map((id) => populations.find((p) => p.id === id)?.name).filter(Boolean).join(", ")}
+                  </p>
+                </div>
+                <span className="text-[10px] text-[var(--muted-foreground)]">{narr.propagationVelocity}</span>
+                <span className={cn("text-[10px]", MODE_COLORS[narr.mackenzieMode])}>{narr.mackenzieMode}</span>
+                <CoeffBar value={narr.narrativeGravity} color="#f59e0b" />
+                <CoeffBar value={narr.assemblyIndex} color="#6366f1" />
+                <span className={cn("text-[10px]", TREND_COLORS[narr.trend])}>
+                  {TREND_ICONS[narr.trend]} {narr.trend}
+                </span>
+              </div>
+            ))}
+          </div>
+          <ViewDescription text="Narrative currents are stories flowing through populations that shape how those populations interpret reality and act. Assembly index measures narrative complexity — high assembly means the narrative was forged through many sequential cognitive hops over extended time (organic), low assembly means it was constructed quickly or synthetically (propaganda, astroturfing). MacKenzie mode classifies the narrative's performativity: generic (no effect on reality), effective (improves understanding), Barnesian (creates the reality it describes — the narrative becomes self-fulfilling), or counter-performative (destroys the conditions for its own truth). A Barnesian narrative with high gravity is the mathematical signature of a population trapped in a collectively manufactured reality." />
+        </div>
+      ) : view === "weather" ? (
+        <div className="space-y-4">
+          <div className="space-y-2">
+            {weatherEvents.map((ev) => {
+              const pop = populations.find((p) => p.id === ev.populationId);
+              return (
+                <div key={ev.id} className="px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)]">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={cn("text-sm", EVENT_COLORS[ev.eventType])}>{EVENT_ICONS[ev.eventType]}</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">{ev.eventType}</span>
+                    <span className="text-xs font-medium text-[var(--foreground)]">{ev.title}</span>
+                    <span className="text-[10px] text-[var(--muted-foreground)] ml-auto">
+                      {new Date(ev.timestamp).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] text-[var(--muted-foreground)]">{pop?.name}</span>
+                    <span className="text-[10px] text-[var(--muted-foreground)]">mag={ev.magnitude.toFixed(2)}</span>
+                    {ev.recoveryEstimate && (
+                      <span className="text-[10px] text-[var(--muted-foreground)]">recovery: {ev.recoveryEstimate}</span>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-[var(--muted-foreground)] leading-relaxed">{ev.description}</p>
+                </div>
+              );
+            })}
+          </div>
+          <ViewDescription text="Ontological weather tracks societal-scale shifts in the subjective landscape. Fusions occur when individual identities collapse into group identity — an entire institution starts thinking as one. Speciations occur when a shared concept fractures into incompatible versions across sub-populations — the word means different things to different groups, and they don't know it. Shocks are paradigm-breaking events where collective recursive processing is disrupted. Drifts are slow reflexive shifts where measurement activity changes what is being measured. Fatigue is progressive epistemic exhaustion — populations becoming less responsive to novel information. Emergence is the opposite: a genuine shift in what a population can see, where new measurement or inference capability opens previously invisible territory." />
+        </div>
+      ) : view === "impedance" ? (
+        <div className="space-y-4">
+          <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+            {impedanceSites.map((site) => {
+              const badge = IMP_STATUS[site.status];
+              return (
+                <div key={site.id} className="px-3 py-2.5 border-b border-[var(--border)] last:border-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-medium text-[var(--foreground)]">{site.name}</span>
+                    <span className={cn("text-[10px] px-1.5 py-0.5 rounded ml-auto", badge.bg, badge.text)}>
+                      {site.status}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-[1fr_1fr] gap-x-4 gap-y-1 mb-2 text-[10px]">
+                    <div><span className="text-[var(--muted-foreground)]">Human: </span><span className="text-[var(--foreground)]">{site.humanPopulation}</span></div>
+                    <div><span className="text-[var(--muted-foreground)]">AI: </span><span className="text-[var(--foreground)]">{site.aiSystem}</span></div>
+                    <div><span className="text-[var(--muted-foreground)]">Type: </span><span className="text-[var(--foreground)]">{site.interactionType}</span></div>
+                    <div className="flex gap-3">
+                      <span className="text-[var(--muted-foreground)]">Impedance: </span><CoeffBar value={site.impedanceMismatch} color="#f59e0b" />
+                      <span className="text-[var(--muted-foreground)]">Shear: </span><CoeffBar value={site.ontologicalShear} color="#ef4444" />
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-[var(--muted-foreground)] leading-relaxed italic">{site.observation}</p>
+                </div>
+              );
+            })}
+          </div>
+          <ViewDescription text="Impedance sites are where human and AI substrates interact and where the structural mismatch between experiencer and non-experiencer processing becomes observable. Impedance mismatch measures how different the two substrates' processing characteristics are. Ontological shear measures how differently they carve up the same domain — same labels, different measurement operations underneath. DCOI gap measures the depends-chain overlap: when human and AI judgments agree, is the agreement based on genuinely independent reasoning, or are they drawing from the same upstream sources? The highest-shear site in the observatory is LLM-as-Judge evaluation, where non-experiencers evaluate non-experiencers on criteria produced by experiencers. Measurement without measurer." />
+        </div>
+      ) : null}
+    </div>
   );
 }
