@@ -7,6 +7,7 @@ import {
   Workflow,
   ListChecks,
   CalendarRange,
+  FlaskConical,
   Shield,
   Settings,
   LogOut,
@@ -31,6 +32,7 @@ const navItems = [
   { to: "/process", icon: Workflow, label: "Process" },
   { to: "/tracker", icon: ListChecks, label: "Tracker" },
   { to: "/timeline", icon: CalendarRange, label: "Timeline" },
+  { to: "/research", icon: FlaskConical, label: "Research" },
 ] as const;
 
 function NavRail() {
