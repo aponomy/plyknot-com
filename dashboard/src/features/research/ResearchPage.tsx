@@ -74,6 +74,34 @@ function MarkdownContent({ content }: { content: string }) {
   return <div className="text-xs leading-relaxed text-[var(--foreground)]" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
+/* ── Todo list (dedicated renderer, sorted: open first, done last) ─── */
+
+function TodoList({ content }: { content: string }) {
+  const lines = content.split("\n").filter((l) => l.match(/^- \[[ x]\]/));
+  const open = lines.filter((l) => l.startsWith("- [ ]"));
+  const done = lines.filter((l) => l.startsWith("- [x]"));
+  const sorted = [...open, ...done];
+
+  return (
+    <div>
+      {sorted.map((line, i) => {
+        const isDone = line.startsWith("- [x]");
+        const text = line.replace(/^- \[[ x]\] /, "");
+        return (
+          <div key={i} className="flex items-start gap-1.5 py-[3px] text-[10px] leading-tight">
+            <span className={cn("shrink-0 mt-px", isDone ? "text-green-400" : "text-[var(--muted-foreground)]")}>
+              {isDone ? "\u2611" : "\u2610"}
+            </span>
+            <span className={cn(isDone && "line-through text-[var(--muted-foreground)]")}>
+              {text}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 type ResearchTab = "synthesis" | "papers";
 
 /* ── Paper labels ───────────────────────────────────────────────────── */
@@ -170,7 +198,7 @@ export function ResearchPage() {
 
         {/* Column 1: Folder cards */}
         <div className="w-[17rem] shrink-0 flex flex-col pr-1">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1.5">Content</p>
+          <h2 className="text-sm font-semibold mb-2">Content</h2>
 
           {/* Synthesis / Papers toggle */}
           <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5 mb-2">
@@ -298,9 +326,7 @@ export function ResearchPage() {
 
               {/* Todo list */}
               {col2View === "todo" && activeFolder.todoContent && (
-                <div className="text-[10px] leading-tight [&_div]:py-px">
-                  <MarkdownContent content={activeFolder.todoContent} />
-                </div>
+                <TodoList content={activeFolder.todoContent} />
               )}
             </div>
           )}
