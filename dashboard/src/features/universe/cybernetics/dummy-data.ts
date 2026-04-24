@@ -316,6 +316,8 @@ export function getCyberneticsStats() {
   const barnesianCount = feedbackLoops.filter((l) => l.mackenzieMode === "barnesian").length;
   const counterCount = feedbackLoops.filter((l) => l.mackenzieMode === "counter-performative").length;
 
+  const decayingSignals = factorSignals.filter((s) => s.decayStatus === "decaying" || s.decayStatus === "critical").length;
+
   return {
     deployments: deployments.length,
     active,
@@ -328,5 +330,215 @@ export function getCyberneticsStats() {
     barnesianCount,
     counterCount,
     recentTransitions: performativityEvents.length,
+    factorSignals: factorSignals.length,
+    decayingSignals,
   };
 }
+
+// ── Factor signals (live McLean-Pontiff replication) ─────────────────────
+
+export interface FactorSignal {
+  id: string;
+  name: string;
+  category: "value" | "momentum" | "quality" | "size" | "volatility" | "liquidity";
+  source: string;
+  publicationYear: number | null;
+  // Pre-publication sigma trajectory
+  sigmaPrePub: number;
+  // Current sigma (live)
+  sigmaCurrent: number;
+  // Sigma 12 months ago
+  sigma12mAgo: number;
+  // Decay rate (annualized sigma erosion)
+  annualizedDecay: number;
+  // McLean-Pontiff benchmark decay
+  mcLeanPontiffDecay: number;
+  // Decay status
+  decayStatus: "stable" | "early-warning" | "decaying" | "critical" | "collapsed";
+  // Goodhart variant detected
+  goodhartVariant: "none" | "regressional" | "extremal" | "causal" | "adversarial";
+  // MacKenzie mode
+  mackenzieMode: "generic" | "effective" | "barnesian" | "counter-performative";
+  // Loop gain on this signal's feedback chain
+  loopGain: number;
+  // Sharpe ratio (live trailing 12m)
+  sharpe12m: number;
+  // Sharpe ratio at publication
+  sharpeAtPub: number | null;
+  // Warning issued (date or null)
+  decayWarningDate: string | null;
+  // Subsequent 6m return after warning
+  postWarningReturn: number | null;
+  lastUpdate: string;
+}
+
+export const factorSignals: FactorSignal[] = [
+  {
+    id: "fs-hml",
+    name: "HML (Fama-French value)",
+    category: "value",
+    source: "Fama & French 1993",
+    publicationYear: 1993,
+    sigmaPrePub: 0.12,
+    sigmaCurrent: 0.41,
+    sigma12mAgo: 0.35,
+    annualizedDecay: 0.017,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "decaying",
+    goodhartVariant: "regressional",
+    mackenzieMode: "barnesian",
+    loopGain: 1.12,
+    sharpe12m: 0.18,
+    sharpeAtPub: 0.47,
+    decayWarningDate: "2027-11-15",
+    postWarningReturn: -0.034,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-mom",
+    name: "UMD (momentum)",
+    category: "momentum",
+    source: "Jegadeesh & Titman 1993",
+    publicationYear: 1993,
+    sigmaPrePub: 0.09,
+    sigmaCurrent: 0.28,
+    sigma12mAgo: 0.26,
+    annualizedDecay: 0.008,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "early-warning",
+    goodhartVariant: "none",
+    mackenzieMode: "effective",
+    loopGain: 0.76,
+    sharpe12m: 0.41,
+    sharpeAtPub: 0.62,
+    decayWarningDate: null,
+    postWarningReturn: null,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-qmj",
+    name: "QMJ (quality minus junk)",
+    category: "quality",
+    source: "Asness, Frazzini & Pedersen 2019",
+    publicationYear: 2019,
+    sigmaPrePub: 0.08,
+    sigmaCurrent: 0.15,
+    sigma12mAgo: 0.12,
+    annualizedDecay: 0.011,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "early-warning",
+    goodhartVariant: "none",
+    mackenzieMode: "effective",
+    loopGain: 0.64,
+    sharpe12m: 0.52,
+    sharpeAtPub: 0.71,
+    decayWarningDate: null,
+    postWarningReturn: null,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-bab",
+    name: "BAB (betting against beta)",
+    category: "volatility",
+    source: "Frazzini & Pedersen 2014",
+    publicationYear: 2014,
+    sigmaPrePub: 0.10,
+    sigmaCurrent: 0.52,
+    sigma12mAgo: 0.44,
+    annualizedDecay: 0.024,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "critical",
+    goodhartVariant: "extremal",
+    mackenzieMode: "counter-performative",
+    loopGain: 1.41,
+    sharpe12m: -0.12,
+    sharpeAtPub: 0.58,
+    decayWarningDate: "2027-06-22",
+    postWarningReturn: -0.089,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-smb",
+    name: "SMB (small minus big)",
+    category: "size",
+    source: "Fama & French 1993",
+    publicationYear: 1993,
+    sigmaPrePub: 0.14,
+    sigmaCurrent: 0.38,
+    sigma12mAgo: 0.37,
+    annualizedDecay: 0.004,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "stable",
+    goodhartVariant: "none",
+    mackenzieMode: "generic",
+    loopGain: 0.42,
+    sharpe12m: 0.09,
+    sharpeAtPub: 0.22,
+    decayWarningDate: null,
+    postWarningReturn: null,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-illiq",
+    name: "Illiquidity premium",
+    category: "liquidity",
+    source: "Amihud 2002",
+    publicationYear: 2002,
+    sigmaPrePub: 0.11,
+    sigmaCurrent: 0.33,
+    sigma12mAgo: 0.29,
+    annualizedDecay: 0.013,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "decaying",
+    goodhartVariant: "causal",
+    mackenzieMode: "effective",
+    loopGain: 0.88,
+    sharpe12m: 0.24,
+    sharpeAtPub: 0.53,
+    decayWarningDate: "2028-01-10",
+    postWarningReturn: -0.018,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-rev-st",
+    name: "Short-term reversal",
+    category: "momentum",
+    source: "Jegadeesh 1990",
+    publicationYear: 1990,
+    sigmaPrePub: 0.07,
+    sigmaCurrent: 0.61,
+    sigma12mAgo: 0.58,
+    annualizedDecay: 0.009,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "collapsed",
+    goodhartVariant: "adversarial",
+    mackenzieMode: "counter-performative",
+    loopGain: 1.89,
+    sharpe12m: -0.31,
+    sharpeAtPub: 0.44,
+    decayWarningDate: "2026-09-03",
+    postWarningReturn: -0.142,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+  {
+    id: "fs-gp",
+    name: "Gross profitability",
+    category: "quality",
+    source: "Novy-Marx 2013",
+    publicationYear: 2013,
+    sigmaPrePub: 0.06,
+    sigmaCurrent: 0.11,
+    sigma12mAgo: 0.10,
+    annualizedDecay: 0.004,
+    mcLeanPontiffDecay: 0.58,
+    decayStatus: "stable",
+    goodhartVariant: "none",
+    mackenzieMode: "generic",
+    loopGain: 0.31,
+    sharpe12m: 0.63,
+    sharpeAtPub: 0.72,
+    decayWarningDate: null,
+    postWarningReturn: null,
+    lastUpdate: "2028-04-24T06:00:00Z",
+  },
+];

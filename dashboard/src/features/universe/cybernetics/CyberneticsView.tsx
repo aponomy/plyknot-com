@@ -6,6 +6,7 @@ import {
   feedbackLoops,
   actors,
   performativityEvents,
+  factorSignals,
   getCyberneticsStats,
   type CyberneticsDeployment,
   type FeedbackLoop,
@@ -13,7 +14,7 @@ import {
 
 /* ── Constants ──────────────────────────────────────────────────────── */
 
-type ViewMode = "deployments" | "loops" | "alerts" | "actors";
+type ViewMode = "deployments" | "loops" | "alerts" | "actors" | "signals";
 
 const VERTICAL_LABELS: Record<string, string> = {
   finance: "Finance",
@@ -347,6 +348,92 @@ function ActorsListView() {
   );
 }
 
+/* ── Signal decay view (live McLean-Pontiff) ────────────────────────── */
+
+const DECAY_STATUS_BADGE: Record<string, { bg: string; text: string }> = {
+  stable: { bg: "bg-green-500/10", text: "text-green-400" },
+  "early-warning": { bg: "bg-amber-500/10", text: "text-amber-400" },
+  decaying: { bg: "bg-orange-500/10", text: "text-orange-400" },
+  critical: { bg: "bg-red-500/10", text: "text-red-400" },
+  collapsed: { bg: "bg-zinc-500/10", text: "text-zinc-500" },
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  value: "Value",
+  momentum: "Momentum",
+  quality: "Quality",
+  size: "Size",
+  volatility: "Volatility",
+  liquidity: "Liquidity",
+};
+
+function SignalDecayView() {
+  const sorted = useMemo(
+    () => [...factorSignals].sort((a, b) => {
+      const order = { collapsed: 0, critical: 1, decaying: 2, "early-warning": 3, stable: 4 };
+      return (order[a.decayStatus] ?? 5) - (order[b.decayStatus] ?? 5);
+    }),
+    [],
+  );
+
+  const COLS = "grid-cols-[1fr_5rem_4rem_4rem_4rem_5.5rem_5rem_6rem_5rem]";
+
+  return (
+    <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+      <div className={cn("grid items-center gap-2 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]", COLS)}>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Signal</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Category</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">sigma pre</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">sigma now</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">|G|</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Goodhart</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Sharpe (pub/now)</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Post-warn</span>
+      </div>
+      {sorted.map((sig) => {
+        const badge = DECAY_STATUS_BADGE[sig.decayStatus] || DECAY_STATUS_BADGE.stable;
+        const sigmaRatio = sig.sigmaPrePub > 0 ? sig.sigmaCurrent / sig.sigmaPrePub : 0;
+        return (
+          <div key={sig.id} className={cn("grid items-center gap-2 px-3 py-2 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors", COLS)}>
+            <div className="min-w-0">
+              <p className="text-xs text-[var(--foreground)] truncate">{sig.name}</p>
+              <p className="text-[10px] text-[var(--muted-foreground)] truncate">{sig.source} ({sig.publicationYear})</p>
+            </div>
+            <span className="text-[10px] text-[var(--muted-foreground)]">{CATEGORY_LABELS[sig.category]}</span>
+            <span className="text-[10px] text-[var(--muted-foreground)] font-mono tabular-nums text-right">{sig.sigmaPrePub.toFixed(2)}</span>
+            <span className={cn(
+              "text-[10px] font-mono tabular-nums text-right",
+              sigmaRatio > 4 ? "text-red-400" : sigmaRatio > 2 ? "text-amber-400" : "text-[var(--muted-foreground)]",
+            )}>
+              {sig.sigmaCurrent.toFixed(2)}
+            </span>
+            <span className="text-right">
+              <LoopGainBadge gain={sig.loopGain} />
+            </span>
+            <span className={cn("text-[10px] px-1.5 py-0.5 rounded", badge.bg, badge.text)}>
+              {sig.decayStatus}
+            </span>
+            <span className="text-[10px] text-[var(--muted-foreground)]">
+              {GOODHART_LABELS[sig.goodhartVariant]}
+            </span>
+            <span className="text-[10px] font-mono tabular-nums text-right text-[var(--muted-foreground)]">
+              {sig.sharpeAtPub?.toFixed(2) ?? "—"} / <span className={cn(sig.sharpe12m < 0 ? "text-red-400" : "text-green-400")}>{sig.sharpe12m.toFixed(2)}</span>
+            </span>
+            <span className={cn(
+              "text-[10px] font-mono tabular-nums text-right",
+              sig.postWarningReturn === null ? "text-[var(--muted-foreground)]" :
+              sig.postWarningReturn < 0 ? "text-red-400" : "text-green-400",
+            )}>
+              {sig.postWarningReturn !== null ? `${(sig.postWarningReturn * 100).toFixed(1)}%` : "—"}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ════════════════════════════════════════════════════════════════════════
    Main Cybernetics view
    ════════════════════════════════════════════════════════════════════════ */
@@ -359,7 +446,7 @@ export function CyberneticsView() {
   return (
     <div className="space-y-6 max-w-6xl">
       {/* KPI header */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-5 gap-3">
         <KpiCard
           title="Deployments"
           value={stats.deployments}
@@ -388,6 +475,14 @@ export function CyberneticsView() {
           value={stats.totalActors}
           active={view === "actors"}
           onClick={() => setView("actors")}
+        />
+        <KpiCard
+          title="Signal Decay"
+          value={stats.factorSignals}
+          delta={stats.decayingSignals > 0 ? `${stats.decayingSignals} decaying` : "all stable"}
+          trend={stats.decayingSignals > 0 ? "down" : undefined}
+          active={view === "signals"}
+          onClick={() => setView("signals")}
         />
       </div>
 
@@ -431,6 +526,11 @@ export function CyberneticsView() {
         <div className="space-y-4">
           <ActorsListView />
           <ViewDescription text="Actors are the entities that measure, predict, and act within each deployment. They can be algorithms (trading desks, RAR engines), models (DSGE, reward models), humans (DSMB panels, raters), or institutions (central banks, risk committees). Each actor's three verb counts show what kind of participant they are: heavy on actions means they are shaping the system; heavy on predictions means they are modeling it; heavy on measurements means they are observing it. Trust weight reflects the actor's historical calibration accuracy." />
+        </div>
+      ) : view === "signals" ? (
+        <div className="space-y-4">
+          <SignalDecayView />
+          <ViewDescription text="Live McLean-Pontiff replication against real market data. Each row is a known factor signal (value, momentum, quality, etc.) ingested from academic publications, tracked continuously through the plyknot convergence/decay machinery. The sigma column shows the coupling-map measurement spread: pre-publication sigma is the baseline; current sigma shows how much the signal has decayed since publication. The framework detects decay from sigma-trajectory analysis alone, before returns confirm it. Decay warnings are issued when the sigma trajectory matches a Goodhart variant signature. The post-warning return column validates the framework: if the warning was correct, subsequent returns should be negative or flat. BAB (betting against beta) is the critical case — extremal Goodhart with |G|=1.41, the signal self-destructed as crowding passed a threshold. Short-term reversal is fully collapsed: adversarial Goodhart, HFT firms actively contaminating the signal. Gross profitability remains stable — low loop gain, no crowding, the signal is not yet consumed by its own popularity." />
         </div>
       ) : null}
     </div>
