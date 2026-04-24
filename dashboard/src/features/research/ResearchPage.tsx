@@ -12,6 +12,8 @@ interface SynthesisFolder {
   hasTodo: boolean;
   indexFile: string | null;
   todoFile: string | null;
+  indexContent: string | null;
+  todoContent: string | null;
   files: string[];
   fileCount: number;
 }
@@ -146,18 +148,8 @@ function TopicDetail({
   onBack: () => void;
   onOpenFile: (folder: string, file: string) => void;
 }) {
-  const { data: indexContent } = useQuery({
-    queryKey: ["research-file", folder.folder, folder.indexFile],
-    queryFn: () => fetchFile(folder.folder, folder.indexFile!),
-    enabled: !!folder.indexFile,
-  });
-  const { data: todoContent } = useQuery({
-    queryKey: ["research-file", folder.folder, folder.todoFile],
-    queryFn: () => fetchFile(folder.folder, folder.todoFile!),
-    enabled: !!folder.todoFile,
-  });
-
-  const meta = indexContent ? parseIndexMeta(indexContent) : null;
+  const meta = folder.indexContent ? parseIndexMeta(folder.indexContent) : null;
+  const todoContent = folder.todoContent;
   const todoStats = todoContent ? parseTodoStats(todoContent) : null;
 
   return (
@@ -255,20 +247,12 @@ export function ResearchPage() {
 
   const folders = data?.folders ?? [];
 
-  // Fetch all index files for the overview boxes
-  const indexQueries = folders.map((f) => ({
-    folder: f,
-    query: useQuery({
-      queryKey: ["research-file", f.folder, f.indexFile],
-      queryFn: () => fetchFile(f.folder, f.indexFile!),
-      enabled: !!f.indexFile,
-    }),
-    todoQuery: useQuery({
-      queryKey: ["research-file", f.folder, f.todoFile],
-      queryFn: () => fetchFile(f.folder, f.todoFile!),
-      enabled: !!f.todoFile,
-    }),
-  }));
+  // Parse index/todo from manifest (no hooks in loops)
+  const folderCards = useMemo(() => folders.map((f) => {
+    const meta = f.indexContent ? parseIndexMeta(f.indexContent) : null;
+    const todoStats = f.todoContent ? parseTodoStats(f.todoContent) : null;
+    return { folder: f, meta, todoStats };
+  }), [folders]);
 
   // If a folder is selected, show its detail page
   const activeFolderData = selectedFolder ? folders.find((f) => f.folder === selectedFolder) : null;
@@ -288,12 +272,7 @@ export function ResearchPage() {
     );
   }
 
-  // Overview: KPI boxes
   const totalDocs = folders.reduce((n, f) => n + f.fileCount, 0);
-  const activeTopics = indexQueries.filter((q) => {
-    const content = q.query.data;
-    return content && parseIndexMeta(content).status === "active";
-  }).length;
 
   return (
     <div className="space-y-6 max-w-5xl">
@@ -308,9 +287,7 @@ export function ResearchPage() {
         <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Loading...</p>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          {indexQueries.map(({ folder, query, todoQuery }) => {
-            const meta = query.data ? parseIndexMeta(query.data) : null;
-            const todoStats = todoQuery.data ? parseTodoStats(todoQuery.data) : null;
+          {folderCards.map(({ folder, meta, todoStats }) => {
             const statusBadge = meta?.status === "active"
               ? { bg: "bg-green-500/10", text: "text-green-400" }
               : meta?.status === "completed"

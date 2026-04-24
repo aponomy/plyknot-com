@@ -35,12 +35,16 @@ function researchFilesPlugin(): Plugin {
                 const otherFiles = files.filter(
                   (f) => f.toLowerCase() !== "index.md" && f.toLowerCase() !== "todo.md",
                 );
+                const indexContent = indexFile ? readFileSync(join(folderPath, indexFile), "utf-8") : null;
+                const todoContent = todoFile ? readFileSync(join(folderPath, todoFile), "utf-8") : null;
                 return {
                   folder: e.name,
                   hasIndex,
                   hasTodo,
                   indexFile,
                   todoFile,
+                  indexContent,
+                  todoContent,
                   files: otherFiles,
                   fileCount: otherFiles.length,
                 };
