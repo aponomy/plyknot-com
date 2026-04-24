@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { KpiCard } from "../../components/ui/kpi-card";
 import { DataSourceToggle } from "./DataSourceToggle";
+import { CyberneticsView } from "./cybernetics/CyberneticsView";
 import { ConvergenceMap, type CellSelection } from "./ConvergenceMap";
 import { ProjectsMap, type ProjectCellSelection } from "./ProjectsMap";
 import { EntityRef } from "../../components/ui/entity-ref";
@@ -137,6 +138,15 @@ export function UniversePage() {
         <DataSourceToggle value={source} onChange={setSource} />
       </div>
 
+      {/* Cybernetics has its own view */}
+      {source === "cybernetics" ? (
+        <CyberneticsView />
+      ) : source === "existence" ? (
+        <div className="text-sm text-[var(--muted-foreground)] py-12 text-center">
+          Existence view — subjective truth instrumentation — coming soon.
+        </div>
+      ) : (
+      <>
       {/* KPI boxes — always visible, hub data optional */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <KpiCard title="Cracks" value={stats.data?.crackCount ?? "—"} delta={stats.data ? `across ${stats.data.chainCount} chains` : ""} trend={stats.data ? "down" : undefined} active={view === "cracks"} onClick={() => { setView("cracks"); deselect(); }} />
@@ -453,6 +463,8 @@ export function UniversePage() {
             </Card>
           )}
         </>
+      )}
+      </>
       )}
     </div>
   );
