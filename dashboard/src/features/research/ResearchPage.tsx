@@ -74,30 +74,7 @@ function MarkdownContent({ content }: { content: string }) {
   return <div className="text-xs leading-relaxed text-[var(--foreground)]" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-/* ── Tab toggle ─────────────────────────────────────────────────────── */
-
 type ResearchTab = "synthesis" | "papers";
-
-function TabToggle({ value, onChange }: { value: ResearchTab; onChange: (t: ResearchTab) => void }) {
-  return (
-    <div className="flex items-center rounded-lg bg-[var(--muted)] p-0.5">
-      {(["synthesis", "papers"] as const).map((t) => (
-        <button
-          key={t}
-          onClick={() => onChange(t)}
-          className={cn(
-            "px-3 py-1 text-xs font-medium rounded-md transition-colors capitalize",
-            value === t
-              ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
-              : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
-          )}
-        >
-          {t}
-        </button>
-      ))}
-    </div>
-  );
-}
 
 /* ── Paper labels ───────────────────────────────────────────────────── */
 
@@ -186,16 +163,34 @@ export function ResearchPage() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Research</h1>
-        <TabToggle value={tab} onChange={handleTabChange} />
-      </div>
+      <h1 className="text-lg font-semibold">Research</h1>
 
       {/* Three-column layout — each column scrolls independently */}
       <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 140px)" }}>
 
         {/* Column 1: Folder cards */}
-        <div className="w-[17rem] shrink-0 space-y-1.5 overflow-y-auto pr-1">
+        <div className="w-[17rem] shrink-0 flex flex-col pr-1">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1.5">Content</p>
+
+          {/* Synthesis / Papers toggle */}
+          <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5 mb-2">
+            {(["synthesis", "papers"] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => handleTabChange(t)}
+                className={cn(
+                  "flex-1 px-2 py-0.5 text-[10px] font-medium rounded transition-colors text-center capitalize",
+                  tab === t
+                    ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
+                    : "text-[var(--muted-foreground)]",
+                )}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex-1 overflow-y-auto space-y-1.5">
           {folderCards.map(({ folder, meta, todoStats }) => {
             const isActive = selectedFolder === folder.folder;
             const statusColor =
@@ -235,6 +230,7 @@ export function ResearchPage() {
               </button>
             );
           })}
+          </div>
         </div>
 
         {/* Column 2: Files or Todo (toggled) */}
