@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { FileText, CheckSquare } from "lucide-react";
 import { cn } from "../../lib/utils";
@@ -118,10 +118,13 @@ const PAPER_LABELS: Record<string, string> = {
    Column 3: file content (wide)
    ════════════════════════════════════════════════════════════════════════ */
 
+type Col2View = "files" | "todo";
+
 export function ResearchPage() {
   const [tab, setTab] = useState<ResearchTab>("synthesis");
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<{ folder: string; file: string } | null>(null);
+  const [col2View, setCol2View] = useState<Col2View>("files");
 
   const { data: synthData } = useQuery({ queryKey: ["research-manifest"], queryFn: fetchManifest });
   const { data: papersData } = useQuery({ queryKey: ["papers-manifest"], queryFn: fetchPapersManifest });
@@ -140,6 +143,21 @@ export function ResearchPage() {
   }), [folders, tab]);
 
   const activeFolder = selectedFolder ? folders.find((f) => f.folder === selectedFolder) : null;
+  const allFiles = activeFolder ? [...activeFolder.files, ...(activeFolder.subFiles || [])] : [];
+
+  // Auto-select first folder on load / tab change
+  useEffect(() => {
+    if (folders.length > 0 && !selectedFolder) {
+      setSelectedFolder(folders[0].folder);
+    }
+  }, [folders, selectedFolder]);
+
+  // Auto-select first file when folder changes
+  useEffect(() => {
+    if (activeFolder && allFiles.length > 0) {
+      setSelectedFile({ folder: activeFolder.folder, file: allFiles[0] });
+    }
+  }, [activeFolder?.folder]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // File content query
   const fetchFn = tab === "synthesis" ? fetchFile : fetchPaperFile;
@@ -152,17 +170,18 @@ export function ResearchPage() {
   function handleSelectFolder(folder: string) {
     setSelectedFolder(folder);
     setSelectedFile(null);
+    setCol2View("files");
   }
 
   function handleTabChange(t: ResearchTab) {
     setTab(t);
     setSelectedFolder(null);
     setSelectedFile(null);
+    setCol2View("files");
   }
 
   const activeMeta = activeFolder?.indexContent ? parseIndexMeta(activeFolder.indexContent) : null;
   const activeTodo = activeFolder?.todoContent ? parseTodoStats(activeFolder.todoContent) : null;
-  const allFiles = activeFolder ? [...activeFolder.files, ...(activeFolder.subFiles || [])] : [];
 
   return (
     <div className="space-y-4">
@@ -175,8 +194,8 @@ export function ResearchPage() {
       {/* Three-column layout */}
       <div className="flex gap-4" style={{ minHeight: "calc(100vh - 140px)" }}>
 
-        {/* Column 1: Folder cards */}
-        <div className="w-56 shrink-0 space-y-2 overflow-y-auto">
+        {/* Column 1: Folder cards — 20% wider */}
+        <div className="w-[17rem] shrink-0 space-y-1.5 overflow-y-auto">
           {folderCards.map(({ folder, meta, todoStats }) => {
             const isActive = selectedFolder === folder.folder;
             const statusColor =
@@ -218,56 +237,72 @@ export function ResearchPage() {
           })}
         </div>
 
-        {/* Column 2: File list + Todo */}
+        {/* Column 2: Files or Todo (toggled) */}
         <div className="w-72 shrink-0 overflow-y-auto border-l border-[var(--border)] pl-4">
           {!activeFolder ? (
             <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Select a topic</p>
           ) : (
-            <div className="space-y-3">
-              <h2 className="text-sm font-semibold">
+            <div className="space-y-2">
+              {/* Title + toggle */}
+              <h2 className="text-sm font-semibold line-clamp-1">
                 {tab === "papers" ? PAPER_LABELS[activeFolder.folder] || activeFolder.folder : activeMeta?.title || activeFolder.folder}
               </h2>
 
-              {/* File list */}
-              {allFiles.length > 0 && (
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1">
-                    Documents ({allFiles.length})
-                  </p>
-                  <div className="space-y-0.5">
-                    {allFiles.map((file) => {
-                      const isActive = selectedFile?.file === file && selectedFile?.folder === activeFolder.folder;
-                      return (
-                        <button
-                          key={file}
-                          onClick={() => setSelectedFile({ folder: activeFolder.folder, file })}
-                          className={cn(
-                            "w-full text-left flex items-center gap-1.5 px-2 py-1.5 rounded text-[11px] transition-colors",
-                            isActive
-                              ? "bg-[var(--primary)]/10 text-[var(--foreground)]"
-                              : "hover:bg-[var(--muted)]/50 text-[var(--muted-foreground)]",
-                          )}
-                        >
-                          <FileText size={11} className="shrink-0" />
-                          <span className="truncate">{file.replace(/\.md$/, "")}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
+              {/* Files / Todo toggle */}
+              {activeFolder.todoContent && (
+                <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5">
+                  <button
+                    onClick={() => setCol2View("files")}
+                    className={cn(
+                      "flex-1 px-2 py-0.5 text-[10px] font-medium rounded transition-colors text-center",
+                      col2View === "files"
+                        ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
+                        : "text-[var(--muted-foreground)]",
+                    )}
+                  >
+                    Files ({allFiles.length})
+                  </button>
+                  <button
+                    onClick={() => setCol2View("todo")}
+                    className={cn(
+                      "flex-1 px-2 py-0.5 text-[10px] font-medium rounded transition-colors text-center",
+                      col2View === "todo"
+                        ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
+                        : "text-[var(--muted-foreground)]",
+                    )}
+                  >
+                    Todo ({activeTodo?.done}/{activeTodo?.total})
+                  </button>
                 </div>
               )}
 
-              {/* Todo */}
-              {activeFolder.todoContent && activeTodo && (
+              {/* File list */}
+              {col2View === "files" && allFiles.length > 0 && (
                 <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <CheckSquare size={11} className="text-[var(--muted-foreground)]" />
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Todo</span>
-                    <span className="text-[9px] text-[var(--muted-foreground)]">{activeTodo.done}/{activeTodo.total}</span>
-                    <div className="flex-1 h-1 rounded-full bg-[var(--muted)] overflow-hidden ml-1">
-                      <div className="h-full rounded-full bg-[var(--primary)]" style={{ width: `${activeTodo.total > 0 ? (activeTodo.done / activeTodo.total) * 100 : 0}%` }} />
-                    </div>
-                  </div>
+                  {allFiles.map((file) => {
+                    const isFileActive = selectedFile?.file === file && selectedFile?.folder === activeFolder.folder;
+                    return (
+                      <button
+                        key={file}
+                        onClick={() => setSelectedFile({ folder: activeFolder.folder, file })}
+                        className={cn(
+                          "w-full text-left flex items-center gap-1.5 px-2 py-1 rounded text-[11px] transition-colors",
+                          isFileActive
+                            ? "bg-[var(--primary)]/10 text-[var(--foreground)]"
+                            : "hover:bg-[var(--muted)]/50 text-[var(--muted-foreground)]",
+                        )}
+                      >
+                        <FileText size={10} className="shrink-0" />
+                        <span className="truncate">{file.replace(/\.md$/, "")}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Todo list */}
+              {col2View === "todo" && activeFolder.todoContent && (
+                <div className="text-[10px] leading-tight [&_div]:py-px">
                   <MarkdownContent content={activeFolder.todoContent} />
                 </div>
               )}
