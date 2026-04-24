@@ -393,7 +393,7 @@ export function CyberneticsView() {
 
       {/* Content */}
       {view === "deployments" ? (
-        <div>
+        <div className="space-y-4">
           <div className="border border-[var(--border)] rounded-lg overflow-hidden">
             {/* Header */}
             <div className="grid grid-cols-[1fr_5rem_5rem_4rem_4rem_5.5rem_4rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
@@ -415,14 +415,34 @@ export function CyberneticsView() {
               />
             ))}
           </div>
+          <ViewDescription text="Each deployment is a customer running the Cybernetics runtime against their own reflexive domain. Expand a row to see its feedback loops, actors, and regime transitions. The Max |G| column is the critical indicator: when the spectral radius exceeds 1.0, the feedback loop is amplifying rather than damping, meaning predictions are reshaping the thing they predict faster than the system can self-correct." />
         </div>
       ) : view === "loops" ? (
-        <LoopsListView />
+        <div className="space-y-4">
+          <LoopsListView />
+          <ViewDescription text="Feedback loops are the core unit of reflexive measurement. Each loop traces a cycle: observation leads to interpretation, interpretation leads to action, action changes the thing observed. The loop gain |G| is the spectral radius of the feedback Jacobian. Below 1.0, perturbations decay and the system is self-stabilizing. At or above 1.0, perturbations amplify: this is where Goodhart's Law, echo chambers, and boom-bust dynamics live. The MacKenzie mode classifies what kind of performativity is active; the Goodhart variant identifies the specific failure signature and its remediation." />
+        </div>
       ) : view === "alerts" ? (
-        <AlertsView />
+        <div className="space-y-4">
+          <AlertsView />
+          <ViewDescription text="Alerts flag two conditions that require attention. Amplifying loops (|G| >= 1.0) indicate active self-reinforcing dynamics where deployed models are reshaping the markets or systems they measure. Regime transitions record the moment a coupling group shifts between MacKenzie modes: from generic (model has no effect on reality) through effective (model improves predictions) to Barnesian (model creates the reality it predicts) to counter-performative (model destroys the conditions for its own accuracy). Each transition has a specific trigger and a specific remediation path." />
+        </div>
       ) : view === "actors" ? (
-        <ActorsListView />
+        <div className="space-y-4">
+          <ActorsListView />
+          <ViewDescription text="Actors are the entities that measure, predict, and act within each deployment. They can be algorithms (trading desks, RAR engines), models (DSGE, reward models), humans (DSMB panels, raters), or institutions (central banks, risk committees). Each actor's three verb counts show what kind of participant they are: heavy on actions means they are shaping the system; heavy on predictions means they are modeling it; heavy on measurements means they are observing it. Trust weight reflects the actor's historical calibration accuracy." />
+        </div>
       ) : null}
     </div>
+  );
+}
+
+/* ── View description ───────────────────────────────────────────────── */
+
+function ViewDescription({ text }: { text: string }) {
+  return (
+    <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)] px-1">
+      {text}
+    </p>
   );
 }

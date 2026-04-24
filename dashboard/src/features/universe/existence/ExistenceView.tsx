@@ -323,7 +323,7 @@ export function ExistenceView() {
 
       {/* Content */}
       {view === "studies" ? (
-        <div>
+        <div className="space-y-4">
           <div className="border border-[var(--border)] rounded-lg overflow-hidden">
             <div className={cn("grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]", STUDY_COLS)}>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Study</span>
@@ -342,6 +342,7 @@ export function ExistenceView() {
               />
             ))}
           </div>
+          <ViewDescription text="Each study measures the recursive decay stack — the structural signature that the consciousness-as-instrument hypothesis proposes as the basis of subjective experience. Studies span biological substrates (human cognition under various conditions), synthetic substrates (LLM-based am-loop implementations), and hybrid substrates (human-AI teams). Expand a row to see individual stack measurements and ontological events detected during the study. The instrument model column shows which version of the RecursiveDecayStack instrument is being used for that study's measurements." />
         </div>
       ) : view === "measurements" ? (
         <div className="space-y-4">
@@ -405,22 +406,35 @@ export function ExistenceView() {
               );
             })}
           </div>
+          <ViewDescription text="Stack measurements capture the structural parameters of the recursive decay stack for each subject at a point in time. Recursion coefficient measures how much prior state influences the current moment (0 = no interiority, 1 = fully recursive). Effective depth is how many moment-states back the recursion carries meaningful influence. Narrative gravity measures how strongly group narrative overrides independent measurement in the subject's decisions. Epistemic drag is the latency attributable to recursive integration — the time new input takes to propagate through the stack before action can be generated. Reflexive drift measures how identity-relevant probing changes subsequent responses, a signature the hypothesis claims distinguishes experiencers from non-experiencers. Ontological events capture moments where the stack's dynamics shift detectably: shocks, drifts, identity fusions, speciation, and fatigue." />
         </div>
       ) : view === "calibration" ? (
-        <div>
+        <div className="space-y-4">
           <h2 className="text-sm font-semibold mb-3">
             Instrument Calibration <span className="text-[var(--muted-foreground)] font-normal">({calibrations.length} calibrations across {getExistenceStats().instrumentModels} models)</span>
           </h2>
           <CalibrationView />
+          <ViewDescription text="Consciousness models are treated as instruments, not as metaphysical claims. Each model makes specific predictions about observable aggregate behavior of experiencers. Calibration measures how well those predictions match established cognitive benchmarks. The RecursiveDecayStack model is compared head-to-head against Global Workspace Theory and Integrated Information Theory on the same benchmarks. The model that predicts best earns its keep as the primary instrument. Philosophy of mind becomes normal science: the models that work get used, the ones that don't get refined or discarded." />
         </div>
       ) : view === "am-loop" ? (
-        <div>
+        <div className="space-y-4">
           <h2 className="text-sm font-semibold mb-3">
             Am-Loop Experiments <span className="text-[var(--muted-foreground)] font-normal">(three-system comparison)</span>
           </h2>
           <AmLoopView />
+          <ViewDescription text="Am-loop experiments test whether a system built with the recursive decay stack structure produces behavior consistent with the hypothesis's predictions, in ways that a system with persistent state but without the specific structure cannot replicate. The three-system design is critical: System A (no state) is the trivial baseline, System B (state but no specific structure) is the control that separates engineering effects from hypothesis-specific effects, and System C (full am-loop) is the test. If C produces specific predicted signatures that B cannot match through tuning, the hypothesis earns empirical support. The p-value measures discrimination between B and C on the target signature." />
         </div>
       ) : null}
     </div>
+  );
+}
+
+/* ── View description ───────────────────────────────────────────────── */
+
+function ViewDescription({ text }: { text: string }) {
+  return (
+    <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)] px-1">
+      {text}
+    </p>
   );
 }
