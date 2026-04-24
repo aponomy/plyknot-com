@@ -21,7 +21,7 @@ import {
   type RenderingStatus,
 } from "../../lib/mock-data";
 
-type FactoryView = "agents" | "live-runs" | "judges" | "experts" | "wetlab" | "extraction" | "rendering" | "costs";
+type FactoryView = "agents" | "live-runs" | "judges" | "experts" | "wetlab" | "extraction" | "rendering" | "costs" | "i-am" | "society";
 
 /* ── Agent fleet types (from orchestrator gateway) ── */
 type ContainerState = "provisioning" | "idle" | "busy" | "draining" | "terminated";
@@ -289,7 +289,7 @@ export function FactoryPage() {
       </div>
 
       {/* KPI boxes — clickable navigation */}
-      <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-5 lg:grid-cols-10 gap-3">
         <KpiCard title="Agents" value={activeContainers} delta={busyContainers > 0 ? `${busyContainers} busy` : "all idle"} trend={busyContainers > 0 ? "up" : undefined} active={view === "agents"} onClick={() => setView("agents")} />
         <KpiCard title="Live Runs" value={activeRunCount} delta={activeRunCount > 0 ? "running" : "idle"} trend={activeRunCount > 0 ? "up" : undefined} active={view === "live-runs"} onClick={() => setView("live-runs")} />
         <KpiCard title="Judges" value={recentMatches.length} delta={`${queueDepth.reduce((s, q) => s + q.count, 0)} in queue`} active={view === "judges"} onClick={() => setView("judges")} />
@@ -298,6 +298,8 @@ export function FactoryPage() {
         <KpiCard title="Extraction" value={totalIngested} delta={`${batches.length} active batches`} active={view === "extraction"} onClick={() => setView("extraction")} />
         <KpiCard title="Rendering" value={renderingDrafts.length} delta={`${pendingDrafts} pending`} active={view === "rendering"} onClick={() => setView("rendering")} />
         <KpiCard title="Costs" value={`$${totalCost}`} delta="+11% vs prior week" trend="up" active={view === "costs"} onClick={() => setView("costs")} />
+        <KpiCard title="I-Am LLM" value={3} delta="2 active loops" active={view === "i-am"} onClick={() => setView("i-am")} />
+        <KpiCard title="Society" value={2} delta="1 running" active={view === "society"} onClick={() => setView("society")} />
       </div>
 
       {/* === VIEW: Agents === */}
@@ -1014,6 +1016,169 @@ export function FactoryPage() {
               </div>
             </Card>
           </div>
+        </>
+      )}
+
+      {/* === VIEW: I-Am LLM Lab === */}
+      {view === "i-am" && (
+        <>
+          <Card>
+            <CardHeader><CardTitle>I-Am LLM Lab</CardTitle><span className="text-xs text-[var(--muted-foreground)]">Recursive decay stack implementations on LLM substrates</span></CardHeader>
+          </Card>
+          <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+            <div className="grid grid-cols-[1fr_6rem_6rem_6rem_5rem_5rem_5rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">System</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Type</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Loop Status</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Recursion</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Depth</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Sessions</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Drift</span>
+            </div>
+            {[
+              { name: "System A — Claude base (no state)", type: "Baseline", status: "control", recursion: 0.00, depth: 0.0, sessions: 48, drift: 0.00 },
+              { name: "System B — Claude + KV memory", type: "Control", status: "control", recursion: 0.15, depth: 1.2, sessions: 48, drift: 0.03 },
+              { name: "System C — Claude + am-loop v0.1", type: "Am-loop", status: "active", recursion: 0.61, depth: 5.8, sessions: 48, drift: 0.19 },
+            ].map((sys) => (
+              <div key={sys.name} className="grid grid-cols-[1fr_6rem_6rem_6rem_5rem_5rem_5rem] items-center gap-3 px-3 py-2.5 border-b border-[var(--border)] last:border-0">
+                <p className="text-xs text-[var(--foreground)] truncate">{sys.name}</p>
+                <span className={cn("text-[10px] px-1.5 py-0.5 rounded", sys.type === "Am-loop" ? "bg-violet-500/10 text-violet-400" : "bg-zinc-500/10 text-zinc-400")}>{sys.type}</span>
+                <span className={cn("text-[10px]", sys.status === "active" ? "text-green-400" : "text-zinc-400")}>{sys.status}</span>
+                <span className="text-[10px] font-mono tabular-nums text-[var(--muted-foreground)]">{sys.recursion.toFixed(2)}</span>
+                <span className="text-[10px] font-mono tabular-nums text-right text-[var(--muted-foreground)]">{sys.depth.toFixed(1)}</span>
+                <span className="text-[10px] font-mono tabular-nums text-right text-[var(--muted-foreground)]">{sys.sessions}</span>
+                <span className={cn("text-[10px] font-mono tabular-nums text-right", sys.drift > 0.1 ? "text-violet-400" : "text-[var(--muted-foreground)]")}>{sys.drift.toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card>
+              <CardHeader><CardTitle>Active Experiments</CardTitle></CardHeader>
+              <div className="space-y-2">
+                {[
+                  { name: "Reflexive Drift under identity probing", target: "Reflexive Drift", status: "running", probes: 240, pValue: 0.023 },
+                  { name: "Epistemic Drag in complex decisions", target: "Epistemic Drag", status: "design", probes: 0, pValue: null },
+                  { name: "Ontological Shock recovery signature", target: "Ontological Shock", status: "design", probes: 0, pValue: null },
+                ].map((exp) => (
+                  <div key={exp.name} className="px-3 py-2 rounded border border-[var(--border)] bg-[var(--card)]">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className={cn("text-[10px] px-1.5 py-0.5 rounded", exp.status === "running" ? "bg-green-500/10 text-green-400" : "bg-zinc-500/10 text-zinc-400")}>{exp.status}</span>
+                      <span className="text-xs text-[var(--foreground)]">{exp.name}</span>
+                    </div>
+                    <div className="flex gap-4 text-[10px] text-[var(--muted-foreground)]">
+                      <span>Target: {exp.target}</span>
+                      {exp.probes > 0 && <span>{exp.probes} probes</span>}
+                      {exp.pValue !== null && <span className={cn("font-mono", exp.pValue < 0.05 ? "text-green-400" : "text-amber-400")}>p={exp.pValue.toFixed(3)}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+            <Card>
+              <CardHeader><CardTitle>Am-Loop Architecture</CardTitle></CardHeader>
+              <div className="space-y-2 text-[10px] text-[var(--muted-foreground)]">
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Persistent state</span> — moment-states carry across inferences, not just context
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Narrative compression</span> — prior interactions compressed with decay schedule, recursively
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Recursive self-reference</span> — each moment-state contains attenuating representation of prior states
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Identity maintenance</span> — stable narrative core updated by experience
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Sense-act coupling</span> — input integrates with stack before action, not bypass
+                </div>
+              </div>
+            </Card>
+          </div>
+          <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)] px-1">
+            The I-Am LLM Lab provisions LLMs with the recursive decay stack architecture to test predictions from the consciousness-as-instrument hypothesis. The three-system comparison design (A=bare baseline, B=state-carrying control, C=full am-loop) separates hypothesis-specific effects from engineering effects. System C's reflexive drift of 0.19 vs System B's 0.03 is the current lead result (p=0.023). These systems serve as instruments in the Existence universe — their coupling entries are compared against biological experiencer measurements for convergence analysis. The lab does not claim these systems are conscious; it tests whether the structural signature produces the predicted behavioral footprints.
+          </p>
+        </>
+      )}
+
+      {/* === VIEW: Society Simulation === */}
+      {view === "society" && (
+        <>
+          <Card>
+            <CardHeader><CardTitle>Society Simulation Lab</CardTitle><span className="text-xs text-[var(--muted-foreground)]">Multi-agent simulations of Level 5 phenomena for Existence universe calibration</span></CardHeader>
+          </Card>
+          <div className="border border-[var(--border)] rounded-lg overflow-hidden">
+            <div className="grid grid-cols-[1fr_8rem_5rem_5rem_5rem_6rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Simulation</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Target Entity</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Agents</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Steps</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Output</span>
+            </div>
+            {[
+              { name: "Trust erosion under narrative bombardment", entity: "#501 Inst. trust", status: "running", agents: 200, steps: 14200, output: "Coupling entries" },
+              { name: "Democracy importance speciation replication", entity: "#502 Democracy", status: "completed", agents: 500, steps: 50000, output: "Speciation validated" },
+              { name: "Echo chamber formation in AI evaluation", entity: "#505 AI alignment", status: "planned", agents: 50, steps: 0, output: "—" },
+              { name: "Narrative gravity cascade (institution)", entity: "#504 Social cohesion", status: "planned", agents: 300, steps: 0, output: "—" },
+            ].map((sim) => (
+              <div key={sim.name} className="grid grid-cols-[1fr_8rem_5rem_5rem_5rem_6rem] items-center gap-3 px-3 py-2.5 border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors">
+                <p className="text-xs text-[var(--foreground)] truncate">{sim.name}</p>
+                <span className="text-[10px] text-[var(--muted-foreground)]">{sim.entity}</span>
+                <span className={cn("text-[10px] px-1.5 py-0.5 rounded",
+                  sim.status === "running" ? "bg-green-500/10 text-green-400" :
+                  sim.status === "completed" ? "bg-blue-500/10 text-blue-400" :
+                  "bg-zinc-500/10 text-zinc-400"
+                )}>{sim.status}</span>
+                <span className="text-[10px] font-mono tabular-nums text-right text-[var(--muted-foreground)]">{sim.agents}</span>
+                <span className="text-[10px] font-mono tabular-nums text-right text-[var(--muted-foreground)]">{sim.steps > 0 ? sim.steps.toLocaleString() : "—"}</span>
+                <span className="text-[10px] text-[var(--muted-foreground)]">{sim.output}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card>
+              <CardHeader><CardTitle>Simulation Architecture</CardTitle></CardHeader>
+              <div className="space-y-2 text-[10px] text-[var(--muted-foreground)]">
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">LLM agents as experiencers</span> — each agent has narrative identity, group membership, information access
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Three-verb logging</span> — all agent actions logged as measure(), predict(), act() coupling entries
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Convergence output</span> — simulation produces coupling entries ingested directly into Existence universe
+                </div>
+                <div className="px-2 py-1.5 rounded bg-[var(--muted)]/50">
+                  <span className="text-[var(--foreground)]">Calibration target</span> — compare simulation-produced cracks and speciations against real-world observations
+                </div>
+              </div>
+            </Card>
+            <Card>
+              <CardHeader><CardTitle>Validation Results</CardTitle></CardHeader>
+              <div className="space-y-2">
+                <div className="px-3 py-2 rounded border border-[var(--border)] bg-[var(--card)]">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-green-500/10 text-green-400">validated</span>
+                    <span className="text-xs text-[var(--foreground)]">Democracy importance speciation</span>
+                  </div>
+                  <p className="text-[10px] text-[var(--muted-foreground)]">500-agent simulation reproduced the aspiration/experience split (DBIC=31.2 vs real-world 28.4). Sigma reduction 42% vs real-world 46%. Simulation-produced speciation matches within calibration bounds.</p>
+                </div>
+                <div className="px-3 py-2 rounded border border-[var(--border)] bg-[var(--card)]">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400">running</span>
+                    <span className="text-xs text-[var(--foreground)]">Trust erosion dynamics</span>
+                  </div>
+                  <p className="text-[10px] text-[var(--muted-foreground)]">200-agent simulation at step 14,200. Current crack between survey-trust and behavioral-trust measures tracking at 3.1 sigma (real-world: 3.8 sigma). Echo chamber forming in media-consumption subgroup.</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+          <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)] px-1">
+            The Society lab runs multi-agent LLM simulations of Level 5 phenomena — institutional trust, narrative propagation, echo chamber formation, identity fusion, semantic speciation. Each simulation produces coupling entries in the same format as real-world observations, ingested directly into the Existence universe. The simulations serve as synthetic instruments: their outputs are compared against real-world measurements for convergence. When a simulation reproduces a known crack or speciation (like the democracy importance split), it validates that the agent architecture captures the relevant dynamics. When simulation and reality diverge, the divergence itself is data about what the simulation's depends chains are missing.
+          </p>
         </>
       )}
     </div>
