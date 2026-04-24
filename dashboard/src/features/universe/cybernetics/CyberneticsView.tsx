@@ -74,7 +74,7 @@ function DeploymentRow({ dep, expanded, onToggle }: { dep: CyberneticsDeployment
     <div className="border-b border-[var(--border)] last:border-0">
       <button
         onClick={onToggle}
-        className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] items-center gap-3 px-3 py-2.5 w-full text-left hover:bg-[var(--muted)]/30 transition-colors"
+        className="grid grid-cols-[1fr_5rem_5rem_4rem_4rem_5.5rem_4rem] items-center gap-3 px-3 py-2.5 w-full text-left hover:bg-[var(--muted)]/30 transition-colors"
       >
         <div className="min-w-0">
           <p className="text-xs font-medium text-[var(--foreground)] truncate">{dep.name}</p>
@@ -198,27 +198,29 @@ function LoopsListView() {
     [],
   );
 
+  const COLS = "grid-cols-[1fr_5.5rem_3rem_10rem_6rem_5rem]";
+
   return (
     <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-      <div className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+      <div className={cn("grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]", COLS)}>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Loop</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">|G|</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Trend</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Mode</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Goodhart</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Couplings</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] text-right">Couplings</span>
       </div>
       {sorted.map((loop) => {
         const dep = deployments.find((d) => d.id === loop.deploymentId);
         return (
-          <div key={loop.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0">
+          <div key={loop.id} className={cn("grid items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0", COLS)}>
             <div className="min-w-0">
               <p className="text-xs text-[var(--foreground)] truncate">{loop.name}</p>
               <p className="text-[10px] text-[var(--muted-foreground)]">{dep?.customer}</p>
             </div>
             <LoopGainBadge gain={loop.loopGain} />
             <span className={cn(
-              "text-[10px]",
+              "text-[10px] text-center",
               loop.gainTrend === "rising" ? "text-red-400" :
               loop.gainTrend === "falling" ? "text-green-400" :
               "text-[var(--muted-foreground)]",
@@ -231,7 +233,7 @@ function LoopsListView() {
             <span className="text-[10px] text-[var(--muted-foreground)]">
               {GOODHART_LABELS[loop.goodhartVariant]}
             </span>
-            <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
+            <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums text-right">
               {loop.couplingCount}
             </span>
           </div>
@@ -315,7 +317,7 @@ function ActorsListView() {
 
   return (
     <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-      <div className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+      <div className="grid grid-cols-[1fr_5rem_5rem_5.5rem_6rem_3.5rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Actor</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Type</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Actions</span>
@@ -326,7 +328,7 @@ function ActorsListView() {
       {sorted.map((actor) => {
         const dep = deployments.find((d) => d.id === actor.deploymentId);
         return (
-          <div key={actor.id} className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0">
+          <div key={actor.id} className="grid grid-cols-[1fr_5rem_5rem_5.5rem_6rem_3.5rem] items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0">
             <div className="min-w-0">
               <p className="text-xs text-[var(--foreground)] truncate">{actor.name}</p>
               <p className="text-[10px] text-[var(--muted-foreground)]">{dep?.customer}</p>
@@ -394,7 +396,7 @@ export function CyberneticsView() {
         <div>
           <div className="border border-[var(--border)] rounded-lg overflow-hidden">
             {/* Header */}
-            <div className="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
+            <div className="grid grid-cols-[1fr_5rem_5rem_4rem_4rem_5.5rem_4rem] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Deployment</span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Vertical</span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
