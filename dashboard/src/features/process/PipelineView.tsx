@@ -422,6 +422,8 @@ export function PipelineView() {
 
   return (
     <div className="space-y-6 max-w-6xl">
+      <h1 className="text-lg font-semibold">Process</h1>
+
       {/* KPI header — 6 cards */}
       <div className="grid grid-cols-6 gap-3">
         <KpiCard

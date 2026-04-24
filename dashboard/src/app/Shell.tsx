@@ -5,9 +5,9 @@ import {
   Globe,
   Factory,
   Workflow,
+  BookOpen,
   ListChecks,
   CalendarRange,
-  FlaskConical,
   Shield,
   Settings,
   LogOut,
@@ -30,9 +30,9 @@ const navItems = [
   { to: "/", icon: Globe, label: "Universe" },
   { to: "/factory", icon: Factory, label: "Factory" },
   { to: "/process", icon: Workflow, label: "Process" },
+  { to: "/research", icon: BookOpen, label: "Research" },
   { to: "/tracker", icon: ListChecks, label: "Tracker" },
   { to: "/timeline", icon: CalendarRange, label: "Timeline" },
-  { to: "/research", icon: FlaskConical, label: "Research" },
 ] as const;
 
 function NavRail() {
