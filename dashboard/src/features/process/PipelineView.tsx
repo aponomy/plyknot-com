@@ -219,10 +219,11 @@ function ColumnHeaders({ streams, orphanFindings, orphanDeliveries }: { streams:
 function ContainerDrawer({ containerId, onClose }: { containerId: string; onClose: () => void }) {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["container-detail", containerId],
     queryFn: () => fetchWorkContainer(containerId),
     enabled: !!containerId,
+    retry: false,
   });
 
   // Close on Escape
@@ -292,6 +293,10 @@ function ContainerDrawer({ containerId, onClose }: { containerId: string; onClos
         <div className="px-5 py-4 space-y-5">
           {isLoading && (
             <p className="text-xs text-[var(--muted-foreground)]">Loading details...</p>
+          )}
+
+          {error && (
+            <p className="text-xs text-red-400">Failed to load: {(error as Error).message}. Make sure the hub dev server is running.</p>
           )}
 
           {container?.description && (
