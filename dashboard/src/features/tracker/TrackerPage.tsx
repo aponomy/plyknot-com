@@ -226,6 +226,13 @@ export function TrackerPage() {
     return m;
   }, [themes]);
 
+  /* Auto-select first theme on load */
+  useEffect(() => {
+    if (themes.length > 0 && !selTheme) {
+      setSelTheme(themes[0].id);
+    }
+  }, [themes, selTheme]);
+
   /* Dismiss popups */
   useEffect(() => {
     const h = () => { setCtx(null); setPriPick(null); };
