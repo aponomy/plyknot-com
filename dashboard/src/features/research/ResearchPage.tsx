@@ -91,10 +91,10 @@ function MarkdownContent({ content }: { content: string }) {
     .replace(/^\- \[ \] (.+)$/gm, '<div class="flex items-center gap-1.5 py-0.5"><span class="text-[var(--muted-foreground)]">&#9744;</span><span>$1</span></div>')
     .replace(/^- (.+)$/gm, '<div class="flex items-start gap-1.5 py-0.5"><span class="text-[var(--muted-foreground)] shrink-0">&bull;</span><span>$1</span></div>')
     .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-[var(--muted)] pl-3 py-1 text-[var(--muted-foreground)] italic">$1</blockquote>')
-    .replace(/^---$/gm, '<hr class="border-[var(--border)] my-3" />')
+    .replace(/^---$/gm, '<hr class="border-[var(--border)] my-1.5" />')
     .replace(/\n\n/g, '<div class="h-2"></div>')
     .replace(/\n/g, "<br />");
-  return <div className="text-xs leading-relaxed text-[var(--foreground)]" dangerouslySetInnerHTML={{ __html: html }} />;
+  return <div className="text-xs leading-relaxed text-[var(--foreground)] [&>hr+h1]:mt-1 [&>hr+h2]:mt-1 [&>hr+h3]:mt-1 [&>hr+h4]:mt-1 [&>hr+div+h1]:mt-1 [&>hr+div+h2]:mt-1 [&>hr+br+h1]:mt-1 [&>hr+br+h2]:mt-1" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 /* ── Parsed todo item ────────────────────────────────────────────────── */
