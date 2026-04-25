@@ -227,7 +227,7 @@ export function ResearchPage() {
                 key={folder.folder}
                 onClick={() => handleSelectFolder(folder.folder)}
                 className={cn(
-                  "w-full text-left px-2 py-2 transition-colors",
+                  "w-full text-left px-2 py-2.5 transition-colors",
                   isActive
                     ? "bg-[var(--primary)]/5"
                     : "hover:bg-[var(--muted)]/30",
