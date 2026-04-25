@@ -521,6 +521,7 @@ export function ResearchPage() {
                             )}
                           >
                             <MessageSquare size={10} className="shrink-0" />
+                            <span className="text-[var(--muted-foreground)] shrink-0">{chat.num}.</span>
                             <span className="truncate capitalize">{chat.title}</span>
                           </button>
                         );
