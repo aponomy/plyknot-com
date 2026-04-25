@@ -14,6 +14,7 @@ import type {
   Task,
   AgentConfig,
   ModelVendor,
+  CoworkStep,
 } from './types.js';
 import { TaskQueue, createTask } from './queue.js';
 import { runAgent, type AgentResponse } from './agent.js';
@@ -46,20 +47,29 @@ export class Supervisor {
   private agentPrompts: Record<string, string> = {};
   private runId: string;
 
-  constructor(config: SupervisorConfig) {
+  constructor(config: SupervisorConfig, existingState?: SupervisorState) {
     this.config = config;
     this.queue = new TaskQueue();
-    this.runId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    this.state = {
-      config,
-      current_round: 0,
-      total_cost_usd: 0,
-      rounds: [],
-      task_queue: [],
-      status: 'running',
-      started_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+    this.runId = existingState?.run_id ?? `run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    if (existingState) {
+      // Resume from persisted state (cowork mode)
+      this.state = { ...existingState, config };
+    } else {
+      this.state = {
+        config,
+        current_round: 0,
+        current_step: null,
+        current_round_tasks: [],
+        total_cost_usd: 0,
+        rounds: [],
+        task_queue: [],
+        status: 'running',
+        started_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        run_id: this.runId,
+      };
+    }
   }
 
   /** Initialize: fetch agent prompts and crack context */
@@ -194,6 +204,129 @@ export class Supervisor {
   /** Get current state (for Cowork mode inspection) */
   getState(): SupervisorState {
     return { ...this.state };
+  }
+
+  // ── Step sequence for cowork ────────────────────────────────────────
+
+  private static readonly STEP_ORDER: CoworkStep[] = [
+    'propose', 'dispute', 'plan', 'execute', 'critique', 'delta', 'archive', 'meta-review',
+  ];
+
+  private nextStep(current: CoworkStep | null): CoworkStep | null {
+    if (!current) return 'propose';
+    const idx = Supervisor.STEP_ORDER.indexOf(current);
+    if (idx === -1 || idx >= Supervisor.STEP_ORDER.length - 1) return null;
+    return Supervisor.STEP_ORDER[idx + 1];
+  }
+
+  /**
+   * Run a single step within the current round (cowork mode).
+   * Call repeatedly to advance through: propose → dispute → plan → execute →
+   * critique → delta → archive → meta-review → round-complete.
+   *
+   * Returns the updated state with current_step indicating what just ran.
+   * When current_step === 'round-complete', the round is finished.
+   */
+  async runStep(): Promise<SupervisorState> {
+    // Start a new round if needed
+    if (this.state.current_step === null || this.state.current_step === 'round-complete') {
+      this.state.current_round++;
+      this.state.current_round_tasks = [];
+      this.state.current_step = null;
+
+      // Budget check
+      if (this.state.total_cost_usd >= this.config.budget_usd) {
+        this.state.status = 'budget_exhausted';
+        await this.createAttentionItem({
+          type: 'budget-exceeded',
+          priority: 'high',
+          title: `Budget exhausted for ${this.config.project_id}`,
+          description: `Spent $${this.state.total_cost_usd.toFixed(2)} of $${this.config.budget_usd} after ${this.state.current_round - 1} rounds.`,
+          requested_action: 'Increase budget or close the run',
+        });
+        return this.state;
+      }
+
+      if (this.state.current_round > this.config.max_rounds) {
+        this.state.status = 'completed';
+        return this.state;
+      }
+    }
+
+    const round = this.state.current_round;
+    const step = this.nextStep(this.state.current_step);
+
+    if (!step) {
+      // Should not happen, but safety
+      this.state.current_step = 'round-complete';
+      return this.state;
+    }
+
+    this.log(`Round ${round}, step: ${step}`);
+    this.state.current_step = step;
+
+    switch (step) {
+      case 'propose': {
+        const task = await this.runProposalStep(round);
+        this.state.current_round_tasks.push(task);
+        break;
+      }
+      case 'dispute': {
+        const tasks = await this.runDisputeResolutionStep(round);
+        this.state.current_round_tasks.push(...tasks);
+        break;
+      }
+      case 'plan': {
+        const task = await this.runPlanningStep(round);
+        if (task) this.state.current_round_tasks.push(task);
+        break;
+      }
+      case 'execute': {
+        const tasks = await this.runExecutionStep(round);
+        this.state.current_round_tasks.push(...tasks);
+        break;
+      }
+      case 'critique': {
+        const executeTasks = this.state.current_round_tasks.filter(t => t.type === 'execute');
+        const tasks = await this.runCritiqueStep(round, executeTasks);
+        this.state.current_round_tasks.push(...tasks);
+        break;
+      }
+      case 'delta': {
+        const executeTasks = this.state.current_round_tasks.filter(t => t.type === 'execute');
+        const critiqueTasks = this.state.current_round_tasks.filter(t => t.type === 'critique');
+        const tasks = await this.runDeltaStep(round, executeTasks, critiqueTasks);
+        this.state.current_round_tasks.push(...tasks);
+        break;
+      }
+      case 'archive': {
+        const deltaTasks = this.state.current_round_tasks.filter(t => t.type === 'delta');
+        const tasks = await this.runArchiveStep(round, deltaTasks);
+        this.state.current_round_tasks.push(...tasks);
+        break;
+      }
+      case 'meta-review': {
+        const previousMetaReview = this.state.rounds.length > 0
+          ? this.state.rounds[this.state.rounds.length - 1].meta_review
+          : undefined;
+        const metaReview = generateMetaReview({
+          round,
+          tasks: this.state.current_round_tasks,
+          previous_meta_review: previousMetaReview,
+        });
+        const roundResult = summarizeRound(round, this.state.current_round_tasks, metaReview);
+        this.state.rounds.push(roundResult);
+        this.state.total_cost_usd += roundResult.cost_usd;
+        this.state.task_queue = this.queue.all();
+        await this.persistState(roundResult, this.state.current_round_tasks);
+        this.log(`Round ${round} complete: ${roundResult.tasks_completed} tasks, $${roundResult.cost_usd.toFixed(4)}`);
+        this.state.current_step = 'round-complete';
+        break;
+      }
+    }
+
+    this.state.updated_at = new Date().toISOString();
+    return this.state;
   }
 
   // ── Extraction pipeline ─────────────────────────────────────────────

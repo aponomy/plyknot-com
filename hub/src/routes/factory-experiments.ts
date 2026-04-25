@@ -21,6 +21,7 @@ export async function handleListExperiments(db: D1Database, url: URL): Promise<R
   const hypothesisId = url.searchParams.get('hypothesis_id');
   const status = url.searchParams.get('status');
   const nodeType = url.searchParams.get('node_type');
+  const sortOrder = url.searchParams.get('sort_order');
 
   let sql = 'SELECT * FROM experiment_nodes';
   const binds: string[] = [];
@@ -30,7 +31,8 @@ export async function handleListExperiments(db: D1Database, url: URL): Promise<R
   if (status) { wheres.push('status = ?'); binds.push(status); }
   if (nodeType) { wheres.push('node_type = ?'); binds.push(nodeType); }
   if (wheres.length) sql += ' WHERE ' + wheres.join(' AND ');
-  sql += ' ORDER BY created_at DESC LIMIT 200';
+  sql += sortOrder === 'creation_asc' ? ' ORDER BY created_at ASC' : ' ORDER BY created_at DESC';
+  sql += ' LIMIT 200';
 
   const stmt = db.prepare(sql);
   const { results } = await (binds.length ? stmt.bind(...binds) : stmt).all<ExperimentRow>();
@@ -59,13 +61,39 @@ export async function handleCreateExperiment(request: Request, db: D1Database, a
     return json({ error: `node_type must be one of: ${validTypes.join(', ')}` }, 400);
   }
 
+  const parentNodeId = (body.parent_node_id as string) ?? null;
+
+  // Validate parent_node_id belongs to the same hypothesis
+  if (parentNodeId) {
+    const parent = await db.prepare(
+      'SELECT hypothesis_id FROM experiment_nodes WHERE id = ?'
+    ).bind(parentNodeId).first<{ hypothesis_id: string }>();
+    if (!parent) {
+      return json({ error: `parent_node_id "${parentNodeId}" not found` }, 400);
+    }
+    if (parent.hypothesis_id !== hypothesisId) {
+      return json({ error: `parent_node_id "${parentNodeId}" belongs to hypothesis "${parent.hypothesis_id}", not "${hypothesisId}"` }, 400);
+    }
+  }
+
+  // Validate cost schema if provided
+  if (body.config && typeof body.config === 'object') {
+    const config = body.config as Record<string, unknown>;
+    if (config.cost) {
+      const cost = config.cost as Record<string, unknown>;
+      if (cost.days !== undefined && typeof cost.days !== 'number') return json({ error: 'config.cost.days must be a number' }, 400);
+      if (cost.usd !== undefined && typeof cost.usd !== 'number') return json({ error: 'config.cost.usd must be a number' }, 400);
+      if (cost.compute_hours !== undefined && typeof cost.compute_hours !== 'number') return json({ error: 'config.cost.compute_hours must be a number' }, 400);
+    }
+  }
+
   await db.prepare(
     `INSERT INTO experiment_nodes (id, hypothesis_id, parent_node_id, node_type, config, status)
      VALUES (?, ?, ?, ?, ?, ?)`
   ).bind(
     id,
     hypothesisId,
-    (body.parent_node_id as string) ?? null,
+    parentNodeId,
     nodeType,
     JSON.stringify(body.config ?? {}),
     'pending',

@@ -778,7 +778,8 @@ export const FACTORY_TOOLS: Tool[] = [
         hypotheses_per_round: { type: 'number', description: 'Hypotheses to propose per round (default: 3)' },
         matches_per_round: { type: 'number', description: 'Tournament matches per round (default: 3)' },
         judge_vendors: { type: 'array', items: { type: 'string' }, description: 'Judge vendors: claude, google, openai (default: ["claude"])' },
-        mode: { type: 'string', enum: ['cowork', 'autonomous'], description: 'cowork = one round, autonomous = full loop (default: cowork)' },
+        mode: { type: 'string', enum: ['cowork', 'autonomous'], description: 'cowork = one step at a time, autonomous = full loop (default: cowork)' },
+        run_id: { type: 'string', description: 'Resume an existing run by ID (cowork mode). Omit to start a new run.' },
       },
       required: ['crack_id', 'project_id'],
     },
@@ -791,6 +792,21 @@ export const FACTORY_TOOLS: Tool[] = [
         return { error: 'Factory hub required.' };
       }
 
+      const vendors = (params.judge_vendors as string[]) ?? ['claude'];
+
+      // Agent runtime dispatches through GATEWAY_URL to containers (which have
+      // auth injected). If GATEWAY_URL is not set, falls back to direct vendor
+      // API calls for local dev.
+      if (!process.env.GATEWAY_URL) {
+        const missing: string[] = [];
+        if (!process.env.ANTHROPIC_API_KEY) missing.push('ANTHROPIC_API_KEY');
+        if (vendors.includes('google') && !process.env.GOOGLE_API_KEY) missing.push('GOOGLE_API_KEY');
+        if (vendors.includes('openai') && !process.env.OPENAI_API_KEY) missing.push('OPENAI_API_KEY');
+        if (missing.length > 0) {
+          return { error: `No GATEWAY_URL set and missing fallback API keys: ${missing.join(', ')}. Either set GATEWAY_URL to point to the orchestrator, or provide vendor API keys for local dev.` };
+        }
+      }
+
       const config = {
         mode: (params.mode as string) ?? 'cowork',
         project_id: params.project_id as string,
@@ -799,19 +815,40 @@ export const FACTORY_TOOLS: Tool[] = [
         max_rounds: (params.max_rounds as number) ?? 3,
         hypotheses_per_round: (params.hypotheses_per_round as number) ?? 3,
         matches_per_round: (params.matches_per_round as number) ?? 3,
-        judge_vendors: (params.judge_vendors as string[]) ?? ['claude'],
+        judge_vendors: vendors,
         org_hub_url: write.hubUrl ?? 'https://hub.plyknot.org',
         com_hub_url: write.factoryHubUrl,
         com_api_key: write.apiKey,
       };
 
-      const supervisor = new Supervisor(config as any);
+      // Try to resume existing run state from D1
+      let existingState = undefined;
+      const runId = params.run_id as string | undefined;
+      if (runId && config.mode === 'cowork') {
+        try {
+          const resp = await fetch(
+            `${write.factoryHubUrl}/v1/factory/supervisor/runs?run_id=${runId}`,
+            { headers: { authorization: `Bearer ${write.apiKey}` } },
+          );
+          if (resp.ok) {
+            const data = await resp.json() as { runs?: Array<Record<string, unknown>> };
+            if (data.runs?.[0]) {
+              existingState = data.runs[0] as any;
+            }
+          }
+        } catch {
+          // Start fresh if resume fails
+        }
+      }
+
+      const supervisor = new Supervisor(config as any, existingState);
       await supervisor.init();
 
       if (config.mode === 'autonomous') {
         return supervisor.run();
       } else {
-        return supervisor.runRound();
+        // Cowork: advance one step
+        return supervisor.runStep();
       }
     },
   },

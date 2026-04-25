@@ -84,9 +84,6 @@ function parseArgs(argv: string[]): SupervisorConfig {
     org_hub_url: 'https://hub.plyknot.org',
     com_hub_url: 'https://hub.plyknot.com',
     com_api_key: comApiKey,
-    anthropic_api_key: process.env.ANTHROPIC_API_KEY,
-    openai_api_key: process.env.OPENAI_API_KEY,
-    google_api_key: process.env.GOOGLE_API_KEY,
   };
 }
 
@@ -109,11 +106,15 @@ async function main() {
     const finalState = await supervisor.run();
     console.log(JSON.stringify(finalState, null, 2));
   } else {
-    // Cowork mode — run one round at a time
-    const state = await supervisor.runRound();
+    // Cowork mode — run one step at a time
+    const state = await supervisor.runStep();
     console.log(JSON.stringify(state, null, 2));
     console.error('');
-    console.error('[supervisor] Cowork mode: round complete. Run again to continue.');
+    if (state.current_step === 'round-complete') {
+      console.error(`[supervisor] Round ${state.current_round} complete. Run again to start next round.`);
+    } else {
+      console.error(`[supervisor] Step "${state.current_step}" complete (round ${state.current_round}). Run again for next step.`);
+    }
   }
 }
 

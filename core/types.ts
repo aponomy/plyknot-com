@@ -146,11 +146,12 @@ export interface SupervisorConfig {
   /** Hub URLs */
   org_hub_url: string;
   com_hub_url: string;
-  /** API keys */
+  /** Hub API key (for D1 persistence) */
   com_api_key: string;
-  openai_api_key?: string;
-  google_api_key?: string;
-  anthropic_api_key?: string;
+  // Vendor API keys are NOT in config — they come from the runtime environment
+  // via process.env (ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY).
+  // In containers: injected at startup via entrypoint.sh / docker env vars.
+  // In Claude Code: already in the developer's shell environment.
 }
 
 export interface RoundResult {
@@ -172,13 +173,30 @@ export interface RoundResult {
   meta_review: string;
 }
 
+export type CoworkStep =
+  | 'propose'
+  | 'dispute'
+  | 'plan'
+  | 'execute'
+  | 'critique'
+  | 'delta'
+  | 'archive'
+  | 'meta-review'
+  | 'round-complete';
+
 export interface SupervisorState {
   config: SupervisorConfig;
   current_round: number;
+  /** Current step within the round (cowork mode) */
+  current_step: CoworkStep | null;
+  /** Tasks completed so far in the current (in-progress) round */
+  current_round_tasks: Task[];
   total_cost_usd: number;
   rounds: RoundResult[];
   task_queue: Task[];
   status: 'running' | 'paused' | 'completed' | 'budget_exhausted' | 'error';
   started_at: string;
   updated_at: string;
+  /** Run ID for D1 persistence */
+  run_id: string;
 }

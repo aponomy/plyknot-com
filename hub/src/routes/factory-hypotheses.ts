@@ -27,17 +27,35 @@ export async function handleListHypotheses(db: D1Database, url: URL): Promise<Re
   const crackId = url.searchParams.get('crack_id');
   const status = url.searchParams.get('status');
 
-  let sql = 'SELECT * FROM hypotheses';
+  let sql = `SELECT h.*,
+    COALESCE(w.win_count, 0) AS win_count,
+    COALESCE(l.loss_count, 0) AS loss_count
+    FROM hypotheses h
+    LEFT JOIN (
+      SELECT winner AS hid, COUNT(*) AS win_count FROM tournament_matches GROUP BY winner
+    ) w ON w.hid = h.id
+    LEFT JOIN (
+      SELECT hid, COUNT(*) AS loss_count FROM (
+        SELECT CASE WHEN winner != hypothesis_a THEN hypothesis_a ELSE hypothesis_b END AS hid
+        FROM tournament_matches
+      ) GROUP BY hid
+    ) l ON l.hid = h.id`;
   const binds: string[] = [];
   const wheres: string[] = [];
 
-  if (crackId) { wheres.push('crack_id = ?'); binds.push(crackId); }
-  if (status) { wheres.push('status = ?'); binds.push(status); }
+  if (crackId) { wheres.push('h.crack_id = ?'); binds.push(crackId); }
+  if (status) { wheres.push('h.status = ?'); binds.push(status); }
   if (wheres.length) sql += ' WHERE ' + wheres.join(' AND ');
-  sql += ' ORDER BY elo_rating DESC LIMIT 100';
+  const sortBy = url.searchParams.get('sort');
+  if (sortBy === 'delta') {
+    sql += ' ORDER BY h.predicted_convergence_delta DESC NULLS LAST, h.elo_rating DESC';
+  } else {
+    sql += ' ORDER BY h.elo_rating DESC';
+  }
+  sql += ' LIMIT 100';
 
   const stmt = db.prepare(sql);
-  const { results } = await (binds.length ? stmt.bind(...binds) : stmt).all<HypothesisRow>();
+  const { results } = await (binds.length ? stmt.bind(...binds) : stmt).all<HypothesisRow & { win_count: number; loss_count: number }>();
 
   return json({
     hypotheses: results.map((r) => ({

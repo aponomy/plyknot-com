@@ -1,0 +1,27 @@
+# Canvas patch 3 — Trust-weight refinement for stochastic vs systematic errors
+
+*Drop-in addition to `canvas-architecture-design.md`. Insert as an addendum to the existing trust-weight discussion in the submission-architecture-calibration treatment (or as a new subsection under §9 if no dedicated trust-weight section exists). Cross-reference from any LLM-measurer-bearing pipeline, including the patent-FTO synthesis document at `notes/synthesis/patent-fto/patent-fto-protocol.md`.*
+
+---
+
+## §9.x Trust-weight handling for stochastic measurer errors
+
+The submission-architecture calibration model was designed for measurers whose errors are systematic — Penning trap drift that biases all electron-mass measurements in a consistent direction, radiologist consistency that scores pneumonia higher than peers across all cases, materials-DFT functionals that overestimate formation energies systematically. Trust-weight updates against systematic errors are predictive: a measurer that consistently disagrees with the consensus on property class X carries reduced weight on subsequent property-X measurements.
+
+Language-model measurers exhibit a different error mode. LLM hallucinations on dense reasoning text are often stochastic — prompt-position-dependent, sampling-temperature-dependent, token-boundary-dependent. A measurer that hallucinates one verdict on Claim 4 because of a specific prompt phrasing will not necessarily be wrong on Claim 5 with a different phrasing. Naive trust-weight updating against stochastic errors collapses all LLM measurer trust toward zero over time, because every measurer eventually produces a stochastic disagreement on some entry, and the trust-weight discipline punishes each one sequentially without distinguishing systematic-from-stochastic causes.
+
+The framework's resolution has five layers. Each layer is structurally independent of the others; collectively they prevent collapse-to-zero on stochastic errors while preserving sensitivity to genuine systematic biases.
+
+**One — Decompose disagreement before updating.** Every LLM measurement is N-resampled at different temperatures and seeds (default N=5). The within-measurer variance across resamples becomes σ on the coupling entry. Trust updates fire only on persistent disagreement after resampling has absorbed the stochastic component. A hallucination corrected by resampling never penalises the measurer; it lives in σ.
+
+**Two — Per-property and per-element-class trust.** The measurer's trust score is partitioned by property class, never aggregated globally. Opus carries a different trust score on `fto.elem.disclosed_in_reference` for software-claim references than on `fto.elem.functional_equivalence` for chemical-compound elements. The submission-architecture per-property MAD envelope already supports this; the patent-FTO layer registers element class as the property dimension. A measurer that is unreliable on one property class continues to function as a measurer on others.
+
+**Three — Trust floors prevent collapse to zero.** Each measurer has a configurable trust floor (default 0.2). Below the floor, the measurer still contributes to the convergence pattern as a tie-breaker but no longer to the primary verdict aggregation. A low-trust measurer's *disagreement* with high-trust measurers on a specific entry is itself diagnostic — it flags the entry as worth re-examining — without requiring the low-trust measurer to render verdicts on its own.
+
+**Four — Verdicts are rendered by the convergence pattern, not by individual measurers.** The framework's verdict on whether a target is ●, ◐, ◆, or ◈ is structured around the cross-substrate convergence pattern across the measurer panel. Even if every individual measurer's trust is 0.5, six measurers across three substrate families converging on a value is a structural fact that renders a verdict. Trust scores modulate edge cases and influence aggregation weights; they do not gate verdicts on their own.
+
+**Five — Failed calibration escalates automatically.** When trust on a property class cannot converge across the measurer panel — when stochastic errors dominate even after resampling, and the framework cannot distinguish reliable measurers from unreliable ones — that property class is escalated automatically as ◐ tension requiring human review. The framework's productive failure mode is honest escalation, not silent degradation. A property class on which no LLM measurer can reach reliable calibration is itself the signal that the property requires human verdict.
+
+The five-layer structure preserves the framework's epistemic honesty under stochastic-error conditions. The framework's value proposition under these conditions is not that it produces reliable verdicts on every entry; it is that it concentrates expensive human verification on the entries where it cannot. The economic case for the framework in any LLM-bearing application — patent freedom-to-operate, scientific extraction, regulatory audit — depends on this honest escalation discipline holding.
+
+This refinement does not replace the existing systematic-error trust-weight machinery. It layers on top. Systematic biases continue to update trust scores predictively; stochastic errors are absorbed into σ via N-resampling and into the per-property partitioning structure. The two error modes coexist in the same measurer set without contaminating each other's calibration.
