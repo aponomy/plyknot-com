@@ -84,7 +84,7 @@ function StreamRow({ stream, onOpenDrawer }: { stream: Stream; onOpenDrawer: (id
   const hasSource = !!stream.source_type || !!stream.source_ref;
 
   return (
-    <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 px-3 rounded-lg bg-[var(--muted)]/30 mb-2">
+    <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-4 px-4 rounded-lg bg-[var(--muted)] mb-2">
       {/* Initiation */}
       <div className="min-w-0">
         {hasSource ? (
@@ -437,7 +437,7 @@ export function PipelineView() {
                 <StreamRow key={s.id} stream={s} onOpenDrawer={setDrawerId} />
               ))}
               {(orphanFindings.length > 0 || orphanDeliveries.length > 0) && (
-                <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 px-3 rounded-lg bg-[var(--muted)]/30">
+                <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-4 px-4 rounded-lg bg-[var(--muted)]">
                   <div /><span /><div /><span />
                   <div className="space-y-1">
                     {orphanFindings.map((f) => <SmallFindingPill key={f.id} f={f} />)}
