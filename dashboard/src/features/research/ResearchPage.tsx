@@ -180,15 +180,7 @@ function TodoDetail({ content, idx }: { content: string; idx: number }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <span className={cn(
-          "text-lg",
-          item.done ? "text-green-400" : "text-[var(--muted-foreground)]",
-        )}>
-          {item.done ? "\u2611" : "\u2610"}
-        </span>
-        <h2 className="text-sm font-semibold text-[var(--foreground)]">{item.label}</h2>
-      </div>
+      <h2 className="text-sm font-semibold text-[var(--foreground)]">{item.label}</h2>
 
       {/* Metadata row */}
       <div className="flex flex-wrap gap-2">
