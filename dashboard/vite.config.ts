@@ -14,7 +14,7 @@ function scanFolder(folderPath: string, name: string) {
   const indexFile = files.find((f) => f.toLowerCase() === "index.md") || null;
   const todoFile = files.find((f) => f.toLowerCase() === "todo.md") || null;
   const otherFiles = files.filter(
-    (f) => f.toLowerCase() !== "index.md" && f.toLowerCase() !== "todo.md",
+    (f) => f.toLowerCase() !== "todo.md",
   );
   const indexContent = indexFile ? readFileSync(join(folderPath, indexFile), "utf-8") : null;
   const todoContent = todoFile ? readFileSync(join(folderPath, todoFile), "utf-8") : null;
