@@ -14,6 +14,7 @@ interface SynthesisFolder {
   files: string[];
   subFiles?: string[];
   fileCount: number;
+  chatMeta?: Array<{ num: number; title: string }>;
 }
 
 interface Manifest { folders: SynthesisFolder[] }
@@ -294,7 +295,14 @@ export function ResearchPage() {
   }), [folders, tab]);
 
   const activeFolder = selectedFolder ? folders.find((f) => f.folder === selectedFolder) : null;
-  const allFiles = activeFolder ? [...activeFolder.files, ...(activeFolder.subFiles || [])] : [];
+  const allFiles = useMemo(() => {
+    if (!activeFolder) return [];
+    const raw = [...activeFolder.files, ...(activeFolder.subFiles || [])];
+    // Put Index.md first
+    const idx = raw.findIndex((f) => f.toLowerCase() === "index.md");
+    if (idx > 0) { const [item] = raw.splice(idx, 1); raw.unshift(item); }
+    return raw;
+  }, [activeFolder]);
 
   // Auto-select first folder on load / tab change
   useEffect(() => {
@@ -496,15 +504,15 @@ export function ResearchPage() {
                   })}
 
                   {/* Chat links */}
-                  {activeMeta && activeMeta.chats.length > 0 && (
+                  {activeFolder.chatMeta && activeFolder.chatMeta.length > 0 && (
                     <>
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mt-3 mb-1 px-2">Chats ({activeMeta.chats.length})</p>
-                      {activeMeta.chats.map((num) => {
-                        const isActive = selectedChat?.num === num;
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mt-3 mb-1 px-2">Chats ({activeFolder.chatMeta.length})</p>
+                      {activeFolder.chatMeta.map((chat) => {
+                        const isActive = selectedChat?.num === chat.num;
                         return (
                           <button
-                            key={num}
-                            onClick={() => handleSelectChat(num)}
+                            key={chat.num}
+                            onClick={() => handleSelectChat(chat.num)}
                             className={cn(
                               "w-full text-left flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-colors",
                               isActive
@@ -513,7 +521,7 @@ export function ResearchPage() {
                             )}
                           >
                             <MessageSquare size={10} className="shrink-0" />
-                            <span className="truncate">Chat {num}</span>
+                            <span className="truncate capitalize">{chat.title}</span>
                           </button>
                         );
                       })}
@@ -538,46 +546,40 @@ export function ResearchPage() {
               <p className="text-xs text-[var(--muted-foreground)] py-4">Loading chat...</p>
             ) : chatData ? (
               <div>
-                {/* Breadcrumb */}
+                {/* Breadcrumb + full transcript link */}
                 <div className="flex items-center gap-1 text-[10px] text-[var(--muted-foreground)] mb-3">
                   <button onClick={() => { setSelectedChat(null); if (allFiles.length > 0 && activeFolder) { const idx = allFiles.find((f) => f.toLowerCase() === "index.md"); handleSelectFile(activeFolder.folder, idx || allFiles[0]); } }} className="hover:text-[var(--foreground)] transition-colors">
                     {activeMeta?.title || activeFolder?.folder}
                   </button>
                   <ChevronRight size={10} />
-                  <span className="text-[var(--foreground)]">Chat {chatData.number}: {chatData.title}</span>
-                  {selectedChat.showFull && (
+                  {selectedChat.showFull ? (
                     <>
+                      <button onClick={() => setSelectedChat({ ...selectedChat, showFull: false })} className="hover:text-[var(--foreground)] transition-colors">
+                        {chatData.title}
+                      </button>
                       <ChevronRight size={10} />
                       <span className="text-[var(--foreground)]">Full transcript</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-[var(--foreground)]">{chatData.title}</span>
+                      {chatData.fullContent && (
+                        <>
+                          <span className="mx-1">·</span>
+                          <button onClick={() => setSelectedChat({ ...selectedChat, showFull: true })} className="text-[var(--primary)] hover:underline">
+                            Full transcript
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
 
-                {selectedChat.showFull ? (
-                  /* Full chat */
-                  <div>
-                    <button
-                      onClick={() => setSelectedChat({ ...selectedChat, showFull: false })}
-                      className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] mb-3 transition-colors"
-                    >
-                      &larr; Back to summary
-                    </button>
-                    <MarkdownContent content={chatData.fullContent || "Full transcript not available."} />
-                  </div>
-                ) : (
-                  /* Summary */
-                  <div>
-                    <MarkdownContent content={chatData.summaryContent || "No summary available."} />
-                    {chatData.fullContent && (
-                      <button
-                        onClick={() => setSelectedChat({ ...selectedChat, showFull: true })}
-                        className="mt-4 text-xs text-[var(--primary)] hover:underline"
-                      >
-                        Read full transcript &rarr;
-                      </button>
-                    )}
-                  </div>
-                )}
+                <MarkdownContent content={
+                  selectedChat.showFull
+                    ? (chatData.fullContent || "Full transcript not available.")
+                    : (chatData.summaryContent || "No summary available.")
+                } />
               </div>
             ) : (
               <p className="text-xs text-[var(--muted-foreground)]">Chat not found.</p>

@@ -35,6 +35,30 @@ function scanFolder(folderPath: string, name: string) {
     }
   } catch {}
 
+  // Resolve chat references from Index.md frontmatter
+  let chatMeta: Array<{ num: number; title: string }> = [];
+  if (indexContent) {
+    const chatMatch = indexContent.match(/^chat:\s*(.+)$/m);
+    if (chatMatch) {
+      const raw = chatMatch[1].trim();
+      let nums: number[] = [];
+      if (raw.startsWith("[")) {
+        nums = raw.replace(/[[\]]/g, "").split(",").map((n: string) => parseInt(n.trim())).filter((n: number) => !isNaN(n));
+      } else {
+        const n = parseInt(raw); if (!isNaN(n)) nums = [n];
+      }
+      const summaryDir = resolve(__dirname, "../../research/chat/summary");
+      try {
+        const summaryFiles = readdirSync(summaryDir);
+        chatMeta = nums.map((num) => {
+          const file = summaryFiles.find((f) => f.startsWith(`${String(num).padStart(2, "0")}-`));
+          const title = file ? file.replace(/^\d+-/, "").replace(/\.md$/, "").replace(/-/g, " ") : `Chat ${num}`;
+          return { num, title };
+        });
+      } catch {}
+    }
+  }
+
   return {
     folder: name,
     indexFile,
@@ -44,6 +68,7 @@ function scanFolder(folderPath: string, name: string) {
     files: otherFiles,
     subFiles,
     fileCount: otherFiles.length + subFiles.length,
+    chatMeta,
   };
 }
 
