@@ -10,7 +10,7 @@ const sources: { value: DataSource; label: string }[] = [
   { value: "plyknot.org", label: "Open" },
   { value: "plyknot.com", label: "Research Lab" },
   { value: "cybernetics", label: "Cybernetics" },
-  { value: "existence", label: "Existence" },
+  { value: "existence", label: "Social" },
 ];
 
 export function DataSourceToggle({ value, onChange }: DataSourceToggleProps) {
