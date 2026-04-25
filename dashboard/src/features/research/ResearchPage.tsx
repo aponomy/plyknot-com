@@ -88,7 +88,7 @@ function TodoList({ content }: { content: string }) {
         const isDone = line.startsWith("- [x]");
         const text = line.replace(/^- \[[ x]\] /, "");
         return (
-          <div key={i} className="flex items-start gap-1.5 py-[3px] text-[10px] leading-tight">
+          <div key={i} className="flex items-start gap-1.5 py-[3px] text-[11px] leading-tight">
             <span className={cn("shrink-0 mt-px", isDone ? "text-green-400" : "text-[var(--muted-foreground)]")}>
               {isDone ? "\u2611" : "\u2610"}
             </span>
@@ -299,7 +299,7 @@ export function ResearchPage() {
                         key={file}
                         onClick={() => setSelectedFile({ folder: activeFolder.folder, file })}
                         className={cn(
-                          "w-full text-left flex items-center gap-1.5 px-2 py-1 rounded text-[11px] transition-colors",
+                          "w-full text-left flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-colors",
                           isFileActive
                             ? "bg-[var(--primary)]/10 text-[var(--foreground)]"
                             : "hover:bg-[var(--muted)]/50 text-[var(--muted-foreground)]",
