@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import {
@@ -24,12 +24,10 @@ import {
   type TrackerIssue,
   type Finding,
 } from "../../lib/hub-api";
-import { KpiCard } from "../../components/ui/kpi-card";
 import { cn } from "../../lib/utils";
 
 /* ── Constants ──────────────────────────────────────────────────────── */
 
-type ViewMode = "pipeline" | "backlog" | "active" | "findings" | "deliveries" | "done";
 
 const KIND_LABELS: Record<string, string> = {
   "crack-resolution": "Crack",
@@ -195,16 +193,21 @@ function SmallDeliveryPill({ d, onOpen }: { d: StreamDelivery; onOpen: () => voi
   );
 }
 
-function ColumnHeaders() {
+function ColumnHeaders({ streams, orphanFindings, orphanDeliveries }: { streams: Stream[]; orphanFindings: StreamFinding[]; orphanDeliveries: StreamDelivery[] }) {
+  const initiationCount = streams.filter((s) => s.source_type || s.source_ref).length;
+  const projectCount = streams.length;
+  const findingsCount = streams.reduce((n, s) => n + s.findings.length, 0) + orphanFindings.length;
+  const deliveriesCount = streams.reduce((n, s) => n + s.deliveries.length, 0) + orphanDeliveries.length;
+
   return (
     <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-center gap-x-3 pb-2 border-b border-[var(--border)]">
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Initiation</p>
+      <p className="text-xs font-semibold text-[var(--foreground)]">Initiation {initiationCount > 0 && <span className="text-[var(--muted-foreground)] font-normal">({initiationCount})</span>}</p>
       <span />
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Project</p>
+      <p className="text-xs font-semibold text-[var(--foreground)]">Project {projectCount > 0 && <span className="text-[var(--muted-foreground)] font-normal">({projectCount})</span>}</p>
       <span />
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Findings</p>
+      <p className="text-xs font-semibold text-[var(--foreground)]">Findings {findingsCount > 0 && <span className="text-[var(--muted-foreground)] font-normal">({findingsCount})</span>}</p>
       <span />
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Deliveries</p>
+      <p className="text-xs font-semibold text-[var(--foreground)]">Deliveries {deliveriesCount > 0 && <span className="text-[var(--muted-foreground)] font-normal">({deliveriesCount})</span>}</p>
     </div>
   );
 }
@@ -402,7 +405,6 @@ function ContainerDrawer({ containerId, onClose }: { containerId: string; onClos
    ════════════════════════════════════════════════════════════════════════ */
 
 export function PipelineView() {
-  const [view, setView] = useState<ViewMode>("pipeline");
   const [drawerId, setDrawerId] = useState<string | null>(null);
 
   const { data, isLoading } = useQuery({
@@ -414,90 +416,35 @@ export function PipelineView() {
   const orphanFindings = data?.orphan_findings ?? [];
   const orphanDeliveries = data?.orphan_deliveries ?? [];
 
-  // Compute counts
-  const backlogStreams = useMemo(() => streams.filter((s) => s.status === "backlog"), [streams]);
-  const activeStreams = useMemo(() => streams.filter((s) => s.status === "active" && s.kind !== "delivery"), [streams]);
-  const allFindings = useMemo(() => [
-    ...streams.flatMap((s) => s.findings),
-    ...orphanFindings,
-  ], [streams, orphanFindings]);
-  const allDeliveries = useMemo(() => [
-    ...streams.flatMap((s) => s.deliveries),
-    ...orphanDeliveries,
-  ], [streams, orphanDeliveries]);
-  const doneStreams = useMemo(() => streams.filter((s) => s.status === "completed"), [streams]);
-
-  const totalStreams = streams.length + orphanFindings.length + orphanDeliveries.length;
-
   const closeDrawer = useCallback(() => setDrawerId(null), []);
 
   return (
     <div className="space-y-6 max-w-6xl">
       <h1 className="text-lg font-semibold">Discovery Process</h1>
 
-      {/* KPI header — 6 cards */}
-      <div className="grid grid-cols-6 gap-3">
-        <KpiCard
-          title="Pipeline"
-          value={totalStreams}
-          active={view === "pipeline"}
-          onClick={() => setView("pipeline")}
-        />
-        <KpiCard
-          title="Backlog"
-          value={backlogStreams.length}
-          active={view === "backlog"}
-          onClick={() => setView("backlog")}
-        />
-        <KpiCard
-          title="Projects"
-          value={activeStreams.length}
-          active={view === "active"}
-          onClick={() => setView("active")}
-        />
-        <KpiCard
-          title="Findings"
-          value={allFindings.length}
-          active={view === "findings"}
-          onClick={() => setView("findings")}
-        />
-        <KpiCard
-          title="Deliveries"
-          value={allDeliveries.length}
-          active={view === "deliveries"}
-          onClick={() => setView("deliveries")}
-        />
-        <KpiCard
-          title="Done"
-          value={doneStreams.length}
-          active={view === "done"}
-          onClick={() => setView("done")}
-        />
-      </div>
-
-      {/* Content area */}
       {isLoading ? (
         <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">Loading...</p>
-      ) : view === "pipeline" ? (
-        /* ── Stream table ─────────────────────────────────────────── */
+      ) : (
         <div>
-          <ColumnHeaders />
+          <ColumnHeaders streams={streams} orphanFindings={orphanFindings} orphanDeliveries={orphanDeliveries} />
           {streams.length === 0 && orphanFindings.length === 0 && orphanDeliveries.length === 0 ? (
             <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">
               No pipeline streams yet. Create a project with a kind (crack-resolution, investigation, etc.) to start a stream.
             </p>
           ) : (
-            <div>
+            <div className="mt-3">
               {streams.map((s) => (
                 <StreamRow key={s.id} stream={s} onOpenDrawer={setDrawerId} />
               ))}
               {(orphanFindings.length > 0 || orphanDeliveries.length > 0) && (
-                <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 border-t border-dashed border-[var(--border)]">
+                <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 px-3 rounded-lg bg-[var(--muted)]/30">
                   <div /><span /><div /><span />
                   <div className="space-y-1">
                     {orphanFindings.map((f) => <SmallFindingPill key={f.id} f={f} />)}
                   </div>
-                  <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+                  {orphanDeliveries.length > 0 ? (
+                    <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-2 shrink-0" />
+                  ) : <span />}
                   <div className="space-y-1">
                     {orphanDeliveries.map((d) => (
                       <SmallDeliveryPill key={d.id} d={d} onOpen={() => setDrawerId(d.id)} />
@@ -508,42 +455,7 @@ export function PipelineView() {
             </div>
           )}
         </div>
-      ) : view === "backlog" ? (
-        <StreamListTable
-          title="Backlog"
-          items={backlogStreams}
-          columns={["title", "kind", "source", "issues", "category"]}
-          empty="No backlog items. Create a container with status 'backlog' to add ideas."
-          onOpen={setDrawerId}
-        />
-      ) : view === "active" ? (
-        <StreamListTable
-          title="Active Projects"
-          items={activeStreams}
-          columns={["title", "kind", "exec", "progress", "findings", "category"]}
-          empty="No active projects. Promote backlog items or create a project."
-          onOpen={setDrawerId}
-        />
-      ) : view === "findings" ? (
-        <FindingsListTable
-          findings={allFindings}
-          empty="No findings yet. Run experiments to generate findings."
-        />
-      ) : view === "deliveries" ? (
-        <DeliveriesListTable
-          deliveries={allDeliveries}
-          empty="No active deliveries. Spawn a delivery from a finding."
-          onOpen={setDrawerId}
-        />
-      ) : view === "done" ? (
-        <StreamListTable
-          title="Completed"
-          items={doneStreams}
-          columns={["title", "kind", "progress", "findings", "category"]}
-          empty="No completed items yet."
-          onOpen={setDrawerId}
-        />
-      ) : null}
+      )}
 
       {/* Drawer */}
       {drawerId && (
@@ -553,236 +465,3 @@ export function PipelineView() {
   );
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   List tables — used for Backlog, Projects, Findings, Deliveries, Done
-   ════════════════════════════════════════════════════════════════════════ */
-
-const COL_HEADERS: Record<string, string> = {
-  title: "Name",
-  kind: "Kind",
-  exec: "Mode",
-  progress: "Progress",
-  issues: "Issues",
-  findings: "Findings",
-  category: "Category",
-  source: "Source",
-};
-
-function StreamListTable({
-  title,
-  items,
-  columns,
-  empty,
-  onOpen,
-}: {
-  title: string;
-  items: Stream[];
-  columns: string[];
-  empty: string;
-  onOpen: (id: string) => void;
-}) {
-  return (
-    <div>
-      <h2 className="text-sm font-semibold mb-3">
-        {title} <span className="text-[var(--muted-foreground)] font-normal">({items.length})</span>
-      </h2>
-      {items.length === 0 ? (
-        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">{empty}</p>
-      ) : (
-        <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-          {/* Header */}
-          <div className="grid items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]"
-            style={{ gridTemplateColumns: columns.map((c) => c === "title" ? "1fr" : "auto").join(" ") }}
-          >
-            {columns.map((col) => (
-              <span key={col} className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
-                {COL_HEADERS[col] || col}
-              </span>
-            ))}
-          </div>
-          {/* Rows */}
-          {items.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => onOpen(item.id)}
-              className="grid items-center gap-3 px-3 py-2 w-full text-left border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
-              style={{ gridTemplateColumns: columns.map((c) => c === "title" ? "1fr" : "auto").join(" ") }}
-            >
-              {columns.map((col) => (
-                <StreamCell key={col} col={col} item={item} />
-              ))}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function StreamCell({ col, item }: { col: string; item: Stream }) {
-  switch (col) {
-    case "title":
-      return (
-        <div className="min-w-0">
-          <p className="text-xs font-medium text-[var(--foreground)] truncate">{item.title}</p>
-        </div>
-      );
-    case "kind":
-      return (
-        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
-          {KIND_LABELS[item.kind] || item.kind || "—"}
-        </span>
-      );
-    case "exec":
-      return (
-        <div className="flex items-center gap-1">
-          <ExecIcon mode={item.execution_mode} />
-          <span className="text-[10px] text-[var(--muted-foreground)]">
-            {item.execution_mode || "—"}
-          </span>
-        </div>
-      );
-    case "progress":
-      return item.issue_count > 0
-        ? <ProgressBar done={item.done_count} total={item.issue_count} />
-        : <span className="text-[10px] text-[var(--muted-foreground)]">—</span>;
-    case "issues":
-      return (
-        <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
-          {item.issue_count}
-        </span>
-      );
-    case "findings":
-      return (
-        <span className="text-[10px] text-[var(--muted-foreground)] tabular-nums">
-          {item.findings.length || "—"}
-        </span>
-      );
-    case "category":
-      return (
-        <span className="text-[10px] text-[var(--muted-foreground)] whitespace-nowrap">
-          {item.category_label}
-        </span>
-      );
-    case "source":
-      return (
-        <span className="text-[10px] text-[var(--muted-foreground)] whitespace-nowrap">
-          {item.source_type || "—"}
-        </span>
-      );
-    default:
-      return <span />;
-  }
-}
-
-/* ── Findings list table ────────────────────────────────────────────── */
-
-function FindingsListTable({ findings, empty }: { findings: StreamFinding[]; empty: string }) {
-  return (
-    <div>
-      <h2 className="text-sm font-semibold mb-3">
-        Findings <span className="text-[var(--muted-foreground)] font-normal">({findings.length})</span>
-      </h2>
-      {findings.length === 0 ? (
-        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">{empty}</p>
-      ) : (
-        <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-          <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Title</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Type</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Triage</span>
-          </div>
-          {findings.map((f) => (
-            <div
-              key={f.id}
-              className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 border-b border-[var(--border)] last:border-0"
-            >
-              <div className="min-w-0 flex items-center gap-1.5">
-                <Lightbulb size={11} className="text-amber-400 shrink-0" />
-                <p className="text-xs text-[var(--foreground)] truncate">{f.title}</p>
-              </div>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
-                {f.finding_type}
-              </span>
-              <span className={cn(
-                "text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap",
-                f.status === "confirmed" ? "bg-green-500/10 text-green-400" :
-                f.status === "draft" ? "bg-zinc-500/10 text-zinc-400" :
-                "bg-amber-500/10 text-amber-400",
-              )}>
-                {f.status}
-              </span>
-              <span className={cn(
-                "text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap",
-                f.triage === "actioned" ? "bg-green-500/10 text-green-400" :
-                f.triage === "parked" ? "bg-zinc-500/10 text-zinc-400" :
-                "bg-amber-500/10 text-amber-400",
-              )}>
-                {f.triage || "pending"}
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ── Deliveries list table ──────────────────────────────────────────── */
-
-function DeliveriesListTable({
-  deliveries,
-  empty,
-  onOpen,
-}: {
-  deliveries: StreamDelivery[];
-  empty: string;
-  onOpen: (id: string) => void;
-}) {
-  return (
-    <div>
-      <h2 className="text-sm font-semibold mb-3">
-        Deliveries <span className="text-[var(--muted-foreground)] font-normal">({deliveries.length})</span>
-      </h2>
-      {deliveries.length === 0 ? (
-        <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">{empty}</p>
-      ) : (
-        <div className="border border-[var(--border)] rounded-lg overflow-hidden">
-          <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 bg-[var(--muted)]/50 border-b border-[var(--border)]">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Title</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Track</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Status</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Progress</span>
-          </div>
-          {deliveries.map((d) => (
-            <button
-              key={d.id}
-              onClick={() => onOpen(d.id)}
-              className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 px-3 py-2 w-full text-left border-b border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/30 transition-colors"
-            >
-              <div className="min-w-0 flex items-center gap-1.5">
-                {d.track === "paper" ? (
-                  <FileText size={11} className="text-violet-400 shrink-0" />
-                ) : (
-                  <Package size={11} className="text-violet-400 shrink-0" />
-                )}
-                <p className="text-xs text-[var(--foreground)] truncate">{d.title}</p>
-              </div>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
-                {d.track ? TRACK_LABELS[d.track] || d.track : "—"}
-              </span>
-              <span className={cn("text-[10px] whitespace-nowrap", STATUS_COLORS[d.status])}>
-                {d.delivery_status || d.status}
-              </span>
-              {d.issue_count > 0
-                ? <ProgressBar done={d.done_count} total={d.issue_count} />
-                : <span className="text-[10px] text-[var(--muted-foreground)]">—</span>
-              }
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
