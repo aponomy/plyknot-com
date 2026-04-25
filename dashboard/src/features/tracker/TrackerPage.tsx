@@ -273,7 +273,7 @@ export function TrackerPage() {
       {/* Main */}
       <div className="flex flex-1 min-h-0">
         {/* ── Nav column ──────────────────────────────────────────────────── */}
-        <div style={{ width: 240, minWidth: 240, borderRight: "1px solid var(--border)", background: "var(--muted)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{ width: 240, minWidth: 240, borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ height: 36, display: "flex", alignItems: "center", padding: "0 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: moving ? C.accent : "var(--muted-foreground)", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
             {moving ? (
               <><span>Click destination theme</span><button onClick={() => setMoving(null)} style={{ marginLeft: "auto", border: "none", background: "none", color: "var(--muted-foreground)", cursor: "pointer", fontSize: 11 }}>Cancel</button></>
