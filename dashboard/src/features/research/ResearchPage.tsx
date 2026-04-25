@@ -74,30 +74,160 @@ function MarkdownContent({ content }: { content: string }) {
   return <div className="text-xs leading-relaxed text-[var(--foreground)]" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-/* ── Todo list (dedicated renderer, sorted: open first, done last) ─── */
+/* ── Parsed todo item ────────────────────────────────────────────────── */
 
-function TodoList({ content }: { content: string }) {
-  const lines = content.split("\n").filter((l) => l.match(/^- \[[ x]\]/));
-  const open = lines.filter((l) => l.startsWith("- [ ]"));
-  const done = lines.filter((l) => l.startsWith("- [x]"));
+interface TodoItem {
+  idx: number;
+  done: boolean;
+  label: string;
+  priority: string | null;  // P0, P1, P2, etc.
+  phase: string | null;     // Phase 1, Phase 2, etc.
+  date: string | null;      // [may], [jun], etc.
+  description: string | null;
+}
+
+function parseTodoItems(content: string): TodoItem[] {
+  const lines = content.split("\n");
+  const items: TodoItem[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(/^- \[( |x)\] (.+)$/);
+    if (!m) continue;
+    const done = m[1] === "x";
+    let raw = m[2];
+
+    // Extract priority (P0:, P1:, etc.)
+    const prioMatch = raw.match(/^(P\d):\s*/);
+    const priority = prioMatch ? prioMatch[1] : null;
+    if (prioMatch) raw = raw.slice(prioMatch[0].length);
+
+    // Extract phase
+    const phaseMatch = raw.match(/^(Phase\s+[\d.]+[a-z]?):\s*/i);
+    const phase = phaseMatch ? phaseMatch[1] : null;
+    if (phaseMatch) raw = raw.slice(phaseMatch[0].length);
+
+    // Extract date from [xxx] at end
+    const dateMatch = raw.match(/\s*\[([^\]]+)\]\s*$/);
+    const date = dateMatch ? dateMatch[1] : null;
+    if (dateMatch) raw = raw.slice(0, dateMatch.index);
+
+    // Collect description lines (indented > lines following)
+    const descLines: string[] = [];
+    while (i + 1 < lines.length && lines[i + 1].match(/^\s+>/)) {
+      descLines.push(lines[i + 1].replace(/^\s+>\s?/, ""));
+      i++;
+    }
+
+    items.push({
+      idx: items.length,
+      done,
+      label: raw.trim(),
+      priority,
+      phase,
+      date,
+      description: descLines.length > 0 ? descLines.join(" ") : null,
+    });
+  }
+  return items;
+}
+
+/* ── Todo list (clickable, sorted: open first, done last) ────────────── */
+
+function TodoList({ content, selectedIdx, onSelect }: { content: string; selectedIdx: number | null; onSelect: (idx: number) => void }) {
+  const items = useMemo(() => parseTodoItems(content), [content]);
+  const open = items.filter((t) => !t.done);
+  const done = items.filter((t) => t.done);
   const sorted = [...open, ...done];
 
   return (
     <div>
-      {sorted.map((line, i) => {
-        const isDone = line.startsWith("- [x]");
-        const text = line.replace(/^- \[[ x]\] /, "");
+      {sorted.map((item) => {
+        const isActive = selectedIdx === item.idx;
         return (
-          <div key={i} className="flex items-start gap-1.5 py-[3px] text-[11px] leading-tight">
-            <span className={cn("shrink-0 mt-px", isDone ? "text-green-400" : "text-[var(--muted-foreground)]")}>
-              {isDone ? "\u2611" : "\u2610"}
+          <button
+            key={item.idx}
+            onClick={() => onSelect(item.idx)}
+            className={cn(
+              "w-full text-left flex items-start gap-1.5 py-[3px] text-[11px] leading-tight rounded px-1 transition-colors",
+              isActive ? "bg-[var(--primary)]/10" : "hover:bg-[var(--muted)]/30",
+            )}
+          >
+            <span className={cn("shrink-0 mt-px", item.done ? "text-green-400" : "text-[var(--muted-foreground)]")}>
+              {item.done ? "\u2611" : "\u2610"}
             </span>
-            <span className={cn(isDone && "line-through text-[var(--muted-foreground)]")}>
-              {text}
+            <span className={cn("flex-1", item.done && "line-through text-[var(--muted-foreground)]")}>
+              {item.priority && <span className={cn(
+                "font-mono mr-1",
+                item.priority === "P0" ? "text-red-400" : item.priority === "P1" ? "text-amber-400" : "text-[var(--muted-foreground)]",
+              )}>{item.priority}</span>}
+              {item.label}
             </span>
-          </div>
+            {item.date && (
+              <span className="text-[9px] text-[var(--muted-foreground)] shrink-0 mt-px">{item.date}</span>
+            )}
+          </button>
         );
       })}
+    </div>
+  );
+}
+
+/* ── Todo detail (shown in column 3) ─────────────────────────────────── */
+
+function TodoDetail({ content, idx }: { content: string; idx: number }) {
+  const items = useMemo(() => parseTodoItems(content), [content]);
+  const item = items[idx];
+  if (!item) return <p className="text-xs text-[var(--muted-foreground)]">Todo not found.</p>;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <span className={cn(
+          "text-lg",
+          item.done ? "text-green-400" : "text-[var(--muted-foreground)]",
+        )}>
+          {item.done ? "\u2611" : "\u2610"}
+        </span>
+        <h2 className="text-sm font-semibold text-[var(--foreground)]">{item.label}</h2>
+      </div>
+
+      {/* Metadata row */}
+      <div className="flex flex-wrap gap-2">
+        {item.priority && (
+          <span className={cn(
+            "text-[10px] px-1.5 py-0.5 rounded font-mono",
+            item.priority === "P0" ? "bg-red-500/10 text-red-400" :
+            item.priority === "P1" ? "bg-amber-500/10 text-amber-400" :
+            "bg-zinc-500/10 text-zinc-400",
+          )}>
+            {item.priority}
+          </span>
+        )}
+        {item.phase && (
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-violet-500/10 text-violet-400">
+            {item.phase}
+          </span>
+        )}
+        {item.date && (
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400">
+            {item.date}
+          </span>
+        )}
+        <span className={cn(
+          "text-[10px] px-1.5 py-0.5 rounded",
+          item.done ? "bg-green-500/10 text-green-400" : "bg-zinc-500/10 text-zinc-400",
+        )}>
+          {item.done ? "done" : "open"}
+        </span>
+      </div>
+
+      {/* Description */}
+      {item.description ? (
+        <div className="border-l-2 border-[var(--border)] pl-3">
+          <p className="text-xs leading-relaxed text-[var(--foreground)]">{item.description}</p>
+        </div>
+      ) : (
+        <p className="text-xs text-[var(--muted-foreground)] italic">No description.</p>
+      )}
     </div>
   );
 }
@@ -129,6 +259,7 @@ export function ResearchPage() {
   const [tab, setTab] = useState<ResearchTab>("synthesis");
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<{ folder: string; file: string } | null>(null);
+  const [selectedTodo, setSelectedTodo] = useState<number | null>(null);
   const [col2View, setCol2View] = useState<Col2View>("files");
 
   const { data: synthData } = useQuery({ queryKey: ["research-manifest"], queryFn: fetchManifest });
@@ -161,6 +292,7 @@ export function ResearchPage() {
   useEffect(() => {
     if (activeFolder && allFiles.length > 0) {
       setSelectedFile({ folder: activeFolder.folder, file: allFiles[0] });
+      setSelectedTodo(null);
     }
   }, [activeFolder?.folder]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -175,6 +307,7 @@ export function ResearchPage() {
   function handleSelectFolder(folder: string) {
     setSelectedFolder(folder);
     setSelectedFile(null);
+    setSelectedTodo(null);
     setCol2View("files");
   }
 
@@ -182,7 +315,18 @@ export function ResearchPage() {
     setTab(t);
     setSelectedFolder(null);
     setSelectedFile(null);
+    setSelectedTodo(null);
     setCol2View("files");
+  }
+
+  function handleSelectFile(folder: string, file: string) {
+    setSelectedFile({ folder, file });
+    setSelectedTodo(null);
+  }
+
+  function handleSelectTodo(idx: number) {
+    setSelectedTodo(idx);
+    setSelectedFile(null);
   }
 
   const activeMeta = activeFolder?.indexContent ? parseIndexMeta(activeFolder.indexContent) : null;
@@ -297,7 +441,7 @@ export function ResearchPage() {
                     return (
                       <button
                         key={file}
-                        onClick={() => setSelectedFile({ folder: activeFolder.folder, file })}
+                        onClick={() => handleSelectFile(activeFolder.folder, file)}
                         className={cn(
                           "w-full text-left flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-colors",
                           isFileActive
@@ -315,17 +459,19 @@ export function ResearchPage() {
 
               {/* Todo list */}
               {col2View === "todo" && activeFolder.todoContent && (
-                <TodoList content={activeFolder.todoContent} />
+                <TodoList content={activeFolder.todoContent} selectedIdx={selectedTodo} onSelect={handleSelectTodo} />
               )}
             </div>
           )}
         </div>
 
-        {/* Column 3: File content */}
+        {/* Column 3: File content or Todo detail */}
         <div className="flex-1 overflow-y-auto border-l border-[var(--border)] pl-4 pr-1">
-          {!selectedFile ? (
+          {selectedTodo !== null && activeFolder?.todoContent ? (
+            <TodoDetail content={activeFolder.todoContent} idx={selectedTodo} />
+          ) : !selectedFile ? (
             <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">
-              {activeFolder ? "Select a document to read" : ""}
+              {activeFolder ? "Select a document or todo" : ""}
             </p>
           ) : fileLoading ? (
             <p className="text-xs text-[var(--muted-foreground)] py-4">Loading...</p>
