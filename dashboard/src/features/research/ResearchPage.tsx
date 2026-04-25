@@ -289,7 +289,8 @@ export function ResearchPage() {
       setSelectedTodo(open.length > 0 ? open[0].idx : items.length > 0 ? items[0].idx : null);
       setSelectedFile(null);
     } else if (allFiles.length > 0) {
-      setSelectedFile({ folder: activeFolder.folder, file: allFiles[0] });
+      const indexFile = allFiles.find((f) => f.toLowerCase() === "index.md");
+      setSelectedFile({ folder: activeFolder.folder, file: indexFile || allFiles[0] });
       setSelectedTodo(null);
     }
   }, [activeFolder?.folder]); // eslint-disable-line react-hooks/exhaustive-deps
