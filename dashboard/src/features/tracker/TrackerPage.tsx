@@ -309,7 +309,7 @@ export function TrackerPage() {
                         <span style={{ display: "flex", gap: 3 }}>
                           <NBadge n={0} bg={C.doingBg} fg={C.doing} />
                           <NBadge n={0} bg={C.p0Bg} fg={C.p0} />
-                          <NBadge n={th.done_count} bg={C.doneBg} fg={C.done} />
+                          <NBadge n={th.issue_count - th.done_count} bg={C.doneBg} fg={C.done} />
                           <NBadge n={th.issue_count} bg="color-mix(in srgb, var(--border) 50%, transparent)" fg="var(--muted-foreground)" />
                         </span>
                       </div>
