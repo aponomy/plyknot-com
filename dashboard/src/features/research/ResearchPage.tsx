@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { FileText, CheckSquare } from "lucide-react";
+import { FileText, CheckSquare, MessageSquare, ChevronRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 /* ── Types ──────────────────────────────────────────────────────────── */
@@ -17,7 +17,7 @@ interface SynthesisFolder {
 }
 
 interface Manifest { folders: SynthesisFolder[] }
-interface IndexMeta { title: string; status: string; body: string }
+interface IndexMeta { title: string; status: string; body: string; chats: number[] }
 
 /* ── API ────────────────────────────────────────────────────────────── */
 
@@ -31,6 +31,18 @@ async function fetchFile(folder: string, file: string): Promise<string> {
   const r = await fetch(`/research/files/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`);
   return (await r.json()).content;
 }
+interface ChatData {
+  number: number;
+  title: string;
+  summaryContent: string | null;
+  fullContent: string | null;
+}
+
+async function fetchChat(num: number): Promise<ChatData> {
+  const r = await fetch(`/research/chat/${num}`);
+  return r.json();
+}
+
 async function fetchPaperFile(folder: string, file: string): Promise<string> {
   const r = await fetch(`/research/paper-files/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`);
   return (await r.json()).content;
@@ -38,14 +50,24 @@ async function fetchPaperFile(folder: string, file: string): Promise<string> {
 
 function parseIndexMeta(content: string): IndexMeta {
   let title = "", status = "idea", body = content;
+  let chats: number[] = [];
   const fm = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (fm) {
     body = fm[2].trim();
     const t = fm[1].match(/title:\s*(.+)/); if (t) title = t[1].trim();
     const s = fm[1].match(/status:\s*(.+)/); if (s) status = s[1].trim();
+    const c = fm[1].match(/chat:\s*(.+)/);
+    if (c) {
+      const raw = c[1].trim();
+      if (raw.startsWith("[")) {
+        chats = raw.replace(/[[\]]/g, "").split(",").map((n) => parseInt(n.trim())).filter((n) => !isNaN(n));
+      } else {
+        const n = parseInt(raw); if (!isNaN(n)) chats = [n];
+      }
+    }
   }
   if (!title) { const h = body.match(/^#\s+(.+)/m); title = h ? h[1] : "Untitled"; }
-  return { title, status, body };
+  return { title, status, body, chats };
 }
 
 function parseTodoStats(content: string) {
@@ -252,6 +274,7 @@ export function ResearchPage() {
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<{ folder: string; file: string } | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<number | null>(null);
+  const [selectedChat, setSelectedChat] = useState<{ num: number; showFull: boolean } | null>(null);
   const [col2View, setCol2View] = useState<Col2View>("files");
 
   const { data: synthData } = useQuery({ queryKey: ["research-manifest"], queryFn: fetchManifest });
@@ -292,6 +315,7 @@ export function ResearchPage() {
       const indexFile = allFiles.find((f) => f.toLowerCase() === "index.md");
       setSelectedFile({ folder: activeFolder.folder, file: indexFile || allFiles[0] });
       setSelectedTodo(null);
+      setSelectedChat(null);
     }
   }, [activeFolder?.folder]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -303,10 +327,18 @@ export function ResearchPage() {
     enabled: !!selectedFile,
   });
 
+  // Chat query
+  const { data: chatData, isLoading: chatLoading } = useQuery({
+    queryKey: ["research-chat", selectedChat?.num],
+    queryFn: () => fetchChat(selectedChat!.num),
+    enabled: !!selectedChat,
+  });
+
   function handleSelectFolder(folder: string) {
     setSelectedFolder(folder);
     setSelectedFile(null);
     setSelectedTodo(null);
+    setSelectedChat(null);
     // col2View is preserved — if user was on Todo tab, it stays on Todo
   }
 
@@ -315,17 +347,26 @@ export function ResearchPage() {
     setSelectedFolder(null);
     setSelectedFile(null);
     setSelectedTodo(null);
+    setSelectedChat(null);
     setCol2View("files");
   }
 
   function handleSelectFile(folder: string, file: string) {
     setSelectedFile({ folder, file });
     setSelectedTodo(null);
+    setSelectedChat(null);
   }
 
   function handleSelectTodo(idx: number) {
     setSelectedTodo(idx);
     setSelectedFile(null);
+    setSelectedChat(null);
+  }
+
+  function handleSelectChat(num: number) {
+    setSelectedChat({ num, showFull: false });
+    setSelectedFile(null);
+    setSelectedTodo(null);
   }
 
   const activeMeta = activeFolder?.indexContent ? parseIndexMeta(activeFolder.indexContent) : null;
@@ -453,6 +494,31 @@ export function ResearchPage() {
                       </button>
                     );
                   })}
+
+                  {/* Chat links */}
+                  {activeMeta && activeMeta.chats.length > 0 && (
+                    <>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mt-3 mb-1 px-2">Chats ({activeMeta.chats.length})</p>
+                      {activeMeta.chats.map((num) => {
+                        const isActive = selectedChat?.num === num;
+                        return (
+                          <button
+                            key={num}
+                            onClick={() => handleSelectChat(num)}
+                            className={cn(
+                              "w-full text-left flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-colors",
+                              isActive
+                                ? "bg-[var(--primary)]/10 text-[var(--foreground)]"
+                                : "hover:bg-[var(--muted)]/50 text-[var(--muted-foreground)]",
+                            )}
+                          >
+                            <MessageSquare size={10} className="shrink-0" />
+                            <span className="truncate">Chat {num}</span>
+                          </button>
+                        );
+                      })}
+                    </>
+                  )}
                 </div>
               )}
 
@@ -464,9 +530,59 @@ export function ResearchPage() {
           )}
         </div>
 
-        {/* Column 3: File content or Todo detail */}
+        {/* Column 3: File content, Todo detail, or Chat */}
         <div className="flex-1 overflow-y-auto border-l border-[var(--border)] pl-4 pr-1">
-          {selectedTodo !== null && activeFolder?.todoContent ? (
+          {selectedChat ? (
+            /* Chat view */
+            chatLoading ? (
+              <p className="text-xs text-[var(--muted-foreground)] py-4">Loading chat...</p>
+            ) : chatData ? (
+              <div>
+                {/* Breadcrumb */}
+                <div className="flex items-center gap-1 text-[10px] text-[var(--muted-foreground)] mb-3">
+                  <button onClick={() => { setSelectedChat(null); if (allFiles.length > 0 && activeFolder) { const idx = allFiles.find((f) => f.toLowerCase() === "index.md"); handleSelectFile(activeFolder.folder, idx || allFiles[0]); } }} className="hover:text-[var(--foreground)] transition-colors">
+                    {activeMeta?.title || activeFolder?.folder}
+                  </button>
+                  <ChevronRight size={10} />
+                  <span className="text-[var(--foreground)]">Chat {chatData.number}: {chatData.title}</span>
+                  {selectedChat.showFull && (
+                    <>
+                      <ChevronRight size={10} />
+                      <span className="text-[var(--foreground)]">Full transcript</span>
+                    </>
+                  )}
+                </div>
+
+                {selectedChat.showFull ? (
+                  /* Full chat */
+                  <div>
+                    <button
+                      onClick={() => setSelectedChat({ ...selectedChat, showFull: false })}
+                      className="text-[10px] text-[var(--muted-foreground)] hover:text-[var(--foreground)] mb-3 transition-colors"
+                    >
+                      &larr; Back to summary
+                    </button>
+                    <MarkdownContent content={chatData.fullContent || "Full transcript not available."} />
+                  </div>
+                ) : (
+                  /* Summary */
+                  <div>
+                    <MarkdownContent content={chatData.summaryContent || "No summary available."} />
+                    {chatData.fullContent && (
+                      <button
+                        onClick={() => setSelectedChat({ ...selectedChat, showFull: true })}
+                        className="mt-4 text-xs text-[var(--primary)] hover:underline"
+                      >
+                        Read full transcript &rarr;
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="text-xs text-[var(--muted-foreground)]">Chat not found.</p>
+            )
+          ) : selectedTodo !== null && activeFolder?.todoContent ? (
             <TodoDetail content={activeFolder.todoContent} idx={selectedTodo} />
           ) : !selectedFile ? (
             <p className="text-xs text-[var(--muted-foreground)] py-8 text-center">

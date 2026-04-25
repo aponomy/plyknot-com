@@ -6,6 +6,7 @@ import { join, resolve } from "node:path";
 
 const SYNTHESIS_DIR = resolve(__dirname, "../../research/notes/synthesis");
 const PAPERS_DIR = resolve(__dirname, "../../research/papers");
+const CHAT_DIR = resolve(__dirname, "../../research/chat");
 
 function scanFolder(folderPath: string, name: string) {
   const files = readdirSync(folderPath)
@@ -129,6 +130,34 @@ function researchFilesPlugin(): Plugin {
           }
           try {
             res.end(JSON.stringify({ path: relPath, content: readFileSync(absPath, "utf-8") }));
+          } catch (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: String(err) }));
+          }
+          return;
+        }
+
+        // GET /research/chat/<number> — returns summary + full file paths
+        const chatMatch = req.url.match(/^\/research\/chat\/(\d+)$/);
+        if (chatMatch) {
+          const num = chatMatch[1];
+          try {
+            const summaryDir = join(CHAT_DIR, "summary");
+            const fullDir = join(CHAT_DIR, "full");
+            const summaryFiles = readdirSync(summaryDir).filter((f) => f.startsWith(`${num.padStart(2, "0")}-`));
+            const fullFiles = readdirSync(fullDir).filter((f) => f.startsWith(`${num.padStart(2, "0")}-`));
+            const summaryFile = summaryFiles[0] || null;
+            const fullFile = fullFiles[0] || null;
+            const summaryContent = summaryFile ? readFileSync(join(summaryDir, summaryFile), "utf-8") : null;
+            const fullContent = fullFile ? readFileSync(join(fullDir, fullFile), "utf-8") : null;
+            res.end(JSON.stringify({
+              number: parseInt(num),
+              summaryFile,
+              fullFile,
+              summaryContent,
+              fullContent,
+              title: summaryFile ? summaryFile.replace(/^\d+-/, "").replace(/\.md$/, "").replace(/-/g, " ") : `Chat ${num}`,
+            }));
           } catch (err) {
             res.statusCode = 500;
             res.end(JSON.stringify({ error: String(err) }));
