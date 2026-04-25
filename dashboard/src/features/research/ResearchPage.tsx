@@ -233,14 +233,17 @@ export function ResearchPage() {
                     : "hover:bg-[var(--muted)]/30",
                 )}
               >
-                <div className="flex items-center gap-1.5">
-                  <p className={cn("text-[11px] font-medium flex-1 line-clamp-1 leading-tight", isActive ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]")}>
-                    {meta?.title || folder.folder}
-                  </p>
-                  {todoStats && todoStats.total > 0 && (
-                    <span className="text-[8px] text-[var(--muted-foreground)] tabular-nums shrink-0">{todoStats.done}/{todoStats.total}</span>
-                  )}
-                </div>
+                <p className={cn("text-[11px] font-medium line-clamp-1 leading-tight", isActive ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]")}>
+                  {meta?.title || folder.folder}
+                </p>
+                {todoStats && todoStats.total > 0 && (
+                  <div className="flex items-center gap-1 mt-1">
+                    <div className="flex-1 h-1 rounded-full bg-[var(--muted)] overflow-hidden">
+                      <div className="h-full rounded-full bg-[var(--primary)]" style={{ width: `${(todoStats.done / todoStats.total) * 100}%` }} />
+                    </div>
+                    <span className="text-[8px] text-[var(--muted-foreground)] tabular-nums">{todoStats.done}/{todoStats.total}</span>
+                  </div>
+                )}
               </button>
             );
           })}
