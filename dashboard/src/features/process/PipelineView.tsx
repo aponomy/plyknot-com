@@ -81,22 +81,31 @@ function ProgressBar({ done, total, wide }: { done: number; total: number; wide?
    ════════════════════════════════════════════════════════════════════════ */
 
 function StreamRow({ stream, onOpenDrawer }: { stream: Stream; onOpenDrawer: (id: string) => void }) {
+  const hasFindings = stream.findings.length > 0;
+  const hasDeliveries = stream.deliveries.length > 0;
+  const hasSource = !!stream.source_type || !!stream.source_ref;
+
   return (
-    <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 border-b border-[var(--border)] last:border-0">
+    <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start gap-x-3 py-3 px-3 rounded-lg bg-[var(--muted)]/30 mb-2">
       {/* Initiation */}
       <div className="min-w-0">
-        <div className="flex items-center gap-1.5 mb-0.5">
-          <CircleDot size={11} className={STATUS_COLORS[stream.status] || "text-zinc-400"} />
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
-            {stream.source_type || "internal"}
-          </span>
-        </div>
-        <p className="text-[10px] text-[var(--muted-foreground)] truncate">
-          {stream.source_ref || "—"}
-        </p>
+        {hasSource ? (
+          <div className="px-2 py-1.5 rounded border border-[var(--border)] bg-[var(--card)]">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <CircleDot size={11} className={STATUS_COLORS[stream.status] || "text-zinc-400"} />
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
+                {stream.source_type || "internal"}
+              </span>
+            </div>
+            {stream.source_ref && (
+              <p className="text-[10px] text-[var(--muted-foreground)] truncate">{stream.source_ref}</p>
+            )}
+          </div>
+        ) : null}
       </div>
 
-      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+      {/* Arrow: initiation → project (always shown, project always exists) */}
+      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-2 shrink-0" />
 
       {/* Project */}
       <button
@@ -118,24 +127,26 @@ function StreamRow({ stream, onOpenDrawer }: { stream: Stream; onOpenDrawer: (id
         <ProgressBar done={stream.done_count} total={stream.issue_count} />
       </button>
 
-      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+      {/* Arrow: project → findings (only if findings exist) */}
+      {hasFindings ? (
+        <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-2 shrink-0" />
+      ) : <span />}
 
       {/* Findings */}
       <div className="min-w-0 space-y-1">
-        {stream.findings.length === 0 ? (
-          <p className="text-[10px] text-[var(--muted-foreground)] py-2">—</p>
-        ) : stream.findings.map((f) => (
+        {stream.findings.map((f) => (
           <SmallFindingPill key={f.id} f={f} />
         ))}
       </div>
 
-      <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-1 shrink-0" />
+      {/* Arrow: findings → deliveries (only if deliveries exist) */}
+      {hasDeliveries ? (
+        <ArrowRight size={14} className="text-[var(--muted-foreground)]/30 mt-2 shrink-0" />
+      ) : <span />}
 
       {/* Deliveries */}
       <div className="min-w-0 space-y-1">
-        {stream.deliveries.length === 0 ? (
-          <p className="text-[10px] text-[var(--muted-foreground)] py-2">—</p>
-        ) : stream.deliveries.map((d) => (
+        {stream.deliveries.map((d) => (
           <SmallDeliveryPill key={d.id} d={d} onOpen={() => onOpenDrawer(d.id)} />
         ))}
       </div>
@@ -422,7 +433,7 @@ export function PipelineView() {
 
   return (
     <div className="space-y-6 max-w-6xl">
-      <h1 className="text-lg font-semibold">Process</h1>
+      <h1 className="text-lg font-semibold">Discovery Process</h1>
 
       {/* KPI header — 6 cards */}
       <div className="grid grid-cols-6 gap-3">

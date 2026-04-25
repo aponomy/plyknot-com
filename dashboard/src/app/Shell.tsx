@@ -29,7 +29,7 @@ import { AgentPanel } from "../components/agent/AgentPanel";
 const navItems = [
   { to: "/", icon: Globe, label: "Universe" },
   { to: "/factory", icon: Factory, label: "Factory" },
-  { to: "/process", icon: Workflow, label: "Process" },
+  { to: "/process", icon: Workflow, label: "Discovery" },
   { to: "/research", icon: BookOpen, label: "Research" },
   { to: "/tracker", icon: ListChecks, label: "Tracker" },
   { to: "/timeline", icon: CalendarRange, label: "Timeline" },
