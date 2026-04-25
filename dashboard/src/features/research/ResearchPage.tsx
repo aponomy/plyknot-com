@@ -218,43 +218,29 @@ export function ResearchPage() {
             ))}
           </div>
 
-          <div className="flex-1 overflow-y-auto space-y-1.5">
+          <div className="flex-1 overflow-y-auto divide-y divide-[var(--border)]">
           {folderCards.map(({ folder, meta, todoStats }) => {
             const isActive = selectedFolder === folder.folder;
-            const statusColor =
-              meta?.status === "active" ? "bg-green-500/10 text-green-400" :
-              meta?.status === "completed" ? "bg-blue-500/10 text-blue-400" :
-              meta?.status === "paused" ? "bg-amber-500/10 text-amber-400" :
-              "bg-zinc-500/10 text-zinc-400";
 
             return (
               <button
                 key={folder.folder}
                 onClick={() => handleSelectFolder(folder.folder)}
                 className={cn(
-                  "w-full text-left rounded-lg border p-3 transition-colors",
+                  "w-full text-left px-2 py-2 transition-colors",
                   isActive
-                    ? "border-[var(--primary)] bg-[var(--primary)]/5"
-                    : "border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40",
+                    ? "bg-[var(--primary)]/5"
+                    : "hover:bg-[var(--muted)]/30",
                 )}
               >
-                <div className="flex items-center gap-1.5 mb-1">
-                  <span className={cn("text-[9px] px-1 py-0.5 rounded", statusColor)}>
-                    {meta?.status || "idea"}
-                  </span>
-                  <span className="text-[9px] text-[var(--muted-foreground)] ml-auto">{folder.fileCount}</span>
+                <div className="flex items-center gap-1.5">
+                  <p className={cn("text-[11px] font-medium flex-1 line-clamp-1 leading-tight", isActive ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]")}>
+                    {meta?.title || folder.folder}
+                  </p>
+                  {todoStats && todoStats.total > 0 && (
+                    <span className="text-[8px] text-[var(--muted-foreground)] tabular-nums shrink-0">{todoStats.done}/{todoStats.total}</span>
+                  )}
                 </div>
-                <p className="text-[11px] font-medium text-[var(--foreground)] line-clamp-2 leading-tight">
-                  {meta?.title || folder.folder}
-                </p>
-                {todoStats && todoStats.total > 0 && (
-                  <div className="flex items-center gap-1 mt-1.5">
-                    <div className="flex-1 h-1 rounded-full bg-[var(--muted)] overflow-hidden">
-                      <div className="h-full rounded-full bg-[var(--primary)]" style={{ width: `${(todoStats.done / todoStats.total) * 100}%` }} />
-                    </div>
-                    <span className="text-[8px] text-[var(--muted-foreground)] tabular-nums">{todoStats.done}/{todoStats.total}</span>
-                  </div>
-                )}
               </button>
             );
           })}
