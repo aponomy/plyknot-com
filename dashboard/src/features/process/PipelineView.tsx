@@ -88,7 +88,7 @@ function StreamRow({ stream, onOpenDrawer }: { stream: Stream; onOpenDrawer: (id
       {/* Initiation */}
       <div className="min-w-0">
         {hasSource ? (
-          <div className="px-2 py-1.5 rounded border border-[var(--border)] bg-[var(--card)]">
+          <div className="px-3 py-2.5 rounded border border-[var(--border)] bg-[var(--card)]">
             <div className="flex items-center gap-1.5 mb-0.5">
               <CircleDot size={11} className={STATUS_COLORS[stream.status] || "text-zinc-400"} />
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
@@ -108,7 +108,7 @@ function StreamRow({ stream, onOpenDrawer }: { stream: Stream; onOpenDrawer: (id
       {/* Project */}
       <button
         onClick={() => onOpenDrawer(stream.id)}
-        className="min-w-0 text-left px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
+        className="min-w-0 text-left px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
       >
         <div className="flex items-center gap-1.5 mb-0.5">
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--muted)] text-[var(--muted-foreground)]">
@@ -154,7 +154,7 @@ function StreamRow({ stream, onOpenDrawer }: { stream: Stream; onOpenDrawer: (id
 
 function SmallFindingPill({ f }: { f: StreamFinding }) {
   return (
-    <div className="px-2 py-1 rounded border border-[var(--border)] bg-[var(--card)]">
+    <div className="px-3 py-2 rounded border border-[var(--border)] bg-[var(--card)]">
       <div className="flex items-center gap-1 mb-0.5">
         <Lightbulb size={10} className="text-amber-400 shrink-0" />
         <span className={cn(
@@ -175,7 +175,7 @@ function SmallDeliveryPill({ d, onOpen }: { d: StreamDelivery; onOpen: () => voi
   return (
     <button
       onClick={onOpen}
-      className="w-full text-left px-2 py-1 rounded border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
+      className="w-full text-left px-3 py-2 rounded border border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary)]/40 transition-colors"
     >
       <div className="flex items-center gap-1 mb-0.5">
         {d.track === "paper" ? (
