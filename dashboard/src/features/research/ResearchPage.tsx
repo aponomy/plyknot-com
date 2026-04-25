@@ -288,9 +288,15 @@ export function ResearchPage() {
     }
   }, [folders, selectedFolder]);
 
-  // Auto-select first file when folder changes
+  // Auto-select first file or first todo when folder changes
   useEffect(() => {
-    if (activeFolder && allFiles.length > 0) {
+    if (!activeFolder) return;
+    if (col2View === "todo" && activeFolder.todoContent) {
+      const items = parseTodoItems(activeFolder.todoContent);
+      const open = items.filter((t) => !t.done);
+      setSelectedTodo(open.length > 0 ? open[0].idx : items.length > 0 ? items[0].idx : null);
+      setSelectedFile(null);
+    } else if (allFiles.length > 0) {
       setSelectedFile({ folder: activeFolder.folder, file: allFiles[0] });
       setSelectedTodo(null);
     }
@@ -308,7 +314,7 @@ export function ResearchPage() {
     setSelectedFolder(folder);
     setSelectedFile(null);
     setSelectedTodo(null);
-    setCol2View("files");
+    // col2View is preserved — if user was on Todo tab, it stays on Todo
   }
 
   function handleTabChange(t: ResearchTab) {
@@ -409,7 +415,7 @@ export function ResearchPage() {
               {activeFolder.todoContent && (
                 <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5">
                   <button
-                    onClick={() => setCol2View("files")}
+                    onClick={() => { setCol2View("files"); if (allFiles.length > 0 && activeFolder) { setSelectedFile({ folder: activeFolder.folder, file: allFiles[0] }); setSelectedTodo(null); } }}
                     className={cn(
                       "flex-1 px-2 py-0.5 text-[10px] font-medium rounded transition-colors text-center",
                       col2View === "files"
@@ -420,7 +426,7 @@ export function ResearchPage() {
                     Files ({allFiles.length})
                   </button>
                   <button
-                    onClick={() => setCol2View("todo")}
+                    onClick={() => { setCol2View("todo"); if (activeFolder?.todoContent) { const items = parseTodoItems(activeFolder.todoContent); const open = items.filter((t) => !t.done); setSelectedTodo(open.length > 0 ? open[0].idx : items.length > 0 ? items[0].idx : null); setSelectedFile(null); } }}
                     className={cn(
                       "flex-1 px-2 py-0.5 text-[10px] font-medium rounded transition-colors text-center",
                       col2View === "todo"
