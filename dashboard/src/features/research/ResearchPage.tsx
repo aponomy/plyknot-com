@@ -233,7 +233,7 @@ export function ResearchPage() {
                     : "hover:bg-[var(--muted)]/30",
                 )}
               >
-                <p className={cn("text-[11px] font-medium line-clamp-1 leading-tight", isActive ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]")}>
+                <p className={cn("text-xs font-medium line-clamp-1 leading-tight", isActive ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]")}>
                   {meta?.title || folder.folder}
                 </p>
                 {todoStats && todoStats.total > 0 && (
