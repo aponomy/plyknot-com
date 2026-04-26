@@ -1,0 +1,467 @@
+{
+  "outcome": "FAIL",
+  "n_predictors": 79,
+  "n_total": 97,
+  "n_excluded_ambiguous": 18,
+  "n_excluded_missing_decay": 0,
+  "spearman_rho": -0.18949064114506725,
+  "spearman_p": 0.09441100738122607,
+  "permutation_null_p": 0.114,
+  "null_distribution_summary": {
+    "mean": 0.0005236909786040052,
+    "std": 0.11506432840564933,
+    "p05": -0.20316064583558072,
+    "p95": 0.19184176256846797
+  },
+  "top5_highest_dcoi": [
+    {
+      "id": "dividend_payout_ratio",
+      "dcoi": 0.5,
+      "decay": 0.6667
+    },
+    {
+      "id": "dividend_yield",
+      "dcoi": 0.5,
+      "decay": 0.5
+    },
+    {
+      "id": "book_to_market",
+      "dcoi": 0.3611,
+      "decay": 0.2727
+    },
+    {
+      "id": "momentum_reversal",
+      "dcoi": 0.3393,
+      "decay": 0.6471
+    },
+    {
+      "id": "industry_adjusted_size",
+      "dcoi": 0.3207,
+      "decay": 0.6
+    }
+  ],
+  "bottom5_lowest_dcoi": [
+    {
+      "id": "forecast_dispersion",
+      "dcoi": 0.0357,
+      "decay": 0.6667
+    },
+    {
+      "id": "earnings_forecast_to_price",
+      "dcoi": 0.027,
+      "decay": 0.6154
+    },
+    {
+      "id": "days_with_zero_trades",
+      "dcoi": 0.0227,
+      "decay": 0.6316
+    },
+    {
+      "id": "sparse_analyst_forecast",
+      "dcoi": 0.0109,
+      "decay": 0.7143
+    },
+    {
+      "id": "earnings_to_price",
+      "dcoi": 0.0,
+      "decay": 0.5
+    }
+  ],
+  "all_scores": [
+    {
+      "id": "earnings_to_price",
+      "dcoi": 0.0,
+      "decay": 0.5
+    },
+    {
+      "id": "dividend_payout_ratio",
+      "dcoi": 0.5,
+      "decay": 0.6667
+    },
+    {
+      "id": "dividend_yield",
+      "dcoi": 0.5,
+      "decay": 0.5
+    },
+    {
+      "id": "size",
+      "dcoi": 0.25,
+      "decay": 0.4444
+    },
+    {
+      "id": "earnings_surprise",
+      "dcoi": 0.125,
+      "decay": 0.6111
+    },
+    {
+      "id": "firm_age",
+      "dcoi": 0.25,
+      "decay": 0.4
+    },
+    {
+      "id": "book_to_market",
+      "dcoi": 0.3611,
+      "decay": 0.2727
+    },
+    {
+      "id": "long_term_reversal",
+      "dcoi": 0.2857,
+      "decay": 0.7273
+    },
+    {
+      "id": "cash_flow_to_debt",
+      "dcoi": 0.1562,
+      "decay": 0.6364
+    },
+    {
+      "id": "current_ratio",
+      "dcoi": 0.1944,
+      "decay": 0.7
+    },
+    {
+      "id": "short_term_reversal",
+      "dcoi": 0.25,
+      "decay": 0.5
+    },
+    {
+      "id": "depreciation_to_plant",
+      "dcoi": 0.2045,
+      "decay": 0.75
+    },
+    {
+      "id": "momentum_12_2",
+      "dcoi": 0.25,
+      "decay": 0.5455
+    },
+    {
+      "id": "momentum_6_2",
+      "dcoi": 0.3077,
+      "decay": 0.5217
+    },
+    {
+      "id": "momentum_reversal",
+      "dcoi": 0.3393,
+      "decay": 0.6471
+    },
+    {
+      "id": "spin_off",
+      "dcoi": 0.3,
+      "decay": 0.6
+    },
+    {
+      "id": "sales_growth",
+      "dcoi": 0.1719,
+      "decay": 0.7333
+    },
+    {
+      "id": "return_on_equity",
+      "dcoi": 0.1912,
+      "decay": 0.6
+    },
+    {
+      "id": "volume_to_market_equity",
+      "dcoi": 0.1481,
+      "decay": 0.7059
+    },
+    {
+      "id": "volume_trend",
+      "dcoi": 0.1667,
+      "decay": 0.7333
+    },
+    {
+      "id": "accruals",
+      "dcoi": 0.1875,
+      "decay": 0.8462
+    },
+    {
+      "id": "sales_to_price",
+      "dcoi": 0.2857,
+      "decay": 0.5
+    },
+    {
+      "id": "share_volume",
+      "dcoi": 0.1856,
+      "decay": 0.7333
+    },
+    {
+      "id": "sparse_analyst_forecast",
+      "dcoi": 0.0109,
+      "decay": 0.7143
+    },
+    {
+      "id": "debt_issuance",
+      "dcoi": 0.2778,
+      "decay": 0.8824
+    },
+    {
+      "id": "industry_momentum",
+      "dcoi": 0.3,
+      "decay": 0.4545
+    },
+    {
+      "id": "momentum_and_volume",
+      "dcoi": 0.234,
+      "decay": 0.65
+    },
+    {
+      "id": "industry_adjusted_bm",
+      "dcoi": 0.2901,
+      "decay": 0.4444
+    },
+    {
+      "id": "industry_adjusted_cf_to_price",
+      "dcoi": 0.2946,
+      "decay": 0.6
+    },
+    {
+      "id": "industry_adjusted_change_in_employees",
+      "dcoi": 0.1925,
+      "decay": 0.6429
+    },
+    {
+      "id": "industry_adjusted_long_term_reversal",
+      "dcoi": 0.275,
+      "decay": 0.6923
+    },
+    {
+      "id": "industry_adjusted_momentum",
+      "dcoi": 0.3145,
+      "decay": 0.6
+    },
+    {
+      "id": "industry_adjusted_sga_to_sales",
+      "dcoi": 0.2057,
+      "decay": 0.7273
+    },
+    {
+      "id": "industry_adjusted_size",
+      "dcoi": 0.3207,
+      "decay": 0.6
+    },
+    {
+      "id": "number_of_analysts",
+      "dcoi": 0.1716,
+      "decay": 0.5
+    },
+    {
+      "id": "rd_to_market_capitalization",
+      "dcoi": 0.2929,
+      "decay": 0.6667
+    },
+    {
+      "id": "rd_to_sales",
+      "dcoi": 0.2014,
+      "decay": 0.7143
+    },
+    {
+      "id": "earnings_forecast_to_price",
+      "dcoi": 0.027,
+      "decay": 0.6154
+    },
+    {
+      "id": "volume_variance",
+      "dcoi": 0.1732,
+      "decay": 0.75
+    },
+    {
+      "id": "kaplan_zingales_index",
+      "dcoi": 0.1859,
+      "decay": 0.75
+    },
+    {
+      "id": "short_interest",
+      "dcoi": 0.2375,
+      "decay": 0.65
+    },
+    {
+      "id": "inventory_change",
+      "dcoi": 0.189,
+      "decay": 0.6667
+    },
+    {
+      "id": "forecast_dispersion",
+      "dcoi": 0.0357,
+      "decay": 0.6667
+    },
+    {
+      "id": "investment_to_assets",
+      "dcoi": 0.1919,
+      "decay": 0.7895
+    },
+    {
+      "id": "change_in_recommendation",
+      "dcoi": 0.0455,
+      "decay": 0.5385
+    },
+    {
+      "id": "unexpected_rd_increase",
+      "dcoi": 0.2759,
+      "decay": 0.6875
+    },
+    {
+      "id": "net_operating_assets",
+      "dcoi": 0.1957,
+      "decay": 0.7333
+    },
+    {
+      "id": "price_delay",
+      "dcoi": 0.2748,
+      "decay": 0.7222
+    },
+    {
+      "id": "growth_in_long_term_debt",
+      "dcoi": 0.2031,
+      "decay": 0.7857
+    },
+    {
+      "id": "operating_profitability",
+      "dcoi": 0.2092,
+      "decay": 0.4615
+    },
+    {
+      "id": "return_on_assets",
+      "dcoi": 0.215,
+      "decay": 0.5455
+    },
+    {
+      "id": "share_issuance_5yr",
+      "dcoi": 0.2778,
+      "decay": 0.7778
+    },
+    {
+      "id": "whited_wu_index",
+      "dcoi": 0.2308,
+      "decay": 0.7692
+    },
+    {
+      "id": "idiosyncratic_volatility_ff",
+      "dcoi": 0.2028,
+      "decay": 0.7619
+    },
+    {
+      "id": "intangibles_to_total_assets",
+      "dcoi": 0.2222,
+      "decay": 0.6923
+    },
+    {
+      "id": "days_with_zero_trades",
+      "dcoi": 0.0227,
+      "decay": 0.6316
+    },
+    {
+      "id": "industry_concentration_herfindahl",
+      "dcoi": 0.2232,
+      "decay": 0.5556
+    },
+    {
+      "id": "total_volatility",
+      "dcoi": 0.1974,
+      "decay": 0.7273
+    },
+    {
+      "id": "revenue_surprise",
+      "dcoi": 0.148,
+      "decay": 0.6471
+    },
+    {
+      "id": "net_payout_yield",
+      "dcoi": 0.2726,
+      "decay": 0.6429
+    },
+    {
+      "id": "asset_turnover",
+      "dcoi": 0.225,
+      "decay": 0.6667
+    },
+    {
+      "id": "change_in_shares_outstanding",
+      "dcoi": 0.2842,
+      "decay": 0.75
+    },
+    {
+      "id": "profit_margin",
+      "dcoi": 0.2298,
+      "decay": 0.6364
+    },
+    {
+      "id": "composite_debt_issuance",
+      "dcoi": 0.2421,
+      "decay": 0.8235
+    },
+    {
+      "id": "investment_growth",
+      "dcoi": 0.2383,
+      "decay": 0.7778
+    },
+    {
+      "id": "asset_growth",
+      "dcoi": 0.2423,
+      "decay": 0.8125
+    },
+    {
+      "id": "financial_distress",
+      "dcoi": 0.2778,
+      "decay": 0.7143
+    },
+    {
+      "id": "share_issuance_1yr",
+      "dcoi": 0.296,
+      "decay": 0.8235
+    },
+    {
+      "id": "sin_stock",
+      "dcoi": 0.1875,
+      "decay": 0.4615
+    },
+    {
+      "id": "tax",
+      "dcoi": 0.2428,
+      "decay": 0.7
+    },
+    {
+      "id": "enterprise_multiple",
+      "dcoi": 0.2833,
+      "decay": 0.5455
+    },
+    {
+      "id": "max_daily_return",
+      "dcoi": 0.1362,
+      "decay": 0.8095
+    },
+    {
+      "id": "operating_leverage",
+      "dcoi": 0.2431,
+      "decay": 0.7
+    },
+    {
+      "id": "number_of_consecutive_earnings_increases",
+      "dcoi": 0.137,
+      "decay": 0.5455
+    },
+    {
+      "id": "cash_to_assets",
+      "dcoi": 0.2432,
+      "decay": 0.6429
+    },
+    {
+      "id": "lagged_momentum_12_7",
+      "dcoi": 0.2167,
+      "decay": 0.6154
+    },
+    {
+      "id": "gross_margin",
+      "dcoi": 0.2434,
+      "decay": 0.6364
+    },
+    {
+      "id": "gross_profitability",
+      "dcoi": 0.2468,
+      "decay": 0.4167
+    },
+    {
+      "id": "organizational_capital",
+      "dcoi": 0.25,
+      "decay": 0.5625
+    }
+  ]
+}
