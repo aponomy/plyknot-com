@@ -1,1 +1,584 @@
-[]
+[
+  {
+    "id": "accruals",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.001,
+    "decay_magnitude": 0.8462
+  },
+  {
+    "id": "asset_growth",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.8125
+  },
+  {
+    "id": "asset_turnover",
+    "in_sample_return": 0.0045,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.6667
+  },
+  {
+    "id": "beta_arbitrage",
+    "in_sample_return": 0.0035,
+    "out_of_sample_return": 0.0005,
+    "decay_magnitude": 0.8571
+  },
+  {
+    "id": "book_to_market",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.004,
+    "decay_magnitude": 0.2727
+  },
+  {
+    "id": "capital_turnover",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7
+  },
+  {
+    "id": "cash_flow_to_debt",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6364
+  },
+  {
+    "id": "cash_productivity",
+    "in_sample_return": 0.004,
+    "out_of_sample_return": 0.001,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "cash_to_assets",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6429
+  },
+  {
+    "id": "change_in_forecast_and_accrual",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6364
+  },
+  {
+    "id": "change_in_recommendation",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.5385
+  },
+  {
+    "id": "change_in_shares_outstanding",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "composite_debt_issuance",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.8235
+  },
+  {
+    "id": "current_ratio",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7
+  },
+  {
+    "id": "days_with_zero_trades",
+    "in_sample_return": 0.0095,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.6316
+  },
+  {
+    "id": "debt_issuance",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.001,
+    "decay_magnitude": 0.8824
+  },
+  {
+    "id": "depreciation_to_plant",
+    "in_sample_return": 0.004,
+    "out_of_sample_return": 0.001,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "dividend_payout_ratio",
+    "in_sample_return": 0.0045,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.6667
+  },
+  {
+    "id": "dividend_yield",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.5
+  },
+  {
+    "id": "earnings_consistency",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6364
+  },
+  {
+    "id": "earnings_forecast_to_price",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6154
+  },
+  {
+    "id": "earnings_surprise",
+    "in_sample_return": 0.009,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.6111
+  },
+  {
+    "id": "earnings_to_price",
+    "in_sample_return": 0.006,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.5
+  },
+  {
+    "id": "enterprise_multiple",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.5455
+  },
+  {
+    "id": "financial_distress",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7143
+  },
+  {
+    "id": "firm_age",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.4
+  },
+  {
+    "id": "firm_age_momentum",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.004,
+    "decay_magnitude": 0.5294
+  },
+  {
+    "id": "forecast_dispersion",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6667
+  },
+  {
+    "id": "gross_margin",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6364
+  },
+  {
+    "id": "gross_profitability",
+    "in_sample_return": 0.006,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.4167
+  },
+  {
+    "id": "growth_in_long_term_debt",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7857
+  },
+  {
+    "id": "idiosyncratic_volatility_ff",
+    "in_sample_return": 0.0105,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.7619
+  },
+  {
+    "id": "industry_concentration_herfindahl",
+    "in_sample_return": 0.0045,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.5556
+  },
+  {
+    "id": "industry_momentum",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.4545
+  },
+  {
+    "id": "industry_adjusted_bm",
+    "in_sample_return": 0.0045,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.4444
+  },
+  {
+    "id": "industry_adjusted_cf_to_price",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6
+  },
+  {
+    "id": "industry_adjusted_change_in_employees",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6429
+  },
+  {
+    "id": "industry_adjusted_long_term_reversal",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6923
+  },
+  {
+    "id": "industry_adjusted_momentum",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.6
+  },
+  {
+    "id": "industry_adjusted_sga_to_sales",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7273
+  },
+  {
+    "id": "industry_adjusted_size",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6
+  },
+  {
+    "id": "intangibles_to_total_assets",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6923
+  },
+  {
+    "id": "inventory_change",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6667
+  },
+  {
+    "id": "inventory_growth",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "investment_growth",
+    "in_sample_return": 0.009,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7778
+  },
+  {
+    "id": "investment_to_assets",
+    "in_sample_return": 0.0095,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7895
+  },
+  {
+    "id": "kaplan_zingales_index",
+    "in_sample_return": 0.006,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "lagged_momentum_12_7",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6154
+  },
+  {
+    "id": "long_term_reversal",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7273
+  },
+  {
+    "id": "max_daily_return",
+    "in_sample_return": 0.0105,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.8095
+  },
+  {
+    "id": "momentum_12_2",
+    "in_sample_return": 0.011,
+    "out_of_sample_return": 0.005,
+    "decay_magnitude": 0.5455
+  },
+  {
+    "id": "momentum_6_2",
+    "in_sample_return": 0.0115,
+    "out_of_sample_return": 0.0055,
+    "decay_magnitude": 0.5217
+  },
+  {
+    "id": "momentum_and_lt_reversal",
+    "in_sample_return": 0.0095,
+    "out_of_sample_return": 0.004,
+    "decay_magnitude": 0.5789
+  },
+  {
+    "id": "momentum_and_volume",
+    "in_sample_return": 0.01,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.65
+  },
+  {
+    "id": "momentum_reversal",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.6471
+  },
+  {
+    "id": "net_debt_finance",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.8125
+  },
+  {
+    "id": "net_equity_finance",
+    "in_sample_return": 0.009,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7778
+  },
+  {
+    "id": "net_operating_assets",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7333
+  },
+  {
+    "id": "net_payout_yield",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6429
+  },
+  {
+    "id": "number_of_analysts",
+    "in_sample_return": 0.006,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.5
+  },
+  {
+    "id": "number_of_consecutive_earnings_increases",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.5455
+  },
+  {
+    "id": "operating_leverage",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7
+  },
+  {
+    "id": "operating_profitability",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.4615
+  },
+  {
+    "id": "organizational_capital",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.5625
+  },
+  {
+    "id": "oscore",
+    "in_sample_return": 0.0095,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.7368
+  },
+  {
+    "id": "percent_accruals",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7857
+  },
+  {
+    "id": "percent_operating_accruals",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.001,
+    "decay_magnitude": 0.8462
+  },
+  {
+    "id": "price",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.5
+  },
+  {
+    "id": "price_delay",
+    "in_sample_return": 0.009,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.7222
+  },
+  {
+    "id": "profit_margin",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6364
+  },
+  {
+    "id": "rd_to_market_capitalization",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6667
+  },
+  {
+    "id": "rd_to_sales",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7143
+  },
+  {
+    "id": "real_dirty_surplus",
+    "in_sample_return": 0.006,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "return_on_assets",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.5455
+  },
+  {
+    "id": "return_on_equity",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6
+  },
+  {
+    "id": "return_on_invested_capital",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.5455
+  },
+  {
+    "id": "revenue_surprise",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.6471
+  },
+  {
+    "id": "sales_growth",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7333
+  },
+  {
+    "id": "sales_to_price",
+    "in_sample_return": 0.006,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.5
+  },
+  {
+    "id": "share_issuance_1yr",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.8235
+  },
+  {
+    "id": "share_issuance_5yr",
+    "in_sample_return": 0.009,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7778
+  },
+  {
+    "id": "share_volume",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7333
+  },
+  {
+    "id": "short_interest",
+    "in_sample_return": 0.01,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.65
+  },
+  {
+    "id": "short_term_reversal",
+    "in_sample_return": 0.012,
+    "out_of_sample_return": 0.006,
+    "decay_magnitude": 0.5
+  },
+  {
+    "id": "sin_stock",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.0035,
+    "decay_magnitude": 0.4615
+  },
+  {
+    "id": "size",
+    "in_sample_return": 0.0045,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.4444
+  },
+  {
+    "id": "sparse_analyst_forecast",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7143
+  },
+  {
+    "id": "spin_off",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.6
+  },
+  {
+    "id": "sustainable_growth",
+    "in_sample_return": 0.0055,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.6364
+  },
+  {
+    "id": "tax",
+    "in_sample_return": 0.005,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7
+  },
+  {
+    "id": "total_volatility",
+    "in_sample_return": 0.011,
+    "out_of_sample_return": 0.003,
+    "decay_magnitude": 0.7273
+  },
+  {
+    "id": "unexpected_rd_increase",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.6875
+  },
+  {
+    "id": "volume_to_market_equity",
+    "in_sample_return": 0.0085,
+    "out_of_sample_return": 0.0025,
+    "decay_magnitude": 0.7059
+  },
+  {
+    "id": "volume_trend",
+    "in_sample_return": 0.0075,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7333
+  },
+  {
+    "id": "volume_variance",
+    "in_sample_return": 0.008,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.75
+  },
+  {
+    "id": "whited_wu_index",
+    "in_sample_return": 0.0065,
+    "out_of_sample_return": 0.0015,
+    "decay_magnitude": 0.7692
+  },
+  {
+    "id": "zscore",
+    "in_sample_return": 0.007,
+    "out_of_sample_return": 0.002,
+    "decay_magnitude": 0.7143
+  }
+]

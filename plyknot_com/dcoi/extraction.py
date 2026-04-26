@@ -194,27 +194,56 @@ def build_extraction_input() -> str:
 
 
 def run_predictor_extraction() -> dict:
-    """Extract 97 predictor records via Haiku. Returns raw API response."""
-    client = anthropic.Anthropic()
-    input_text = build_extraction_input()
+    """Extract 97 predictor records via Haiku.
 
-    message = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=16000,
-        messages=[
-            {
-                "role": "user",
-                "content": f"{EXTRACTION_PROMPT}\n\nHere are the 97 predictors:\n\n{input_text}",
-            }
-        ],
-    )
+    Splits into two batches (1-50, 51-97) to stay within token limits.
+    Returns combined raw responses.
+    """
+    client = anthropic.Anthropic()
+    all_lines = build_extraction_input().split("\n")
+
+    batches = [all_lines[:50], all_lines[50:]]
+    raw_parts = []
+    all_parsed = []
+
+    for i, batch_lines in enumerate(batches):
+        batch_text = "\n".join(batch_lines)
+        n_start = i * 50 + 1
+        n_end = n_start + len(batch_lines) - 1
+        print(f"  Batch {i+1}/2: predictors {n_start}-{n_end}...")
+
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=16000,
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"{EXTRACTION_PROMPT}\n\nHere are predictors {n_start}-{n_end}:\n\n{batch_text}",
+                }
+            ],
+        )
+
+        raw_part = {
+            "batch": i + 1,
+            "model": message.model,
+            "prompt_version": EXTRACTION_PROMPT_VERSION,
+            "input_tokens": message.usage.input_tokens,
+            "output_tokens": message.usage.output_tokens,
+            "raw_text": message.content[0].text,
+            "stop_reason": message.stop_reason,
+        }
+        raw_parts.append(raw_part)
+
+        parsed = parse_json_from_response(message.content[0].text)
+        all_parsed.extend(parsed)
+        print(f"    -> {len(parsed)} records, stop_reason={message.stop_reason}")
 
     return {
-        "model": message.model,
+        "model": raw_parts[0]["model"],
         "prompt_version": EXTRACTION_PROMPT_VERSION,
-        "input_tokens": message.usage.input_tokens,
-        "output_tokens": message.usage.output_tokens,
-        "raw_text": message.content[0].text,
+        "batches": raw_parts,
+        "total_parsed": len(all_parsed),
+        "_parsed": all_parsed,
     }
 
 
@@ -291,11 +320,9 @@ if __name__ == "__main__":
     if sys.argv[1] == "predictors":
         print("Running predictor extraction via Haiku...")
         raw = run_predictor_extraction()
+        parsed = raw.pop("_parsed")
         print(f"  Model: {raw['model']}")
-        print(f"  Tokens: {raw['input_tokens']} in, {raw['output_tokens']} out")
-
-        parsed = parse_json_from_response(raw["raw_text"])
-        print(f"  Parsed {len(parsed)} predictor records")
+        print(f"  Total parsed: {len(parsed)} predictor records")
 
         save_predictors(parsed, raw)
         print(f"  Saved to {DATA_DIR / 'predictors-v1.json'}")
