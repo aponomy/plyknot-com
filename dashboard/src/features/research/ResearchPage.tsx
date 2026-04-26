@@ -78,8 +78,28 @@ function parseTodoStats(content: string) {
 
 /* ── Markdown renderer ──────────────────────────────────────────────── */
 
-function MarkdownContent({ content }: { content: string }) {
-  const html = content
+function renderMarkdown(content: string): string {
+  // Code blocks (``` ... ```) — must run before inline replacements
+  let out = content.replace(/```(\w*)\n([\s\S]*?)```/gm, (_m, lang, code) => {
+    const escaped = code.replace(/</g, "&lt;").replace(/>/g, "&gt;").trimEnd();
+    return `<pre class="text-[10px] font-mono bg-[var(--muted)] rounded px-3 py-2 my-2 overflow-x-auto whitespace-pre"><code>${escaped}</code></pre>`;
+  });
+
+  // Tables — find consecutive lines starting with |
+  out = out.replace(/^(\|.+\|\n)+/gm, (block) => {
+    const rows = block.trim().split("\n");
+    const isAlignRow = (r: string) => /^\|[\s:-]+\|$/.test(r.replace(/\|/g, "|").replace(/[^|:-\s]/g, ""));
+    const dataRows = rows.filter((r) => !isAlignRow(r));
+    if (dataRows.length === 0) return block;
+    const toCell = (tag: string) => (r: string) =>
+      r.split("|").slice(1, -1).map((c) => `<${tag} class="px-2 py-1 border border-[var(--border)]">${c.trim()}</${tag}>`).join("");
+    const head = `<tr>${toCell("th")(dataRows[0])}</tr>`;
+    const body = dataRows.slice(1).map((r) => `<tr>${toCell("td")(r)}</tr>`).join("");
+    return `<table class="text-[10px] border-collapse my-2 w-full"><thead class="bg-[var(--muted)]">${head}</thead><tbody>${body}</tbody></table>`;
+  });
+
+  // Inline transforms
+  out = out
     .replace(/^#### (.+)$/gm, '<h4 class="text-xs font-semibold mt-3 mb-1">$1</h4>')
     .replace(/^### (.+)$/gm, '<h3 class="text-sm font-semibold mt-4 mb-1">$1</h3>')
     .replace(/^## (.+)$/gm, '<h2 class="text-sm font-bold mt-5 mb-2">$1</h2>')
@@ -94,6 +114,11 @@ function MarkdownContent({ content }: { content: string }) {
     .replace(/^---$/gm, '<hr class="border-[var(--border)] my-1.5" />')
     .replace(/\n\n/g, '<div class="h-2"></div>')
     .replace(/\n/g, "<br />");
+  return out;
+}
+
+function MarkdownContent({ content }: { content: string }) {
+  const html = renderMarkdown(content);
   return <div className="text-xs leading-relaxed text-[var(--foreground)] [&>hr+h1]:mt-1 [&>hr+h2]:mt-1 [&>hr+h3]:mt-1 [&>hr+h4]:mt-1 [&>hr+div+h1]:mt-1 [&>hr+div+h2]:mt-1 [&>hr+br+h1]:mt-1 [&>hr+br+h2]:mt-1" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
