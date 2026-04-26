@@ -1,0 +1,756 @@
+{
+  "db_family_counts": {
+    "Compustat": 50,
+    "CRSP": 42,
+    "IBES": 8,
+    "TAQ": 7
+  },
+  "db_set_counts": {
+    "('Compustat',)": 30,
+    "('CRSP', 'Compustat')": 18,
+    "('CRSP',)": 16,
+    "('CRSP', 'TAQ')": 6,
+    "('IBES',)": 4,
+    "('Compustat', 'IBES')": 2,
+    "('CRSP', 'IBES')": 2,
+    "('TAQ',)": 1
+  },
+  "largest_db_bucket": [
+    [
+      "Compustat"
+    ],
+    30
+  ],
+  "n_distinct_db_sets": 8,
+  "var_pattern_counts": {
+    "momentum": 7,
+    "industry_adjustment": 7,
+    "share_issuance": 3,
+    "earnings_surprise": 3,
+    "trading_volume": 3,
+    "book_to_market": 2,
+    "debt_issuance": 2,
+    "long_term_reversal": 2,
+    "financial_constraints": 2,
+    "reversal": 2,
+    "analyst_coverage": 2,
+    "rd_intensity": 2,
+    "accruals": 1,
+    "asset_growth": 1,
+    "asset_turnover": 1,
+    "cash_flow_to_debt": 1,
+    "cash_to_assets": 1,
+    "recommendation_change": 1,
+    "current_ratio": 1,
+    "illiquidity": 1,
+    "zero_trading_days": 1,
+    "depreciation_rate": 1,
+    "dividend_payout": 1,
+    "dividend_yield": 1,
+    "earnings_forecast_to_price": 1,
+    "earnings_to_price": 1,
+    "enterprise_multiple": 1,
+    "financial_distress": 1,
+    "firm_age": 1,
+    "forecast_dispersion": 1,
+    "gross_margin": 1,
+    "gross_profitability": 1,
+    "debt_growth": 1,
+    "idiosyncratic_volatility": 1,
+    "herfindahl_index": 1,
+    "cash_flow_to_price": 1,
+    "employee_growth": 1,
+    "sga_ratio": 1,
+    "firm_size": 1,
+    "intangible_assets": 1,
+    "inventory_change": 1,
+    "investment_growth": 1,
+    "capital_expenditure": 1,
+    "investment_intensity": 1,
+    "maximum_daily_return": 1,
+    "net_operating_assets": 1,
+    "payout_yield": 1,
+    "earnings_streak": 1,
+    "operating_leverage": 1,
+    "operating_profitability": 1,
+    "organizational_capital": 1,
+    "price_delay": 1,
+    "profit_margin": 1,
+    "profitability": 1,
+    "return_on_assets": 1,
+    "return_on_equity": 1,
+    "revenue_surprise": 1,
+    "sales_growth": 1,
+    "sales_to_price": 1,
+    "value_factor": 1,
+    "short_interest": 1,
+    "sin_stocks": 1,
+    "market_capitalization": 1,
+    "size": 1,
+    "spinoff": 1,
+    "tax_expense": 1,
+    "idiosyncratic_risk": 1,
+    "volatility": 1,
+    "rd_growth": 1,
+    "liquidity": 1,
+    "volume_trend": 1,
+    "volume_variance": 1
+  },
+  "var_set_counts": {
+    "('momentum',)": 4,
+    "('share_issuance',)": 3,
+    "('debt_issuance',)": 2,
+    "('financial_constraints',)": 2,
+    "('analyst_coverage',)": 2,
+    "('rd_intensity',)": 2,
+    "('accruals',)": 1,
+    "('asset_growth',)": 1,
+    "('asset_turnover',)": 1,
+    "('book_to_market',)": 1,
+    "('cash_flow_to_debt',)": 1,
+    "('cash_to_assets',)": 1,
+    "('recommendation_change',)": 1,
+    "('current_ratio',)": 1,
+    "('illiquidity', 'zero_trading_days')": 1,
+    "('depreciation_rate',)": 1,
+    "('dividend_payout',)": 1,
+    "('dividend_yield',)": 1,
+    "('earnings_forecast_to_price',)": 1,
+    "('earnings_surprise',)": 1
+  },
+  "largest_var_bucket": [
+    [
+      "momentum"
+    ],
+    4
+  ],
+  "n_distinct_var_sets": 70,
+  "shared_pattern_stats": {
+    "min": 0,
+    "max": 12,
+    "mean": 1.5,
+    "median": 0.0
+  },
+  "pairwise": {
+    "n_pairs": 3081,
+    "db_jaccard_zero_frac": 0.3622,
+    "db_jaccard_one_frac": 0.2373,
+    "db_jaccard_mean": 0.4269,
+    "db_jaccard_median": 0.5,
+    "var_jaccard_zero_frac": 0.9812,
+    "var_jaccard_one_frac": 0.0042,
+    "var_jaccard_mean": 0.0101,
+    "var_jaccard_median": 0.0
+  },
+  "dcoi": {
+    "min": 0.0,
+    "max": 0.5,
+    "mean": 0.2242,
+    "median": 0.2308,
+    "std": 0.0864,
+    "n_zero": 1,
+    "n_gte_half": 2
+  },
+  "decay": {
+    "min": 0.2727,
+    "max": 0.8824,
+    "mean": 0.6452,
+    "median": 0.65,
+    "std": 0.1176
+  },
+  "ambiguous_entries": [
+    {
+      "id": "beta_arbitrage",
+      "name": "Beta Arbitrage",
+      "mclean_pontiff_index": 4,
+      "original_paper": {
+        "doi": "10.1111/j.1540-6261.2012.01737.x",
+        "authors": [
+          "Hong, H.",
+          "Sraer, D. A."
+        ],
+        "title": "Speculative Betas",
+        "year": 2012,
+        "venue": "Journal of Finance",
+        "url": null
+      },
+      "publication_date": "2012-06-01",
+      "database_families": [
+        "CRSP"
+      ],
+      "variable_patterns": [
+        "beta_arbitrage"
+      ],
+      "ambiguous": true,
+      "notes": "Construction details require return data; exact database dependencies not fully specified in original paper"
+    },
+    {
+      "id": "capital_turnover",
+      "name": "Capital Turnover",
+      "mclean_pontiff_index": 6,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Haugen, R. A.",
+          "Baker, N. L."
+        ],
+        "title": "Commonality in the Determinants of Expected Stock Returns",
+        "year": 1996,
+        "venue": "Journal of Financial Economics",
+        "url": null
+      },
+      "publication_date": "1996-07-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "capital_turnover"
+      ],
+      "ambiguous": true,
+      "notes": "DOI not readily available; venue and date inferred from standard citation"
+    },
+    {
+      "id": "cash_productivity",
+      "name": "Cash Productivity",
+      "mclean_pontiff_index": 8,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Chandrashekar, S.",
+          "Rao, R."
+        ],
+        "title": "The Role of Cash Flow in the Creation and Maintenance of Shareholder Value",
+        "year": 2009,
+        "venue": "Journal of Applied Business and Economics",
+        "url": null
+      },
+      "publication_date": "2009-01-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "cash_productivity"
+      ],
+      "ambiguous": true,
+      "notes": "Publication venue uncertain; may be working paper rather than peer-reviewed journal"
+    },
+    {
+      "id": "change_in_forecast_and_accrual",
+      "name": "Change in Forecast and Accrual",
+      "mclean_pontiff_index": 10,
+      "original_paper": {
+        "doi": "10.1016/S0304-405X(03)00189-2",
+        "authors": [
+          "Barth, M. E.",
+          "Hutton, A. P."
+        ],
+        "title": "The Effects of Account Measurement Error on the Association between Cash Flows and Accruals",
+        "year": 2004,
+        "venue": "Journal of Financial Economics",
+        "url": null
+      },
+      "publication_date": "2004-01-01",
+      "database_families": [
+        "Compustat",
+        "IBES"
+      ],
+      "variable_patterns": [
+        "accruals",
+        "forecast_revision"
+      ],
+      "ambiguous": true,
+      "notes": "Combined predictor; requires both accounting and analyst forecast data"
+    },
+    {
+      "id": "earnings_consistency",
+      "name": "Earnings Consistency",
+      "mclean_pontiff_index": 20,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Alwathainani, A. M."
+        ],
+        "title": "Consistency of Earnings Signals",
+        "year": 2009,
+        "venue": "Journal of Accounting and Public Policy",
+        "url": null
+      },
+      "publication_date": "2009-01-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "earnings_consistency"
+      ],
+      "ambiguous": true,
+      "notes": "Publication details inferred; exact journal and DOI uncertain"
+    },
+    {
+      "id": "firm_age_momentum",
+      "name": "Firm Age-Momentum",
+      "mclean_pontiff_index": 27,
+      "original_paper": {
+        "doi": "10.1111/j.1540-6261.2006.00859.x",
+        "authors": [
+          "Zhang, L."
+        ],
+        "title": "The Value Premium",
+        "year": 2006,
+        "venue": "Journal of Finance",
+        "url": null
+      },
+      "publication_date": "2006-04-01",
+      "database_families": [
+        "CRSP"
+      ],
+      "variable_patterns": [
+        "firm_age",
+        "momentum"
+      ],
+      "ambiguous": true,
+      "notes": "Combined predictor; interaction or separate metric unclear from citation"
+    },
+    {
+      "id": "inventory_growth",
+      "name": "Inventory Growth",
+      "mclean_pontiff_index": 44,
+      "original_paper": {
+        "doi": "10.1111/j.1540-6261.2012.01773.x",
+        "authors": [
+          "Belo, F.",
+          "Lin, X."
+        ],
+        "title": "The Inventory Growth Spread",
+        "year": 2012,
+        "venue": "Review of Finance",
+        "url": null
+      },
+      "publication_date": "2012-06-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "inventory_growth"
+      ],
+      "ambiguous": true,
+      "notes": "Venue may be Review of Finance or Journal of Finance; exact DOI uncertain"
+    },
+    {
+      "id": "momentum_and_lt_reversal",
+      "name": "Momentum and LT Reversal",
+      "mclean_pontiff_index": 53,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Chan, K.",
+          "Kot, H."
+        ],
+        "title": null,
+        "year": 2006,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": null,
+      "database_families": null,
+      "variable_patterns": [
+        "momentum",
+        "reversal"
+      ],
+      "ambiguous": true,
+      "notes": "Chan and Kot (2006) citation incomplete; unable to verify full paper details"
+    },
+    {
+      "id": "net_debt_finance",
+      "name": "Net Debt Finance",
+      "mclean_pontiff_index": 56,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Bradshaw, M. T.",
+          "Richardson, S. A.",
+          "Sloan, R. G."
+        ],
+        "title": "How Do Analysts' Incentives Affect Their Estimates and Recommendations?",
+        "year": 2006,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": null,
+      "database_families": [
+        "Compustat",
+        "IBES"
+      ],
+      "variable_patterns": [
+        "net_debt_finance"
+      ],
+      "ambiguous": true,
+      "notes": "Citation appears to reference analyst incentives study; may not be primary source for this predictor"
+    },
+    {
+      "id": "net_equity_finance",
+      "name": "Net Equity Finance",
+      "mclean_pontiff_index": 57,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Bradshaw, M. T.",
+          "Richardson, S. A.",
+          "Sloan, R. G."
+        ],
+        "title": "How Do Analysts' Incentives Affect Their Estimates and Recommendations?",
+        "year": 2006,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": null,
+      "database_families": [
+        "Compustat",
+        "IBES"
+      ],
+      "variable_patterns": [
+        "net_equity_finance"
+      ],
+      "ambiguous": true,
+      "notes": "Citation appears to reference analyst incentives study; may not be primary source for this predictor"
+    },
+    {
+      "id": "oscore",
+      "name": "OScore",
+      "mclean_pontiff_index": 65,
+      "original_paper": {
+        "doi": "10.2307/2491047",
+        "authors": [
+          "Dichev, I. D."
+        ],
+        "title": "Is the Risk of Bankruptcy a Systematic Risk?",
+        "year": 1998,
+        "venue": "Journal of Finance",
+        "url": null
+      },
+      "publication_date": "1998-05-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "distress_score"
+      ],
+      "ambiguous": true,
+      "notes": "OScore typically refers to Dichev's bankruptcy distress model; original title is bankruptcy risk"
+    },
+    {
+      "id": "percent_accruals",
+      "name": "Percent Accruals",
+      "mclean_pontiff_index": 66,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Hafzalla, N.",
+          "Lundholm, R.",
+          "Van Winkle, M."
+        ],
+        "title": "The Origin of the U-Shaped Accrual Effect",
+        "year": 2011,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": "2011-01-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "accruals"
+      ],
+      "ambiguous": true,
+      "notes": "Venue not confirmed; likely working paper or journal publication"
+    },
+    {
+      "id": "percent_operating_accruals",
+      "name": "Percent Operating Accruals",
+      "mclean_pontiff_index": 67,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Hafzalla, N.",
+          "Lundholm, R.",
+          "Van Winkle, M."
+        ],
+        "title": "The Origin of the U-Shaped Accrual Effect",
+        "year": 2011,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": "2011-01-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "operating_accruals"
+      ],
+      "ambiguous": true,
+      "notes": "Venue not confirmed; likely working paper or journal publication"
+    },
+    {
+      "id": "price",
+      "name": "Price",
+      "mclean_pontiff_index": 68,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Miller, M. H.",
+          "Scholes, M. S."
+        ],
+        "title": "Dividends and Taxes",
+        "year": 1982,
+        "venue": "Journal of Financial Economics",
+        "url": null
+      },
+      "publication_date": "1982-01-01",
+      "database_families": [
+        "CRSP"
+      ],
+      "variable_patterns": [
+        "stock_price"
+      ],
+      "ambiguous": true,
+      "notes": "Reference appears to be about dividend taxation; unclear if directly about price effects"
+    },
+    {
+      "id": "real_dirty_surplus",
+      "name": "Real Dirty Surplus",
+      "mclean_pontiff_index": 73,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Landsman, W. R.",
+          "Miller, M. C.",
+          "Peasnell, K.",
+          "Yeh, S."
+        ],
+        "title": "Do investors value optimism about future cash flows?",
+        "year": 2011,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": "2011-01-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "dirty_surplus",
+        "other_comprehensive_income"
+      ],
+      "ambiguous": true,
+      "notes": "Venue not confirmed; working paper or journal article"
+    },
+    {
+      "id": "return_on_invested_capital",
+      "name": "Return on Invested Capital",
+      "mclean_pontiff_index": 76,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Brown, S. J.",
+          "Rowe, N."
+        ],
+        "title": null,
+        "year": 2007,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": null,
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "return_on_invested_capital"
+      ],
+      "ambiguous": true,
+      "notes": "Brown and Rowe (2007) citation incomplete; unable to verify paper"
+    },
+    {
+      "id": "sustainable_growth",
+      "name": "Sustainable Growth",
+      "mclean_pontiff_index": 89,
+      "original_paper": {
+        "doi": null,
+        "authors": [
+          "Lockwood, L. J.",
+          "Prombutr, W."
+        ],
+        "title": null,
+        "year": 2010,
+        "venue": null,
+        "url": null
+      },
+      "publication_date": null,
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "sustainable_growth"
+      ],
+      "ambiguous": true,
+      "notes": "Lockwood and Prombutr (2010) citation incomplete; unable to verify paper"
+    },
+    {
+      "id": "zscore",
+      "name": "Zscore",
+      "mclean_pontiff_index": 97,
+      "original_paper": {
+        "doi": "10.2307/2491047",
+        "authors": [
+          "Dichev, I. D."
+        ],
+        "title": "Is the Risk of Bankruptcy a Systematic Risk?",
+        "year": 1998,
+        "venue": "Journal of Finance",
+        "url": null
+      },
+      "publication_date": "1998-05-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "distress_score",
+        "bankruptcy_risk"
+      ],
+      "ambiguous": true,
+      "notes": "Zscore typically refers to Altman (1968), but Dichev (1998) applies Z-score framework; unclear which is the referenced source"
+    }
+  ],
+  "spot_check": [
+    {
+      "id": "dividend_yield",
+      "name": "Dividend Yield",
+      "mclean_pontiff_index": 19,
+      "original_paper": {
+        "doi": "10.1016/S0304-405X(79)80016-3",
+        "authors": [
+          "Litzenberger, R. H.",
+          "Ramaswamy, K."
+        ],
+        "title": "The Effect of Personal Taxes and Dividends on Capital Asset Prices: Theory and Empirical Evidence",
+        "year": 1979,
+        "venue": "Journal of Financial Economics",
+        "url": null
+      },
+      "publication_date": "1979-06-01",
+      "database_families": [
+        "CRSP",
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "dividend_yield"
+      ],
+      "ambiguous": false,
+      "notes": ""
+    },
+    {
+      "id": "book_to_market",
+      "name": "Book-to-Market",
+      "mclean_pontiff_index": 5,
+      "original_paper": {
+        "doi": "10.1145/800197.806675",
+        "authors": [
+          "Rosenberg, B.",
+          "Reid, K.",
+          "Lanstein, R."
+        ],
+        "title": "Persuasive Evidence of Market Inefficiency",
+        "year": 1985,
+        "venue": "Journal of Portfolio Management",
+        "url": null
+      },
+      "publication_date": "1985-05-01",
+      "database_families": [
+        "CRSP",
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "book_to_market"
+      ],
+      "ambiguous": false,
+      "notes": ""
+    },
+    {
+      "id": "intangibles_to_total_assets",
+      "name": "Intangibles to Total Assets",
+      "mclean_pontiff_index": 42,
+      "original_paper": {
+        "doi": "10.1111/j.1540-6261.2006.00841.x",
+        "authors": [
+          "Daniel, K.",
+          "Titman, S."
+        ],
+        "title": "Market Reactions to Tangible and Intangible Information",
+        "year": 2006,
+        "venue": "Journal of Finance",
+        "url": null
+      },
+      "publication_date": "2006-04-01",
+      "database_families": [
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "intangible_assets"
+      ],
+      "ambiguous": false,
+      "notes": ""
+    },
+    {
+      "id": "industry_adjusted_long_term_reversal",
+      "name": "Industry-adjusted LTreversal",
+      "mclean_pontiff_index": 38,
+      "original_paper": {
+        "doi": "10.1016/S0304-405X(00)00065-7",
+        "authors": [
+          "Asness, C. S.",
+          "Porter, R. B.",
+          "Stevens, R. L."
+        ],
+        "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+        "year": 2000,
+        "venue": "Journal of Portfolio Management",
+        "url": null
+      },
+      "publication_date": "2000-07-01",
+      "database_families": [
+        "CRSP"
+      ],
+      "variable_patterns": [
+        "long_term_reversal",
+        "industry_adjustment"
+      ],
+      "ambiguous": false,
+      "notes": ""
+    },
+    {
+      "id": "industry_adjusted_bm",
+      "name": "Industry-adjusted BM",
+      "mclean_pontiff_index": 35,
+      "original_paper": {
+        "doi": "10.1016/S0304-405X(00)00065-7",
+        "authors": [
+          "Asness, C. S.",
+          "Porter, R. B.",
+          "Stevens, R. L."
+        ],
+        "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+        "year": 2000,
+        "venue": "Journal of Portfolio Management",
+        "url": null
+      },
+      "publication_date": "2000-07-01",
+      "database_families": [
+        "CRSP",
+        "Compustat"
+      ],
+      "variable_patterns": [
+        "book_to_market",
+        "industry_adjustment"
+      ],
+      "ambiguous": false,
+      "notes": ""
+    }
+  ]
+}
