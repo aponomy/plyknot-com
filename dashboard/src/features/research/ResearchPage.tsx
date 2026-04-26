@@ -79,10 +79,13 @@ function parseTodoStats(content: string) {
 /* ── Markdown renderer ──────────────────────────────────────────────── */
 
 function renderMarkdown(content: string): string {
-  // Code blocks (``` ... ```) — must run before inline replacements
-  let out = content.replace(/```(\w*)\n([\s\S]*?)```/gm, (_m, lang, code) => {
-    const escaped = code.replace(/</g, "&lt;").replace(/>/g, "&gt;").trimEnd();
-    return `<pre class="text-[10px] font-mono bg-[var(--muted)] rounded px-3 py-2 my-2 overflow-x-auto whitespace-pre"><code>${escaped}</code></pre>`;
+  // Extract code blocks first, replace with placeholders to protect from inline transforms
+  const codeBlocks: string[] = [];
+  let out = content.replace(/```(\w*)\n([\s\S]*?)```/gm, (_m, _lang, code) => {
+    const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").trimEnd();
+    const idx = codeBlocks.length;
+    codeBlocks.push(`<pre class="text-[10px] font-mono bg-[var(--muted)] rounded px-3 py-2 my-2 overflow-x-auto whitespace-pre"><code>${escaped}</code></pre>`);
+    return `\x00CODEBLOCK${idx}\x00`;
   });
 
   // Tables — find consecutive lines starting with |
@@ -98,7 +101,7 @@ function renderMarkdown(content: string): string {
     return `<table class="text-[10px] border-collapse my-2 w-full"><thead class="bg-[var(--muted)]">${head}</thead><tbody>${body}</tbody></table>`;
   });
 
-  // Inline transforms
+  // Inline transforms (code blocks already extracted, safe from # matching)
   out = out
     .replace(/^#### (.+)$/gm, '<h4 class="text-xs font-semibold mt-3 mb-1">$1</h4>')
     .replace(/^### (.+)$/gm, '<h3 class="text-sm font-semibold mt-4 mb-1">$1</h3>')
@@ -114,6 +117,9 @@ function renderMarkdown(content: string): string {
     .replace(/^---$/gm, '<hr class="border-[var(--border)] my-1.5" />')
     .replace(/\n\n/g, '<div class="h-2"></div>')
     .replace(/\n/g, "<br />");
+
+  // Restore code blocks
+  out = out.replace(/\x00CODEBLOCK(\d+)\x00/g, (_m, idx) => codeBlocks[parseInt(idx)]);
   return out;
 }
 
