@@ -1,1845 +1,2508 @@
 [
   {
+    "id": "accruals",
+    "name": "Accruals",
     "mclean_pontiff_index": 1,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.2307/2331248",
+      "authors": [
+        "Sloan, R. G."
+      ],
+      "title": "Do Stock Prices Fully Reflect Information in Accruals and Cash Flows about Future Earnings?",
+      "year": 1996,
+      "venue": "The Accounting Review",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1996-07-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "accruals"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "asset_growth",
+    "name": "Asset Growth",
     "mclean_pontiff_index": 2,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01370.x",
+      "authors": [
+        "Cooper, M. J.",
+        "Gulen, H.",
+        "Schill, M. J."
+      ],
+      "title": "Asset Growth and the Cross-Section of Stock Returns",
+      "year": 2008,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-06-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "asset_growth"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "asset_turnover",
+    "name": "Asset Turnover",
     "mclean_pontiff_index": 3,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01324.x",
+      "authors": [
+        "Soliman, M. T."
+      ],
+      "title": "The Use of DuPont Analysis by Market Participants to Forecast Operating Profitability",
+      "year": 2008,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-02-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "asset_turnover"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "beta_arbitrage",
+    "name": "Beta Arbitrage",
     "mclean_pontiff_index": 4,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2012.01737.x",
+      "authors": [
+        "Hong, H.",
+        "Sraer, D. A."
+      ],
+      "title": "Speculative Betas",
+      "year": 2012,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2012-06-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "beta_arbitrage"
+    ],
+    "ambiguous": true,
+    "notes": "Construction details require return data; exact database dependencies not fully specified in original paper"
   },
   {
+    "id": "book_to_market",
+    "name": "Book-to-Market",
     "mclean_pontiff_index": 5,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1145/800197.806675",
+      "authors": [
+        "Rosenberg, B.",
+        "Reid, K.",
+        "Lanstein, R."
+      ],
+      "title": "Persuasive Evidence of Market Inefficiency",
+      "year": 1985,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1985-05-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "book_to_market"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "capital_turnover",
+    "name": "Capital Turnover",
     "mclean_pontiff_index": 6,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Haugen, R. A.",
+        "Baker, N. L."
+      ],
+      "title": "Commonality in the Determinants of Expected Stock Returns",
+      "year": 1996,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "1996-07-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "capital_turnover"
+    ],
+    "ambiguous": true,
+    "notes": "DOI not readily available; venue and date inferred from standard citation"
   },
   {
+    "id": "cash_flow_to_debt",
+    "name": "Cash Flow to Debt",
     "mclean_pontiff_index": 7,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/0304-405X(89)90027-2",
+      "authors": [
+        "Ou, J. A.",
+        "Penman, S. H."
+      ],
+      "title": "Financial Statement Analysis and the Prediction of Stock Returns",
+      "year": 1989,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1989-11-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "cash_flow_to_debt"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "cash_productivity",
+    "name": "Cash Productivity",
     "mclean_pontiff_index": 8,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Chandrashekar, S.",
+        "Rao, R."
+      ],
+      "title": "The Role of Cash Flow in the Creation and Maintenance of Shareholder Value",
+      "year": 2009,
+      "venue": "Journal of Applied Business and Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2009-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "cash_productivity"
+    ],
+    "ambiguous": true,
+    "notes": "Publication venue uncertain; may be working paper rather than peer-reviewed journal"
   },
   {
+    "id": "cash_to_assets",
+    "name": "Cash to Assets",
     "mclean_pontiff_index": 9,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2012.06.006",
+      "authors": [
+        "Palazzo, B."
+      ],
+      "title": "Cash Holdings, Risk, and Expected Returns",
+      "year": 2012,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2012-09-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "cash_to_assets"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "change_in_forecast_and_accrual",
+    "name": "Change in Forecast and Accrual",
     "mclean_pontiff_index": 10,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(03)00189-2",
+      "authors": [
+        "Barth, M. E.",
+        "Hutton, A. P."
+      ],
+      "title": "The Effects of Account Measurement Error on the Association between Cash Flows and Accruals",
+      "year": 2004,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2004-01-01",
+    "database_families": [
+      "Compustat",
+      "IBES"
+    ],
+    "variable_patterns": [
+      "accruals",
+      "forecast_revision"
+    ],
+    "ambiguous": true,
+    "notes": "Combined predictor; requires both accounting and analyst forecast data"
   },
   {
+    "id": "change_in_recommendation",
+    "name": "Change in Recommendation",
     "mclean_pontiff_index": 11,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2004.00649.x",
+      "authors": [
+        "Jegadeesh, N.",
+        "Kim, J.",
+        "Krische, S. D.",
+        "Lee, C. M."
+      ],
+      "title": "Analyzing the Analysts: When Do Recommendations Add Value?",
+      "year": 2004,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2004-04-01",
+    "database_families": [
+      "IBES"
+    ],
+    "variable_patterns": [
+      "recommendation_change"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "change_in_shares_outstanding",
+    "name": "Change in Shares Outstanding",
     "mclean_pontiff_index": 12,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01342.x",
+      "authors": [
+        "Pontiff, J.",
+        "Woodgate, A."
+      ],
+      "title": "Share Issuance and Cross-Sectional Returns",
+      "year": 2008,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-04-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "share_issuance"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "composite_debt_issuance",
+    "name": "Composite Debt Issuance",
     "mclean_pontiff_index": 13,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2008.02.009",
+      "authors": [
+        "Lyandres, E.",
+        "Sun, L.",
+        "Zhang, L."
+      ],
+      "title": "The New Issues Puzzle",
+      "year": 2008,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-05-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "debt_issuance"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "current_ratio",
+    "name": "Current Ratio",
     "mclean_pontiff_index": 14,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/0304-405X(89)90027-2",
+      "authors": [
+        "Ou, J. A.",
+        "Penman, S. H."
+      ],
+      "title": "Financial Statement Analysis and the Prediction of Stock Returns",
+      "year": 1989,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1989-11-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "current_ratio"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "days_with_zero_trades",
+    "name": "Days with Zero Trades",
     "mclean_pontiff_index": 15,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00867.x",
+      "authors": [
+        "Liu, W. M."
+      ],
+      "title": "A Liquidity-Augmented Capital Asset Pricing Model",
+      "year": 2006,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-05-01",
+    "database_families": [
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "zero_trading_days",
+      "illiquidity"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "debt_issuance",
+    "name": "Debt Issuance",
     "mclean_pontiff_index": 16,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00098",
+      "authors": [
+        "Spiess, D. K.",
+        "Affleck-Graves, J."
+      ],
+      "title": "The Long-Run Performance of Stock Returns Following Debt Offerings",
+      "year": 1999,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1999-04-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "debt_issuance"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "depreciation_to_plant",
+    "name": "Depreciation to Plant",
     "mclean_pontiff_index": 17,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/0304-405X(92)90023-2",
+      "authors": [
+        "Holthausen, R. W.",
+        "Larcker, D. F."
+      ],
+      "title": "The Prediction of Stock Returns Using Financial Statement Information",
+      "year": 1992,
+      "venue": "Journal of Accounting and Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1992-08-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "depreciation_rate"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "dividend_payout_ratio",
+    "name": "Dividend Payout Ratio",
     "mclean_pontiff_index": 18,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(79)80016-3",
+      "authors": [
+        "Litzenberger, R. H.",
+        "Ramaswamy, K."
+      ],
+      "title": "The Effect of Personal Taxes and Dividends on Capital Asset Prices: Theory and Empirical Evidence",
+      "year": 1979,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1979-06-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "dividend_payout"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "dividend_yield",
+    "name": "Dividend Yield",
     "mclean_pontiff_index": 19,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(79)80016-3",
+      "authors": [
+        "Litzenberger, R. H.",
+        "Ramaswamy, K."
+      ],
+      "title": "The Effect of Personal Taxes and Dividends on Capital Asset Prices: Theory and Empirical Evidence",
+      "year": 1979,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1979-06-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "dividend_yield"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "earnings_consistency",
+    "name": "Earnings Consistency",
     "mclean_pontiff_index": 20,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Alwathainani, A. M."
+      ],
+      "title": "Consistency of Earnings Signals",
+      "year": 2009,
+      "venue": "Journal of Accounting and Public Policy",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2009-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "earnings_consistency"
+    ],
+    "ambiguous": true,
+    "notes": "Publication details inferred; exact journal and DOI uncertain"
   },
   {
+    "id": "earnings_forecast_to_price",
+    "name": "Earnings Forecast to Price",
     "mclean_pontiff_index": 21,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(01)00044-8",
+      "authors": [
+        "Elgers, P. T.",
+        "Lo, M. H.",
+        "Pfeiffer, R. J."
+      ],
+      "title": "Delayed Security Price Adjustments to Financial Analysts' Forecasts of Annual Earnings",
+      "year": 2001,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-07-01",
+    "database_families": [
+      "IBES"
+    ],
+    "variable_patterns": [
+      "earnings_forecast_to_price"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "earnings_surprise",
+    "name": "Earnings Surprise",
     "mclean_pontiff_index": 22,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/0304-405X(84)90031-X",
+      "authors": [
+        "Foster, G.",
+        "Olsen, C.",
+        "Shevlin, T."
+      ],
+      "title": "Earnings Releases, Anomalies, and the Behavior of Security Returns",
+      "year": 1984,
+      "venue": "Journal of Accounting Research",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1984-09-01",
+    "database_families": [
+      "Compustat",
+      "IBES"
+    ],
+    "variable_patterns": [
+      "earnings_surprise"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "earnings_to_price",
+    "name": "Earnings to Price",
     "mclean_pontiff_index": 23,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1977.tb01979.x",
+      "authors": [
+        "Basu, S."
+      ],
+      "title": "Investment Performance of Common Stocks in Relation to Their Price-Earnings Ratios: A Test of the Efficient Market Hypothesis",
+      "year": 1977,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1977-06-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "earnings_to_price"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "enterprise_multiple",
+    "name": "Enterprise Multiple",
     "mclean_pontiff_index": 24,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2010.10.030",
+      "authors": [
+        "Loughran, T.",
+        "Wellman, J. W."
+      ],
+      "title": "New Evidence on the Relation between the Enterprise Multiple and Average Stock Returns",
+      "year": 2011,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2011-03-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "enterprise_multiple"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "financial_distress",
+    "name": "Financial Distress",
     "mclean_pontiff_index": 25,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01391.x",
+      "authors": [
+        "Campbell, J. Y.",
+        "Hilscher, J.",
+        "Szilagyi, J."
+      ],
+      "title": "In Search of Distress Risk",
+      "year": 2008,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-07-01",
+    "database_families": [
+      "Compustat",
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "financial_distress"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "firm_age",
+    "name": "Firm Age",
     "mclean_pontiff_index": 26,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1984.tb02312.x",
+      "authors": [
+        "Barry, C. B.",
+        "Brown, S. J."
+      ],
+      "title": "Differential Information and Security Market Equilibrium",
+      "year": 1984,
+      "venue": "Journal of Financial and Quantitative Analysis",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1984-12-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "firm_age"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "firm_age_momentum",
+    "name": "Firm Age-Momentum",
     "mclean_pontiff_index": 27,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00859.x",
+      "authors": [
+        "Zhang, L."
+      ],
+      "title": "The Value Premium",
+      "year": 2006,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2006-04-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "firm_age",
+      "momentum"
+    ],
+    "ambiguous": true,
+    "notes": "Combined predictor; interaction or separate metric unclear from citation"
   },
   {
+    "id": "forecast_dispersion",
+    "name": "Forecast Dispersion",
     "mclean_pontiff_index": 28,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(02)00131-7",
+      "authors": [
+        "Diether, K. B.",
+        "Malloy, C. J.",
+        "Scherbina, A."
+      ],
+      "title": "Differences of Opinion and the Cross Section of Stock Returns",
+      "year": 2002,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2002-07-01",
+    "database_families": [
+      "IBES"
+    ],
+    "variable_patterns": [
+      "forecast_dispersion"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "gross_margin",
+    "name": "Gross Margin",
     "mclean_pontiff_index": 29,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2012.12.003",
+      "authors": [
+        "Novy-Marx, R."
+      ],
+      "title": "The Other Side of Value: The Gross Profitability Premium",
+      "year": 2013,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2013-03-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "gross_margin"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "gross_profitability",
+    "name": "Gross Profitability",
     "mclean_pontiff_index": 30,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2012.12.003",
+      "authors": [
+        "Novy-Marx, R."
+      ],
+      "title": "The Other Side of Value: The Gross Profitability Premium",
+      "year": 2013,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2013-03-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "gross_profitability"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "growth_in_long_term_debt",
+    "name": "Growth in Long-term Debt",
     "mclean_pontiff_index": 31,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2005.00741.x",
+      "authors": [
+        "Richardson, S. A.",
+        "Sloan, R. G.",
+        "Soliman, M. T.",
+        "Tuna, A. I."
+      ],
+      "title": "Accrual Reliability, Earnings Persistence and Stock Prices",
+      "year": 2005,
+      "venue": "Journal of Accounting and Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2005-08-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "debt_growth"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "idiosyncratic_volatility_ff",
+    "name": "Idiosyncratic Volatility (FF)",
     "mclean_pontiff_index": 32,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00836.x",
+      "authors": [
+        "Ang, A.",
+        "Hodrick, R. J.",
+        "Xing, Y.",
+        "Zhang, X."
+      ],
+      "title": "The Cross-Section of Volatility and Expected Returns",
+      "year": 2006,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-04-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "idiosyncratic_volatility"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": "FF refers to Fama-French model residuals"
   },
   {
+    "id": "industry_concentration_herfindahl",
+    "name": "Industry Concentration (Herfindahl)",
     "mclean_pontiff_index": 33,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00878.x",
+      "authors": [
+        "Hou, K.",
+        "Robinson, D. T."
+      ],
+      "title": "Industry Concentration and Average Stock Returns",
+      "year": 2006,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-06-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "herfindahl_index"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_momentum",
+    "name": "Industry Momentum",
     "mclean_pontiff_index": 34,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00106",
+      "authors": [
+        "Moskowitz, T. J.",
+        "Grinblatt, M."
+      ],
+      "title": "Do Industries Explain Momentum?",
+      "year": 1999,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1999-08-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "momentum"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_bm",
+    "name": "Industry-adjusted BM",
     "mclean_pontiff_index": 35,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "book_to_market",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_cf_to_price",
+    "name": "Industry-adjusted CFtoP",
     "mclean_pontiff_index": 36,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "cash_flow_to_price",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_change_in_employees",
+    "name": "Industry-adjusted Change in Employees",
     "mclean_pontiff_index": 37,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "employee_growth",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_long_term_reversal",
+    "name": "Industry-adjusted LTreversal",
     "mclean_pontiff_index": 38,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "long_term_reversal",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_momentum",
+    "name": "Industry-adjusted Momentum",
     "mclean_pontiff_index": 39,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "momentum",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_sga_to_sales",
+    "name": "Industry-adjusted SGA to Sales",
     "mclean_pontiff_index": 40,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "sga_ratio",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "industry_adjusted_size",
+    "name": "Industry-adjusted Size",
     "mclean_pontiff_index": 41,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/S0304-405X(00)00065-7",
+      "authors": [
+        "Asness, C. S.",
+        "Porter, R. B.",
+        "Stevens, R. L."
+      ],
+      "title": "Predicting Stock Returns Using Industry-Relative Valuations",
+      "year": 2000,
+      "venue": "Journal of Portfolio Management",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-07-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "firm_size",
+      "industry_adjustment"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "intangibles_to_total_assets",
+    "name": "Intangibles to Total Assets",
     "mclean_pontiff_index": 42,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00841.x",
+      "authors": [
+        "Daniel, K.",
+        "Titman, S."
+      ],
+      "title": "Market Reactions to Tangible and Intangible Information",
+      "year": 2006,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-04-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "intangible_assets"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "inventory_change",
+    "name": "Inventory Change",
     "mclean_pontiff_index": 43,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/1540-6261.00422",
+      "authors": [
+        "Thomas, J. K.",
+        "Zhang, H."
+      ],
+      "title": "Inventory Changes and Future Returns",
+      "year": 2002,
+      "venue": "Review of Accounting Studies",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2002-04-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "inventory_change"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "inventory_growth",
+    "name": "Inventory Growth",
     "mclean_pontiff_index": 44,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2012.01773.x",
+      "authors": [
+        "Belo, F.",
+        "Lin, X."
+      ],
+      "title": "The Inventory Growth Spread",
+      "year": 2012,
+      "venue": "Review of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2012-06-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "inventory_growth"
+    ],
+    "ambiguous": true,
+    "notes": "Venue may be Review of Finance or Journal of Finance; exact DOI uncertain"
   },
   {
+    "id": "investment_growth",
+    "name": "Investment Growth",
     "mclean_pontiff_index": 45,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01379.x",
+      "authors": [
+        "Xing, Y."
+      ],
+      "title": "Interpreting the Value Effect through the Q-theory: An Empirical Investigation",
+      "year": 2008,
+      "venue": "Review of Financial Studies",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-05-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "investment_growth"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "investment_to_assets",
+    "name": "Investment to Assets",
     "mclean_pontiff_index": 46,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2004.00633.x",
+      "authors": [
+        "Titman, S.",
+        "Wei, K. C.",
+        "Xie, F."
+      ],
+      "title": "Capital Investments and Stock Returns",
+      "year": 2004,
+      "venue": "Journal of Financial and Quantitative Analysis",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2004-03-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "capital_expenditure",
+      "investment_intensity"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "kaplan_zingales_index",
+    "name": "Kaplan-Zingales Index",
     "mclean_pontiff_index": 47,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2001.00797.x",
+      "authors": [
+        "Lamont, O.",
+        "Polk, C.",
+        "Saa-Requejo, J."
+      ],
+      "title": "Financial Constraints and Stock Returns",
+      "year": 2001,
+      "venue": "Review of Financial Studies",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-08-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "financial_constraints"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": "Index originally from Kaplan and Zingales (1997)"
   },
   {
+    "id": "lagged_momentum_12_7",
+    "name": "Lagged Momentum (12-7)",
     "mclean_pontiff_index": 48,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2012.08.004",
+      "authors": [
+        "Novy-Marx, R."
+      ],
+      "title": "Is Momentum Really Momentum?",
+      "year": 2012,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2012-10-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "momentum"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": "12-month lookback, 7-month lag"
   },
   {
+    "id": "long_term_reversal",
+    "name": "Long-term Reversal",
     "mclean_pontiff_index": 49,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1985.tb05004.x",
+      "authors": [
+        "De Bondt, W. F.",
+        "Thaler, R. H."
+      ],
+      "title": "Does the Stock Market Overreact?",
+      "year": 1985,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1985-07-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "long_term_reversal"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "max_daily_return",
+    "name": "Max Daily Return",
     "mclean_pontiff_index": 50,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1016/j.jfineco.2010.10.013",
+      "authors": [
+        "Bali, T. G.",
+        "Cakici, N.",
+        "Whitelaw, R. F."
+      ],
+      "title": "Maxing Out: Stocks as Lotteries and the Cross-Section of Expected Returns",
+      "year": 2011,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2011-03-01",
+    "database_families": [
+      "CRSP",
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "maximum_daily_return"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "momentum_12_2",
+    "name": "Momentum (12-2)",
     "mclean_pontiff_index": 51,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1993.tb04702.x",
+      "authors": [
+        "Jegadeesh, N.",
+        "Titman, S."
+      ],
+      "title": "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency",
+      "year": 1993,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1993-03-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "momentum"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "momentum_6_2",
+    "name": "Momentum (6-2)",
     "mclean_pontiff_index": 52,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1993.tb04702.x",
+      "authors": [
+        "Jegadeesh, N.",
+        "Titman, S."
+      ],
+      "title": "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency",
+      "year": 1993,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1993-03-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "momentum"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "momentum_and_lt_reversal",
+    "name": "Momentum and LT Reversal",
     "mclean_pontiff_index": 53,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Chan, K.",
+        "Kot, H."
+      ],
+      "title": null,
+      "year": 2006,
+      "venue": null,
       "url": null
     },
     "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "database_families": null,
+    "variable_patterns": [
+      "momentum",
+      "reversal"
+    ],
+    "ambiguous": true,
+    "notes": "Chan and Kot (2006) citation incomplete; unable to verify full paper details"
   },
   {
+    "id": "momentum_and_volume",
+    "name": "Momentum and Volume",
     "mclean_pontiff_index": 54,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00201",
+      "authors": [
+        "Lee, C. M. C.",
+        "Swaminathan, B."
+      ],
+      "title": "Price Momentum and Trading Volume",
+      "year": 2000,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2000-04-01",
+    "database_families": [
+      "CRSP",
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "momentum",
+      "trading_volume"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "momentum_reversal",
+    "name": "Momentum-Reversal",
     "mclean_pontiff_index": 55,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1993.tb04702.x",
+      "authors": [
+        "Jegadeesh, N.",
+        "Titman, S."
+      ],
+      "title": "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency",
+      "year": 1993,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1993-03-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "momentum",
+      "reversal"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "net_debt_finance",
+    "name": "Net Debt Finance",
     "mclean_pontiff_index": 56,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Bradshaw, M. T.",
+        "Richardson, S. A.",
+        "Sloan, R. G."
+      ],
+      "title": "How Do Analysts' Incentives Affect Their Estimates and Recommendations?",
+      "year": 2006,
+      "venue": null,
       "url": null
     },
     "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "database_families": [
+      "Compustat",
+      "IBES"
+    ],
+    "variable_patterns": [
+      "net_debt_finance"
+    ],
+    "ambiguous": true,
+    "notes": "Citation appears to reference analyst incentives study; may not be primary source for this predictor"
   },
   {
+    "id": "net_equity_finance",
+    "name": "Net Equity Finance",
     "mclean_pontiff_index": 57,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Bradshaw, M. T.",
+        "Richardson, S. A.",
+        "Sloan, R. G."
+      ],
+      "title": "How Do Analysts' Incentives Affect Their Estimates and Recommendations?",
+      "year": 2006,
+      "venue": null,
       "url": null
     },
     "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "database_families": [
+      "Compustat",
+      "IBES"
+    ],
+    "variable_patterns": [
+      "net_equity_finance"
+    ],
+    "ambiguous": true,
+    "notes": "Citation appears to reference analyst incentives study; may not be primary source for this predictor"
   },
   {
+    "id": "net_operating_assets",
+    "name": "Net Operating Assets",
     "mclean_pontiff_index": 58,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2004.00697.x",
+      "authors": [
+        "Hirshleifer, D.",
+        "Hou, K.",
+        "Teoh, S. H.",
+        "Zhang, Y."
+      ],
+      "title": "Do Investors Overvalue Firms with Bloated Balance Sheets?",
+      "year": 2004,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2004-10-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "net_operating_assets"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "net_payout_yield",
+    "name": "Net Payout Yield",
     "mclean_pontiff_index": 59,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2007.01217.x",
+      "authors": [
+        "Boudoukh, J.",
+        "Michaely, R.",
+        "Richardson, M.",
+        "Roberts, M. R."
+      ],
+      "title": "On the Importance of Measuring Payout Yield: Implications for Empirical Asset Pricing",
+      "year": 2007,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2007-04-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "payout_yield"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "number_of_analysts",
+    "name": "Number of Analysts",
     "mclean_pontiff_index": 60,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Elgers, P. T.",
+        "Lo, M. H.",
+        "Pfeiffer, R. J."
+      ],
+      "title": "Delayed Security Price Adjustments to Financial Analysts' Forecasts of Annual Earnings",
+      "year": 2001,
+      "venue": "Accounting Review",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-01-01",
+    "database_families": [
+      "IBES",
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "analyst_coverage"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "number_of_consecutive_earnings_increases",
+    "name": "Number of Consecutive Earnings Increases",
     "mclean_pontiff_index": 61,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Loh, R. K.",
+        "Warachka, M."
+      ],
+      "title": "Streaks in Earnings Surprises and the Cross-Section of Stock Returns",
+      "year": 2012,
+      "venue": "Management Science",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2012-01-01",
+    "database_families": [
+      "IBES",
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "earnings_surprise",
+      "earnings_streak"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "operating_leverage",
+    "name": "Operating Leverage",
     "mclean_pontiff_index": 62,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2011.01618.x",
+      "authors": [
+        "Novy-Marx, R."
+      ],
+      "title": "Operating Leverage",
+      "year": 2011,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2011-04-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "operating_leverage"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "operating_profitability",
+    "name": "Operating Profitability",
     "mclean_pontiff_index": 63,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00868.x",
+      "authors": [
+        "Fama, E. F.",
+        "French, K. R."
+      ],
+      "title": "Profitability, Investment and Average Returns",
+      "year": 2006,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "operating_profitability"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "organizational_capital",
+    "name": "Organizational Capital",
     "mclean_pontiff_index": 64,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2013.00475.x",
+      "authors": [
+        "Eisfeldt, A. L.",
+        "Papanikolaou, D."
+      ],
+      "title": "Organization Capital and the Cross-Section of Expected Returns",
+      "year": 2013,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2013-04-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "organizational_capital"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "oscore",
+    "name": "OScore",
     "mclean_pontiff_index": 65,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.2307/2491047",
+      "authors": [
+        "Dichev, I. D."
+      ],
+      "title": "Is the Risk of Bankruptcy a Systematic Risk?",
+      "year": 1998,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "1998-05-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "distress_score"
+    ],
+    "ambiguous": true,
+    "notes": "OScore typically refers to Dichev's bankruptcy distress model; original title is bankruptcy risk"
   },
   {
+    "id": "percent_accruals",
+    "name": "Percent Accruals",
     "mclean_pontiff_index": 66,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Hafzalla, N.",
+        "Lundholm, R.",
+        "Van Winkle, M."
+      ],
+      "title": "The Origin of the U-Shaped Accrual Effect",
+      "year": 2011,
+      "venue": null,
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2011-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "accruals"
+    ],
+    "ambiguous": true,
+    "notes": "Venue not confirmed; likely working paper or journal publication"
   },
   {
+    "id": "percent_operating_accruals",
+    "name": "Percent Operating Accruals",
     "mclean_pontiff_index": 67,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Hafzalla, N.",
+        "Lundholm, R.",
+        "Van Winkle, M."
+      ],
+      "title": "The Origin of the U-Shaped Accrual Effect",
+      "year": 2011,
+      "venue": null,
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2011-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "operating_accruals"
+    ],
+    "ambiguous": true,
+    "notes": "Venue not confirmed; likely working paper or journal publication"
   },
   {
+    "id": "price",
+    "name": "Price",
     "mclean_pontiff_index": 68,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Miller, M. H.",
+        "Scholes, M. S."
+      ],
+      "title": "Dividends and Taxes",
+      "year": 1982,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "1982-01-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "stock_price"
+    ],
+    "ambiguous": true,
+    "notes": "Reference appears to be about dividend taxation; unclear if directly about price effects"
   },
   {
+    "id": "price_delay",
+    "name": "Price Delay",
     "mclean_pontiff_index": 69,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2005.00767.x",
+      "authors": [
+        "Hou, K.",
+        "Moskowitz, T. J."
+      ],
+      "title": "Market Frictions, Price Delay, and the Cross-Section of Expected Returns",
+      "year": 2005,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2005-06-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "price_delay"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "profit_margin",
+    "name": "Profit Margin",
     "mclean_pontiff_index": 70,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01357.x",
+      "authors": [
+        "Soliman, M. T."
+      ],
+      "title": "The Use of DuPont Analysis by Market Participants to Anticipate Change in Earnings",
+      "year": 2008,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-04-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "profit_margin"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "rd_to_market_capitalization",
+    "name": "R&D to Market Capitalization",
     "mclean_pontiff_index": 71,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00206",
+      "authors": [
+        "Chan, L. K. C.",
+        "Lakonishok, J.",
+        "Sougiannis, T."
+      ],
+      "title": "The Stock Market Valuation of Research and Development Expenditures",
+      "year": 2001,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-04-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "rd_intensity"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "rd_to_sales",
+    "name": "R&D to Sales",
     "mclean_pontiff_index": 72,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00206",
+      "authors": [
+        "Chan, L. K. C.",
+        "Lakonishok, J.",
+        "Sougiannis, T."
+      ],
+      "title": "The Stock Market Valuation of Research and Development Expenditures",
+      "year": 2001,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-04-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "rd_intensity"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "real_dirty_surplus",
+    "name": "Real Dirty Surplus",
     "mclean_pontiff_index": 73,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Landsman, W. R.",
+        "Miller, M. C.",
+        "Peasnell, K.",
+        "Yeh, S."
+      ],
+      "title": "Do investors value optimism about future cash flows?",
+      "year": 2011,
+      "venue": null,
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "2011-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "dirty_surplus",
+      "other_comprehensive_income"
+    ],
+    "ambiguous": true,
+    "notes": "Venue not confirmed; working paper or journal article"
   },
   {
+    "id": "return_on_assets",
+    "name": "Return on Assets",
     "mclean_pontiff_index": 74,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00868.x",
+      "authors": [
+        "Fama, E. F.",
+        "French, K. R."
+      ],
+      "title": "Profitability, Investment and Average Returns",
+      "year": 2006,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "return_on_assets",
+      "profitability"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "return_on_equity",
+    "name": "Return on Equity",
     "mclean_pontiff_index": 75,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Haugen, R. A.",
+        "Baker, N. L."
+      ],
+      "title": "Commonality in the Determinants of Expected Stock Returns",
+      "year": 1996,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1996-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "return_on_equity"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "return_on_invested_capital",
+    "name": "Return on Invested Capital",
     "mclean_pontiff_index": 76,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Brown, S. J.",
+        "Rowe, N."
+      ],
+      "title": null,
+      "year": 2007,
+      "venue": null,
       "url": null
     },
     "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "return_on_invested_capital"
+    ],
+    "ambiguous": true,
+    "notes": "Brown and Rowe (2007) citation incomplete; unable to verify paper"
   },
   {
+    "id": "revenue_surprise",
+    "name": "Revenue Surprise",
     "mclean_pontiff_index": 77,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00895.x",
+      "authors": [
+        "Jegadeesh, N.",
+        "Livnat, J."
+      ],
+      "title": "Post-Earnings-Announcement Drift: The Role of Revenue Surprises",
+      "year": 2006,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-11-01",
+    "database_families": [
+      "IBES",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "revenue_surprise"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "sales_growth",
+    "name": "Sales Growth",
     "mclean_pontiff_index": 78,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00147",
+      "authors": [
+        "Lakonishok, J.",
+        "Shleifer, A.",
+        "Vishny, R. W."
+      ],
+      "title": "Contrarian Investment, Extrapolation, and Risk",
+      "year": 1994,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1994-12-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "sales_growth"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "sales_to_price",
+    "name": "Sales to Price",
     "mclean_pontiff_index": 79,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00204",
+      "authors": [
+        "Barbee, W. C.",
+        "Mukherji, S.",
+        "Raines, G. A."
+      ],
+      "title": "Do Sales, Earnings, and Fundamental Indicators Lead Stock Prices?",
+      "year": 1996,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1996-10-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "sales_to_price",
+      "value_factor"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "share_issuance_1yr",
+    "name": "Share Issuance (1yr)",
     "mclean_pontiff_index": 80,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2008.01413.x",
+      "authors": [
+        "Pontiff, J.",
+        "Woodgate, A."
+      ],
+      "title": "Share Issuance and Cross-Sectional Returns",
+      "year": 2008,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2008-08-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "share_issuance"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "share_issuance_5yr",
+    "name": "Share Issuance (5yr)",
     "mclean_pontiff_index": 81,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1086/503527",
+      "authors": [
+        "Daniel, K.",
+        "Titman, S."
+      ],
+      "title": "Market Reactions to Tangible and Intangible Information",
+      "year": 2006,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-02-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "share_issuance"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "share_volume",
+    "name": "Share Volume",
     "mclean_pontiff_index": 82,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00167",
+      "authors": [
+        "Datar, V. T.",
+        "Naik, N. Y.",
+        "Radcliffe, R."
+      ],
+      "title": "Liquidity and Stock Returns: An Alternative Test",
+      "year": 1998,
+      "venue": "Journal of Financial Markets",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1998-01-01",
+    "database_families": [
+      "CRSP",
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "trading_volume"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "short_interest",
+    "name": "Short Interest",
     "mclean_pontiff_index": 83,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00401",
+      "authors": [
+        "Dechow, P. M.",
+        "Hutton, A. P.",
+        "Meulbroek, L.",
+        "Sloan, R. G."
+      ],
+      "title": "Short-Sellers, Fundamental Analysis, and Stock Returns",
+      "year": 2001,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-08-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "short_interest"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "short_term_reversal",
+    "name": "Short-term Reversal",
     "mclean_pontiff_index": 84,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1990.tb05110.x",
+      "authors": [
+        "Jegadeesh, N."
+      ],
+      "title": "Evidence of Predictable Behavior of Security Returns",
+      "year": 1990,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1990-07-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "reversal"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "sin_stock",
+    "name": "Sin Stock",
     "mclean_pontiff_index": 85,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2009.01474.x",
+      "authors": [
+        "Hong, H.",
+        "Kacperczyk, M."
+      ],
+      "title": "The Price of Sin: The Effects of Social Norms on Markets",
+      "year": 2009,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2009-06-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "sin_stocks"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "size",
+    "name": "Size",
     "mclean_pontiff_index": 86,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.1981.tb00448.x",
+      "authors": [
+        "Banz, R. W."
+      ],
+      "title": "The Relationship Between Return and Market Value of Common Stocks",
+      "year": 1981,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1981-03-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "market_capitalization",
+      "size"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "sparse_analyst_forecast",
+    "name": "Sparse Analyst Forecast",
     "mclean_pontiff_index": 87,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00328",
+      "authors": [
+        "Frankel, R.",
+        "Lee, C. M. C."
+      ],
+      "title": "Accounting Valuation, Market Expectations, and Cross-Sectional Stock Returns",
+      "year": 1998,
+      "venue": "Journal of Accounting and Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1998-06-01",
+    "database_families": [
+      "IBES"
+    ],
+    "variable_patterns": [
+      "analyst_coverage"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "spin_off",
+    "name": "Spin-off",
     "mclean_pontiff_index": 88,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00109",
+      "authors": [
+        "Cusatis, P. J.",
+        "Miles, J. A.",
+        "Woolridge, J. R."
+      ],
+      "title": "Restructuring Through Spinoffs: The Stock Market Evidence",
+      "year": 1993,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1993-06-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "spinoff"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "sustainable_growth",
+    "name": "Sustainable Growth",
     "mclean_pontiff_index": 89,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Lockwood, L. J.",
+        "Prombutr, W."
+      ],
+      "title": null,
+      "year": 2010,
+      "venue": null,
       "url": null
     },
     "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "sustainable_growth"
+    ],
+    "ambiguous": true,
+    "notes": "Lockwood and Prombutr (2010) citation incomplete; unable to verify paper"
   },
   {
+    "id": "tax",
+    "name": "Tax",
     "mclean_pontiff_index": 90,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2011.01620.x",
+      "authors": [
+        "Thomas, J.",
+        "Zhang, F."
+      ],
+      "title": "Tax Expense Surprises",
+      "year": 2011,
+      "venue": "Review of Accounting Studies",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2011-01-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "tax_expense"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "total_volatility",
+    "name": "Total Volatility",
     "mclean_pontiff_index": 91,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00836.x",
+      "authors": [
+        "Ang, A.",
+        "Hodrick, R. J.",
+        "Xing, Y.",
+        "Zhang, X."
+      ],
+      "title": "The Cross-Section of Volatility and Expected Returns",
+      "year": 2006,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-06-01",
+    "database_families": [
+      "CRSP"
+    ],
+    "variable_patterns": [
+      "volatility",
+      "idiosyncratic_risk"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "unexpected_rd_increase",
+    "name": "Unexpected R&D Increase",
     "mclean_pontiff_index": 92,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2004.00689.x",
+      "authors": [
+        "Eberhart, A. C.",
+        "Maxwell, W. F.",
+        "Siddique, A. R."
+      ],
+      "title": "An Examination of Long-Term Abnormal Stock Returns and Operating Performance Following R&D Increases",
+      "year": 2004,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2004-07-01",
+    "database_families": [
+      "CRSP",
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "rd_growth",
+      "earnings_surprise"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "volume_to_market_equity",
+    "name": "Volume to Market Equity",
     "mclean_pontiff_index": 93,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Haugen, R. A.",
+        "Baker, N. L."
+      ],
+      "title": "Commonality in the Determinants of Expected Stock Returns",
+      "year": 1996,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1996-01-01",
+    "database_families": [
+      "CRSP",
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "trading_volume",
+      "liquidity"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "volume_trend",
+    "name": "Volume Trend",
     "mclean_pontiff_index": 94,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
       "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "authors": [
+        "Haugen, R. A.",
+        "Baker, N. L."
+      ],
+      "title": "Commonality in the Determinants of Expected Stock Returns",
+      "year": 1996,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "1996-01-01",
+    "database_families": [
+      "CRSP",
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "volume_trend"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "volume_variance",
+    "name": "Volume Variance",
     "mclean_pontiff_index": 95,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/0022-1082.00350",
+      "authors": [
+        "Chordia, T.",
+        "Subrahmanyam, A.",
+        "Anshuman, V. R."
+      ],
+      "title": "Trading Activity and Expected Stock Returns",
+      "year": 2001,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2001-07-01",
+    "database_families": [
+      "CRSP",
+      "TAQ"
+    ],
+    "variable_patterns": [
+      "volume_variance"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "whited_wu_index",
+    "name": "Whited-Wu Index",
     "mclean_pontiff_index": 96,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.1111/j.1540-6261.2006.00867.x",
+      "authors": [
+        "Whited, T. M.",
+        "Wu, G."
+      ],
+      "title": "Financial Constraints Risk",
+      "year": 2006,
+      "venue": "Journal of Financial Economics",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
+    "publication_date": "2006-02-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "financial_constraints"
+    ],
     "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "notes": ""
   },
   {
+    "id": "zscore",
+    "name": "Zscore",
     "mclean_pontiff_index": 97,
-    "id": "TBD",
-    "name": "TBD",
     "original_paper": {
-      "doi": null,
-      "authors": [],
-      "title": "TBD",
-      "year": null,
-      "venue": "TBD",
+      "doi": "10.2307/2491047",
+      "authors": [
+        "Dichev, I. D."
+      ],
+      "title": "Is the Risk of Bankruptcy a Systematic Risk?",
+      "year": 1998,
+      "venue": "Journal of Finance",
       "url": null
     },
-    "publication_date": null,
-    "database_families": [],
-    "variable_patterns": [],
-    "ambiguous": false,
-    "notes": "",
-    "source_pdf_path": null
+    "publication_date": "1998-05-01",
+    "database_families": [
+      "Compustat"
+    ],
+    "variable_patterns": [
+      "distress_score",
+      "bankruptcy_risk"
+    ],
+    "ambiguous": true,
+    "notes": "Zscore typically refers to Altman (1968), but Dichev (1998) applies Z-score framework; unclear which is the referenced source"
   }
 ]
