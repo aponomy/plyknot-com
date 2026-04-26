@@ -98,7 +98,7 @@ function renderMarkdown(content: string): string {
       r.split("|").slice(1, -1).map((c) => `<${tag} class="px-2 py-1 border border-[var(--border)]">${c.trim()}</${tag}>`).join("");
     const head = `<tr>${toCell("th")(dataRows[0])}</tr>`;
     const body = dataRows.slice(1).map((r) => `<tr>${toCell("td")(r)}</tr>`).join("");
-    return `<table class="text-[10px] border-collapse my-2 w-full"><thead class="bg-[var(--muted)]">${head}</thead><tbody>${body}</tbody></table>`;
+    return `<div class="overflow-x-auto my-2"><table class="text-[10px] border-collapse w-max"><thead class="bg-[var(--muted)]">${head}</thead><tbody>${body}</tbody></table></div>`;
   });
 
   // Inline transforms (code blocks already extracted, safe from # matching)
