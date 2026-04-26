@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_2_p6",
+  "text_length": 434,
+  "unconditioned_raw": [
+    {
+      "verb": "implement",
+      "type": "cognitive",
+      "content": "Python implementation of GUM sensitivity-coefficient computation",
+      "intensity": 0.9,
+      "pattern_id": "implement:python_implementation_of_gum_sensitivity-coefficient_computation"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Distinguished same as JCGM 100:2008 GUM (v6.2.9)",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:distinguished_same_as_jcgm_100:2008_gum_(v6.2.9)"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "implement",
+      "type": "cognitive",
+      "content": "Python implementation of GUM sensitivity-coefficient computation",
+      "intensity": 1.0,
+      "pattern_id": "implement:python_implementation_of_gum_sensitivity-coefficient_computation"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Distinguished same as JCGM 100:2008 GUM (v6.2.9)",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:distinguished_same_as_jcgm_100:2008_gum_(v6.2.9)"
+    },
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "measurement modelling and automatic evaluation of uncertainty",
+      "intensity": 0.9,
+      "pattern_id": "compute:measurement_modelling_and_automatic_evaluation_of_uncertainty"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "compute:measurement_modelling_and_automatic_evaluation_of_uncertainty",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:distinguished_same_as_jcgm_100:2008_gum_(v6.2.9)",
+      "unconditioned": 0.8,
+      "conditioned": 0.8,
+      "guided": 0.8,
+      "guidance_delta": 0.0
+    },
+    {
+      "property_id": "implement:python_implementation_of_gum_sensitivity-coefficient_computation",
+      "unconditioned": 0.9,
+      "conditioned": 1.0,
+      "guided": 0.95,
+      "guidance_delta": 0.09999999999999998
+    }
+  ],
+  "lensing_strain": 0.3333333333333333,
+  "n_uncond": 2,
+  "n_cond": 3,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

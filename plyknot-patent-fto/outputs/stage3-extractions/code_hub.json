@@ -1,0 +1,127 @@
+{
+  "module": "hub",
+  "source_length": 34747,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"documentation describes plyknot.hub as a Hub client for remote and local access\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"code defines HubClient class with __init__ and local classmethod\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"code defines exception classes: HubError, AuthenticationError, ValidationError, RateLimitError, HubUnavailableError, PullRequestConflictError, StalePreviewError\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"code defines dataclasses: PullRequest, EndpointPreview, ChainSummary, Stats\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"_request method handles HTTP requests with error handling mapped to specific HTTP status codes (401, 400, 429, 409, 5xx)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"read methods include list_chains, get_chain, list_couplings, get_stats, get_cracks, get_convergence, get_heatmap, get_discovery_report, search_dependencies, ground\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"event methods include get_events, get_entity_history, get_echo_chambers, get_measurement_prediction_ratio, get_marker_passing, get_speciation\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"each read method checks if self._local exists and delegates to _LocalBackend if in local mode, otherwise makes HTTP request\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"the client supports dual-mode operation: remote (HTTP) and local (direct file access)\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u1\", \"u2\", \"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"documentation states 'Read methods work without auth. Write methods require an API key'\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"code contains comment '# \u2500\u2500 Write methods (return PullRequest)' indicating write methods exist but are truncated\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"write methods create pull requests against plyknot/universe for human review\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u10\", \"u11\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "documentation describes plyknot.hub as a Hub client for remote and local access",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "read",
+      "content": "code defines HubClient class with __init__ and local classmethod",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "read",
+      "content": "code defines exception classes: HubError, AuthenticationError, ValidationError, RateLimitError, HubUnavailableError, PullRequestConflictError, StalePreviewError",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "read",
+      "content": "code defines dataclasses: PullRequest, EndpointPreview, ChainSummary, Stats",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "read",
+      "content": "_request method handles HTTP requests with error handling mapped to specific HTTP status codes (401, 400, 429, 409, 5xx)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "read",
+      "content": "read methods include list_chains, get_chain, list_couplings, get_stats, get_cracks, get_convergence, get_heatmap, get_discovery_report, search_dependencies, ground",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "read",
+      "content": "event methods include get_events, get_entity_history, get_echo_chambers, get_measurement_prediction_ratio, get_marker_passing, get_speciation",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "read",
+      "content": "each read method checks if self._local exists and delegates to _LocalBackend if in local mode, otherwise makes HTTP request",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "infer",
+      "content": "the client supports dual-mode operation: remote (HTTP) and local (direct file access)",
+      "intensity": 0.95,
+      "depends_on": [
+        "u1",
+        "u2",
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "read",
+      "content": "documentation states 'Read methods work without auth. Write methods require an API key'",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "read",
+      "content": "code contains comment '# \u2500\u2500 Write methods (return PullRequest)' indicating write methods exist but are truncated",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "infer",
+      "content": "write methods create pull requests against plyknot/universe for human review",
+      "intensity": 0.8,
+      "depends_on": [
+        "u10",
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 12,
+  "error": null,
+  "observation_density": 0.8333333333333334,
+  "grounding_ratio": 1.0
+}

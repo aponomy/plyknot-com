@@ -1,0 +1,505 @@
+{
+  "claim_01": {
+    "claim_num": 1,
+    "mass": 0.2167,
+    "tier": 5,
+    "avg_convergence_score": 0.0269,
+    "n_independent_measurers": 4,
+    "n_predicate_entities": 26,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 7,
+      "single": 19
+    }
+  },
+  "claim_02": {
+    "claim_num": 2,
+    "mass": 0.2067,
+    "tier": 5,
+    "avg_convergence_score": 0.0231,
+    "n_independent_measurers": 5,
+    "n_predicate_entities": 13,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 10
+    }
+  },
+  "claim_03": {
+    "claim_num": 3,
+    "mass": 0.0578,
+    "tier": 5,
+    "avg_convergence_score": 0.0167,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 6,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 5
+    }
+  },
+  "claim_04": {
+    "claim_num": 4,
+    "mass": 0.0,
+    "tier": 5,
+    "avg_convergence_score": 0.02,
+    "n_independent_measurers": 0,
+    "n_predicate_entities": 5,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 4
+    }
+  },
+  "claim_05": {
+    "claim_num": 5,
+    "mass": 0.3449,
+    "tier": 5,
+    "avg_convergence_score": 0.0429,
+    "n_independent_measurers": 4,
+    "n_predicate_entities": 7,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 4
+    }
+  },
+  "claim_06": {
+    "claim_num": 6,
+    "mass": 0.2521,
+    "tier": 5,
+    "avg_convergence_score": 0.0364,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 11,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 4,
+      "single": 7
+    }
+  },
+  "claim_07": {
+    "claim_num": 7,
+    "mass": 0.0,
+    "tier": 5,
+    "avg_convergence_score": 0.0,
+    "n_independent_measurers": 0,
+    "n_predicate_entities": 8,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 0,
+      "single": 8
+    }
+  },
+  "claim_08": {
+    "claim_num": 8,
+    "mass": 0.1373,
+    "tier": 5,
+    "avg_convergence_score": 0.025,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 12,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 9
+    }
+  },
+  "claim_09": {
+    "claim_num": 9,
+    "mass": 0.1733,
+    "tier": 5,
+    "avg_convergence_score": 0.025,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 12,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 9
+    }
+  },
+  "claim_10": {
+    "claim_num": 10,
+    "mass": 0.7625,
+    "tier": 5,
+    "avg_convergence_score": 0.11,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 10,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 1,
+      "tension": 0,
+      "divergent": 1,
+      "single": 8
+    }
+  },
+  "claim_11": {
+    "claim_num": 11,
+    "mass": 1.5106,
+    "tier": 5,
+    "avg_convergence_score": 0.275,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 4,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 1,
+      "tension": 0,
+      "divergent": 1,
+      "single": 2
+    }
+  },
+  "claim_12": {
+    "claim_num": 12,
+    "mass": 0.6931,
+    "tier": 5,
+    "avg_convergence_score": 0.0667,
+    "n_independent_measurers": 7,
+    "n_predicate_entities": 6,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 4,
+      "single": 2
+    }
+  },
+  "claim_13": {
+    "claim_num": 13,
+    "mass": 1.4967,
+    "tier": 5,
+    "avg_convergence_score": 0.13,
+    "n_independent_measurers": 9,
+    "n_predicate_entities": 20,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 2,
+      "tension": 0,
+      "divergent": 6,
+      "single": 12
+    }
+  },
+  "claim_14": {
+    "claim_num": 14,
+    "mass": 0.0347,
+    "tier": 5,
+    "avg_convergence_score": 0.01,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 10,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 9
+    }
+  },
+  "claim_15": {
+    "claim_num": 15,
+    "mass": 0.0866,
+    "tier": 5,
+    "avg_convergence_score": 0.025,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 4,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 3
+    }
+  },
+  "claim_16": {
+    "claim_num": 16,
+    "mass": 0.0916,
+    "tier": 5,
+    "avg_convergence_score": 0.0167,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 6,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 5
+    }
+  },
+  "claim_17": {
+    "claim_num": 17,
+    "mass": 0.0,
+    "tier": 5,
+    "avg_convergence_score": 0.0143,
+    "n_independent_measurers": 0,
+    "n_predicate_entities": 7,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 6
+    }
+  },
+  "claim_18": {
+    "mass": 0.0,
+    "error": "no_extraction"
+  },
+  "claim_19": {
+    "mass": 0.0,
+    "error": "no_extraction"
+  },
+  "claim_20": {
+    "claim_num": 20,
+    "mass": 0.6354,
+    "tier": 5,
+    "avg_convergence_score": 0.1833,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 6,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 1,
+      "tension": 0,
+      "divergent": 1,
+      "single": 4
+    }
+  },
+  "claim_21": {
+    "claim_num": 21,
+    "mass": 0.0347,
+    "tier": 5,
+    "avg_convergence_score": 0.01,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 10,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 9
+    }
+  },
+  "claim_22": {
+    "claim_num": 22,
+    "mass": 0.0495,
+    "tier": 5,
+    "avg_convergence_score": 0.0143,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 7,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 6
+    }
+  },
+  "claim_23": {
+    "claim_num": 23,
+    "mass": 0.9242,
+    "tier": 5,
+    "avg_convergence_score": 0.1333,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 9,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 1,
+      "tension": 0,
+      "divergent": 2,
+      "single": 6
+    }
+  },
+  "claim_24": {
+    "claim_num": 24,
+    "mass": 0.0687,
+    "tier": 5,
+    "avg_convergence_score": 0.0125,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 8,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 7
+    }
+  },
+  "claim_25": {
+    "claim_num": 25,
+    "mass": 0.1386,
+    "tier": 5,
+    "avg_convergence_score": 0.02,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 5,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 4
+    }
+  },
+  "claim_26": {
+    "claim_num": 26,
+    "mass": 0.099,
+    "tier": 5,
+    "avg_convergence_score": 0.0286,
+    "n_independent_measurers": 1,
+    "n_predicate_entities": 7,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 2,
+      "single": 5
+    }
+  },
+  "claim_27": {
+    "claim_num": 27,
+    "mass": 0.0,
+    "tier": 5,
+    "avg_convergence_score": 0.0,
+    "n_independent_measurers": 0,
+    "n_predicate_entities": 7,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 0,
+      "single": 7
+    }
+  },
+  "claim_28": {
+    "claim_num": 28,
+    "mass": 0.3296,
+    "tier": 5,
+    "avg_convergence_score": 0.06,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 5,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 2
+    }
+  },
+  "claim_29": {
+    "claim_num": 29,
+    "mass": 0.0,
+    "tier": 5,
+    "avg_convergence_score": 0.0,
+    "n_independent_measurers": 0,
+    "n_predicate_entities": 7,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 0,
+      "single": 7
+    }
+  },
+  "claim_30": {
+    "claim_num": 30,
+    "mass": 0.2599,
+    "tier": 5,
+    "avg_convergence_score": 0.0375,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 8,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 5
+    }
+  },
+  "claim_31": {
+    "claim_num": 31,
+    "mass": 0.3018,
+    "tier": 5,
+    "avg_convergence_score": 0.0375,
+    "n_independent_measurers": 4,
+    "n_predicate_entities": 8,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 5
+    }
+  },
+  "claim_32": {
+    "claim_num": 32,
+    "mass": 0.0687,
+    "tier": 5,
+    "avg_convergence_score": 0.0125,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 8,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 1,
+      "single": 7
+    }
+  },
+  "claim_33": {
+    "claim_num": 33,
+    "mass": 0.2599,
+    "tier": 5,
+    "avg_convergence_score": 0.0375,
+    "n_independent_measurers": 3,
+    "n_predicate_entities": 8,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 3,
+      "single": 5
+    }
+  },
+  "claim_34": {
+    "claim_num": 34,
+    "mass": 0.0,
+    "tier": 5,
+    "avg_convergence_score": 0.0,
+    "n_independent_measurers": 0,
+    "n_predicate_entities": 6,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 0,
+      "single": 6
+    }
+  },
+  "claim_35": {
+    "claim_num": 35,
+    "mass": 0.2747,
+    "tier": 5,
+    "avg_convergence_score": 0.05,
+    "n_independent_measurers": 2,
+    "n_predicate_entities": 4,
+    "beam_sources": "code_only (paper/validation beams deferred to Stage 3.1)",
+    "convergence_breakdown": {
+      "converged": 0,
+      "tension": 0,
+      "divergent": 2,
+      "single": 2
+    }
+  }
+}

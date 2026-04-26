@@ -1,0 +1,195 @@
+[
+  {
+    "node_id": 100022,
+    "predicate": "exclude:system does not comprise a separate model-card, model-registry, or model-configuration record external to the storage for characterising a producing measurer",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_1",
+      "ref_v6_2_6"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_1"
+    ],
+    "prior_art_chains": [
+      "ref_v6_2_6"
+    ]
+  },
+  {
+    "node_id": 100024,
+    "predicate": "perform:all semantic labelling, if performed, is performed external to the claimed system and is not consumed by the convergence analyser, the measurer-correlation analyser, or the population-decomposition analyser",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_1",
+      "ref_v6_1_p6"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_1"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_p6"
+    ]
+  },
+  {
+    "node_id": 100048,
+    "predicate": "classify:the group is classified as single instead of converged, caused by the suppression rule applied to all-computation groups",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_4",
+      "ref_v6_2_13"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_4"
+    ],
+    "prior_art_chains": [
+      "ref_v6_2_13"
+    ]
+  },
+  {
+    "node_id": 100121,
+    "predicate": "storing:acquired record is stored together with further measurement records in a storage",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_13",
+      "ref_v6_2_3"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_13"
+    ],
+    "prior_art_chains": [
+      "ref_v6_2_3"
+    ]
+  },
+  {
+    "node_id": 100131,
+    "predicate": "applying:decomposition is subject to minimum-size, bic-improvement, and minimum-separation guards",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_13",
+      "ref_v6_1_p9"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_13"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_p9"
+    ]
+  },
+  {
+    "node_id": 100132,
+    "predicate": "proposing:when decomposition succeeds, a split of the target entity identifier is proposed",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_13",
+      "ref_v6_1_1"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_13"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_1"
+    ]
+  },
+  {
+    "node_id": 100160,
+    "predicate": "identify:a non-transitory computer-readable medium exists as the claimed subject matter",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_17",
+      "ref_v6_1_6"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_17"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_6"
+    ]
+  },
+  {
+    "node_id": 100216,
+    "predicate": "emit:system emits a requisite-variety-deficit event in the append-only event log",
+    "collision_strength": 0.64,
+    "source_count": 2,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_26",
+      "ref_v6_1_1"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_26"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_1"
+    ]
+  },
+  {
+    "node_id": 100020,
+    "predicate": "exclude:system does not comprise an ontology layer assigning semantic types to entities, properties, or methods",
+    "collision_strength": 0.512,
+    "source_count": 3,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_1",
+      "ref_v6_1_4",
+      "ref_v6_2_1"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_1"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_4",
+      "ref_v6_2_1"
+    ]
+  },
+  {
+    "node_id": 100021,
+    "predicate": "exclude:system does not comprise a separate object-type or property-type registry external to the storage",
+    "collision_strength": 0.512,
+    "source_count": 3,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_1",
+      "ref_v6_1_4",
+      "ref_v6_2_1"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_1"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_4",
+      "ref_v6_2_1"
+    ]
+  },
+  {
+    "node_id": 100066,
+    "predicate": "detect:the last physical-interaction record is removed from a converged group",
+    "collision_strength": 0.512,
+    "source_count": 3,
+    "cross_level": false,
+    "chains_involved": [
+      "plyknot_claim_6",
+      "ref_v6_1_p6",
+      "ref_v6_2_2"
+    ],
+    "plyknot_chains": [
+      "plyknot_claim_6"
+    ],
+    "prior_art_chains": [
+      "ref_v6_1_p6",
+      "ref_v6_2_2"
+    ]
+  }
+]

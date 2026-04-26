@@ -1,0 +1,136 @@
+{
+  "module": "detector_hash",
+  "source_length": 2681,
+  "extracted_length": 2681,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"function deterministic_hash produces canonical hex digest for Python objects\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"function handles dicts with sorted keys, lists, sets (sorted), dataclasses, and nested structures\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"function is used by memoized_detector cache key, seeded_detector input hash, and test harness\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"_canonicalize function converts obj to JSON-serializable canonical form\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"function handles None, bool, int, float, str, bytes, list, tuple, set, frozenset, dict, dataclass instances, and objects with __dict__\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"NaN floats need special representation as ['float', 'nan']\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"infinite floats need special representation distinguishing positive and negative infinity\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"sets and frozensets are sorted by their JSON-serialized canonical form before canonicalization\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"dict items are sorted by JSON-serialized canonical key form\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"deterministic ordering is necessary to ensure same input always produces same hash\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u8\", \"u9\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"dataclass instances are detected and their fields extracted\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"arbitrary objects with __dict__ are handled as fallback\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"repr() is used as final fallback for objects without __dict__\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "observe",
+      "content": "function deterministic_hash produces canonical hex digest for Python objects",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "notice",
+      "content": "function handles dicts with sorted keys, lists, sets (sorted), dataclasses, and nested structures",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "note",
+      "content": "function is used by memoized_detector cache key, seeded_detector input hash, and test harness",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "see",
+      "content": "_canonicalize function converts obj to JSON-serializable canonical form",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "observe",
+      "content": "function handles None, bool, int, float, str, bytes, list, tuple, set, frozenset, dict, dataclass instances, and objects with __dict__",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "infer",
+      "content": "NaN floats need special representation as ['float', 'nan']",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "infer",
+      "content": "infinite floats need special representation distinguishing positive and negative infinity",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "notice",
+      "content": "sets and frozensets are sorted by their JSON-serialized canonical form before canonicalization",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "notice",
+      "content": "dict items are sorted by JSON-serialized canonical key form",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "infer",
+      "content": "deterministic ordering is necessary to ensure same input always produces same hash",
+      "intensity": 0.85,
+      "depends_on": [
+        "u8",
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "observe",
+      "content": "dataclass instances are detected and their fields extracted",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "observe",
+      "content": "arbitrary objects with __dict__ are handled as fallback",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "observe",
+      "content": "repr() is used as final fallback for objects without __dict__",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 13,
+  "error": null,
+  "observation_density": 0.7692307692307693,
+  "grounding_ratio": 1.0
+}

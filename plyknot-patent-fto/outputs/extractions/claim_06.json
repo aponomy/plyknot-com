@@ -1,0 +1,92 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "record",
+      "content": "a group contains at least one record produced by a physical measurement apparatus",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "record",
+      "content": "a group contains at least one record produced by a computational measurer",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "measure",
+      "content": "the relative-spread measure is computed using all records in the group regardless of source tag",
+      "intensity": 1.0,
+      "depends_on": ["u1", "u2"]
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "classify",
+      "content": "the group is classified under the four-valued classification using the relative-spread measure",
+      "intensity": 1.0,
+      "depends_on": ["u3"]
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "the group's classification is converged",
+      "intensity": 1.0,
+      "depends_on": ["u4"]
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "detect",
+      "content": "at least one physical-interaction record is present in the group",
+      "intensity": 1.0,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u7",
+      "type": "causal",
+      "verb": "gate",
+      "content": "admission of additional computational records is gated on continued presence of at least one physical-interaction record when classification is converged",
+      "intensity": 1.0,
+      "depends_on": ["u5", "u6"]
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "detect",
+      "content": "computational records form a majority in a group classified as converged",
+      "intensity": 0.9,
+      "depends_on": ["u5"]
+    },
+    {
+      "id": "u9",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "a computational-record majority must not suppress admission of further physical-interaction records",
+      "intensity": 1.0,
+      "depends_on": ["u8"]
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "detect",
+      "content": "the last physical-interaction record is removed from a converged group",
+      "intensity": 1.0,
+      "depends_on": ["u5", "u6"]
+    },
+    {
+      "id": "u11",
+      "type": "causal",
+      "verb": "cause",
+      "content": "removal of the last physical-interaction record causes re-classification of the group under the group-consists-entirely-of-computational-records rule of claim 4",
+      "intensity": 1.0,
+      "depends_on": ["u10", "u4"]
+    }
+  ]
+}

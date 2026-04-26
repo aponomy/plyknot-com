@@ -1,0 +1,114 @@
+{
+  "ref_id": "ref_v6_1_7",
+  "text_length": 597,
+  "unconditioned_raw": [
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "fundamental physical constants determination",
+      "intensity": 0.9,
+      "pattern_id": "measure:fundamental_physical_constants_determination"
+    },
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "convergence computation in metrology",
+      "intensity": 0.8,
+      "pattern_id": "compute:convergence_computation_in_metrology"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "real-time classification into four values",
+      "intensity": 0.85,
+      "pattern_id": "classify:real-time_classification_into_four_values"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "convergence analyser distinguished by real-time classification and per-measurer correlation analysis",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:convergence_analyser_distinguished_by_real-time_classification_and_per-measurer_correlation_analysis"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "convergence computation in prior-art metrology methodology",
+      "intensity": 0.8,
+      "pattern_id": "compute:convergence_computation_in_prior-art_metrology_methodology"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "real-time classification into four values by convergence analyser",
+      "intensity": 0.9,
+      "pattern_id": "classify:real-time_classification_into_four_values_by_convergence_analyser"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "convergence analyser distinguished by real-time four-value classification and per-measurer correlation analysis absent in CODATA",
+      "intensity": 0.85,
+      "pattern_id": "distinguish:convergence_analyser_distinguished_by_real-time_four-value_classification_and_per-measurer_correlation_analysis_absent_in_codata"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:real-time_classification_into_four_values",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "classify:real-time_classification_into_four_values_by_convergence_analyser",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "compute:convergence_computation_in_metrology",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "compute:convergence_computation_in_prior-art_metrology_methodology",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:convergence_analyser_distinguished_by_real-time_classification_and_per-measurer_correlation_analysis",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:convergence_analyser_distinguished_by_real-time_four-value_classification_and_per-measurer_correlation_analysis_absent_in_codata",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "measure:fundamental_physical_constants_determination",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.8428571428571429,
+  "n_uncond": 4,
+  "n_cond": 3,
+  "n_blend": 7,
+  "thin_flag": true,
+  "error": null
+}

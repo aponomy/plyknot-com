@@ -1,0 +1,141 @@
+{
+  "module": "predicate_decomposition",
+  "source_length": 11370,
+  "extracted_length": 11370,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"text can be split at predicate boundaries rather than syntactic boundaries\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"each unit represents one cognitive or perceptual act\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"theorize\",\n      \"content\": \"decomposition graph can track dependencies between units\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u1\", \"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"observations have no dependencies\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"inferences depend on observations or other inferences\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"claim\",\n      \"content\": \"the depth of dependency chains indicates ontological load\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u3\", \"u4\", \"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"describe\",\n      \"content\": \"architecture follows pipeline: raw text \u2192 haiku decomposition \u2192 PredicateUnit graph \u2192 metrics \u2192 DataEntry objects\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"PredicateUnit dataclass contains id, unit_type, verb, content, intensity, depends_on, source_text, epistemological_route\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"DecompositionGraph dataclass tracks units, edges, counts, density, depth, grounding ratio, and empirical grounding flag\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"parse_decomposition_response function extracts units from JSON/text\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"build_graph computes metrics including observation density, inference depth, and grounding ratio\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"observations map to measurement entries; inferences map to prediction entries\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"decomposition_to_data_entries bridges graph output to DataEntry objects for coupling map\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u11\", \"u12\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "text can be split at predicate boundaries rather than syntactic boundaries",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "identify",
+      "content": "each unit represents one cognitive or perceptual act",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "theorize",
+      "content": "decomposition graph can track dependencies between units",
+      "intensity": 0.7,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "identify",
+      "content": "observations have no dependencies",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "identify",
+      "content": "inferences depend on observations or other inferences",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "claim",
+      "content": "the depth of dependency chains indicates ontological load",
+      "intensity": 0.7,
+      "depends_on": [
+        "u3",
+        "u4",
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "describe",
+      "content": "architecture follows pipeline: raw text \u2192 haiku decomposition \u2192 PredicateUnit graph \u2192 metrics \u2192 DataEntry objects",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "identify",
+      "content": "PredicateUnit dataclass contains id, unit_type, verb, content, intensity, depends_on, source_text, epistemological_route",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "identify",
+      "content": "DecompositionGraph dataclass tracks units, edges, counts, density, depth, grounding ratio, and empirical grounding flag",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "identify",
+      "content": "parse_decomposition_response function extracts units from JSON/text",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "infer",
+      "content": "build_graph computes metrics including observation density, inference depth, and grounding ratio",
+      "intensity": 0.8,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "identify",
+      "content": "observations map to measurement entries; inferences map to prediction entries",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "infer",
+      "content": "decomposition_to_data_entries bridges graph output to DataEntry objects for coupling map",
+      "intensity": 0.75,
+      "depends_on": [
+        "u11",
+        "u12"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 13,
+  "error": null,
+  "observation_density": 0.6923076923076923,
+  "grounding_ratio": 1.0
+}

@@ -1,0 +1,422 @@
+[
+  {
+    "id": "claim_01",
+    "label": "claim 1",
+    "text": "**Claim 1.** A computer-implemented scientific measurement analysis system comprising:\n\n- a physical measurement apparatus configured to acquire, by interaction with a physical target, at least one measurement record and to output said at least one measurement record to the storage described below;\n- a storage configured to hold a plurality of measurement records, each said record being a directed entry comprising an identifier of a producing measurer, an identifier of a target entity, an identifier of a property, a numerical value, a method identifier, and a source tag taking one of two predetermined values, the first value indicating that the record was produced by physical interaction with the target and the second value indicating that the record was produced by computation, wherein the storage operates on an append-only basis such that a subsequent record with the same (producing measurer, target, property) composite key overwrites the prior record in the storage while the prior record is preserved in an append-only event log external to the storage;\n- a convergence analyser configured to group said records by (target, property) pair and, for each group containing two or more records, to compute a relative-spread measure of the numerical values and to classify said group as one of *converged*, *tension*, *divergent*, or *single* according to said measure against predetermined thresholds;\n- a measurer-correlation analyser configured to compute, for each measurer, the counts of its groups in each said classification and to classify said measurer as a *systemic-crack* source when two or more of its groups are *divergent* or *tension*, as a *systemic-opening* source when two or more of its groups are *converged* and none are *divergent* or *tension*, and as a *local-crack* source when exactly one of its groups is *divergent* or *tension*;\n- a population-decomposition analyser configured to determine, for a (target, property) group classified as *tension* or *divergent* by the convergence analyser, whether the distribution of its numerical values admits a decomposition into two or more components under a Gaussian-mixture model selected by a Bayesian-information-criterion improvement threshold, subject to a minimum-component-size guard and a minimum-inter-component-separation guard, and, when such a decomposition is found, to propose a split of the identifier of the target entity of said group into two or more sub-identifiers with each record assigned to exactly one sub-identifier, said split being effected on the storage through rewriting of the target-entity identifier field of each record;\n- a feedback-signal generator configured to emit, for each measurer classification and each proposed identifier split, a machine-readable feedback signal encoding the analyser's output; and\n- a feedback-signal interface configured to route said feedback signal to an actor configured to annotate the storage or to cause a modification of how subsequent measurement records are acquired by the physical measurement apparatus,\n\n**wherein** the source tag is a field on each directed entry and is the sole basis for invoking (i) the echo-chamber classifier of claim 2, when present, and (ii) the pattern-requirement rule of claim 4, when present, such that physical-interaction records and computational records share the storage schema and are classified under the same grouping and relative-spread computations without reference to whether the producing measurer is a physical instrument or a computational measurer, while the source tag alone gates downstream logic that distinguishes physical-interaction from computational evidence, and\n\n**wherein** the system does not comprise (i) an ontology layer assigning semantic types to the entities, the properties, or the methods identified in said records, (ii) a separate object-type or property-type registry external to the storage, or (iii) a separate model-card, model-registry, or model-configuration record external to the storage for characterising a producing measurer, such that any characterising attribute of a producing measurer that is held by the system is held as a directed entry in the storage under the same six-field schema as a measurement record of a physical target; and wherein all semantic labelling, if performed, is performed external to the claimed system and is not consumed by the convergence analyser, the measurer-correlation analyser, or the population-decomposition analyser."
+  },
+  {
+    "id": "claim_02",
+    "label": "claim 2",
+    "text": "**Claim 2.** The system of claim 1, further comprising an echo-chamber classifier configured to:\n\n- identify, among groups formed by the convergence analyser, a subset of groups in which at least two records within the group are produced by distinct computational measurers bearing distinct method identifiers, and to process each group in said subset as follows;\n- when said group contains at least one record produced by a physical measurement apparatus and the convergence analyser's classification of said group is *converged*, emit a confirmed-echo-chamber signal identifying said group;\n- when said group contains at least one record produced by a physical measurement apparatus and the convergence analyser's classification of said group is *tension* or *divergent*, emit a refuted-echo-chamber signal identifying said group; and\n- when said group contains no record produced by a physical measurement apparatus, emit an untested-echo-chamber signal identifying said group;\n\nwherein the feedback-signal interface is further configured to route each of said confirmed-, refuted-, and untested-echo-chamber signals to the actor, and wherein the measurer-correlation analyser of claim 1 is further configured to accept, as an optional input, a per-measurer trust weight derived from an accumulation over the event log of prior refuted-echo-chamber signals attributed to each measurer, and to attenuate the contribution of a measurer to its own measurer classification in inverse proportion to said trust weight."
+  },
+  {
+    "id": "claim_03",
+    "label": "claim 3",
+    "text": "**Claim 3.** The system of claim 2, wherein the per-measurer trust weight is computed by an event-log-reading aggregator configured to (i) read, from the append-only event log of claim 1, a time-ordered sequence of refuted-echo-chamber signals attributed to each measurer, (ii) compute a decay-weighted aggregate of said signals over a configurable time window, and (iii) emit the aggregated value as the trust-weight argument optionally consumed by the measurer-correlation analyser of claim 1, such that the trust-weight loop operates through the event log rather than through mutation of prior coupling entries."
+  },
+  {
+    "id": "claim_04",
+    "label": "claim 4",
+    "text": "**Claim 4.** The system of claim 1, wherein the convergence analyser is further configured, for any (target, property) group in which all records in said group carry the source tag indicating computation, to suppress classification of said group as *converged* and to classify said group instead as *single*, such that a group lacking any physical-interaction record is architecturally incapable of achieving a *converged* classification."
+  },
+  {
+    "id": "claim_05",
+    "label": "claim 5",
+    "text": "**Claim 5.** The system of claim 1, wherein the measurer-correlation analyser is further configured, for any given measurer, to:\n\n- partition said measurer's groups by property identifier;\n- identify at least one property subset in which a specified fraction of said measurer's groups on that property subset are classified as *divergent* or *tension*, said fraction exceeding a first threshold; and\n- identify at least one property subset in which a specified fraction of said measurer's groups on that property subset are classified as *converged*, said fraction falling below a second threshold distinct from the first,\n\nand to emit, when both such subsets exist for the same measurer, a universal-co-divergence signal identifying said measurer together with the divergent and non-divergent property subsets, said signal being routed through the feedback-signal interface to the actor."
+  },
+  {
+    "id": "claim_06",
+    "label": "claim 6",
+    "text": "**Claim 6.** The system of claim 1, wherein the convergence analyser and the measurer-correlation analyser are further configured to process groups containing both at least one record produced by a physical measurement apparatus and at least one record produced by a computational measurer, by:\n\n- computing the relative-spread measure of claim 1 using all records in said group regardless of source tag;\n- classifying said group under claim 1's four-valued classification using said relative-spread measure; and\n- when said classification is *converged*, gating subsequent admission of additional computational records into said group on the continued presence of at least one physical-interaction record in said group,\n\nsuch that a computational-record majority in a group classified as *converged* does not suppress admission of further physical-interaction records, and such that removal of the last physical-interaction record from a *converged* group causes re-classification of said group under the group-consists-entirely-of-computational-records rule of claim 4."
+  },
+  {
+    "id": "claim_07",
+    "label": "claim 7",
+    "text": "**Claim 7.** The system of claim 1, wherein the actor is one or more of:\n\n- a human operator consuming said feedback signal through a human-machine interface and responding by modifying at least one of a sampling schedule, a sensor-selection parameter, or a data-gating parameter of the physical measurement apparatus;\n- a human operator consuming said feedback signal and responding by annotating the storage with an additional directed entry; or\n- an automated control subsystem consuming said feedback signal without human intermediation."
+  },
+  {
+    "id": "claim_08",
+    "label": "claim 8",
+    "text": "**Claim 8.** The system of claim 7, wherein the actor is an automated control subsystem configured, in response to the feedback signal, to modify operation of the physical measurement apparatus of claim 1 without requiring human input, wherein modifying operation comprises at least one of: altering a sampling schedule of the physical measurement apparatus; altering a sensor-selection or sensor-gain parameter of the physical measurement apparatus; or altering a data-gating parameter controlling admission of further physical-interaction records from the physical measurement apparatus into the storage."
+  },
+  {
+    "id": "claim_8a",
+    "label": "claim 8a",
+    "text": "**Claim 8a.** The system of claim 1, further comprising an instrument-comparison analyser configured to:\n\n- identify a first measurer and a second measurer, each represented as a target entity in the storage and each having one or more directed entries written against said target entity by a further measurer, said directed entries being of the same six-field schema as directed entries recording measurements of physical targets;\n- compute, from said directed entries, a first attribute set for said first measurer and a second attribute set for said second measurer, each said attribute set comprising the property identifiers of the directed entries written against the respective measurer as target;\n- compute a symmetric difference between said first attribute set and said second attribute set;\n- hold, for each of one or more target properties of interest, a sensitivity set comprising property identifiers on which the respective target property is accuracy-dependent;\n- determine, for each said target property of interest, whether the intersection of said sensitivity set and said symmetric difference is non-empty; and\n- emit, for each target property for which said intersection is non-empty, a machine-readable divergence-prediction signal identifying said first measurer, said second measurer, and said target property,\n\nwherein said divergence-prediction signal is routed through the feedback-signal interface of claim 1 to the actor, and\n\n**characterised in that** the instrument-comparison analyser produces its output entirely from directed entries in the storage and from the sensitivity sets, such that modification of an attribute-set entry for either measurer in the storage causes a corresponding modification of subsequent divergence-prediction outputs without modification of the analyser's instructions."
+  },
+  {
+    "id": "claim_09",
+    "label": "claim 9",
+    "text": "**Claim 9.** A computer-implemented scientific knowledge analysis system comprising:\n\n- a vocabulary store configured to hold an operational-mechanism vocabulary comprising language-independent numerical identifiers, wherein each identifier in the vocabulary carries a Boolean admissibility flag having a first value indicating that the identifier names a physical or computational mechanism embodied by a measurement instrument, and a second value indicating that the identifier names a theoretical commitment about reality or an assumption about a target of measurement, and wherein the vocabulary store is configured to reject, at insertion time, any identifier whose admissibility flag takes the second value, and wherein any consumer of the vocabulary store is constrained to read only identifiers whose admissibility flag takes the first value;\n- a storage configured to hold a plurality of inference steps, each said inference step comprising (i) a claim descriptor, (ii) a convergence-status annotation selected from at least *converged*, *tension*, and *divergent*, and (iii) a list of admissible operational-mechanism identifiers drawn from the vocabulary store; and\n- an inference-step consumer configured to process the plurality of inference steps under a reading discipline that does not admit any identifier whose admissibility flag takes the second value,\n\n**characterised in that** the vocabulary store enforces admissibility by schema-level validation such that inadmissible identifiers are architecturally incapable of entering the reading path of the inference-step consumer, and such that any inference drawn by the inference-step consumer from shared identifiers across distinct inference steps reflects shared instrument mechanism and does not reflect shared theoretical framing."
+  },
+  {
+    "id": "claim_10",
+    "label": "claim 10",
+    "text": "**Claim 10.** The system of claim 9, further comprising a marker-propagation analyser configured to:\n\n- assign to each inference step a marker taking one of at least two structurally distinguishable forms according to the convergence-status annotation of said step, including a first form for steps annotated *converged* and a second form for steps annotated *divergent* or *tension*;\n- propagate said markers along edges of a graph whose nodes are admissible operational-mechanism identifiers and whose edges connect identifiers that co-occur in the list of at least one inference step, with a per-hop decay factor;\n- detect, at any shared operational-mechanism identifier at which markers from two or more distinct inference steps coincide with accumulated intensity above a threshold, a collision event; and\n- classify each collision event as an *opening-collision* when all contributing markers are of the first form, as a *crack-collision* when all contributing markers are of the second form, and as a *bridge-collision* when contributing markers include markers of both forms, and to emit a collision signal identifying the shared operational-mechanism identifier, the classification, and the inference-step identifiers of the contributing steps."
+  },
+  {
+    "id": "claim_11",
+    "label": "claim 11",
+    "text": "**Claim 11.** The system of claim 10, wherein the marker-propagation analyser is further configured to bound the graph traversal to a fixed hop-count limit and to terminate propagation when marker intensity falls below a specified decay threshold, such that the worst-case time complexity of collision detection is sub-quadratic in the number of operational-mechanism identifiers in the vocabulary store."
+  },
+  {
+    "id": "claim_12",
+    "label": "claim 12",
+    "text": "**Claim 12.** The system of claim 10, wherein the storage of claim 9 further holds a plurality of measurer entities drawn from the same identifier space as the target entities of the inference steps, such that a measurer entity is representable as the target of an inference step produced by another measurer, and wherein the marker-propagation analyser is configured to propagate markers through inference steps in which a measurer appears as target without schema change to the storage."
+  },
+  {
+    "id": "claim_13",
+    "label": "claim 13",
+    "text": "**Claim 13.** A computer-implemented scientific measurement analysis method comprising:\n\n- acquiring, by a physical measurement apparatus interacting with a physical target, at least one measurement record;\n- storing the acquired record together with further measurement records in a storage, wherein each record is a directed entry comprising an identifier of a producing measurer, an identifier of a target entity, an identifier of a property, a numerical value, a method identifier, and a source tag taking one of two predetermined values distinguishing physical-interaction records from computation-produced records, wherein storage is append-only with composite-key overwrite and an external append-only event log;\n- grouping said records by (target, property) pair;\n- for each said group containing two or more records, computing a relative-spread measure of the numerical values and classifying said group as *converged*, *tension*, *divergent*, or *single*;\n- for each measurer, counting its groups in each classification and classifying said measurer as *systemic-crack*, *systemic-opening*, *local-crack*, or none;\n- for each (target, property) group classified as *tension* or *divergent*, testing whether the distribution of its numerical values admits a Gaussian-mixture decomposition into two or more components subject to minimum-size, BIC-improvement, and minimum-separation guards, and, when it does, proposing a split of the identifier of the target entity and effecting said split on the storage;\n- emitting a machine-readable feedback signal encoding each measurer classification and each proposed split; and\n- routing said feedback signal to an actor configured to annotate the storage or to cause a modification of how subsequent records are acquired by the physical measurement apparatus,\n\n**wherein** the method does not involve maintaining (i) an ontology layer assigning semantic types to the entities, the properties, or the methods, (ii) a separate object-type or property-type registry external to the storage, or (iii) a separate model-card, model-registry, or model-configuration record external to the storage for characterising a producing measurer, such that any characterising attribute of a producing measurer that is represented in the method is represented as a directed entry in the storage under the same six-field schema as a measurement record of a physical target."
+  },
+  {
+    "id": "claim_14",
+    "label": "claim 14",
+    "text": "**Claim 14.** A computer-implemented scientific knowledge analysis method comprising:\n\n- holding an operational-mechanism vocabulary of language-independent numerical identifiers, each identifier carrying a Boolean admissibility flag distinguishing identifiers naming a physical or computational instrument mechanism from identifiers naming a theoretical commitment or target assumption;\n- rejecting, at insertion time, any identifier whose admissibility flag indicates a theoretical commitment or target assumption;\n- holding a plurality of inference steps, each inference step comprising a claim descriptor, a convergence-status annotation, and a list of admissible operational-mechanism identifiers; and\n- processing said inference steps under a reading discipline that does not admit any identifier whose admissibility flag indicates a theoretical commitment or target assumption, such that any inference drawn from shared identifiers across distinct inference steps reflects shared instrument mechanism and does not reflect shared theoretical framing."
+  },
+  {
+    "id": "claim_15",
+    "label": "claim 15",
+    "text": "**Claim 15.** The method of claim 14, further comprising:\n\n- assigning to each inference step a marker of one of at least two structurally distinguishable forms according to its convergence-status annotation;\n- propagating said markers along edges of a graph whose nodes are admissible operational-mechanism identifiers, with a per-hop decay factor and a fixed hop-count limit;\n- detecting, at any shared identifier at which markers from two or more distinct inference steps coincide above a threshold, a collision event; and\n- classifying said collision event as an *opening-collision*, *crack-collision*, or *bridge-collision* according to the marker forms contributing."
+  },
+  {
+    "id": "claim_16",
+    "label": "claim 16",
+    "text": "**Claim 16.** The method of claim 13, further comprising:\n\n- identifying, among (target, property) groups containing at least two records from distinct computational measurers bearing distinct method identifiers, those groups containing at least one physical-interaction record and those not, and classifying each such group as *confirmed*, *refuted*, or *untested* according to the agreement of the computational records with the physical-interaction record(s) when present;\n- computing, from the event log of claim 13, a decay-weighted per-measurer trust weight derived from prior refuted classifications attributed to each measurer;\n- attenuating, by said trust weight, the contribution of each measurer to its own systemic classification; and\n- routing a feedback signal encoding the classifications and the attenuated systemic labels to the actor of claim 13."
+  },
+  {
+    "id": "claim_16a",
+    "label": "claim 16a",
+    "text": "**Claim 16a.** The method of claim 13, further comprising:\n\n- representing each of a plurality of measurers as a target entity in the storage and storing, as directed entries written against each said measurer by a further measurer, property-identified attribute values, said directed entries being of the same six-field schema as directed entries recording measurements of physical targets;\n- for a first measurer and a second measurer each so represented, computing a first attribute set comprising the property identifiers of the directed entries written against the first measurer as target, and a second attribute set comprising the property identifiers of the directed entries written against the second measurer as target;\n- computing a symmetric difference between said first attribute set and said second attribute set;\n- holding, for each of one or more target properties of interest, a sensitivity set comprising property identifiers on which the respective target property is accuracy-dependent;\n- determining, for each said target property of interest, whether the intersection of said sensitivity set and said symmetric difference is non-empty;\n- emitting, for each target property for which said intersection is non-empty, a machine-readable divergence-prediction signal identifying said first measurer, said second measurer, and said target property; and\n- routing said divergence-prediction signal to the actor of claim 13,\n\n**wherein** the emitting step produces its output entirely from directed entries in the storage and from the sensitivity sets, such that modification of an attribute-set entry for either measurer in the storage causes a corresponding modification of subsequent divergence-prediction outputs without modification of instructions of the method."
+  },
+  {
+    "id": "claim_17",
+    "label": "claim 17",
+    "text": "**Claim 17.** A non-transitory computer-readable medium carrying instructions that, when executed by one or more processors, cause the one or more processors to perform the method of any one of claims 13, 14, 15, 16, or 16a."
+  },
+  {
+    "id": "claim_20",
+    "label": "claim 20",
+    "text": "**20.** The system of claim 1, wherein:\n\n- the source tag further takes a third predetermined value distinct from the first two said values, the third said value indicating that the record was produced by an automated actor performing an action on the target entity;\n- each said record whose source tag carries the third said value further comprises one or more structured pointers, each said structured pointer identifying a coupling entry in the storage whose content was read by the automated actor prior to producing the action and upon which the action was conditioned; and\n- the storage records said action records in the same six-field schema as records whose source tag carries the first or second said values."
+  },
+  {
+    "id": "claim_21",
+    "label": "claim 21",
+    "text": "**21.** The system of claim 20, wherein each said structured pointer comprises:\n\n- a composite coupling key identifying a specific (measurer, target, property) triple in the storage;\n- an event identifier identifying a specific event in the append-only event log of claim 1; and\n- a content-hash value, said content-hash value being computed by applying a cryptographic hash function to a canonical serialization of the coupling entry at the storage state that resulted from the specific event identified by the event identifier;\n\nand wherein the system is further configured, upon a subsequent retrieval operation referencing said structured pointer, to recompute the content-hash value from the storage state at the event identified by the event identifier and to compare the recomputed value against the stored content-hash value."
+  },
+  {
+    "id": "claim_22",
+    "label": "claim 22",
+    "text": "**22.** The system of claim 21, further comprising a loop-gain analyzer configured to:\n\n- identify, from a directed graph induced by the records in the storage and by the structured pointers of claim 20, one or more cyclic subgraphs, each said cyclic subgraph comprising at least one record whose source tag carries the third predetermined value and at least one record whose source tag carries one of the first two predetermined values;\n- compute, for each said cyclic subgraph, a spectral-radius metric obtained from a linearization of the subgraph's dynamics in the neighbourhood of a current state; and\n- emit, for each said cyclic subgraph whose spectral-radius metric meets or exceeds a predetermined threshold, a typed cycle annotation stored in the append-only event log of claim 1."
+  },
+  {
+    "id": "claim_23",
+    "label": "claim 23",
+    "text": "**23.** The system of claim 22, further comprising a classifier configured to emit, for each cyclic subgraph whose typed cycle annotation indicates that the spectral-radius metric meets or exceeds the predetermined threshold, a dynamical-signature annotation, said dynamical-signature annotation taking one of at least four predetermined values, the four said values distinguishing:\n\n- a first signature characterized by convergence of the subgraph's measurement records toward a value predicted by the subgraph's prediction records;\n- a second signature characterized by drift of the subgraph's measurement records toward boundary values of the property range;\n- a third signature characterized by alteration of the subgraph's target entity in response to the subgraph's action records; and\n- a fourth signature characterized by optimization of action-record selection against the subgraph's prediction records."
+  },
+  {
+    "id": "claim_24",
+    "label": "claim 24",
+    "text": "**24.** The system of claim 22, further comprising a second classifier configured to:\n\n- receive as input a coupling group consisting of one or more records whose source tag carries the third predetermined value and whose structured pointers reference a hypothesis inference step, said records representing an adoption of the hypothesis inference step by automated actors;\n- analyze, over said coupling group and subsequent records in the storage, dynamics of convergence of measurement records against values predicted by the hypothesis inference step; and\n- emit a mode annotation, said mode annotation taking one of at least four predetermined values distinguishing:\n  - a first mode characterized by absence of systematic convergence or divergence;\n  - a second mode characterized by convergence of measurements toward hypothesis predictions with a direction of causation from measurement to hypothesis;\n  - a third mode characterized by convergence of measurements toward hypothesis predictions with a direction of causation from hypothesis to subsequent measurement; and\n  - a fourth mode characterized by divergence of measurements away from hypothesis predictions subsequent to a period of convergence."
+  },
+  {
+    "id": "claim_25",
+    "label": "claim 25",
+    "text": "**25.** The system of claim 1, further comprising an uncertainty-propagation layer configured to:\n\n- receive, for a target entity's history in the storage, an empirical-distribution characterization of the target entity's measurement values;\n- select, based on said empirical-distribution characterization, one of a plurality of uncertainty-propagation methods, said plurality comprising at least a first method assuming approximately Gaussian distributions of measurement error and a second method robust to distributions exhibiting heavy-tailed or multi-modal characteristics; and\n- record the selection in the append-only event log as a typed annotation."
+  },
+  {
+    "id": "claim_26",
+    "label": "claim 26",
+    "text": "**26.** The system of claim 20, further comprising a variety-monitoring analyzer configured to:\n\n- compute, for a target entity in the storage, an empirical entropy over a rolling window of measurement values;\n- compute, for an automated actor producing action records referencing the target entity, a declared-variety value equal to a cardinality-derived function of the automated actor's most recent structured pointer set;\n- compare the empirical entropy against the declared-variety value; and\n- upon the empirical entropy exceeding the declared-variety value by a predetermined margin:\n  - emit a requisite-variety-deficit event in the append-only event log;\n  - suspend production of further action records from said automated actor with reference to said target entity; and\n  - maintain said suspension until one of: an update to the automated actor's structured pointer set is committed, or a manual-override event is committed to the event log by an authorized operator."
+  },
+  {
+    "id": "claim_27",
+    "label": "claim 27",
+    "text": "**27.** The system of claim 1, wherein:\n\n- the storage further accommodates, for each target entity, a typed-absence annotation taking one of at least four predetermined values when no measurement record exists for a specific property of the target entity, the four said values distinguishing absences by their origin within a predetermined taxonomy;\n- the storage further accommodates, for each target entity, an actionability tier annotation taking one of a predetermined plurality of values indicating the degree to which the target entity is available for action records to be produced referencing it; and\n- the analyzers of claims 1, 22, 24, and 25 are configured to respect said typed-absence and actionability-tier annotations in their emissions."
+  },
+  {
+    "id": "claim_28",
+    "label": "claim 28",
+    "text": "**28.** The system of claim 1, wherein the marker-propagation analyzer is further configured to:\n\n- compute, prior to marker propagation, a decomposition of the inference-step dependency graph into strongly-connected components;\n- construct a condensation graph, said condensation graph being the directed acyclic graph obtained by contracting each strongly-connected component to a single node; and\n- propagate markers on the condensation graph rather than on the inference-step dependency graph directly;\n\nand wherein, for each strongly-connected component of the inference-step dependency graph that contains more than one node, the system is further configured to route the internal dynamics of the component to a fixed-point solver configured to compute performatively-stable states on the component under predetermined contraction conditions."
+  },
+  {
+    "id": "claim_29",
+    "label": "claim 29",
+    "text": "**29.** The system of claim 22, further comprising a counterfactual generator configured to:\n\n- receive, for a cyclic subgraph whose spectral-radius metric meets or exceeds the predetermined threshold, a set of historical action records comprising said cyclic subgraph;\n- compute, for each said historical action record, a gradient value, said gradient value being the partial derivative of the spectral-radius metric of the cyclic subgraph with respect to the parameters of said historical action record, obtained via an adjoint computation traversing the cyclic subgraph;\n- select, from said historical action records, a perturbation set comprising at most a predetermined maximum number of action records, said perturbation set being those historical action records whose gradient values have the largest absolute magnitude among all the gradient values computed;\n- construct, for each action record in the perturbation set, one or more counterfactual histories in which the action record is replaced by an alternative action record; and\n- rank the counterfactual histories by the reduction in the cyclic subgraph's spectral-radius metric that results when the counterfactual history is substituted for the actual history."
+  },
+  {
+    "id": "claim_30",
+    "label": "claim 30",
+    "text": "**30.** The system of claim 25, further comprising an experimental-design generator configured to:\n\n- receive a coupling group classified by the convergence analyzer of claim 1 as divergent or under tension;\n- enumerate a plurality of candidate measurement actions, each said candidate measurement action being specified by a proposing automated actor's structured pointer set, a target entity identifier, a property identifier, and a predicted uncertainty computed via the uncertainty-propagation layer of claim 25;\n- compute, for each said candidate measurement action, an expected-information-gain value derived from a reduction in posterior uncertainty over the coupling group's property value that would result if the candidate measurement action were performed and yielded a measurement record with the predicted uncertainty; and\n- emit a ranked list of the candidate measurement actions, said ranked list being sorted by the expected-information-gain value."
+  },
+  {
+    "id": "claim_31",
+    "label": "claim 31",
+    "text": "**31.** The system of claim 29 or claim 30, wherein the ranked list emitted by the counterfactual generator or the experimental-design generator is further filtered by the actionability-tier annotation of claim 27, such that candidate action records or candidate counterfactual histories referencing target entities whose actionability-tier annotation indicates non-actionable status are removed from the ranked list or routed to a human-review queue in lieu of emission to an automated-action pathway."
+  },
+  {
+    "id": "claim_32",
+    "label": "claim 32",
+    "text": "**32.** The system comprising claim 29 and claim 30, further comprising a routing component configured to:\n\n- receive, from the convergence analyzer of claim 1 or the loop-gain analyzer of claim 22, a detected crack or a detected cyclic subgraph;\n- determine, from a dynamical-signature annotation of claim 23 if present or from the absence of such an annotation, whether to dispatch the detected crack or cyclic subgraph to the counterfactual generator of claim 29, to the experimental-design generator of claim 30, or to both in parallel; and\n- record, in the append-only event log of claim 1, a typed dispatch event specifying the detected crack or cyclic subgraph, the dispatch decision, and the generator or generators selected."
+  },
+  {
+    "id": "claim_33",
+    "label": "claim 33",
+    "text": "**33.** The method of claim 13, wherein:\n\n- the source tag further takes a third predetermined value distinct from the first two said values, the third said value indicating that the record was produced by an automated actor performing an action on the target entity; and\n- producing each action record comprises recording, in the same six-field schema as records whose source tag carries the first or second said values, one or more structured pointers identifying coupling entries whose content was read by the automated actor prior to producing the action and upon which the action was conditioned."
+  },
+  {
+    "id": "claim_34",
+    "label": "claim 34",
+    "text": "**34.** The method of claim 33, further comprising:\n\n- identifying, from a directed graph induced by the records produced in accordance with claim 13 and the structured pointers of claim 33, one or more cyclic subgraphs, each said cyclic subgraph comprising at least one record whose source tag carries the third predetermined value and at least one record whose source tag carries one of the first two predetermined values;\n- computing, for each said cyclic subgraph, a spectral-radius metric obtained from a linearization of the subgraph's dynamics in the neighbourhood of a current state; and\n- emitting, for each said cyclic subgraph whose spectral-radius metric meets or exceeds a predetermined threshold, a typed cycle annotation."
+  },
+  {
+    "id": "claim_35",
+    "label": "claim 35",
+    "text": "**35.** A non-transitory computer-readable medium storing instructions which, when executed by one or more processors, cause the one or more processors to perform the method of any of claims 13, 33, and 34."
+  },
+  {
+    "id": "ref_v6_1_1",
+    "label": "Rauf 2025 (Gem entity-splitting framework)",
+    "text": "Rauf, W.; Bogatu, A.; Paton, N. W.; Freitas, A. \"Gem: Large-scale schema-agnostic entity resolution.\" Proceedings of the 28th International Conference on Extending Database Technology (EDBT 2025). \u2014 Anticipates GMM-based distributional clustering for entity-type classification. Claim 1's population-decomposition analyser is distinguished by: (i) tension \u2192 decompose \u2192 split \u2192 storage as a strict causal chain; (ii) minimum-component-size and minimum-inter-component-separation guards beyond BIC alone; (iii) identifier-aliasing in the event log preserving parent-entity classifications; (iv) split effected as a feedback action into the measurement store. Specification \u00a74.6."
+  },
+  {
+    "id": "ref_v6_1_2",
+    "label": "Fahlman 2006 (Scone marker-passing inference)",
+    "text": "Fahlman, S. E. \"Marker-Passing Inference in the Scone Knowledge-Base System.\" Carnegie Mellon University School of Computer Science Technical Report, 2006. \u2014 Prior art for marker-passing. Claim 9 is distinguished by schema-enforced admissibility filtering of the operational-mechanism vocabulary, which Scone does not enforce. Claim 10's collision classifier is distinguished by the opening-collision / crack-collision / bridge-collision taxonomy, which no prior marker-passing system produces. Specification \u00a74.8, \u00a74.9."
+  },
+  {
+    "id": "ref_v6_1_3",
+    "label": "Norvig 1989 (Norvig marker-collision taxonomy)",
+    "text": "Norvig, P. \"Marker passing as a weak method for text inferencing.\" Cognitive Science 13(4):569\u2013620, 1989. \u2014 Prior art for marker collision. Same distinguishing points as Scone (v6.1.2)."
+  },
+  {
+    "id": "ref_v6_1_4",
+    "label": "US 7,962,495 B2",
+    "text": "U.S. Patent No. 7,962,495 B2, \"Creating data in a data store using a dynamic ontology,\" Palantir Technologies Inc., granted 14 June 2011. \u2014 Anticipates measurer-as-entity under an ontology layer. Claim 12 retains measurer-as-entity specifically bound to the mechanism-1 marker-propagation dependency-graph side. Claim 1 (and claim 13) ontology disclaimer explicitly excludes an object-type or property-type registry (tightened in v6.2). Specification \u00a74.15."
+  },
+  {
+    "id": "ref_v6_1_5",
+    "label": "US 9,589,014 B2",
+    "text": "U.S. Patent No. 9,589,014 B2, \"Dynamic language model,\" Palantir Technologies Inc., granted 7 March 2017. \u2014 Same family as US 7,962,495. Same mitigation."
+  },
+  {
+    "id": "ref_v6_1_6",
+    "label": "US 10,180,929 B1",
+    "text": "U.S. Patent No. 10,180,929 B1, \"Ontology-based object-type mapping,\" Palantir Technologies Inc., granted 15 January 2019. U.S. Patent No. 10,803,106 B1, \"System with modular object management,\" Palantir Technologies Inc., granted 13 October 2020. \u2014 FTO-adjacent Palantir modular-ontology patents. Claim 1 and claim 13 tightened disclaimer item (i) carves out ontology-layer subject matter and item (ii) carves out object-type/property-type registry subject matter. Specification \u00a74.15."
+  },
+  {
+    "id": "ref_v6_1_7",
+    "label": "Mohr 2022 (CODATA 2022)",
+    "text": "Mohr, P. J.; Newell, D. B.; Taylor, B. N. \"CODATA Recommended Values of the Fundamental Physical Constants: 2022.\" Reviews of Modern Physics 97, 025002 (2025). \u2014 Prior-art metrology methodology for convergence computation. Claim 1's convergence analyser is distinguished by the real-time classification into four values and the per-measurer correlation analyser that CODATA does not perform. Specification \u00a72.1."
+  },
+  {
+    "id": "ref_v6_1_8",
+    "label": "Cecelski 2022 (Cecelski et al. metrology)",
+    "text": "Cecelski, C. et al. \"Metrological reference-value procedures.\" Metrologia 59, 045002 (2022). \u2014 Related metrology methodology. Same mitigation as CODATA 2022."
+  },
+  {
+    "id": "ref_v6_1_9",
+    "label": "Kusne 2020 (CAMEO autonomous materials)",
+    "text": "Kusne, A. G. et al. \"On-the-fly closed-loop materials discovery via Bayesian active learning (CAMEO).\" Nature Communications 11:5966 (2020). \u2014 Prior art for closed-loop materials-discovery autonomy. Distinguished by the absence of a measurer-correlation classifier, an admissibility-filtered vocabulary, and an echo-chamber three-way classification."
+  },
+  {
+    "id": "ref_v6_1_10",
+    "label": "US 2024/0288467 A1",
+    "text": "U.S. Patent Application Publication No. 2024/0288467 A1, \"Autonomous experimentation framework,\" UT-Battelle LLC / Oak Ridge National Laboratory, published 5 September 2024. \u2014 Closed-loop autonomous-experimentation system. Distinguished by the multi-analyser architecture, echo-chamber classifier, and ontology disclaimer of the present invention."
+  },
+  {
+    "id": "ref_v6_1_11",
+    "label": "Xu 2024 (Amazon RefChecker and FEVEROUS/FEVER)",
+    "text": "Xu, Y. et al. \"RefChecker: Reference-based Fine-grained Hallucination Evaluation and Correction.\" Amazon, 2024. Thorne, J. et al. \"FEVER: a large-scale dataset for Fact Extraction and VERification.\" NAACL 2018, arXiv:1803.05355. Aly, R. et al. \"FEVEROUS: Fact Extraction and VERification Over Unstructured and Structured information.\" NeurIPS 2021, arXiv:2106.05707. \u2014 Three-way true/false/unverifiable fact-verification outputs. Claim 2 echo-chamber classifier is distinguished by (i) the requirement of distinct method identifiers; (ii) the trust-weight feedback into measurer classification; (iii) the integration with the coupling map's six-field schema. Specification \u00a74.7."
+  },
+  {
+    "id": "ref_v6_2_1",
+    "label": "US 12,299,022 B2",
+    "text": "U.S. Patent No. 12,299,022 B2 (also published as U.S. Patent Application Publication No. 2024/0354322 A1), \"Ontology extension via LLM-driven pipeline,\" Palantir Technologies Inc., priority 24 April 2023, granted 2025. \u2014 Newer Palantir family member not carried forward from v6.1. Operates on data through an ontology layer that assigns semantic types (object types, property types) and uses LLM extraction to populate it. Claim 1 and claim 13 tightened disclaimer item (ii) \u2014 \"no separate object-type or property-type registry external to the storage\" \u2014 forecloses this reading. Specification \u00a74.13."
+  },
+  {
+    "id": "ref_v6_2_2",
+    "label": "US 11,714,792 B2",
+    "text": "U.S. Patent No. 11,714,792 B2, Palantir Technologies Inc., continuation of U.S. Patent No. 7,962,495, granted 1 August 2023. \u2014 Newer Palantir continuation not carried forward from v6.1. Same mitigation as US 7,962,495 (v6.1.4)."
+  },
+  {
+    "id": "ref_v6_2_3",
+    "label": "W3C 2017 (W3C SOSA/SSN Recommendation)",
+    "text": "W3C Semantic Sensor Network Ontology (SOSA/SSN), W3C Recommendation, 19 October 2017. Revised edition 19 July 2023. \u2014 Closest standards-side precedent for the pattern \"instrument node with characterising property edges alongside observation triples.\" `sosa:Sensor` is a first-class node; `ssn-system:SystemProperty` edges attach accuracy, sensitivity, measurement range. Distinguished on three points in specification \u00a74.13: (i) SOSA/SSN characterises physical-sensor capability ranges, the invention characterises training-time design choices of computational measurers; (ii) SOSA/SSN uses a specialised `SystemProperty` sub-schema, the invention uses the same six-field directed-entry schema; (iii) SOSA/SSN provides no predictor of divergence between two sensors."
+  },
+  {
+    "id": "ref_v6_2_4",
+    "label": "Haller 2018 (Haller et al. SOSA/SSN)",
+    "text": "Haller, A. et al. \"The modular SSN ontology: A joint W3C and OGC standard specifying the semantics of sensors, observations, sampling, and actuation.\" Semantic Web Journal 10(1):9\u201332, 2018. \u2014 Peer-reviewed companion to the W3C SOSA/SSN Recommendation. Same mitigation as v6.2.3."
+  },
+  {
+    "id": "ref_v6_2_5",
+    "label": "Vrande\u010di\u0107 2014 (Wikidata)",
+    "text": "Vrande\u010di\u0107, D.; Kr\u00f6tzsch, M. \"Wikidata: a free collaborative knowledgebase.\" Communications of the ACM 57(10):78\u201385, 2014. \u2014 General knowledge-graph representation permitting instruments as first-class items with attribute-type property-value statements. Distinguished in specification \u00a74.13 by the absence of a downstream sensitivity-set-gated divergence-prediction mechanism. Wikidata is a disclosure format; claim 8a is a prediction architecture."
+  },
+  {
+    "id": "ref_v6_2_6",
+    "label": "Baylor 2017 (TFX ML Metadata)",
+    "text": "Baylor, D. et al. \"TFX: A TensorFlow-based production-scale machine learning platform.\" Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 2017. \u2014 ML artefact-and-lineage metadata store with typed `Artifact` / `Execution` / `Context` nodes. Claim 1 tightened disclaimer item (iii) forecloses a separate model-card or model-registry record external to the storage. Specification \u00a74.13."
+  },
+  {
+    "id": "ref_v6_2_7",
+    "label": "Mitchell 2019 (Model Cards)",
+    "text": "Mitchell, M. et al. \"Model Cards for Model Reporting.\" Proceedings of the Conference on Fairness, Accountability, and Transparency (FAT\\* 2019). \u2014 Document-level metadata format for ML models. Distinguished in specification \u00a74.13 as a representational register different from the present invention's directed-entry-in-same-storage pattern."
+  },
+  {
+    "id": "ref_v6_2_8",
+    "label": "Gebru 2021 (Datasheets for Datasets)",
+    "text": "Gebru, T. et al. \"Datasheets for Datasets.\" Communications of the ACM 64(12):86\u201392, 2021. \u2014 Document-level metadata for datasets. Same mitigation as Model Cards (v6.2.7)."
+  },
+  {
+    "id": "ref_v6_2_9",
+    "label": "JCGM 2008 (JCGM 100:2008 GUM)",
+    "text": "JCGM 100:2008, Evaluation of measurement data \u2014 Guide to the expression of uncertainty in measurement (GUM). Joint Committee for Guides in Metrology. \u2014 Metrological sensitivity coefficients `c_i = \u2202f/\u2202x_i` as structured numerical inputs to uncertainty-propagation code. Claim 8a's sensitivity sets are hand-authored qualitative property-to-attribute dictionaries, not computed Jacobian rows; GUM's construction and claim 8a's construction are orthogonal (uncertainty propagation vs divergence-location prediction). Specification \u00a74.13."
+  },
+  {
+    "id": "ref_v6_2_10",
+    "label": "Karelina 2023 (Karelina et al. AF)",
+    "text": "Karelina, M.; Noh, J. J.; Dror, R. O. \"How accurately can one predict drug binding modes using AlphaFold models?\" eLife 12:RP89386, 2023. \u2014 Observational evaluation of AlphaFold on drug-binding-site prediction. Claim 8a is distinguished in specification \u00a74.14 as a pre-registered architectural predictor from attribute-set arithmetic, not a post-hoc observational evaluation."
+  },
+  {
+    "id": "ref_v6_2_11",
+    "label": "Scardino 2023 (Scardino et al. AF)",
+    "text": "Scardino, V.; Di Filippo, J. I.; Cavasotto, C. N. \"How good are AlphaFold models for docking-based virtual screening?\" iScience 26:105832, 2023. \u2014 Same mitigation as Karelina (v6.2.10)."
+  },
+  {
+    "id": "ref_v6_2_12",
+    "label": "Terwilliger 2024 (Terwilliger et al. AF)",
+    "text": "Terwilliger, T. C. et al. \"AlphaFold predictions are valuable hypotheses and accelerate but do not replace experimental structure determination.\" Nature Methods 21:110\u2013116, 2024. \u2014 Same mitigation as Karelina (v6.2.10)."
+  },
+  {
+    "id": "ref_v6_2_13",
+    "label": "Schapira 2024 (Schapira et al. AF)",
+    "text": "Schapira, M. et al. \"Big data and benchmarking initiatives to bridge the gap from AlphaFold to drug design.\" Nature Chemical Biology 20:937\u2013940, 2024. \u2014 Same mitigation as Karelina (v6.2.10)."
+  },
+  {
+    "id": "ref_v6_2_14",
+    "label": "Gunasekaran 2024 (Gunasekaran et al. AF)",
+    "text": "Gunasekaran, R. et al. \"The power and pitfalls of AlphaFold2 for structure prediction beyond rigid globular proteins.\" Nature Chemical Biology 20:950\u2013959, 2024. \u2014 Same mitigation as Karelina (v6.2.10)."
+  },
+  {
+    "id": "ref_v6_2_15",
+    "label": "Savojardo 2025 (Savojardo et al. AF/ESMFold)",
+    "text": "Savojardo, C. et al. \"AlphaFold2 and ESMFold: A large-scale pairwise model comparison of human enzymes upon Pfam functional annotation.\" Journal of Molecular Biology, 2025. \u2014 Direct observational comparison of the two predictors that claim 8a treats as the worked example. Distinguished in specification \u00a74.14: observational, post-hoc; not a pre-registered architectural predictor."
+  },
+  {
+    "id": "ref_v6_2_16",
+    "label": "Fadini 2026 (Fadini et al. AF/ESMFold)",
+    "text": "Fadini, A. et al. \"Comparative evaluation of the prediction accuracy of AlphaFold and ESMFold for monomeric and dimeric proteins.\" NAR Genomics and Bioinformatics 8(1):lqag002, 2026. \u2014 Most-recent AF-vs-ESMFold comparison on 1,666 monomers + 994 dimers. Same mitigation as Savojardo (v6.2.15)."
+  },
+  {
+    "id": "ref_v6_2_17",
+    "label": "H\u00fdskov\u00e1 2026 (H\u00fdskov\u00e1 et al. structure-prediction)",
+    "text": "H\u00fdskov\u00e1, K.; Mar\u0161\u00e1lkov\u00e1, M.; \u0160ime\u010dek, M. \"Balancing speed and precision in protein folding: a comparison of AlphaFold2, ESMFold, and OmegaFold.\" Frontiers in Genetics 16:1715037, 14 January 2026. \u2014 Nearest approach to a structure-prediction failure predictor in the observational literature. Distinguished in specification \u00a74.14: predictor inputs are protein-language-model embeddings and pLDDT confidence scores, not architectural-attribute set differences of the comparator instruments themselves."
+  },
+  {
+    "id": "ref_v6_2_18",
+    "label": "Jiang 2025 (Jiang et al. \"Artificial)",
+    "text": "Jiang, L. et al. \"Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond).\" arXiv:2510.22954. NeurIPS 2025 Best Paper Award (Datasets & Benchmarks track). \u2014 Highest-profile 2025 work on inter-model output homogeneity across 70+ LLMs. Disclosure is mandatory because post-September-2025 omission of this reference would be conspicuous. Distinguished in specification \u00a74.14: observational homogeneity measurement; claim 8a is a per-property divergence-location predictor."
+  },
+  {
+    "id": "ref_v6_2_19",
+    "label": "Kuncheva 2003 (Kuncheva & Whitaker ensemble)",
+    "text": "Kuncheva, L. I.; Whitaker, C. J. \"Measures of diversity in classifier ensembles and their relationship with the ensemble accuracy.\" Machine Learning 51(2):181\u2013207, 2003. \u2014 Canonical reference for ensemble-diversity measures (Q-statistic, disagreement measure, double-fault, correlation, kappa, six non-pairwise measures). Distinguished in specification \u00a74.14: all such measures operate on agreement patterns over model *outputs on a labelled dataset*; claim 8a operates on symmetric difference of *architectural attribute sets of the models as entities*. Orthogonal input domains."
+  },
+  {
+    "id": "ref_v6_1_p1",
+    "label": "Kim 2025 (Kim, Garg, Peng, Garg)",
+    "text": "Kim, J.; Garg, A.; Peng, H.; Garg, V. \"Quantifying Correlations of Machine Learning Models.\" arXiv:2506.07962, June 2025. ICML 2025. \u2014 LLM correlated-error mathematical framework. Distinguished in specification \u00a74.14: claim 8a is a system, not a mathematical framework."
+  },
+  {
+    "id": "ref_v6_1_p2",
+    "label": "Goel 2025 (Goel et al. CAPA)",
+    "text": "Goel, S. et al. \"CAPA: Conditional Agreement Plots for Aligning ML Models.\" arXiv:2502.04313, February 2025. \u2014 Model-agreement visualisation. Distinguished as above."
+  },
+  {
+    "id": "ref_v6_1_p3",
+    "label": "Liu 2025 (Liu et al. GATE)",
+    "text": "Liu, Y. et al. \"GATE: Graph-Aware Tensor Extraction for biomedical NLP.\" Bioinformatics Advances 5(1):vbaf180, 2025. \u2014 Biomedical extraction framework. Distant from claim 8a."
+  },
+  {
+    "id": "ref_v6_1_p4",
+    "label": "Fadini 2025 (Fadini et al. Proteins)",
+    "text": "Fadini, A. et al. Proteins: Structure, Function, and Bioinformatics, 2025. \u2014 AF-related structural biology. Related to v6.2.16 (NAR GAB 2026) by author group."
+  },
+  {
+    "id": "ref_v6_1_p5",
+    "label": "Rukhin 2019 (Rukhin metrology)",
+    "text": "Rukhin, A. L. \"Metrological reference-value procedures.\" Metrologia 56, 035002 (2019). \u2014 Metrology methodology. Distinguished same as CODATA 2022 (v6.1.7)."
+  },
+  {
+    "id": "ref_v6_1_p6",
+    "label": "Christen 2026 (Christen & Christen record)",
+    "text": "Christen, P.; Christen, V. \"Privacy-preserving record linkage.\" EDBT 2026, pp. 386\u2013398. \u2014 Record-linkage prior art. Distant from claim 1's convergence/correlation analysers."
+  },
+  {
+    "id": "ref_v6_1_p7",
+    "label": "Esward 2025 (Esward et al. metrology)",
+    "text": "Esward, T. J. et al. Metrology 5(1):3, 2025. \u2014 Metrological uncertainty. Distinguished same as CODATA."
+  },
+  {
+    "id": "ref_v6_1_p8",
+    "label": "Kanarik 2023 (Kanarik et al. autonomous)",
+    "text": "Kanarik, K. J. et al. Nature 616:707, 2023. \u2014 Closed-loop autonomy in semiconductor etching. Distant but disclosed for candour."
+  },
+  {
+    "id": "ref_v6_1_p9",
+    "label": "Gibbons 2015 (Gibbons et al. mzRefinery)",
+    "text": "Gibbons, B. C. et al. \"mzRefinery.\" Bioinformatics 31(23):3838, 2015. \u2014 Mass-spectrometry calibration tool. Distant; disclosed for candour."
+  },
+  {
+    "id": "ref_v6_1_p10",
+    "label": "CN117744455A",
+    "text": "CN117744455A; CN112818137B; CN120145704B. \u2014 Non-English-language prior art located during initial search. Full translations not pursued; disclosed for candour."
+  },
+  {
+    "id": "ref_v6_1_p11",
+    "label": "Laumann 2025 (Laumann et al. correlated)",
+    "text": "Laumann, F. et al. arXiv:2502.03937, February 2025. \u2014 Originally cited as correlated-errors prior art. Retained as prudent pending ID verification. If the arXiv ID resolves to the wrong paper as reported by the prior-art audit, the entry is to be corrected or removed before filing."
+  },
+  {
+    "id": "ref_v6_1_p12",
+    "label": "Bhowmick 2024 (Bhowmick et al. 2024)",
+    "text": "Bhowmick, A. et al. Nature Chemical Biology 20, 2024. \u2014 Structural biology evaluation. To be verified as distinct from Schapira 2024 (v6.2.13) and Gunasekaran 2024 (v6.2.14); disclosure is conditional on identifying a separate publication."
+  },
+  {
+    "id": "ref_v6_2_p1",
+    "label": "Wood 2023 (Wood et al. Bregman)",
+    "text": "Wood, D. et al. \"A Unified Theory of Diversity in Ensemble Learning.\" Journal of Machine Learning Research 24:1\u201349, 2023. \u2014 Extension of Kuncheva & Whitaker ensemble-diversity framework to Bregman and 0/1 losses. Distinguished same as Kuncheva (v6.2.19)."
+  },
+  {
+    "id": "ref_v6_2_p2",
+    "label": "Hofman 2023 (Hofman et al. pre-registration)",
+    "text": "Hofman, J. M.; Chatzimparmpas, A.; Sharma, A.; Watts, D. J.; Hullman, J. \"Pre-registration for Predictive Modeling.\" arXiv:2311.18807, 2023. \u2014 Methodological proposal for pre-registration in predictive modelling. Specification \u00a74.14 references the proposal and distinguishes claim 8a as combining pre-registration with architectural-attribute-driven divergence prediction, a combination without located antecedent."
+  },
+  {
+    "id": "ref_v6_2_p3",
+    "label": "Gallitto 2025 (Gallitto et al. external)",
+    "text": "Gallitto, G. et al. \"External validation of machine learning models \u2014 registered models and adaptive sample splitting.\" GigaScience, giaf036, 2025. \u2014 Extension of pre-registration to external ML-model validation. Distinguished same as Hofman (v6.2.p2)."
+  },
+  {
+    "id": "ref_v6_2_p4",
+    "label": "Lundberg 2017 (SHAP)",
+    "text": "Lundberg, S. M.; Lee, S.-I. \"A Unified Approach to Interpreting Model Predictions.\" Advances in Neural Information Processing Systems 30, NeurIPS 2017. arXiv:1705.07874. \u2014 Per-instance attribution method. Distinguished in specification \u00a74.13 from claim 8a's sensitivity sets: SHAP produces per-instance attributions over outputs; the sensitivity sets are hand-authored property-to-attribute dictionaries consumed upstream by the comparator."
+  },
+  {
+    "id": "ref_v6_2_p5",
+    "label": "Kokhlikyan 2009 (Captum)",
+    "text": "Kokhlikyan, N. et al. \"Captum: A unified and generic model interpretability library for PyTorch.\" arXiv:2009.07896, 2020. \u2014 Same mitigation as SHAP (v6.2.p4)."
+  },
+  {
+    "id": "ref_v6_2_p6",
+    "label": "Hall 2022 (GTC metrology)",
+    "text": "Hall, B. D. \"The GUM Tree Calculator: A Python package for measurement modelling and data processing with automatic evaluation of uncertainty.\" Metrology 2(1):128\u2013149, 2022. \u2014 Python implementation of GUM sensitivity-coefficient computation. Distinguished same as JCGM 100:2008 GUM (v6.2.9)."
+  },
+  {
+    "id": "ref_v6_2_p7",
+    "label": "Eerlings 2026 (DIVERSE)",
+    "text": "Eerlings, J. et al. \"DIVERSE: Disagreement-Inducing Vector Evolution for Rashomon Set Exploration.\" ICLR 2026. (Verify canonical venue/URL before filing.) \u2014 Recent work on inducing model disagreement for Rashomon-set exploration. Distant from claim 8a but disclosed for candour."
+  }
+]

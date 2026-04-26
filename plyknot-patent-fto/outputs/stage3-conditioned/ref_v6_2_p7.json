@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_2_p7",
+  "text_length": 379,
+  "unconditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "DIVERSE method for inducing model disagreement in Rashomon set exploration",
+      "intensity": 0.8,
+      "pattern_id": "propose:diverse_method_for_inducing_model_disagreement_in_rashomon_set_exploration"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Work is distant from claim 8a but relevant to disclosure",
+      "intensity": 0.6,
+      "pattern_id": "infer:work_is_distant_from_claim_8a_but_relevant_to_disclosure"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "inducing model disagreement for Rashomon-set exploration",
+      "intensity": 0.8,
+      "pattern_id": "propose:inducing_model_disagreement_for_rashomon-set_exploration"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "work categorized as Category C and distant from claim 8a",
+      "intensity": 0.7,
+      "pattern_id": "classify:work_categorized_as_category_c_and_distant_from_claim_8a"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:work_categorized_as_category_c_and_distant_from_claim_8a",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:work_is_distant_from_claim_8a_but_relevant_to_disclosure",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "propose:diverse_method_for_inducing_model_disagreement_in_rashomon_set_exploration",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "propose:inducing_model_disagreement_for_rashomon-set_exploration",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.725,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,65 @@
+{
+  "ref_id": "ref_v6_2_15",
+  "text_length": 602,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "sensory",
+      "content": "large-scale pairwise comparison of AlphaFold2 and ESMFold on human enzymes",
+      "intensity": 0.9,
+      "pattern_id": "observe:large-scale_pairwise_comparison_of_alphafold2_and_esmfold_on_human_enzymes"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "observational, post-hoc comparison versus pre-registered architectural predictor",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:observational,_post-hoc_comparison_versus_pre-registered_architectural_predictor"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "sensory",
+      "content": "comparison of AlphaFold2 and ESMFold predictors on human enzymes",
+      "intensity": 1.0,
+      "pattern_id": "observe:comparison_of_alphafold2_and_esmfold_predictors_on_human_enzymes"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "observational, post-hoc comparison versus pre-registered architectural predictor",
+      "intensity": 1.0,
+      "pattern_id": "distinguish:observational,_post-hoc_comparison_versus_pre-registered_architectural_predictor"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:observational,_post-hoc_comparison_versus_pre-registered_architectural_predictor",
+      "unconditioned": 0.8,
+      "conditioned": 1.0,
+      "guided": 0.9,
+      "guidance_delta": 0.19999999999999996
+    },
+    {
+      "property_id": "observe:comparison_of_alphafold2_and_esmfold_predictors_on_human_enzymes",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "observe:large-scale_pairwise_comparison_of_alphafold2_and_esmfold_on_human_enzymes",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.7000000000000001,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_2_11",
+  "text_length": 356,
+  "unconditioned_raw": [
+    {
+      "verb": "evaluate",
+      "type": "cognitive",
+      "content": "assessment of AlphaFold models for docking-based virtual screening",
+      "intensity": 0.8,
+      "pattern_id": "evaluate:assessment_of_alphafold_models_for_docking-based_virtual_screening"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "relevance to claims regarding mitigation strategies",
+      "intensity": 0.6,
+      "pattern_id": "infer:relevance_to_claims_regarding_mitigation_strategies"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "evaluate",
+      "type": "cognitive",
+      "content": "assessment of AlphaFold model quality for docking-based virtual screening",
+      "intensity": 0.8,
+      "pattern_id": "evaluate:assessment_of_alphafold_model_quality_for_docking-based_virtual_screening"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorization of evidence as Category C",
+      "intensity": 0.9,
+      "pattern_id": "classify:categorization_of_evidence_as_category_c"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorization_of_evidence_as_category_c",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "evaluate:assessment_of_alphafold_model_quality_for_docking-based_virtual_screening",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "evaluate:assessment_of_alphafold_models_for_docking-based_virtual_screening",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:relevance_to_claims_regarding_mitigation_strategies",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    }
+  ],
+  "lensing_strain": 0.775,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_2_p5",
+  "text_length": 258,
+  "unconditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing Captum as Category C",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorizing_captum_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "determining relevance as same mitigation as SHAP",
+      "intensity": 0.7,
+      "pattern_id": "infer:determining_relevance_as_same_mitigation_as_shap"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "Captum categorized as Category C",
+      "intensity": 1.0,
+      "pattern_id": "classify:captum_categorized_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Captum has same mitigation relevance as SHAP",
+      "intensity": 0.9,
+      "pattern_id": "infer:captum_has_same_mitigation_relevance_as_shap"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:captum_categorized_as_category_c",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "classify:categorizing_captum_as_category_c",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:captum_has_same_mitigation_relevance_as_shap",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:determining_relevance_as_same_mitigation_as_shap",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.85,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

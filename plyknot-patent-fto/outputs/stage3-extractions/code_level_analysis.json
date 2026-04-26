@@ -1,0 +1,238 @@
+{
+  "module": "level_analysis",
+  "source_length": 6036,
+  "extracted_length": 6036,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"presence of inference chains in input data\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"complexity_level attribute in each inference step\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"which chains contain steps at the proposed level\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\", \"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"count of chains matching proposed level\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"evaluate\",\n      \"content\": \"whether level has signal-type steps\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"evaluate\",\n      \"content\": \"whether level has measurement-type steps\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"evaluate\",\n      \"content\": \"whether level has pattern-type steps\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"steps with divergent or tension convergence status\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"extract\",\n      \"content\": \"dependency IDs from cracked steps\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"identify\",\n      \"content\": \"lower-level resolved dependencies\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\", \"u3\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"categorize\",\n      \"content\": \"crack dependencies as resolved or unresolved\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u9\", \"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"calculate\",\n      \"content\": \"irreducibility ratio from unresolved/total dependencies\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u11\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"status is 'not-earned' when no signals or measurements exist\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u5\", \"u6\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"status is 'tension' when only signals or only measurements exist\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u5\", \"u6\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"status is 'tension' when no cracks present despite signals and measurements\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u5\", \"u6\", \"u8\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"status is 'tension' when irreducibility ratio below 0.2\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u12\"]\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"status is 'earned' when level demonstrates irreducibility with unresolved dependencies\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u5\", \"u6\", \"u8\", \"u12\"]\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"observation\",\n      \"verb\": \"collect\",\n      \"content\": \"all complexity levels present across all chains\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"inference\",\n      \"verb\": \"derive\",\n      \"content\": \"level derivations for all detected levels\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u18\"]\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"format\",\n      \"content\": \"derivations as rendered text lines with status icons and metrics\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u19\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "detect",
+      "content": "presence of inference chains in input data",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "identify",
+      "content": "complexity_level attribute in each inference step",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "determine",
+      "content": "which chains contain steps at the proposed level",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "measure",
+      "content": "count of chains matching proposed level",
+      "intensity": 0.95,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "evaluate",
+      "content": "whether level has signal-type steps",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "evaluate",
+      "content": "whether level has measurement-type steps",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "evaluate",
+      "content": "whether level has pattern-type steps",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "identify",
+      "content": "steps with divergent or tension convergence status",
+      "intensity": 0.9,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "extract",
+      "content": "dependency IDs from cracked steps",
+      "intensity": 0.85,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "identify",
+      "content": "lower-level resolved dependencies",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1",
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "categorize",
+      "content": "crack dependencies as resolved or unresolved",
+      "intensity": 0.8,
+      "depends_on": [
+        "u9",
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "calculate",
+      "content": "irreducibility ratio from unresolved/total dependencies",
+      "intensity": 0.95,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "status is 'not-earned' when no signals or measurements exist",
+      "intensity": 0.9,
+      "depends_on": [
+        "u5",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "status is 'tension' when only signals or only measurements exist",
+      "intensity": 0.9,
+      "depends_on": [
+        "u5",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "status is 'tension' when no cracks present despite signals and measurements",
+      "intensity": 0.85,
+      "depends_on": [
+        "u5",
+        "u6",
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "status is 'tension' when irreducibility ratio below 0.2",
+      "intensity": 0.85,
+      "depends_on": [
+        "u12"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "status is 'earned' when level demonstrates irreducibility with unresolved dependencies",
+      "intensity": 0.85,
+      "depends_on": [
+        "u5",
+        "u6",
+        "u8",
+        "u12"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u18",
+      "type": "observation",
+      "verb": "collect",
+      "content": "all complexity levels present across all chains",
+      "intensity": 0.9,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u19",
+      "type": "inference",
+      "verb": "derive",
+      "content": "level derivations for all detected levels",
+      "intensity": 0.85,
+      "depends_on": [
+        "u18"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "format",
+      "content": "derivations as rendered text lines with status icons and metrics",
+      "intensity": 0.9,
+      "depends_on": [
+        "u19"
+      ],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 20,
+  "error": null,
+  "observation_density": 0.35,
+  "grounding_ratio": 1.0
+}

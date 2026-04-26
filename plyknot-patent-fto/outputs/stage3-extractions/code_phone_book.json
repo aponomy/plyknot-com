@@ -1,0 +1,155 @@
+{
+  "module": "phone_book",
+  "source_length": 10685,
+  "extracted_length": 10685,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Phone Book maps label strings to entity IDs and renders entity IDs to human-readable labels\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Phone Book handles aliases and canonicalization\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"believe\",\n      \"content\": \"Phone Book is the user-facing name layer over the language-free coupling map core\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\", \"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Storage is in-memory, backed by universe.name and universe.tags\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Persistence occurs via GraphEvent when aliases are added\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"The resolve method finds entities matching a given label with exact and alias matching\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"The resolve_fuzzy method accepts tau parameter for maximum fuzzy match distance\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"Fuzzy matching uses Levenshtein ratio to measure label similarity\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"The render method returns human-readable labels with different style options\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"add_alias method registers new label variants and records GraphEvent\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"add_alias checks for duplicate canonical names and existing aliases before adding\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"list_aliases returns all label variants with canonical name first\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"search method finds entities by substring match on normalized labels and aliases\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"search is more relaxed than resolve_fuzzy for finding matches\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u13\", \"u7\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"stats method counts total entities, aliases, indexed labels, and ambiguous labels\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "see",
+      "content": "Phone Book maps label strings to entity IDs and renders entity IDs to human-readable labels",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Phone Book handles aliases and canonicalization",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "believe",
+      "content": "Phone Book is the user-facing name layer over the language-free coupling map core",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "see",
+      "content": "Storage is in-memory, backed by universe.name and universe.tags",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Persistence occurs via GraphEvent when aliases are added",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "see",
+      "content": "The resolve method finds entities matching a given label with exact and alias matching",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "see",
+      "content": "The resolve_fuzzy method accepts tau parameter for maximum fuzzy match distance",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "Fuzzy matching uses Levenshtein ratio to measure label similarity",
+      "intensity": 0.85,
+      "depends_on": [
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "see",
+      "content": "The render method returns human-readable labels with different style options",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "see",
+      "content": "add_alias method registers new label variants and records GraphEvent",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "see",
+      "content": "add_alias checks for duplicate canonical names and existing aliases before adding",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "see",
+      "content": "list_aliases returns all label variants with canonical name first",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "see",
+      "content": "search method finds entities by substring match on normalized labels and aliases",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "search is more relaxed than resolve_fuzzy for finding matches",
+      "intensity": 0.8,
+      "depends_on": [
+        "u13",
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "see",
+      "content": "stats method counts total entities, aliases, indexed labels, and ambiguous labels",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 15,
+  "error": null,
+  "observation_density": 0.8,
+  "grounding_ratio": 1.0
+}

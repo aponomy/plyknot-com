@@ -1,0 +1,108 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "identify",
+      "content": "among groups formed by the convergence analyser, a subset of groups in which at least two records are produced by distinct computational measurers bearing distinct method identifiers",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "detect",
+      "content": "group contains at least one record produced by a physical measurement apparatus",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "convergence analyser has classified the group as converged",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "classify",
+      "content": "group is a confirmed echo chamber — convergence among distinct computational measurers is corroborated by physical measurement",
+      "intensity": 0.9,
+      "depends_on": ["u2", "u3"]
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "convergence analyser has classified the group as tension or divergent",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "classify",
+      "content": "group is a refuted echo chamber — computational convergence is contradicted by physical measurement showing tension or divergence",
+      "intensity": 0.9,
+      "depends_on": ["u2", "u5"]
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "detect",
+      "content": "group contains no record produced by a physical measurement apparatus",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "classify",
+      "content": "group is an untested echo chamber — cannot confirm or refute computational convergence without physical measurement",
+      "intensity": 0.7,
+      "depends_on": ["u7"]
+    },
+    {
+      "id": "u9",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "confirmed-, refuted-, and untested-echo-chamber signals are each significant enough to warrant routing to the actor via the feedback-signal interface",
+      "intensity": 0.8,
+      "depends_on": ["u4", "u6", "u8"]
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "record",
+      "content": "prior refuted-echo-chamber signals attributed to each measurer are accumulated over the event log",
+      "intensity": 0.85,
+      "depends_on": ["u6"]
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "derive",
+      "content": "a per-measurer trust weight can be derived from the accumulation of prior refuted-echo-chamber signals attributed to that measurer",
+      "intensity": 0.85,
+      "depends_on": ["u10"]
+    },
+    {
+      "id": "u12",
+      "type": "causal",
+      "verb": "attenuate",
+      "content": "a measurer's contribution to its own measurer classification is reduced in inverse proportion to its trust weight, because repeated prior refutations lower confidence in that measurer",
+      "intensity": 0.85,
+      "depends_on": ["u11", "u10"]
+    },
+    {
+      "id": "u13",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "incorporating per-measurer trust weights derived from refutation history into the measurer-correlation analyser is a meaningful improvement to the system of claim 1",
+      "intensity": 0.8,
+      "depends_on": ["u12"]
+    }
+  ]
+}

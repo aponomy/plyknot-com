@@ -1,0 +1,65 @@
+{
+  "ref_id": "ref_v6_2_p4",
+  "text_length": 538,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "SHAP distinguished from sensitivity sets in specification \u00a74.13",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:shap_distinguished_from_sensitivity_sets_in_specification_\u00a74.13"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "SHAP produces per-instance attributions over outputs",
+      "intensity": 0.85,
+      "pattern_id": "infer:shap_produces_per-instance_attributions_over_outputs"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "SHAP distinguished from sensitivity sets in specification \u00a74.13",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:shap_distinguished_from_sensitivity_sets_in_specification_\u00a74.13"
+    },
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "SHAP produces per-instance attributions over outputs",
+      "intensity": 0.85,
+      "pattern_id": "compute:shap_produces_per-instance_attributions_over_outputs"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "compute:shap_produces_per-instance_attributions_over_outputs",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "distinguish:shap_distinguished_from_sensitivity_sets_in_specification_\u00a74.13",
+      "unconditioned": 0.9,
+      "conditioned": 0.9,
+      "guided": 0.9,
+      "guidance_delta": 0.0
+    },
+    {
+      "property_id": "infer:shap_produces_per-instance_attributions_over_outputs",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    }
+  ],
+  "lensing_strain": 0.5666666666666667,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

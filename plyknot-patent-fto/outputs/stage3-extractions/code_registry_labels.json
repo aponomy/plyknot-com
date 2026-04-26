@@ -1,0 +1,56 @@
+{
+  "module": "registry_labels",
+  "source_length": 538,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"This module re-exports theoretical-partition entries from the dependency registry\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"These entries name conceptual commitments, target assumptions, and framework-level claims\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"These framework-level claims are architecturally excluded from inference-chain depends lists\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"This module exists for documentation and patent specification linkage only\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"state\",\n      \"content\": \"No analyser, validator, or inference engine consumes these entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "This module re-exports theoretical-partition entries from the dependency registry",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "identify",
+      "content": "These entries name conceptual commitments, target assumptions, and framework-level claims",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "note",
+      "content": "These framework-level claims are architecturally excluded from inference-chain depends lists",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "This module exists for documentation and patent specification linkage only",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "state",
+      "content": "No analyser, validator, or inference engine consumes these entries",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 5,
+  "error": null,
+  "observation_density": 0.8,
+  "grounding_ratio": 0.0
+}

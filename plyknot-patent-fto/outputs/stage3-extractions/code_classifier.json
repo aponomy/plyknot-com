@@ -1,0 +1,192 @@
+{
+  "module": "classifier",
+  "source_length": 8113,
+  "extracted_length": 8113,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"current state from universe.couplings (latest value per measurer), not the event log\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"classify\",\n      \"content\": \"proposed coupling entry as 'in_envelope', 'hyper_outlier', or 'frontier'\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"collect\",\n      \"content\": \"prior values per other measurer on (target, property) from universe.couplings\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"group_size as count of distinct prior measurers excluding submitter\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"frontier status if group_size < frontier_min_entries (3)\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u4\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"median of prior values\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"median absolute deviation (MAD) of prior values\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u3\", \"u6\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"ratio of deviation from median to effective MAD\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u6\", \"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"causal\",\n      \"verb\": \"determine\",\n      \"content\": \"ratio exceeding hyper_k threshold causes hyper_outlier classification\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"causal\",\n      \"verb\": \"determine\",\n      \"content\": \"ratio within k threshold causes in_envelope classification\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"validate\",\n      \"content\": \"value must be positive for log_symmetric_mad envelope\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"inference\",\n      \"verb\": \"transform\",\n      \"content\": \"apply log10 transformation to value and prior values for log-based envelope\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u11\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"asymmetric k and hyper_k thresholds based on whether value is above or below median\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u6\", \"u8\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"value against physical bounds (lo and hi) parameters\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"causal\",\n      \"verb\": \"determine\",\n      \"content\": \"value outside physical bounds causes immediate hyper_outlier classification\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u14\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"inference\",\n      \"verb\": \"select\",\n      \"content\": \"appropriate envelope function based on envelope_name parameter\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"envelope_name as valid (one of symmetric_mad, log_symmetric_mad, asymmetric_mad, physical_bounds)\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u16\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "current state from universe.couplings (latest value per measurer), not the event log",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "classify",
+      "content": "proposed coupling entry as 'in_envelope', 'hyper_outlier', or 'frontier'",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "collect",
+      "content": "prior values per other measurer on (target, property) from universe.couplings",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "determine",
+      "content": "group_size as count of distinct prior measurers excluding submitter",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "frontier status if group_size < frontier_min_entries (3)",
+      "intensity": 0.8,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "median of prior values",
+      "intensity": 0.9,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "median absolute deviation (MAD) of prior values",
+      "intensity": 0.9,
+      "depends_on": [
+        "u3",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "ratio of deviation from median to effective MAD",
+      "intensity": 0.9,
+      "depends_on": [
+        "u6",
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "causal",
+      "verb": "determine",
+      "content": "ratio exceeding hyper_k threshold causes hyper_outlier classification",
+      "intensity": 0.85,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "causal",
+      "verb": "determine",
+      "content": "ratio within k threshold causes in_envelope classification",
+      "intensity": 0.85,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "validate",
+      "content": "value must be positive for log_symmetric_mad envelope",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "transform",
+      "content": "apply log10 transformation to value and prior values for log-based envelope",
+      "intensity": 0.85,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "determine",
+      "content": "asymmetric k and hyper_k thresholds based on whether value is above or below median",
+      "intensity": 0.85,
+      "depends_on": [
+        "u6",
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "check",
+      "content": "value against physical bounds (lo and hi) parameters",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "causal",
+      "verb": "determine",
+      "content": "value outside physical bounds causes immediate hyper_outlier classification",
+      "intensity": 0.9,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "inference",
+      "verb": "select",
+      "content": "appropriate envelope function based on envelope_name parameter",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u17",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "envelope_name as valid (one of symmetric_mad, log_symmetric_mad, asymmetric_mad, physical_bounds)",
+      "intensity": 0.8,
+      "depends_on": [
+        "u16"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 17,
+  "error": null,
+  "observation_density": 0.17647058823529413,
+  "grounding_ratio": 0.7142857142857143
+}

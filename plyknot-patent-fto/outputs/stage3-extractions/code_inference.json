@@ -1,0 +1,260 @@
+{
+  "module": "inference",
+  "source_length": 27634,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"depends[] parameter changed from string[] to number[] in version 0.98\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Dependencies are now integer IDs from registry.ts instead of human language labels\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"The marker passer can match integers without human language in the core\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Cathode rays were deflected by E and B fields in 1897\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"e/m ratio and electron charge can be measured from cathode ray and oil drop experiments\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u4\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"The electron shows the same e/m and charge pattern in every laboratory globally\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Electron is a universal pattern with e/m + charge + spin-\u00bd\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\", \"u6\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"QED g-2 measurements agree with Standard Model predictions to 0.13 ppt\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Electron is a fundamental fermion in the Standard Model (QED)\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u7\", \"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Positive particles with specific e/m were deflected in B fields (canal rays, 1886)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Proton mass measured to 10\u207b\u00b9\u00b9 precision as 1.67262\u00d710\u207b\u00b2\u2077 kg\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Proton charge radius measurements from electron scattering, muonic hydrogen, and spectroscopy show tension between ~0.877 fm and ~0.831 fm\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"The proton charge radius measurements are not fully settled at 3.5\u03c3 tension\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u12\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Neutral penetrating radiation ejected protons from paraffin (Chadwick, 1932)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Neutron mass measured as 1.67493\u00d710\u207b\u00b2\u2077 kg\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Neutron lifetime measurements show divergence: UCN bottle \u03c4 = 878.4 \u00b1 0.5 s, Beam \u03c4 = 887.7 \u00b1 2.2 s, J-PARC \u03c4 = 877.2 \u00b1 1.7 s\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Neutron lifetime measurements diverge at 4.5\u03c3 despite decades of systematic error searches\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u16\"]\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Stars orbit faster than visible luminous mass can explain (Rubin & Ford, 1970; SPARC database)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Invisible gravitating matter must exist beyond visible baryons\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u18\"]\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Mass separated from baryons in cluster collisions detected by weak lensing + X-ray at 8\u03c3\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Dark matter comprises ~5\u00d7 visible matter based on rotation curves, CMB, and structure formation\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u18\", \"u20\"]\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Direct dark matter detection experiments (LZ, XENONnT, PandaX-4T) returned null results\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"WIMP dark matter hypothesis is failing after 40 years with zero detections\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u22\"]\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Galaxy spectra show systematic redshifts (Slipher 1925; millions in modern surveys)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Redshift correlates with distance following Hubble law (v = H\u2080d)\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u24\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "depends[] parameter changed from string[] to number[] in version 0.98",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Dependencies are now integer IDs from registry.ts instead of human language labels",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "infer",
+      "content": "The marker passer can match integers without human language in the core",
+      "intensity": 0.7,
+      "depends_on": [
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "see",
+      "content": "Cathode rays were deflected by E and B fields in 1897",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "infer",
+      "content": "e/m ratio and electron charge can be measured from cathode ray and oil drop experiments",
+      "intensity": 0.85,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "see",
+      "content": "The electron shows the same e/m and charge pattern in every laboratory globally",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Electron is a universal pattern with e/m + charge + spin-\u00bd",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "see",
+      "content": "QED g-2 measurements agree with Standard Model predictions to 0.13 ppt",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Electron is a fundamental fermion in the Standard Model (QED)",
+      "intensity": 0.85,
+      "depends_on": [
+        "u7",
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "see",
+      "content": "Positive particles with specific e/m were deflected in B fields (canal rays, 1886)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Proton mass measured to 10\u207b\u00b9\u00b9 precision as 1.67262\u00d710\u207b\u00b2\u2077 kg",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Proton charge radius measurements from electron scattering, muonic hydrogen, and spectroscopy show tension between ~0.877 fm and ~0.831 fm",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "infer",
+      "content": "The proton charge radius measurements are not fully settled at 3.5\u03c3 tension",
+      "intensity": 0.75,
+      "depends_on": [
+        "u12"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "see",
+      "content": "Neutral penetrating radiation ejected protons from paraffin (Chadwick, 1932)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Neutron mass measured as 1.67493\u00d710\u207b\u00b2\u2077 kg",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Neutron lifetime measurements show divergence: UCN bottle \u03c4 = 878.4 \u00b1 0.5 s, Beam \u03c4 = 887.7 \u00b1 2.2 s, J-PARC \u03c4 = 877.2 \u00b1 1.7 s",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Neutron lifetime measurements diverge at 4.5\u03c3 despite decades of systematic error searches",
+      "intensity": 0.8,
+      "depends_on": [
+        "u16"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u18",
+      "type": "observation",
+      "verb": "see",
+      "content": "Stars orbit faster than visible luminous mass can explain (Rubin & Ford, 1970; SPARC database)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u19",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Invisible gravitating matter must exist beyond visible baryons",
+      "intensity": 0.85,
+      "depends_on": [
+        "u18"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "see",
+      "content": "Mass separated from baryons in cluster collisions detected by weak lensing + X-ray at 8\u03c3",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Dark matter comprises ~5\u00d7 visible matter based on rotation curves, CMB, and structure formation",
+      "intensity": 0.8,
+      "depends_on": [
+        "u18",
+        "u20"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "see",
+      "content": "Direct dark matter detection experiments (LZ, XENONnT, PandaX-4T) returned null results",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "inference",
+      "verb": "infer",
+      "content": "WIMP dark matter hypothesis is failing after 40 years with zero detections",
+      "intensity": 0.75,
+      "depends_on": [
+        "u22"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u24",
+      "type": "observation",
+      "verb": "see",
+      "content": "Galaxy spectra show systematic redshifts (Slipher 1925; millions in modern surveys)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u25",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Redshift correlates with distance following Hubble law (v = H\u2080d)",
+      "intensity": 0.85,
+      "depends_on": [
+        "u24"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 25,
+  "error": null,
+  "observation_density": 0.6,
+  "grounding_ratio": 1.0
+}

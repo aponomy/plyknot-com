@@ -1,0 +1,44 @@
+{
+  "ref_id": "ref_v6_2_7",
+  "text_length": 488,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Model Cards distinguished as a representational register different from directed-entry-in-same-storage pattern",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:model_cards_distinguished_as_a_representational_register_different_from_directed-entry-in-same-storage_pattern"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Model Cards identified as a document-level metadata format distinguished from the directed-entry-in-same-storage pattern",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:model_cards_identified_as_a_document-level_metadata_format_distinguished_from_the_directed-entry-in-same-storage_pattern"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:model_cards_distinguished_as_a_representational_register_different_from_directed-entry-in-same-storage_pattern",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:model_cards_identified_as_a_document-level_metadata_format_distinguished_from_the_directed-entry-in-same-storage_pattern",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.8500000000000001,
+  "n_uncond": 1,
+  "n_cond": 1,
+  "n_blend": 2,
+  "thin_flag": true,
+  "error": null
+}

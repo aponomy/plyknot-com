@@ -1,0 +1,102 @@
+{
+  "module": "marker_passing",
+  "source_length": 8416,
+  "extracted_length": 8416,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"BFS marker propagation occurs on a dependency graph\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"A collision event is defined as two markers arriving at the same integer node\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"think\",\n      \"content\": \"dependency index maps node IDs to chains and steps that depend on them\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"crack sources originate from inference steps with divergent or tension convergence\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"solid sources originate from the highest-level converged step in each chain\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"marker strength decays by a factor with each hop through the dependency graph\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"propagation halts when strength falls below activation threshold or hop count exceeds max_hops\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"think\",\n      \"content\": \"collision strength is computed as the product of all activating sources' strengths\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"a collision is cross-level when its complexity levels span more than one level\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"the maximum hops reached across all activations is tracked\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "detect",
+      "content": "BFS marker propagation occurs on a dependency graph",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "observe",
+      "content": "A collision event is defined as two markers arriving at the same integer node",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "think",
+      "content": "dependency index maps node IDs to chains and steps that depend on them",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "infer",
+      "content": "crack sources originate from inference steps with divergent or tension convergence",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "infer",
+      "content": "solid sources originate from the highest-level converged step in each chain",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "measure",
+      "content": "marker strength decays by a factor with each hop through the dependency graph",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "detect",
+      "content": "propagation halts when strength falls below activation threshold or hop count exceeds max_hops",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "think",
+      "content": "collision strength is computed as the product of all activating sources' strengths",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "detect",
+      "content": "a collision is cross-level when its complexity levels span more than one level",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "measure",
+      "content": "the maximum hops reached across all activations is tracked",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 10,
+  "error": null,
+  "observation_density": 0.6,
+  "grounding_ratio": 0.0
+}

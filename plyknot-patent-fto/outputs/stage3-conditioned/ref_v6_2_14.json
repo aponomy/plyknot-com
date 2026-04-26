@@ -1,0 +1,79 @@
+{
+  "ref_id": "ref_v6_2_14",
+  "text_length": 438,
+  "unconditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "AlphaFold2 has power and pitfalls for structure prediction beyond rigid globular proteins",
+      "intensity": 0.8,
+      "pattern_id": "propose:alphafold2_has_power_and_pitfalls_for_structure_prediction_beyond_rigid_globular_proteins"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "The citation is relevant as a mitigation strategy similar to Karelina",
+      "intensity": 0.7,
+      "pattern_id": "infer:the_citation_is_relevant_as_a_mitigation_strategy_similar_to_karelina"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "AlphaFold2 has power and pitfalls for structure prediction beyond rigid globular proteins",
+      "intensity": 0.8,
+      "pattern_id": "propose:alphafold2_has_power_and_pitfalls_for_structure_prediction_beyond_rigid_globular_proteins"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "Citation categorized as Category C",
+      "intensity": 0.9,
+      "pattern_id": "classify:citation_categorized_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Relevance to claims shares same mitigation as prior reference (Karelina v6.2.10)",
+      "intensity": 0.7,
+      "pattern_id": "infer:relevance_to_claims_shares_same_mitigation_as_prior_reference_(karelina_v6.2.10)"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:citation_categorized_as_category_c",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:relevance_to_claims_shares_same_mitigation_as_prior_reference_(karelina_v6.2.10)",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:the_citation_is_relevant_as_a_mitigation_strategy_similar_to_karelina",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "propose:alphafold2_has_power_and_pitfalls_for_structure_prediction_beyond_rigid_globular_proteins",
+      "unconditioned": 0.8,
+      "conditioned": 0.8,
+      "guided": 0.8,
+      "guidance_delta": 0.0
+    }
+  ],
+  "lensing_strain": 0.575,
+  "n_uncond": 2,
+  "n_cond": 3,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

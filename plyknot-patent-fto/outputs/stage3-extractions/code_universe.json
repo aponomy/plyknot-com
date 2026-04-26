@@ -1,0 +1,231 @@
+{
+  "module": "universe",
+  "source_length": 11256,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"Version history of Observable Universe model: v0.9-v0.95 included coupling maps, biology maps, marker passing, discovery, level learning\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"v0.96 renamed assemblyLevel to complexityLevel\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"v0.97 changed ComplexityLevel to numeric type (0|1|2|3|4|5) instead of string\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"v0.98 implements language-free core with integer ID dependencies from registry; names stored in supporting layer\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"Space class stores 6D coordinates: x, y, z position and px, py, pz momentum/prior position\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"Distance calculation method computes Euclidean distance between Space objects\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"CouplingEntry dataclass records bidirectional or directed relationships between entities with property values, measurement methods, and uncertainty\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"Universe class maintains 26+ attribute dictionaries tracking physical properties (mass, charge, frequency, acceleration, redshift), chemical bonding, biological markers (gene expression, protein abundance, phenotype, essentiality, clinical outcomes), and computational cost\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"couple() method records undirected couplings between two entities with symmetric key\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"measure() method records directed measurement from measurer to target with event logging\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"predict() method records computational predictions from pipeline to target with input list and event logging\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_photon() factory constructs light entity with position, direction, frequency, and velocity calculated from speed of light constant\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_massive() factory constructs particle entity with position, velocity, mass, optional charge, and prior position calculated from velocity and timestep\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_nucleon() factory constructs nucleon with strong coupling constant\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u13\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_neutron() factory constructs nucleon with weak decay parameters (mean lifetime, branching ratio)\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u14\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_computation() factory constructs entity with energy E, resistance R, temperature T; converts energy to mass via E=mc\u00b2; calculates maximum operations per second from energy divided by Planck constant\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"record_galaxy() factory records galactic observation with rotation curve data (luminous mass, outer radius, observed velocity, disk scale length)\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"record_redshift() factory records cosmological redshift observation\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_gene() factory creates gene entity associated with organism\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_drug() factory creates drug entity with mass\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"create_pathogen() factory creates pathogen entity\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"record_biopsy() records tissue or liquid biopsy result with mutation detection status and sample site\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"record_knockout() records gene knockout phenotype with severity score and organism\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"record_knockdown() records gene knockdown phenotype with severity score, organism, and knockdown method (default morpholino)\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "record",
+      "content": "Version history of Observable Universe model: v0.9-v0.95 included coupling maps, biology maps, marker passing, discovery, level learning",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "record",
+      "content": "v0.96 renamed assemblyLevel to complexityLevel",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "record",
+      "content": "v0.97 changed ComplexityLevel to numeric type (0|1|2|3|4|5) instead of string",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "record",
+      "content": "v0.98 implements language-free core with integer ID dependencies from registry; names stored in supporting layer",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "observe",
+      "content": "Space class stores 6D coordinates: x, y, z position and px, py, pz momentum/prior position",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "observe",
+      "content": "Distance calculation method computes Euclidean distance between Space objects",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "observe",
+      "content": "CouplingEntry dataclass records bidirectional or directed relationships between entities with property values, measurement methods, and uncertainty",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "observe",
+      "content": "Universe class maintains 26+ attribute dictionaries tracking physical properties (mass, charge, frequency, acceleration, redshift), chemical bonding, biological markers (gene expression, protein abundance, phenotype, essentiality, clinical outcomes), and computational cost",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "observe",
+      "content": "couple() method records undirected couplings between two entities with symmetric key",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "observe",
+      "content": "measure() method records directed measurement from measurer to target with event logging",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "observe",
+      "content": "predict() method records computational predictions from pipeline to target with input list and event logging",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_photon() factory constructs light entity with position, direction, frequency, and velocity calculated from speed of light constant",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_massive() factory constructs particle entity with position, velocity, mass, optional charge, and prior position calculated from velocity and timestep",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_nucleon() factory constructs nucleon with strong coupling constant",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_neutron() factory constructs nucleon with weak decay parameters (mean lifetime, branching ratio)",
+      "intensity": 0.85,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_computation() factory constructs entity with energy E, resistance R, temperature T; converts energy to mass via E=mc\u00b2; calculates maximum operations per second from energy divided by Planck constant",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "observe",
+      "content": "record_galaxy() factory records galactic observation with rotation curve data (luminous mass, outer radius, observed velocity, disk scale length)",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u18",
+      "type": "observation",
+      "verb": "observe",
+      "content": "record_redshift() factory records cosmological redshift observation",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u19",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_gene() factory creates gene entity associated with organism",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_drug() factory creates drug entity with mass",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "observation",
+      "verb": "observe",
+      "content": "create_pathogen() factory creates pathogen entity",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "observe",
+      "content": "record_biopsy() records tissue or liquid biopsy result with mutation detection status and sample site",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "observation",
+      "verb": "observe",
+      "content": "record_knockout() records gene knockout phenotype with severity score and organism",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u24",
+      "type": "observation",
+      "verb": "observe",
+      "content": "record_knockdown() records gene knockdown phenotype with severity score, organism, and knockdown method (default morpholino)",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 24,
+  "error": null,
+  "observation_density": 1.0,
+  "grounding_ratio": 1.0
+}

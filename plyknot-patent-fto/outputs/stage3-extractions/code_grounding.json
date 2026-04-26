@@ -1,0 +1,106 @@
+{
+  "module": "grounding",
+  "source_length": 25533,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"grounding module bridges language-free core and human-readable registry via embedding similarity\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"grounding is a MEASUREMENT, not a DEFINITION\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"well-being matches entities #47, #128, #203 with similarity scores 0.92, 0.78, 0.65\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"mapping is probabilistic, ranked, and disposable\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"embedding model functions as an instrument\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"autonomous loop closes: coupling map \u2192 Common Ground \u2192 text extraction \u2192 new measurements \u2192 coupling map\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"grounded=True, ambiguous=False indicates confident mapping to one entity\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"grounded=True, ambiguous=True indicates multiple plausible mappings\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"ambiguous mapping signals speciation\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"grounded=False indicates no match, structural absence\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "grounding module bridges language-free core and human-readable registry via embedding similarity",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "grounding is a MEASUREMENT, not a DEFINITION",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "measure",
+      "content": "well-being matches entities #47, #128, #203 with similarity scores 0.92, 0.78, 0.65",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "infer",
+      "content": "mapping is probabilistic, ranked, and disposable",
+      "intensity": 0.8,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "observe",
+      "content": "embedding model functions as an instrument",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "detect",
+      "content": "autonomous loop closes: coupling map \u2192 Common Ground \u2192 text extraction \u2192 new measurements \u2192 coupling map",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "identify",
+      "content": "grounded=True, ambiguous=False indicates confident mapping to one entity",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "identify",
+      "content": "grounded=True, ambiguous=True indicates multiple plausible mappings",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "infer",
+      "content": "ambiguous mapping signals speciation",
+      "intensity": 0.75,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "identify",
+      "content": "grounded=False indicates no match, structural absence",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 10,
+  "error": null,
+  "observation_density": 0.7,
+  "grounding_ratio": 0.6666666666666666
+}

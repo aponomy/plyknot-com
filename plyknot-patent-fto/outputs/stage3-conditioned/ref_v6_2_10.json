@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_2_10",
+  "text_length": 606,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "evaluation of AlphaFold on drug-binding-site prediction",
+      "intensity": 0.8,
+      "pattern_id": "observe:evaluation_of_alphafold_on_drug-binding-site_prediction"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Claim 8a as a pre-registered architectural predictor from attribute-set arithmetic, not post-hoc observational evaluation",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_8a_as_a_pre-registered_architectural_predictor_from_attribute-set_arithmetic,_not_post-hoc_observational_evaluation"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "sensory",
+      "content": "AlphaFold performance on drug-binding-site prediction",
+      "intensity": 0.8,
+      "pattern_id": "observe:alphafold_performance_on_drug-binding-site_prediction"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Claim 8a as pre-registered architectural predictor versus post-hoc observational evaluation",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_8a_as_pre-registered_architectural_predictor_versus_post-hoc_observational_evaluation"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:claim_8a_as_a_pre-registered_architectural_predictor_from_attribute-set_arithmetic,_not_post-hoc_observational_evaluation",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:claim_8a_as_pre-registered_architectural_predictor_versus_post-hoc_observational_evaluation",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "observe:alphafold_performance_on_drug-binding-site_prediction",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "observe:evaluation_of_alphafold_on_drug-binding-site_prediction",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.8500000000000001,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

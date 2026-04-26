@@ -1,0 +1,302 @@
+{
+  "module": "registry",
+  "source_length": 18469,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"File is a dependency registry system with language-free core using integer IDs\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"File provides DependencyEntry class mapping integer IDs to human-readable descriptions\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"File provides GraphEvent class recording changes to graph as append-only history\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"File provides DEP registry of all dependencies used by inference chains\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"File includes vocabulary partition validator distinguishing operational vs theoretical enforcement\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"TheoreticalPartitionError raised when theoretical identifier registered into operational vocabulary\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"Vocabulary partition is enforced at schema level\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u6\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Theoretical commitments, target assumptions, and framework claims belong outside dependency graph\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"All identifiers in inference-chain depends lists have operational=True\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"understand\",\n      \"content\": \"Operational dependencies name physical or computational mechanisms instrument embodies\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u9\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"LORENTZ_FORCE is marked operational=True\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Penning trap literally IS a Lorentz-force device\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"LORENTZ_FORCE is operational because instrument physically embodies it\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u11\", \"u12\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"CENTRAL_DOGMA marked operational because CRISPR screen relies on DNA\u2192RNA\u2192protein\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"PLANCK_CMB_PREDICTION marked operational because pipeline literally runs this calculation\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"THERMODYNAMIC_EQUIL marked operational because incubators physically embody it at 37\u00b0C\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"COSMOLOGICAL_PRINCIPLE marked operational=False\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"inference\",\n      \"verb\": \"understand\",\n      \"content\": \"COSMOLOGICAL_PRINCIPLE is theoretical because it is conceptual commitment not mechanism\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u17\"]\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"LEPTON_UNIVERSALITY marked operational=False\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"inference\",\n      \"verb\": \"understand\",\n      \"content\": \"LEPTON_UNIVERSALITY is theoretical because it is assumption about particle families not a mechanism\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u19\"]\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"QFT framework marked operational=False\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"inference\",\n      \"verb\": \"understand\",\n      \"content\": \"QFT is theoretical because it is a framework not a mechanism\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u21\"]\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"DM_IS_SUBSTANCE marked operational=False\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"inference\",\n      \"verb\": \"understand\",\n      \"content\": \"DM_IS_SUBSTANCE is theoretical because it is assumption about target not a mechanism\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u23\"]\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"_validate_partition function raises error for non-operational entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u26\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"System enforces strict separation between operational and theoretical entries at validation time\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u25\"]\n    },\n    {\n      \"id\": \"u27\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"_ALL_ENTRIES list contains both operational and theoretical DependencyEntry objects\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u28\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"DEPENDENCY_REGISTRY (public) contains only operational entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u29\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"_THEORETICAL_ENTRIES (internal) holds theoretical entries for lookup\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u30\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Public and internal registries are separated for different use cases\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u28\", \"u29\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "File is a dependency registry system with language-free core using integer IDs",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "see",
+      "content": "File provides DependencyEntry class mapping integer IDs to human-readable descriptions",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "see",
+      "content": "File provides GraphEvent class recording changes to graph as append-only history",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "see",
+      "content": "File provides DEP registry of all dependencies used by inference chains",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "see",
+      "content": "File includes vocabulary partition validator distinguishing operational vs theoretical enforcement",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "see",
+      "content": "TheoreticalPartitionError raised when theoretical identifier registered into operational vocabulary",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "Vocabulary partition is enforced at schema level",
+      "intensity": 0.85,
+      "depends_on": [
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "see",
+      "content": "Theoretical commitments, target assumptions, and framework claims belong outside dependency graph",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "see",
+      "content": "All identifiers in inference-chain depends lists have operational=True",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "understand",
+      "content": "Operational dependencies name physical or computational mechanisms instrument embodies",
+      "intensity": 0.85,
+      "depends_on": [
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "see",
+      "content": "LORENTZ_FORCE is marked operational=True",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "see",
+      "content": "Penning trap literally IS a Lorentz-force device",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "infer",
+      "content": "LORENTZ_FORCE is operational because instrument physically embodies it",
+      "intensity": 0.8,
+      "depends_on": [
+        "u11",
+        "u12"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "see",
+      "content": "CENTRAL_DOGMA marked operational because CRISPR screen relies on DNA\u2192RNA\u2192protein",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "see",
+      "content": "PLANCK_CMB_PREDICTION marked operational because pipeline literally runs this calculation",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "see",
+      "content": "THERMODYNAMIC_EQUIL marked operational because incubators physically embody it at 37\u00b0C",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "see",
+      "content": "COSMOLOGICAL_PRINCIPLE marked operational=False",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "understand",
+      "content": "COSMOLOGICAL_PRINCIPLE is theoretical because it is conceptual commitment not mechanism",
+      "intensity": 0.8,
+      "depends_on": [
+        "u17"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u19",
+      "type": "observation",
+      "verb": "see",
+      "content": "LEPTON_UNIVERSALITY marked operational=False",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u20",
+      "type": "inference",
+      "verb": "understand",
+      "content": "LEPTON_UNIVERSALITY is theoretical because it is assumption about particle families not a mechanism",
+      "intensity": 0.8,
+      "depends_on": [
+        "u19"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u21",
+      "type": "observation",
+      "verb": "see",
+      "content": "QFT framework marked operational=False",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u22",
+      "type": "inference",
+      "verb": "understand",
+      "content": "QFT is theoretical because it is a framework not a mechanism",
+      "intensity": 0.8,
+      "depends_on": [
+        "u21"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u23",
+      "type": "observation",
+      "verb": "see",
+      "content": "DM_IS_SUBSTANCE marked operational=False",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u24",
+      "type": "inference",
+      "verb": "understand",
+      "content": "DM_IS_SUBSTANCE is theoretical because it is assumption about target not a mechanism",
+      "intensity": 0.8,
+      "depends_on": [
+        "u23"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u25",
+      "type": "observation",
+      "verb": "see",
+      "content": "_validate_partition function raises error for non-operational entries",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u26",
+      "type": "inference",
+      "verb": "infer",
+      "content": "System enforces strict separation between operational and theoretical entries at validation time",
+      "intensity": 0.85,
+      "depends_on": [
+        "u25"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u27",
+      "type": "observation",
+      "verb": "see",
+      "content": "_ALL_ENTRIES list contains both operational and theoretical DependencyEntry objects",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u28",
+      "type": "observation",
+      "verb": "see",
+      "content": "DEPENDENCY_REGISTRY (public) contains only operational entries",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u29",
+      "type": "observation",
+      "verb": "see",
+      "content": "_THEORETICAL_ENTRIES (internal) holds theoretical entries for lookup",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u30",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Public and internal registries are separated for different use cases",
+      "intensity": 0.8,
+      "depends_on": [
+        "u28",
+        "u29"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 30,
+  "error": null,
+  "observation_density": 0.7,
+  "grounding_ratio": 1.0
+}

@@ -1,0 +1,166 @@
+{
+  "module": "scope",
+  "source_length": 10772,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"A scope is a query returning a set of coupling keys defining a subset of the universe\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Scopes are computed on demand; they are URLs, not entities\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Four seed types exist: seed_deps, seed_measurers, seed_properties, seed_crack_keys\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Intersectional filters compose with AND: complexity_levels, inference_levels, time_window\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"ScopeDefinition.__post_init__ checks that exactly one seed_* field is populated\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"If more or fewer than one seed is populated, it is invalid\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"compute_dep_cone performs BFS on the dependency co-occurrence graph\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Two deps are adjacent if they co-occur in any chain step's depends list\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_measurer_chain retrieves the InferenceChain associated with a measurer entity\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_chain_touches_cone checks if any step in a chain depends on a dep in the cone\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_seed_keys_from_cone returns coupling keys whose measurer has a chain touching the cone\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_scope_from_measurers collects seed deps from each measurer's chain, then computes the dep cone\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_scope_from_properties identifies measurers associated with given properties\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_parse_crack_key supports two formats: directed (measurer\u2192target:property) and coupling (lo:hi:property)\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"_apply_filters filters coupling keys by complexity_levels, inference_levels, and time_window\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"compute_scope dispatches on the populated seed field and applies filters\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"compute_scope_size returns the count of coupling keys in the computed scope\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "A scope is a query returning a set of coupling keys defining a subset of the universe",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Scopes are computed on demand; they are URLs, not entities",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Four seed types exist: seed_deps, seed_measurers, seed_properties, seed_crack_keys",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Intersectional filters compose with AND: complexity_levels, inference_levels, time_window",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "ScopeDefinition.__post_init__ checks that exactly one seed_* field is populated",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "infer",
+      "content": "If more or fewer than one seed is populated, it is invalid",
+      "intensity": 0.9,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "notice",
+      "content": "compute_dep_cone performs BFS on the dependency co-occurrence graph",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Two deps are adjacent if they co-occur in any chain step's depends list",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_measurer_chain retrieves the InferenceChain associated with a measurer entity",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_chain_touches_cone checks if any step in a chain depends on a dep in the cone",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_seed_keys_from_cone returns coupling keys whose measurer has a chain touching the cone",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_scope_from_measurers collects seed deps from each measurer's chain, then computes the dep cone",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_scope_from_properties identifies measurers associated with given properties",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_parse_crack_key supports two formats: directed (measurer\u2192target:property) and coupling (lo:hi:property)",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "notice",
+      "content": "_apply_filters filters coupling keys by complexity_levels, inference_levels, and time_window",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "notice",
+      "content": "compute_scope dispatches on the populated seed field and applies filters",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "notice",
+      "content": "compute_scope_size returns the count of coupling keys in the computed scope",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 17,
+  "error": null,
+  "observation_density": 0.9411764705882353,
+  "grounding_ratio": 1.0
+}

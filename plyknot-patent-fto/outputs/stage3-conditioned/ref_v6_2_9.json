@@ -1,0 +1,114 @@
+{
+  "ref_id": "ref_v6_2_9",
+  "text_length": 779,
+  "unconditioned_raw": [
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "Metrological sensitivity coefficients computed as partial derivatives",
+      "intensity": 0.8,
+      "pattern_id": "compute:metrological_sensitivity_coefficients_computed_as_partial_derivatives"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "Evaluation of measurement data and expression of uncertainty in measurement",
+      "intensity": 0.9,
+      "pattern_id": "measure:evaluation_of_measurement_data_and_expression_of_uncertainty_in_measurement"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Distinction between computed Jacobian rows and hand-authored qualitative property-to-attribute dictionaries",
+      "intensity": 0.85,
+      "pattern_id": "distinguish:distinction_between_computed_jacobian_rows_and_hand-authored_qualitative_property-to-attribute_dictionaries"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "GUM's uncertainty propagation approach versus claim 8a's divergence-location prediction are orthogonal",
+      "intensity": 0.75,
+      "pattern_id": "infer:gum's_uncertainty_propagation_approach_versus_claim_8a's_divergence-location_prediction_are_orthogonal"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "Metrological sensitivity coefficients as partial derivatives for uncertainty propagation",
+      "intensity": 0.8,
+      "pattern_id": "compute:metrological_sensitivity_coefficients_as_partial_derivatives_for_uncertainty_propagation"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Hand-authored qualitative property-to-attribute dictionaries versus computed Jacobian rows",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:hand-authored_qualitative_property-to-attribute_dictionaries_versus_computed_jacobian_rows"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "GUM's uncertainty propagation construction is orthogonal to claim 8a's divergence-location prediction construction",
+      "intensity": 0.7,
+      "pattern_id": "infer:gum's_uncertainty_propagation_construction_is_orthogonal_to_claim_8a's_divergence-location_prediction_construction"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "compute:metrological_sensitivity_coefficients_as_partial_derivatives_for_uncertainty_propagation",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "compute:metrological_sensitivity_coefficients_computed_as_partial_derivatives",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:distinction_between_computed_jacobian_rows_and_hand-authored_qualitative_property-to-attribute_dictionaries",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "distinguish:hand-authored_qualitative_property-to-attribute_dictionaries_versus_computed_jacobian_rows",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:gum's_uncertainty_propagation_approach_versus_claim_8a's_divergence-location_prediction_are_orthogonal",
+      "unconditioned": 0.75,
+      "conditioned": 0.0,
+      "guided": 0.375,
+      "guidance_delta": 0.75
+    },
+    {
+      "property_id": "infer:gum's_uncertainty_propagation_construction_is_orthogonal_to_claim_8a's_divergence-location_prediction_construction",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "measure:evaluation_of_measurement_data_and_expression_of_uncertainty_in_measurement",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.8142857142857143,
+  "n_uncond": 4,
+  "n_cond": 3,
+  "n_blend": 7,
+  "thin_flag": true,
+  "error": null
+}

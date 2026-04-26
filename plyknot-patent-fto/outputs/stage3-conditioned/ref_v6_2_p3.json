@@ -1,0 +1,58 @@
+{
+  "ref_id": "ref_v6_2_p3",
+  "text_length": 490,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "identified that this work is the same as Hofman v6.2.p2",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:identified_that_this_work_is_the_same_as_hofman_v6.2.p2"
+    },
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "extension of pre-registration to external ML-model validation",
+      "intensity": 0.7,
+      "pattern_id": "propose:extension_of_pre-registration_to_external_ml-model_validation"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "external validation approach distinguished as same as Hofman method",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:external_validation_approach_distinguished_as_same_as_hofman_method"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:external_validation_approach_distinguished_as_same_as_hofman_method",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:identified_that_this_work_is_the_same_as_hofman_v6.2.p2",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "propose:extension_of_pre-registration_to_external_ml-model_validation",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.7666666666666666,
+  "n_uncond": 2,
+  "n_cond": 1,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

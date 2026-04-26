@@ -1,0 +1,58 @@
+{
+  "ref_id": "ref_v6_2_4",
+  "text_length": 575,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "semantics of sensors, observations, sampling, and actuation",
+      "intensity": 0.8,
+      "pattern_id": "observe:semantics_of_sensors,_observations,_sampling,_and_actuation"
+    },
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "peer-reviewed companion status to W3C SOSA/SSN Recommendation",
+      "intensity": 0.7,
+      "pattern_id": "detect:peer-reviewed_companion_status_to_w3c_sosa/ssn_recommendation"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "modular ontology specifying semantics of sensors, observations, sampling, and actuation",
+      "intensity": 0.9,
+      "pattern_id": "propose:modular_ontology_specifying_semantics_of_sensors,_observations,_sampling,_and_actuation"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "detect:peer-reviewed_companion_status_to_w3c_sosa/ssn_recommendation",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "observe:semantics_of_sensors,_observations,_sampling,_and_actuation",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "propose:modular_ontology_specifying_semantics_of_sensors,_observations,_sampling,_and_actuation",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.7999999999999999,
+  "n_uncond": 2,
+  "n_cond": 1,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

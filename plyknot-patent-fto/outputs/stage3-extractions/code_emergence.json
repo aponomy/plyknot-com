@@ -1,0 +1,199 @@
+{
+  "module": "emergence",
+  "source_length": 25480,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"new Map entries appear on composite entities that constituent entities do not possess\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"divergence between lower-level predictions and higher-level measurements\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"theorize\",\n      \"content\": \"emergence in Plyknot is a computable artifact of the architecture\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\", \"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"physical emergence pattern: atoms \u2192 molecules \u2192 cells with new Map entries and cross-level divergence\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"conceptual emergence pattern: measurements accumulate, concepts form in registry, perturbation detects unresolved composites\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"theoretical emergence pattern: components combine into theories with predictions not made by components alone\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"theorize\",\n      \"content\": \"emergence and structural absence are dual phenomena viewing the same architectural fact from different directions\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u4\", \"u5\", \"u6\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"define\",\n      \"content\": \"degree output quantifies magnitude of cross-level divergence from 0 (fully reducible) to 1 (fully emergent)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"define\",\n      \"content\": \"reducibility output indicates whether computational cost of closing gap exceeds thermodynamic bounds\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"define\",\n      \"content\": \"persistence output measures stability of emergent Map entry based on conditions required to maintain composite\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"relative divergence less than 1% indicates fully reducible property\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"relative divergence between 1% and 5% indicates partial reducibility\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"relative divergence above 5% indicates irreducibility in varying degrees\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"fundamental properties like mass and charge have permanent persistence\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"biological properties have conditional or fragile persistence\",\n      \"intensity\": 0.75,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"conformational properties have fragile persistence\",\n      \"intensity\": 0.75,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"scan\",\n      \"content\": \"measurement-prediction coupling groups to identify cases where prediction pipeline operates at lower complexity level than measurement instrument\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"entities tagged with gene, knockout, or knockdown operate at complexity level 3\",\n      \"intensity\": 0.75,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"entities tagged with drug, pathogen, or computation operate at complexity level 2\",\n      \"intensity\": 0.75,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"entities tagged with galaxy or redshift operate at complexity level 0\",\n      \"intensity\": 0.75,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "new Map entries appear on composite entities that constituent entities do not possess",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "measure",
+      "content": "divergence between lower-level predictions and higher-level measurements",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "theorize",
+      "content": "emergence in Plyknot is a computable artifact of the architecture",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "identify",
+      "content": "physical emergence pattern: atoms \u2192 molecules \u2192 cells with new Map entries and cross-level divergence",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "identify",
+      "content": "conceptual emergence pattern: measurements accumulate, concepts form in registry, perturbation detects unresolved composites",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "identify",
+      "content": "theoretical emergence pattern: components combine into theories with predictions not made by components alone",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "theorize",
+      "content": "emergence and structural absence are dual phenomena viewing the same architectural fact from different directions",
+      "intensity": 0.8,
+      "depends_on": [
+        "u4",
+        "u5",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "define",
+      "content": "degree output quantifies magnitude of cross-level divergence from 0 (fully reducible) to 1 (fully emergent)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "define",
+      "content": "reducibility output indicates whether computational cost of closing gap exceeds thermodynamic bounds",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "define",
+      "content": "persistence output measures stability of emergent Map entry based on conditions required to maintain composite",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "detect",
+      "content": "relative divergence less than 1% indicates fully reducible property",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "detect",
+      "content": "relative divergence between 1% and 5% indicates partial reducibility",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "detect",
+      "content": "relative divergence above 5% indicates irreducibility in varying degrees",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "determine",
+      "content": "fundamental properties like mass and charge have permanent persistence",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "determine",
+      "content": "biological properties have conditional or fragile persistence",
+      "intensity": 0.75,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "inference",
+      "verb": "determine",
+      "content": "conformational properties have fragile persistence",
+      "intensity": 0.75,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "scan",
+      "content": "measurement-prediction coupling groups to identify cases where prediction pipeline operates at lower complexity level than measurement instrument",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "infer",
+      "content": "entities tagged with gene, knockout, or knockdown operate at complexity level 3",
+      "intensity": 0.75,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u19",
+      "type": "inference",
+      "verb": "infer",
+      "content": "entities tagged with drug, pathogen, or computation operate at complexity level 2",
+      "intensity": 0.75,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u20",
+      "type": "inference",
+      "verb": "infer",
+      "content": "entities tagged with galaxy or redshift operate at complexity level 0",
+      "intensity": 0.75,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 20,
+  "error": null,
+  "observation_density": 0.6,
+  "grounding_ratio": 0.25
+}

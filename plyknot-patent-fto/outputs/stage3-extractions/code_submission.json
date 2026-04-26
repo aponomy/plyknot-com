@@ -1,0 +1,272 @@
+{
+  "module": "submission",
+  "source_length": 10751,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"submission is a batch of coupling entries from a measurer\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"preview_submission() inspects each entry and returns structured preview\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"confirm_submission() ingests accepted entries, mutating universe via measure()/predict()\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Coupling-added events are emitted by measure()/predict() calls\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"believe\",\n      \"content\": \"identity and run_hash validation are hub-layer concerns, not handled here\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"calibration score computed for measurer\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"concentration profile computed for measurer\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"judge\",\n      \"content\": \"concentration profile is suspicious or not\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"disambiguation result has status strong_match\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"entry is accepted with resolved entity from disambiguation consensus\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u9\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"disambiguation result has status new_entity_accepted\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"entry is accepted with placeholder entity for new entity\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u11\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"disambiguation result has other status\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"entry is rejected with stated reason\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u13\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"classification computed for accepted entry\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"comparison count computed for accepted entry\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"judge\",\n      \"content\": \"all entries are accepted or some are rejected\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"measurer exists in universe.name\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"measurer ID is valid for use\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u18\"]\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"measurer does not exist in universe.name\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"create new measurer entity\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u20\"]\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"resolved_entity_id equals NEW_ENTITY_PLACEHOLDER\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"create target entity for new entity entry\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u22\"]\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"entry source is prediction\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"call universe.predict() instead of universe.measure()\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u24\"]\n    },\n    {\n      \"id\": \"u26\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"entry source is not prediction\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u27\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"call universe.measure()\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u26\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "submission is a batch of coupling entries from a measurer",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "see",
+      "content": "preview_submission() inspects each entry and returns structured preview",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "see",
+      "content": "confirm_submission() ingests accepted entries, mutating universe via measure()/predict()",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "see",
+      "content": "Coupling-added events are emitted by measure()/predict() calls",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "believe",
+      "content": "identity and run_hash validation are hub-layer concerns, not handled here",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "measure",
+      "content": "calibration score computed for measurer",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "measure",
+      "content": "concentration profile computed for measurer",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "judge",
+      "content": "concentration profile is suspicious or not",
+      "intensity": 0.8,
+      "depends_on": [
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "see",
+      "content": "disambiguation result has status strong_match",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "entry is accepted with resolved entity from disambiguation consensus",
+      "intensity": 0.85,
+      "depends_on": [
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "see",
+      "content": "disambiguation result has status new_entity_accepted",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "entry is accepted with placeholder entity for new entity",
+      "intensity": 0.85,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "see",
+      "content": "disambiguation result has other status",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "entry is rejected with stated reason",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "read",
+      "content": "classification computed for accepted entry",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "read",
+      "content": "comparison count computed for accepted entry",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "judge",
+      "content": "all entries are accepted or some are rejected",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u18",
+      "type": "observation",
+      "verb": "read",
+      "content": "measurer exists in universe.name",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u19",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "measurer ID is valid for use",
+      "intensity": 0.85,
+      "depends_on": [
+        "u18"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "see",
+      "content": "measurer does not exist in universe.name",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "create new measurer entity",
+      "intensity": 0.85,
+      "depends_on": [
+        "u20"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "see",
+      "content": "resolved_entity_id equals NEW_ENTITY_PLACEHOLDER",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "create target entity for new entity entry",
+      "intensity": 0.85,
+      "depends_on": [
+        "u22"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u24",
+      "type": "observation",
+      "verb": "see",
+      "content": "entry source is prediction",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u25",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "call universe.predict() instead of universe.measure()",
+      "intensity": 0.85,
+      "depends_on": [
+        "u24"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u26",
+      "type": "observation",
+      "verb": "see",
+      "content": "entry source is not prediction",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u27",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "call universe.measure()",
+      "intensity": 0.85,
+      "depends_on": [
+        "u26"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 27,
+  "error": null,
+  "observation_density": 0.5925925925925926,
+  "grounding_ratio": 0.8181818181818182
+}

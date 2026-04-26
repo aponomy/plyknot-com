@@ -1,0 +1,44 @@
+{
+  "ref_id": "ref_v6_1_p2",
+  "text_length": 328,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Model-agreement visualisation categorized and differentiated from other approaches",
+      "intensity": 0.6,
+      "pattern_id": "distinguish:model-agreement_visualisation_categorized_and_differentiated_from_other_approaches"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "CAPA categorized as model-agreement visualization method",
+      "intensity": 0.7,
+      "pattern_id": "distinguish:capa_categorized_as_model-agreement_visualization_method"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:capa_categorized_as_model-agreement_visualization_method",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "distinguish:model-agreement_visualisation_categorized_and_differentiated_from_other_approaches",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    }
+  ],
+  "lensing_strain": 0.6499999999999999,
+  "n_uncond": 1,
+  "n_cond": 1,
+  "n_blend": 2,
+  "thin_flag": true,
+  "error": null
+}

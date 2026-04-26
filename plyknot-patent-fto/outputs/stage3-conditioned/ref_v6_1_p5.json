@@ -1,0 +1,51 @@
+{
+  "ref_id": "ref_v6_1_p5",
+  "text_length": 265,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Rukhin metrology methodology distinguished as same as CODATA 2022",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:rukhin_metrology_methodology_distinguished_as_same_as_codata_2022"
+    },
+    {
+      "verb": "measure",
+      "type": "sensory",
+      "content": "metrological reference-value procedures",
+      "intensity": 0.6,
+      "pattern_id": "measure:metrological_reference-value_procedures"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Rukhin metrology methodology distinguished as same as CODATA 2022",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:rukhin_metrology_methodology_distinguished_as_same_as_codata_2022"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:rukhin_metrology_methodology_distinguished_as_same_as_codata_2022",
+      "unconditioned": 0.8,
+      "conditioned": 0.8,
+      "guided": 0.8,
+      "guidance_delta": 0.0
+    },
+    {
+      "property_id": "measure:metrological_reference-value_procedures",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    }
+  ],
+  "lensing_strain": 0.3,
+  "n_uncond": 2,
+  "n_cond": 1,
+  "n_blend": 2,
+  "thin_flag": true,
+  "error": null
+}

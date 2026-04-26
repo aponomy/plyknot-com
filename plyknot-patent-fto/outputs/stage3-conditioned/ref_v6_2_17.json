@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_2_17",
+  "text_length": 823,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "structure-prediction failure in protein folding comparison",
+      "intensity": 0.7,
+      "pattern_id": "observe:structure-prediction_failure_in_protein_folding_comparison"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "predictor inputs are protein-language-model embeddings and pLDDT confidence scores, not architectural differences",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:predictor_inputs_are_protein-language-model_embeddings_and_plddt_confidence_scores,_not_architectural_differences"
+    },
+    {
+      "verb": "measure",
+      "type": "sensory",
+      "content": "comparison of AlphaFold2, ESMFold, and OmegaFold speed and precision",
+      "intensity": 0.6,
+      "pattern_id": "measure:comparison_of_alphafold2,_esmfold,_and_omegafold_speed_and_precision"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "predictor inputs are protein-language-model embeddings and pLDDT confidence scores, not architectural-attribute set differences",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:predictor_inputs_are_protein-language-model_embeddings_and_plddt_confidence_scores,_not_architectural-attribute_set_differences"
+    },
+    {
+      "verb": "observe",
+      "type": "sensory",
+      "content": "structure-prediction failure in protein folding comparison study",
+      "intensity": 0.7,
+      "pattern_id": "observe:structure-prediction_failure_in_protein_folding_comparison_study"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:predictor_inputs_are_protein-language-model_embeddings_and_plddt_confidence_scores,_not_architectural-attribute_set_differences",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:predictor_inputs_are_protein-language-model_embeddings_and_plddt_confidence_scores,_not_architectural_differences",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "measure:comparison_of_alphafold2,_esmfold,_and_omegafold_speed_and_precision",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "observe:structure-prediction_failure_in_protein_folding_comparison",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "observe:structure-prediction_failure_in_protein_folding_comparison_study",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.74,
+  "n_uncond": 3,
+  "n_cond": 2,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

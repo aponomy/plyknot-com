@@ -1,0 +1,93 @@
+{
+  "ref_id": "ref_v6_1_p4",
+  "text_length": 362,
+  "unconditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorization of publication as Category C",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorization_of_publication_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "relevance to AF-related structural biology",
+      "intensity": 0.7,
+      "pattern_id": "infer:relevance_to_af-related_structural_biology"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "relationship between v6.1.p4 and v6.2.16 by author group",
+      "intensity": 0.6,
+      "pattern_id": "distinguish:relationship_between_v6.1.p4_and_v6.2.16_by_author_group"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorization of publication as Category C",
+      "intensity": 1.0,
+      "pattern_id": "classify:categorization_of_publication_as_category_c"
+    },
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "identification of relevance to AF-related structural biology",
+      "intensity": 1.0,
+      "pattern_id": "detect:identification_of_relevance_to_af-related_structural_biology"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "relationship between Fadini et al. 2025 and v6.2.16 NAR GAB 2026 by author group",
+      "intensity": 0.8,
+      "pattern_id": "infer:relationship_between_fadini_et_al._2025_and_v6.2.16_nar_gab_2026_by_author_group"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorization_of_publication_as_category_c",
+      "unconditioned": 0.8,
+      "conditioned": 1.0,
+      "guided": 0.9,
+      "guidance_delta": 0.19999999999999996
+    },
+    {
+      "property_id": "detect:identification_of_relevance_to_af-related_structural_biology",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "distinguish:relationship_between_v6.1.p4_and_v6.2.16_by_author_group",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "infer:relationship_between_fadini_et_al._2025_and_v6.2.16_nar_gab_2026_by_author_group",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:relevance_to_af-related_structural_biology",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.6599999999999999,
+  "n_uncond": 3,
+  "n_cond": 3,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

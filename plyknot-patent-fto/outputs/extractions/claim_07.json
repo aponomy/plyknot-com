@@ -1,0 +1,68 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "define",
+      "content": "the actor in claim 1 is being specified as one or more of several possible types",
+      "intensity": 1.0,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "consume",
+      "content": "a human operator receives the feedback signal through a human-machine interface",
+      "intensity": 1.0,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u3",
+      "type": "causal",
+      "verb": "respond",
+      "content": "the human operator modifies at least one of: sampling schedule, sensor-selection parameter, or data-gating parameter of the physical measurement apparatus, as a result of consuming the feedback signal",
+      "intensity": 1.0,
+      "depends_on": ["u2"]
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "consume",
+      "content": "a human operator receives the feedback signal (without a specified interface constraint)",
+      "intensity": 1.0,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u5",
+      "type": "causal",
+      "verb": "respond",
+      "content": "the human operator annotates the storage with an additional directed entry, as a result of consuming the feedback signal",
+      "intensity": 1.0,
+      "depends_on": ["u4"]
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "consume",
+      "content": "an automated control subsystem receives and acts on the feedback signal without any human intermediation",
+      "intensity": 1.0,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u7",
+      "type": "evaluative",
+      "verb": "distinguish",
+      "content": "the claim treats human-mediated and fully automated consumption of the feedback signal as legally distinct and independently claimable actor types",
+      "intensity": 0.9,
+      "depends_on": ["u2", "u4", "u6"]
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "the actor role in claim 1 is intentionally broad, covering the full spectrum from direct human control to full automation, with the feedback signal as the common operative element",
+      "intensity": 0.95,
+      "depends_on": ["u3", "u5", "u6", "u7"]
+    }
+  ]
+}

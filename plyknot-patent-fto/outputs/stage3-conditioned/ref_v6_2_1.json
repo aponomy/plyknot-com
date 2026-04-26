@@ -1,0 +1,100 @@
+{
+  "ref_id": "ref_v6_2_1",
+  "text_length": 696,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "patent operates on data through an ontology layer that assigns semantic types",
+      "intensity": 0.9,
+      "pattern_id": "observe:patent_operates_on_data_through_an_ontology_layer_that_assigns_semantic_types"
+    },
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "uses LLM extraction to populate ontology",
+      "intensity": 0.8,
+      "pattern_id": "detect:uses_llm_extraction_to_populate_ontology"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "claim 1 and claim 13 tightened disclaimer forecloses reading of separate object-type or property-type registry",
+      "intensity": 0.85,
+      "pattern_id": "infer:claim_1_and_claim_13_tightened_disclaimer_forecloses_reading_of_separate_object-type_or_property-type_registry"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "operate",
+      "type": "cognitive",
+      "content": "patent operates on data through an ontology layer that assigns semantic types",
+      "intensity": 1.0,
+      "pattern_id": "operate:patent_operates_on_data_through_an_ontology_layer_that_assigns_semantic_types"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "ontology layer assigns semantic types including object types and property types",
+      "intensity": 1.0,
+      "pattern_id": "classify:ontology_layer_assigns_semantic_types_including_object_types_and_property_types"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "claim 1 and claim 13 distinguish and foreclose reading of separate object-type or property-type registry external to storage",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_1_and_claim_13_distinguish_and_foreclose_reading_of_separate_object-type_or_property-type_registry_external_to_storage"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:ontology_layer_assigns_semantic_types_including_object_types_and_property_types",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "detect:uses_llm_extraction_to_populate_ontology",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:claim_1_and_claim_13_distinguish_and_foreclose_reading_of_separate_object-type_or_property-type_registry_external_to_storage",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:claim_1_and_claim_13_tightened_disclaimer_forecloses_reading_of_separate_object-type_or_property-type_registry",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "observe:patent_operates_on_data_through_an_ontology_layer_that_assigns_semantic_types",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "operate:patent_operates_on_data_through_an_ontology_layer_that_assigns_semantic_types",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    }
+  ],
+  "lensing_strain": 0.9083333333333333,
+  "n_uncond": 3,
+  "n_cond": 3,
+  "n_blend": 6,
+  "thin_flag": true,
+  "error": null
+}

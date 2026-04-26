@@ -1,0 +1,44 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "detect",
+      "content": "a (target, property) group exists in which all records carry the source tag indicating computation",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "determine",
+      "content": "the group lacks any physical-interaction record",
+      "intensity": 0.95,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u3",
+      "type": "causal",
+      "verb": "suppress",
+      "content": "the converged classification is suppressed because all records are computational with no physical-interaction record present",
+      "intensity": 1.0,
+      "depends_on": ["u1", "u2"]
+    },
+    {
+      "id": "u4",
+      "type": "causal",
+      "verb": "classify",
+      "content": "the group is classified as single instead of converged, caused by the suppression rule applied to all-computation groups",
+      "intensity": 1.0,
+      "depends_on": ["u3"]
+    },
+    {
+      "id": "u5",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "a group lacking any physical-interaction record is architecturally incapable of achieving a converged classification — this incapability is treated as a necessary and desirable design property",
+      "intensity": 1.0,
+      "depends_on": ["u3", "u4"]
+    }
+  ]
+}

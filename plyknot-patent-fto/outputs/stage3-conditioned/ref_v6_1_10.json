@@ -1,0 +1,58 @@
+{
+  "ref_id": "ref_v6_1_10",
+  "text_length": 571,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "multi-analyser architecture, echo-chamber classifier, and ontology disclaimer differentiate the invention",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:multi-analyser_architecture,_echo-chamber_classifier,_and_ontology_disclaimer_differentiate_the_invention"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorization of patent as Category A",
+      "intensity": 0.9,
+      "pattern_id": "classify:categorization_of_patent_as_category_a"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "multi-analyser architecture, echo-chamber classifier, and ontology disclaimer differentiate this system",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:multi-analyser_architecture,_echo-chamber_classifier,_and_ontology_disclaimer_differentiate_this_system"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorization_of_patent_as_category_a",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:multi-analyser_architecture,_echo-chamber_classifier,_and_ontology_disclaimer_differentiate_the_invention",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:multi-analyser_architecture,_echo-chamber_classifier,_and_ontology_disclaimer_differentiate_this_system",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.8333333333333334,
+  "n_uncond": 2,
+  "n_cond": 1,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

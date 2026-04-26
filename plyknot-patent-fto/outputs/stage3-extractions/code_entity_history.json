@@ -1,0 +1,104 @@
+{
+  "module": "entity_history",
+  "source_length": 3968,
+  "extracted_length": 3968,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The code is a thin wrapper over GraphEvent history that structures append-only events into typed timeline entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The code performs pure reads with no state, and history is passed explicitly\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The summarize_event function generates terse human-readable one-liners for GraphEvent objects\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The function degrades gracefully when event details are missing\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"interpret\",\n      \"content\": \"The code is designed to handle different event types (coupling-added, convergence-changed) with specific formatting for each\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The _event_mentions_entity function checks if an event is relevant to a given entity by checking measurerId, targetId, or actor fields\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The get_entity_timeline function builds a timeline for an entity appearing as measurer, target, or actor\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Events in the timeline are sorted by timestamp and ID\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The EntityTimeline object includes metadata about the timeline such as total_events, first_event, last_event, and distinct_actors\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"The get_coupling_key_timeline function creates a timeline for a specific coupling key showing its full overwrite history\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The code is a thin wrapper over GraphEvent history that structures append-only events into typed timeline entries",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The code performs pure reads with no state, and history is passed explicitly",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The summarize_event function generates terse human-readable one-liners for GraphEvent objects",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The function degrades gracefully when event details are missing",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "interpret",
+      "content": "The code is designed to handle different event types (coupling-added, convergence-changed) with specific formatting for each",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The _event_mentions_entity function checks if an event is relevant to a given entity by checking measurerId, targetId, or actor fields",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The get_entity_timeline function builds a timeline for an entity appearing as measurer, target, or actor",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Events in the timeline are sorted by timestamp and ID",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The EntityTimeline object includes metadata about the timeline such as total_events, first_event, last_event, and distinct_actors",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "notice",
+      "content": "The get_coupling_key_timeline function creates a timeline for a specific coupling key showing its full overwrite history",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 10,
+  "error": null,
+  "observation_density": 0.9,
+  "grounding_ratio": 1.0
+}

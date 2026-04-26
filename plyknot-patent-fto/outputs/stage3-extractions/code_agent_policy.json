@@ -1,0 +1,203 @@
+{
+  "module": "agent_policy",
+  "source_length": 9410,
+  "extracted_length": 9410,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"receive\",\n      \"content\": \"calibrated measurer submits a hyper-outlier\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"search\",\n      \"content\": \"look for operational explanations via shared dependencies between anomalous entry and solid chains\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"bridge found or not found\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"causal\",\n      \"verb\": \"conclude\",\n      \"content\": \"if no bridge found, escalate to hypothesis generation\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"classification status equals hyper_outlier\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"calibration aggregate score exists and meets minimum threshold\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"eligible entry count meets minimum requirement\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"measurer is calibrated\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u6\", \"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"should trigger agent swarm\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u5\", \"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"retrieve\",\n      \"content\": \"measurer chains from universe\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"extract\",\n      \"content\": \"seed dependencies and complexity levels from measurer chains\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"solid chains with converged steps\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"run\",\n      \"content\": \"custom marker passing algorithm on crack and solid sources\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u11\", \"u12\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"marker collisions between crack and solid sources\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u13\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"construct\",\n      \"content\": \"bridge candidates from collisions\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u14\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"compute\",\n      \"content\": \"dependency cone scope size for measurer\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"decide\",\n      \"content\": \"escalate to theory generation if no bridges found\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u9\", \"u15\"]\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"inference\",\n      \"verb\": \"compose\",\n      \"content\": \"summary statement of agent response\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u9\", \"u15\", \"u16\", \"u17\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "receive",
+      "content": "calibrated measurer submits a hyper-outlier",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "search",
+      "content": "look for operational explanations via shared dependencies between anomalous entry and solid chains",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "bridge found or not found",
+      "intensity": 0.9,
+      "depends_on": [
+        "u2"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "causal",
+      "verb": "conclude",
+      "content": "if no bridge found, escalate to hypothesis generation",
+      "intensity": 0.95,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "check",
+      "content": "classification status equals hyper_outlier",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "check",
+      "content": "calibration aggregate score exists and meets minimum threshold",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "check",
+      "content": "eligible entry count meets minimum requirement",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "determine",
+      "content": "measurer is calibrated",
+      "intensity": 0.95,
+      "depends_on": [
+        "u6",
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "determine",
+      "content": "should trigger agent swarm",
+      "intensity": 0.95,
+      "depends_on": [
+        "u5",
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "retrieve",
+      "content": "measurer chains from universe",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "extract",
+      "content": "seed dependencies and complexity levels from measurer chains",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "identify",
+      "content": "solid chains with converged steps",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "run",
+      "content": "custom marker passing algorithm on crack and solid sources",
+      "intensity": 0.9,
+      "depends_on": [
+        "u11",
+        "u12"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "detect",
+      "content": "marker collisions between crack and solid sources",
+      "intensity": 0.9,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "construct",
+      "content": "bridge candidates from collisions",
+      "intensity": 0.85,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "compute",
+      "content": "dependency cone scope size for measurer",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "decide",
+      "content": "escalate to theory generation if no bridges found",
+      "intensity": 0.9,
+      "depends_on": [
+        "u9",
+        "u15"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "compose",
+      "content": "summary statement of agent response",
+      "intensity": 0.8,
+      "depends_on": [
+        "u9",
+        "u15",
+        "u16",
+        "u17"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 18,
+  "error": null,
+  "observation_density": 0.6111111111111112,
+  "grounding_ratio": 1.0
+}

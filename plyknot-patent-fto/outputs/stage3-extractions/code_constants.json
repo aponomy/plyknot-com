@@ -1,0 +1,246 @@
+{
+  "module": "constants",
+  "source_length": 782,
+  "extracted_length": 782,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"C (speed of light) = 299,792,458 m/s\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"C2 (speed of light squared) computed as C * C\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"H_PLANCK (Planck's constant) = 6.62607015e-34 J\u00b7s\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"H_BAR (reduced Planck constant) computed as H_PLANCK / (2\u03c0)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"G (gravitational constant) = 6.67430e-11 m\u00b3/(kg\u00b7s\u00b2)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"K_E (Coulomb constant) = 8.9875517923e9 N\u00b7m\u00b2/C\u00b2\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"K_B (Boltzmann constant) = 1.380649e-23 J/K\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"PION_RANGE = 1.4e-15 m\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"YUKAWA_G2 = 14.6\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"NEUTRON_HALF_LIFE = 878.4 seconds\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"NEUTRON_MEAN_LIFE computed as NEUTRON_HALF_LIFE / ln(2)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"H0_PLANCK (Hubble constant from Planck) = 67.4 km/s/Mpc\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"H0_FREEDMAN (Hubble constant from Freedman) = 70.4 km/s/Mpc\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"H0_SHOES (Hubble constant from SH0ES) = 73.04 km/s/Mpc\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"CMB_TEMP (cosmic microwave background temperature) = 2.7255 K\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"MPC_TO_M (megaparsec to meter conversion) = 3.085677581e22 m\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"SOLAR_MASS = 1.989e30 kg\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"LY_TO_M (light year to meter conversion) = 9.461e15 m\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"M_PROTON = 1.67262192369e-27 kg\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"M_NEUTRON = 1.67492749804e-27 kg\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"M_ELECTRON = 9.1093837015e-31 kg\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"note\",\n      \"content\": \"E_CHARGE (elementary charge) = 1.602176634e-19 C\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"LANDAUER_CMB (Landauer limit at CMB temperature) computed as K_B * CMB_TEMP * ln(2)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"LANDAUER_300K (Landauer limit at 300K) computed as K_B * 300 * ln(2)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"ML_OPS_PER_JOULE computed as 4 / H_PLANCK\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u26\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"BEKENSTEIN_COEFF computed as 2\u03c0 / (H_BAR * C * ln(2))\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "note",
+      "content": "C (speed of light) = 299,792,458 m/s",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "record",
+      "content": "C2 (speed of light squared) computed as C * C",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "note",
+      "content": "H_PLANCK (Planck's constant) = 6.62607015e-34 J\u00b7s",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "record",
+      "content": "H_BAR (reduced Planck constant) computed as H_PLANCK / (2\u03c0)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "note",
+      "content": "G (gravitational constant) = 6.67430e-11 m\u00b3/(kg\u00b7s\u00b2)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "note",
+      "content": "K_E (Coulomb constant) = 8.9875517923e9 N\u00b7m\u00b2/C\u00b2",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "note",
+      "content": "K_B (Boltzmann constant) = 1.380649e-23 J/K",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "note",
+      "content": "PION_RANGE = 1.4e-15 m",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "note",
+      "content": "YUKAWA_G2 = 14.6",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "note",
+      "content": "NEUTRON_HALF_LIFE = 878.4 seconds",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "record",
+      "content": "NEUTRON_MEAN_LIFE computed as NEUTRON_HALF_LIFE / ln(2)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "note",
+      "content": "H0_PLANCK (Hubble constant from Planck) = 67.4 km/s/Mpc",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "note",
+      "content": "H0_FREEDMAN (Hubble constant from Freedman) = 70.4 km/s/Mpc",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "note",
+      "content": "H0_SHOES (Hubble constant from SH0ES) = 73.04 km/s/Mpc",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "note",
+      "content": "CMB_TEMP (cosmic microwave background temperature) = 2.7255 K",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "note",
+      "content": "MPC_TO_M (megaparsec to meter conversion) = 3.085677581e22 m",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "note",
+      "content": "SOLAR_MASS = 1.989e30 kg",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u18",
+      "type": "observation",
+      "verb": "note",
+      "content": "LY_TO_M (light year to meter conversion) = 9.461e15 m",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u19",
+      "type": "observation",
+      "verb": "note",
+      "content": "M_PROTON = 1.67262192369e-27 kg",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "note",
+      "content": "M_NEUTRON = 1.67492749804e-27 kg",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "observation",
+      "verb": "note",
+      "content": "M_ELECTRON = 9.1093837015e-31 kg",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "note",
+      "content": "E_CHARGE (elementary charge) = 1.602176634e-19 C",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "observation",
+      "verb": "record",
+      "content": "LANDAUER_CMB (Landauer limit at CMB temperature) computed as K_B * CMB_TEMP * ln(2)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u24",
+      "type": "observation",
+      "verb": "record",
+      "content": "LANDAUER_300K (Landauer limit at 300K) computed as K_B * 300 * ln(2)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u25",
+      "type": "observation",
+      "verb": "record",
+      "content": "ML_OPS_PER_JOULE computed as 4 / H_PLANCK",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u26",
+      "type": "observation",
+      "verb": "record",
+      "content": "BEKENSTEIN_COEFF computed as 2\u03c0 / (H_BAR * C * ln(2))",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 26,
+  "error": null,
+  "observation_density": 1.0,
+  "grounding_ratio": 1.0
+}

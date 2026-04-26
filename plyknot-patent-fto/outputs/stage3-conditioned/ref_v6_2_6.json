@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_2_6",
+  "text_length": 586,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "ML artefact-and-lineage metadata store with typed Artifact/Execution/Context nodes",
+      "intensity": 0.9,
+      "pattern_id": "observe:ml_artefact-and-lineage_metadata_store_with_typed_artifact/execution/context_nodes"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Claim 1 tightened disclaimer item (iii) forecloses a separate model-card or model-registry record external to the storage",
+      "intensity": 0.8,
+      "pattern_id": "infer:claim_1_tightened_disclaimer_item_(iii)_forecloses_a_separate_model-card_or_model-registry_record_external_to_the_storage"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "TFX ML Metadata categorized as Category C",
+      "intensity": 1.0,
+      "pattern_id": "classify:tfx_ml_metadata_categorized_as_category_c"
+    },
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "ML artefact-and-lineage metadata store with typed Artifact/Execution/Context nodes",
+      "intensity": 0.9,
+      "pattern_id": "propose:ml_artefact-and-lineage_metadata_store_with_typed_artifact/execution/context_nodes"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Claim 1 tightened disclaimer forecloses separate model-card or model-registry record external to storage",
+      "intensity": 0.85,
+      "pattern_id": "infer:claim_1_tightened_disclaimer_forecloses_separate_model-card_or_model-registry_record_external_to_storage"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:tfx_ml_metadata_categorized_as_category_c",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "infer:claim_1_tightened_disclaimer_forecloses_separate_model-card_or_model-registry_record_external_to_storage",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "infer:claim_1_tightened_disclaimer_item_(iii)_forecloses_a_separate_model-card_or_model-registry_record_external_to_the_storage",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "observe:ml_artefact-and-lineage_metadata_store_with_typed_artifact/execution/context_nodes",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "propose:ml_artefact-and-lineage_metadata_store_with_typed_artifact/execution/context_nodes",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.89,
+  "n_uncond": 2,
+  "n_cond": 3,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,12 @@
+{
+  "n_entities": 100652,
+  "n_couplings": 864,
+  "n_claim_measurers": 35,
+  "n_module_measurers": 37,
+  "n_ref_measurers": 49,
+  "n_predicate_entities": 652,
+  "predicate_id_range": [
+    100000,
+    100651
+  ]
+}

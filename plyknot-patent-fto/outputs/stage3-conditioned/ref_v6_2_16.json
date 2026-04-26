@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_2_16",
+  "text_length": 547,
+  "unconditioned_raw": [
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "prediction accuracy of AlphaFold and ESMFold for monomeric and dimeric proteins",
+      "intensity": 0.9,
+      "pattern_id": "measure:prediction_accuracy_of_alphafold_and_esmfold_for_monomeric_and_dimeric_proteins"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "comparison between AF and ESMFold on 1,666 monomers and 994 dimers",
+      "intensity": 0.85,
+      "pattern_id": "distinguish:comparison_between_af_and_esmfold_on_1,666_monomers_and_994_dimers"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "measure",
+      "type": "sensory",
+      "content": "comparative evaluation of prediction accuracy of AlphaFold and ESMFold for monomeric and dimeric proteins",
+      "intensity": 1.0,
+      "pattern_id": "measure:comparative_evaluation_of_prediction_accuracy_of_alphafold_and_esmfold_for_monomeric_and_dimeric_proteins"
+    },
+    {
+      "verb": "compute",
+      "type": "cognitive",
+      "content": "comparison of AlphaFold versus ESMFold on 1,666 monomers and 994 dimers",
+      "intensity": 0.9,
+      "pattern_id": "compute:comparison_of_alphafold_versus_esmfold_on_1,666_monomers_and_994_dimers"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorization as most-recent AF-vs-ESMFold comparison",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorization_as_most-recent_af-vs-esmfold_comparison"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorization_as_most-recent_af-vs-esmfold_comparison",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "compute:comparison_of_alphafold_versus_esmfold_on_1,666_monomers_and_994_dimers",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:comparison_between_af_and_esmfold_on_1,666_monomers_and_994_dimers",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "measure:comparative_evaluation_of_prediction_accuracy_of_alphafold_and_esmfold_for_monomeric_and_dimeric_proteins",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "measure:prediction_accuracy_of_alphafold_and_esmfold_for_monomeric_and_dimeric_proteins",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.89,
+  "n_uncond": 2,
+  "n_cond": 3,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

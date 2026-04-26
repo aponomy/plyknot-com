@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_2_2",
+  "text_length": 323,
+  "unconditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing patent as Category A",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorizing_patent_as_category_a"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "determining relevance of patent to claims and noting it is a newer continuation not carried forward from previous version",
+      "intensity": 0.7,
+      "pattern_id": "infer:determining_relevance_of_patent_to_claims_and_noting_it_is_a_newer_continuation_not_carried_forward_from_previous_version"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "patent categorized as Category A",
+      "intensity": 0.9,
+      "pattern_id": "classify:patent_categorized_as_category_a"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "patent is a newer Palantir continuation not carried forward from previous version",
+      "intensity": 0.8,
+      "pattern_id": "infer:patent_is_a_newer_palantir_continuation_not_carried_forward_from_previous_version"
+    },
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "same mitigation strategy applies as for related patent US 7,962,495",
+      "intensity": 0.85,
+      "pattern_id": "propose:same_mitigation_strategy_applies_as_for_related_patent_us_7,962,495"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_patent_as_category_a",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "classify:patent_categorized_as_category_a",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:determining_relevance_of_patent_to_claims_and_noting_it_is_a_newer_continuation_not_carried_forward_from_previous_version",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:patent_is_a_newer_palantir_continuation_not_carried_forward_from_previous_version",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "propose:same_mitigation_strategy_applies_as_for_related_patent_us_7,962,495",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    }
+  ],
+  "lensing_strain": 0.8099999999999999,
+  "n_uncond": 2,
+  "n_cond": 3,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

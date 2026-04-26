@@ -1,0 +1,165 @@
+{
+  "module": "calibration",
+  "source_length": 5919,
+  "extracted_length": 5919,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"fraction of measurer's entries that landed within convergence envelope of consensus groups\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"know\",\n      \"content\": \"score is computed as a function over current graph state and event log, not stored\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"filter\",\n      \"content\": \"identified all coupling-added events from history where actor matches measurer_id\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"extract\",\n      \"content\": \"retrieved target, property, and value from each event details\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"reconstruct\",\n      \"content\": \"reconstructed prior state by collecting latest prior values from other measurers, excluding self\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"assess\",\n      \"content\": \"determined that prior state needs at least 2 distinct other measurers to be eligible\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"verified that prior values have converged status\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"calculate\",\n      \"content\": \"computed median and median absolute deviation of prior values\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"measured distance from measurer's value to median in units of effective deviation\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"assess\",\n      \"content\": \"determined whether measurer's value falls within envelope (distance \u2264 envelope_multiplier)\",\n      \"intensity\": 0.88,\n      \"depends_on\": [\"u9\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"aggregate\",\n      \"content\": \"tallied eligible entries and in-envelope entries per property and overall\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u6\", \"u7\", \"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"calculate\",\n      \"content\": \"computed aggregate score as ratio of in-envelope count to eligible count\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u11\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"counted total entries in universe couplings for measurer\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"identified all unique measurer IDs that appear in history as coupling-added actors\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"computed calibration scores for every measurer in a batch operation\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u14\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "measure",
+      "content": "fraction of measurer's entries that landed within convergence envelope of consensus groups",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "know",
+      "content": "score is computed as a function over current graph state and event log, not stored",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "filter",
+      "content": "identified all coupling-added events from history where actor matches measurer_id",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "extract",
+      "content": "retrieved target, property, and value from each event details",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "reconstruct",
+      "content": "reconstructed prior state by collecting latest prior values from other measurers, excluding self",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "assess",
+      "content": "determined that prior state needs at least 2 distinct other measurers to be eligible",
+      "intensity": 0.9,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "check",
+      "content": "verified that prior values have converged status",
+      "intensity": 0.85,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "calculate",
+      "content": "computed median and median absolute deviation of prior values",
+      "intensity": 0.9,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "measure",
+      "content": "measured distance from measurer's value to median in units of effective deviation",
+      "intensity": 0.9,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "assess",
+      "content": "determined whether measurer's value falls within envelope (distance \u2264 envelope_multiplier)",
+      "intensity": 0.88,
+      "depends_on": [
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "aggregate",
+      "content": "tallied eligible entries and in-envelope entries per property and overall",
+      "intensity": 0.9,
+      "depends_on": [
+        "u6",
+        "u7",
+        "u10"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "calculate",
+      "content": "computed aggregate score as ratio of in-envelope count to eligible count",
+      "intensity": 0.9,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "count",
+      "content": "counted total entries in universe couplings for measurer",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "identify",
+      "content": "identified all unique measurer IDs that appear in history as coupling-added actors",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "infer",
+      "content": "computed calibration scores for every measurer in a batch operation",
+      "intensity": 0.85,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 15,
+  "error": null,
+  "observation_density": 0.7333333333333333,
+  "grounding_ratio": 0.75
+}

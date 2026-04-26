@@ -1,0 +1,123 @@
+{
+  "module": "concentration",
+  "source_length": 3723,
+  "extracted_length": 3723,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"entries in universe.couplings filtered by measurer_id\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"total number of entries per measurer\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"frequency of each target across entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"frequency of each (target, property) pair across entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"fraction of entries concentrated on top target\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u2\", \"u3\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"fraction of entries concentrated on top (target, property) pair\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u2\", \"u4\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"believe\",\n      \"content\": \"high concentration on single target indicates submitter-driven gaming rather than independent evidence\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"believe\",\n      \"content\": \"high concentration on single (target, property) pair indicates submitter-driven gaming rather than independent evidence\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u6\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"concentration above threshold is suspicious\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\", \"u6\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"predict\",\n      \"content\": \"measurers with fewer than min_entries should not be flagged to avoid false positives on fresh measurers\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u2\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "measure",
+      "content": "entries in universe.couplings filtered by measurer_id",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "count",
+      "content": "total number of entries per measurer",
+      "intensity": 0.9,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "count",
+      "content": "frequency of each target across entries",
+      "intensity": 0.9,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "count",
+      "content": "frequency of each (target, property) pair across entries",
+      "intensity": 0.9,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "fraction of entries concentrated on top target",
+      "intensity": 0.95,
+      "depends_on": [
+        "u2",
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "fraction of entries concentrated on top (target, property) pair",
+      "intensity": 0.95,
+      "depends_on": [
+        "u2",
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "believe",
+      "content": "high concentration on single target indicates submitter-driven gaming rather than independent evidence",
+      "intensity": 0.7,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "believe",
+      "content": "high concentration on single (target, property) pair indicates submitter-driven gaming rather than independent evidence",
+      "intensity": 0.7,
+      "depends_on": [
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "concentration above threshold is suspicious",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "predict",
+      "content": "measurers with fewer than min_entries should not be flagged to avoid false positives on fresh measurers",
+      "intensity": 0.75,
+      "depends_on": [
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 10,
+  "error": null,
+  "observation_density": 0.4,
+  "grounding_ratio": 1.0
+}

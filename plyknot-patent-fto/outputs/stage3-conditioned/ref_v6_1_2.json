@@ -1,0 +1,93 @@
+{
+  "ref_id": "ref_v6_1_2",
+  "text_length": 726,
+  "unconditioned_raw": [
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "marker-passing inference mechanism in Scone system",
+      "intensity": 0.8,
+      "pattern_id": "infer:marker-passing_inference_mechanism_in_scone_system"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Claim 9 distinguished by schema-enforced admissibility filtering not present in Scone",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_9_distinguished_by_schema-enforced_admissibility_filtering_not_present_in_scone"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Claim 10's collision classifier distinguished by opening-collision/crack-collision/bridge-collision taxonomy",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_10's_collision_classifier_distinguished_by_opening-collision/crack-collision/bridge-collision_taxonomy"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "collision types taxonomy: opening-collision, crack-collision, bridge-collision",
+      "intensity": 0.8,
+      "pattern_id": "classify:collision_types_taxonomy:_opening-collision,_crack-collision,_bridge-collision"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Claim 9 distinguished from Scone by schema-enforced admissibility filtering of operational-mechanism vocabulary",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_9_distinguished_from_scone_by_schema-enforced_admissibility_filtering_of_operational-mechanism_vocabulary"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Claim 10's collision classifier distinguished by opening-collision/crack-collision/bridge-collision taxonomy",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_10's_collision_classifier_distinguished_by_opening-collision/crack-collision/bridge-collision_taxonomy"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:collision_types_taxonomy:_opening-collision,_crack-collision,_bridge-collision",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:claim_10's_collision_classifier_distinguished_by_opening-collision/crack-collision/bridge-collision_taxonomy",
+      "unconditioned": 0.9,
+      "conditioned": 0.9,
+      "guided": 0.9,
+      "guidance_delta": 0.0
+    },
+    {
+      "property_id": "distinguish:claim_9_distinguished_by_schema-enforced_admissibility_filtering_not_present_in_scone",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:claim_9_distinguished_from_scone_by_schema-enforced_admissibility_filtering_of_operational-mechanism_vocabulary",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:marker-passing_inference_mechanism_in_scone_system",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.68,
+  "n_uncond": 4,
+  "n_cond": 2,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

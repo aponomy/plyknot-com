@@ -1,0 +1,142 @@
+{
+  "ref_id": "ref_v6_1_11",
+  "text_length": 868,
+  "unconditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "hallucination evaluation and correction in references",
+      "intensity": 0.8,
+      "pattern_id": "detect:hallucination_evaluation_and_correction_in_references"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "fact extraction and verification outputs",
+      "intensity": 0.8,
+      "pattern_id": "measure:fact_extraction_and_verification_outputs"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "echo-chamber classification with true/false/unverifiable categories",
+      "intensity": 0.7,
+      "pattern_id": "classify:echo-chamber_classification_with_true/false/unverifiable_categories"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "claim classifier by distinct method identifiers, trust-weight feedback, and coupling map integration",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:claim_classifier_by_distinct_method_identifiers,_trust-weight_feedback,_and_coupling_map_integration"
+    },
+    {
+      "verb": "require",
+      "type": "cognitive",
+      "content": "distinct method identifiers for classification",
+      "intensity": 0.7,
+      "pattern_id": "require:distinct_method_identifiers_for_classification"
+    },
+    {
+      "verb": "implement",
+      "type": "cognitive",
+      "content": "trust-weight feedback into measurer classification and six-field schema integration",
+      "intensity": 0.7,
+      "pattern_id": "implement:trust-weight_feedback_into_measurer_classification_and_six-field_schema_integration"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "fact-verification outputs categorized as true/false/unverifiable",
+      "intensity": 1.0,
+      "pattern_id": "classify:fact-verification_outputs_categorized_as_true/false/unverifiable"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "echo-chamber classifier distinguished by requirement of distinct method identifiers, trust-weight feedback, and integration with coupling map schema",
+      "intensity": 1.0,
+      "pattern_id": "distinguish:echo-chamber_classifier_distinguished_by_requirement_of_distinct_method_identifiers,_trust-weight_feedback,_and_integration_with_coupling_map_schema"
+    },
+    {
+      "verb": "require",
+      "type": "cognitive",
+      "content": "distinct method identifiers required for echo-chamber classifier",
+      "intensity": 1.0,
+      "pattern_id": "require:distinct_method_identifiers_required_for_echo-chamber_classifier"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:echo-chamber_classification_with_true/false/unverifiable_categories",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "classify:fact-verification_outputs_categorized_as_true/false/unverifiable",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "detect:hallucination_evaluation_and_correction_in_references",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:claim_classifier_by_distinct_method_identifiers,_trust-weight_feedback,_and_coupling_map_integration",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:echo-chamber_classifier_distinguished_by_requirement_of_distinct_method_identifiers,_trust-weight_feedback,_and_integration_with_coupling_map_schema",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "implement:trust-weight_feedback_into_measurer_classification_and_six-field_schema_integration",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "measure:fact_extraction_and_verification_outputs",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "require:distinct_method_identifiers_for_classification",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "require:distinct_method_identifiers_required_for_echo-chamber_classifier",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    }
+  ],
+  "lensing_strain": 0.8333333333333334,
+  "n_uncond": 6,
+  "n_cond": 3,
+  "n_blend": 9,
+  "thin_flag": true,
+  "error": null
+}

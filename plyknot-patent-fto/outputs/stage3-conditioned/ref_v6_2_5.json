@@ -1,0 +1,65 @@
+{
+  "ref_id": "ref_v6_2_5",
+  "text_length": 586,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Wikidata distinguished by absence of downstream sensitivity-set-gated divergence-prediction mechanism",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:wikidata_distinguished_by_absence_of_downstream_sensitivity-set-gated_divergence-prediction_mechanism"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Wikidata is a disclosure format while claim 8a is a prediction architecture",
+      "intensity": 0.7,
+      "pattern_id": "infer:wikidata_is_a_disclosure_format_while_claim_8a_is_a_prediction_architecture"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Wikidata absence of downstream sensitivity-set-gated divergence-prediction mechanism",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:wikidata_absence_of_downstream_sensitivity-set-gated_divergence-prediction_mechanism"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Wikidata is a disclosure format while claim 8a is a prediction architecture",
+      "intensity": 0.8,
+      "pattern_id": "infer:wikidata_is_a_disclosure_format_while_claim_8a_is_a_prediction_architecture"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:wikidata_absence_of_downstream_sensitivity-set-gated_divergence-prediction_mechanism",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:wikidata_distinguished_by_absence_of_downstream_sensitivity-set-gated_divergence-prediction_mechanism",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:wikidata_is_a_disclosure_format_while_claim_8a_is_a_prediction_architecture",
+      "unconditioned": 0.7,
+      "conditioned": 0.8,
+      "guided": 0.75,
+      "guidance_delta": 0.10000000000000009
+    }
+  ],
+  "lensing_strain": 0.6000000000000001,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

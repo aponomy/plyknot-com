@@ -1,0 +1,128 @@
+{
+  "module": "comparable_count",
+  "source_length": 2615,
+  "extracted_length": 2615,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"entry.idB matches target_id\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"entry.property matches property parameter\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"entry belongs to the target-property group\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u1\", \"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"entry.value added to group_values\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"entry.idA equals submitter_measurer_id\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"entry key not in scope_keys when scope_keys is defined\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"entry is comparable (different measurer and within scope)\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\", \"u5\", \"u6\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"record\",\n      \"content\": \"entry key added to included_keys and measurer to set\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"count of comparable entries is length of included_keys\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"distinct measurers count is cardinality of measurers set\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"analyze\",\n      \"content\": \"current status of group derived from group_values\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u4\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "detect",
+      "content": "entry.idB matches target_id",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "detect",
+      "content": "entry.property matches property parameter",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "entry belongs to the target-property group",
+      "intensity": 0.9,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "record",
+      "content": "entry.value added to group_values",
+      "intensity": 0.95,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "entry.idA equals submitter_measurer_id",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "detect",
+      "content": "entry key not in scope_keys when scope_keys is defined",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "entry is comparable (different measurer and within scope)",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3",
+        "u5",
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "record",
+      "content": "entry key added to included_keys and measurer to set",
+      "intensity": 0.95,
+      "depends_on": [
+        "u7"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "measure",
+      "content": "count of comparable entries is length of included_keys",
+      "intensity": 0.95,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "measure",
+      "content": "distinct measurers count is cardinality of measurers set",
+      "intensity": 0.95,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "analyze",
+      "content": "current status of group derived from group_values",
+      "intensity": 0.8,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 11,
+  "error": null,
+  "observation_density": 0.7272727272727273,
+  "grounding_ratio": 1.0
+}

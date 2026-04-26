@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_1_3",
+  "text_length": 398,
+  "unconditioned_raw": [
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "marker passing as a weak method for text inferencing",
+      "intensity": 0.8,
+      "pattern_id": "infer:marker_passing_as_a_weak_method_for_text_inferencing"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "distinguishing points between marker collision taxonomy and Scone",
+      "intensity": 0.7,
+      "pattern_id": "distinguish:distinguishing_points_between_marker_collision_taxonomy_and_scone"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "marker collision taxonomy distinguishing points",
+      "intensity": 0.7,
+      "pattern_id": "distinguish:marker_collision_taxonomy_distinguishing_points"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "marker passing as weak method for text inferencing",
+      "intensity": 0.6,
+      "pattern_id": "infer:marker_passing_as_weak_method_for_text_inferencing"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:distinguishing_points_between_marker_collision_taxonomy_and_scone",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "distinguish:marker_collision_taxonomy_distinguishing_points",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:marker_passing_as_a_weak_method_for_text_inferencing",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:marker_passing_as_weak_method_for_text_inferencing",
+      "unconditioned": 0.0,
+      "conditioned": 0.6,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    }
+  ],
+  "lensing_strain": 0.7,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

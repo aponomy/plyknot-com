@@ -1,0 +1,93 @@
+{
+  "ref_id": "ref_v6_1_p9",
+  "text_length": 258,
+  "unconditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "mzRefinery is a mass-spectrometry calibration tool",
+      "intensity": 0.8,
+      "pattern_id": "detect:mzrefinery_is_a_mass-spectrometry_calibration_tool"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "mzRefinery categorized as Category C",
+      "intensity": 0.9,
+      "pattern_id": "classify:mzrefinery_categorized_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "relevance of mzRefinery is distant but disclosed for candour",
+      "intensity": 0.7,
+      "pattern_id": "infer:relevance_of_mzrefinery_is_distant_but_disclosed_for_candour"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "mzRefinery categorized as Category C",
+      "intensity": 1.0,
+      "pattern_id": "classify:mzrefinery_categorized_as_category_c"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "mzRefinery is a mass-spectrometry calibration tool",
+      "intensity": 0.9,
+      "pattern_id": "measure:mzrefinery_is_a_mass-spectrometry_calibration_tool"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "relevance to the subject is distant",
+      "intensity": 0.8,
+      "pattern_id": "infer:relevance_to_the_subject_is_distant"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:mzrefinery_categorized_as_category_c",
+      "unconditioned": 0.9,
+      "conditioned": 1.0,
+      "guided": 0.95,
+      "guidance_delta": 0.09999999999999998
+    },
+    {
+      "property_id": "detect:mzrefinery_is_a_mass-spectrometry_calibration_tool",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:relevance_of_mzrefinery_is_distant_but_disclosed_for_candour",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:relevance_to_the_subject_is_distant",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "measure:mzrefinery_is_a_mass-spectrometry_calibration_tool",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.6599999999999999,
+  "n_uncond": 3,
+  "n_cond": 3,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,648 @@
+=== Stage 3a.2 — Lexical Forcing + Code Module Extraction ===
+Call cap: 130
+Workspace: /Users/klas.ehnemark/Github/plyknot-workspace/plyknot-com/plyknot-patent-fto
+
+Building context_anchors from claim 1 vocabulary...
+  Built 26 context_anchors from claim 1.
+Parsing IDS reference sections...
+  Parsed 49 reference sections: ['ref_v6_1_1', 'ref_v6_1_10', 'ref_v6_1_11', 'ref_v6_1_2', 'ref_v6_1_3']...
+
+=== Part A: IDS reference extractions (49 references) ===
+
+  Processing ref_v6_1_1...
+  Text length: 884 chars
+    Running extract_unconditioned...
+  [calls: 1/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 2/130]
+    → 4 conditioned predicates
+    → Lensing Strain: 0.7857  (blend pts: 7, thin: True)
+
+  Processing ref_v6_1_2...
+  Text length: 726 chars
+    Running extract_unconditioned...
+  [calls: 3/130]
+    → 4 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 4/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.6800  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_3...
+  Text length: 398 chars
+    Running extract_unconditioned...
+  [calls: 5/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 6/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7000  (blend pts: 4, thin: True)
+
+  Processing ref_v6_1_4...
+  Text length: 649 chars
+    Running extract_unconditioned...
+  [calls: 7/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 8/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8250  (blend pts: 6, thin: True)
+
+  Processing ref_v6_1_5...
+  Text length: 345 chars
+    Running extract_unconditioned...
+  [calls: 9/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 10/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8000  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_6...
+  Text length: 714 chars
+    Running extract_unconditioned...
+  [calls: 11/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 12/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8583  (blend pts: 6, thin: True)
+
+  Processing ref_v6_1_7...
+  Text length: 597 chars
+    Running extract_unconditioned...
+  [calls: 13/130]
+    → 4 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 14/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8429  (blend pts: 7, thin: True)
+
+  Processing ref_v6_1_8...
+  Text length: 321 chars
+    Running extract_unconditioned...
+  [calls: 15/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 16/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.4000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_1_9...
+  Text length: 578 chars
+    Running extract_unconditioned...
+  [calls: 17/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 18/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.8000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_1_10...
+  Text length: 571 chars
+    Running extract_unconditioned...
+  [calls: 19/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 20/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.8333  (blend pts: 3, thin: True)
+
+  Processing ref_v6_1_11...
+  Text length: 868 chars
+    Running extract_unconditioned...
+  [calls: 21/130]
+    → 6 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 22/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8333  (blend pts: 9, thin: True)
+
+  Processing ref_v6_2_1...
+  Text length: 696 chars
+    Running extract_unconditioned...
+  [calls: 23/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 24/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.9083  (blend pts: 6, thin: True)
+
+  Processing ref_v6_2_2...
+  Text length: 323 chars
+    Running extract_unconditioned...
+  [calls: 25/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 26/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8100  (blend pts: 5, thin: True)
+
+  Processing ref_v6_2_3...
+  Text length: 1068 chars
+    Running extract_unconditioned...
+  [calls: 27/130]
+    → 4 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 28/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8714  (blend pts: 7, thin: True)
+
+  Processing ref_v6_2_4...
+  Text length: 575 chars
+    Running extract_unconditioned...
+  [calls: 29/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 30/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.8000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_5...
+  Text length: 586 chars
+    Running extract_unconditioned...
+  [calls: 31/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 32/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.6000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_6...
+  Text length: 586 chars
+    Running extract_unconditioned...
+  [calls: 33/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 34/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8900  (blend pts: 5, thin: True)
+
+  Processing ref_v6_2_7...
+  Text length: 488 chars
+    Running extract_unconditioned...
+  [calls: 35/130]
+    → 1 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 36/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.8500  (blend pts: 2, thin: True)
+
+  Processing ref_v6_2_8...
+  Text length: 380 chars
+    Running extract_unconditioned...
+  [calls: 37/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 38/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.8400  (blend pts: 5, thin: True)
+
+  Processing ref_v6_2_9...
+  Text length: 779 chars
+    Running extract_unconditioned...
+  [calls: 39/130]
+    → 4 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 40/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8143  (blend pts: 7, thin: True)
+
+  Processing ref_v6_2_10...
+  Text length: 606 chars
+    Running extract_unconditioned...
+  [calls: 41/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 42/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.8500  (blend pts: 4, thin: True)
+
+  Processing ref_v6_2_11...
+  Text length: 356 chars
+    Running extract_unconditioned...
+  [calls: 43/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 44/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7750  (blend pts: 4, thin: True)
+
+  Processing ref_v6_2_12...
+  Text length: 393 chars
+    Running extract_unconditioned...
+  [calls: 45/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 46/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.1000  (blend pts: 2, thin: True)
+
+  Processing ref_v6_2_13...
+  Text length: 425 chars
+    Running extract_unconditioned...
+  [calls: 47/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 48/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.6500  (blend pts: 4, thin: True)
+
+  Processing ref_v6_2_14...
+  Text length: 438 chars
+    Running extract_unconditioned...
+  [calls: 49/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 50/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.5750  (blend pts: 4, thin: True)
+
+  Processing ref_v6_2_15...
+  Text length: 602 chars
+    Running extract_unconditioned...
+  [calls: 51/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 52/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_16...
+  Text length: 547 chars
+    Running extract_unconditioned...
+  [calls: 53/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 54/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8900  (blend pts: 5, thin: True)
+
+  Processing ref_v6_2_17...
+  Text length: 823 chars
+    Running extract_unconditioned...
+  [calls: 55/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 56/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7400  (blend pts: 5, thin: True)
+
+  Processing ref_v6_2_18...
+  Text length: 827 chars
+    Running extract_unconditioned...
+  [calls: 57/130]
+    → 4 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 58/130]
+    → 4 conditioned predicates
+    → Lensing Strain: 0.5833  (blend pts: 6, thin: True)
+
+  Processing ref_v6_2_19...
+  Text length: 722 chars
+    Running extract_unconditioned...
+  [calls: 59/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 60/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.8700  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_p1...
+  Text length: 489 chars
+    Running extract_unconditioned...
+  [calls: 61/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 62/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.4500  (blend pts: 2, thin: True)
+
+  Processing ref_v6_1_p2...
+  Text length: 328 chars
+    Running extract_unconditioned...
+  [calls: 63/130]
+    → 1 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 64/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.6500  (blend pts: 2, thin: True)
+
+  Processing ref_v6_1_p3...
+  Text length: 317 chars
+    Running extract_unconditioned...
+  [calls: 65/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 66/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7600  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_p4...
+  Text length: 362 chars
+    Running extract_unconditioned...
+  [calls: 67/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 68/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.6600  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_p5...
+  Text length: 265 chars
+    Running extract_unconditioned...
+  [calls: 69/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 70/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.3000  (blend pts: 2, thin: True)
+
+  Processing ref_v6_1_p6...
+  Text length: 301 chars
+    Running extract_unconditioned...
+  [calls: 71/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 72/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.8000  (blend pts: 6, thin: True)
+
+  Processing ref_v6_1_p7...
+  Text length: 255 chars
+    Running extract_unconditioned...
+  [calls: 73/130]
+    → 1 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 74/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.7500  (blend pts: 2, thin: True)
+
+  Processing ref_v6_1_p8...
+  Text length: 254 chars
+    Running extract_unconditioned...
+  [calls: 75/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 76/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7400  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_p9...
+  Text length: 258 chars
+    Running extract_unconditioned...
+  [calls: 77/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 78/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.6600  (blend pts: 5, thin: True)
+
+  Processing ref_v6_1_p10...
+  Text length: 268 chars
+    Running extract_unconditioned...
+  [calls: 79/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 80/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.5000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_1_p11...
+  Text length: 568 chars
+    Running extract_unconditioned...
+  [calls: 81/130]
+    → 3 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 82/130]
+    → 4 conditioned predicates
+    → Lensing Strain: 0.6333  (blend pts: 6, thin: True)
+
+  Processing ref_v6_1_p12...
+  Text length: 401 chars
+    Running extract_unconditioned...
+  [calls: 83/130]
+    → 4 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 84/130]
+    → 5 conditioned predicates
+    → Lensing Strain: 0.4000  (blend pts: 6, thin: False)
+
+  Processing ref_v6_2_p1...
+  Text length: 386 chars
+    Running extract_unconditioned...
+  [calls: 85/130]
+    → 1 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 86/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.1000  (blend pts: 1, thin: True)
+
+  Processing ref_v6_2_p2...
+  Text length: 626 chars
+    Running extract_unconditioned...
+  [calls: 87/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 88/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7000  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_p3...
+  Text length: 490 chars
+    Running extract_unconditioned...
+  [calls: 89/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 90/130]
+    → 1 conditioned predicates
+    → Lensing Strain: 0.7667  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_p4...
+  Text length: 538 chars
+    Running extract_unconditioned...
+  [calls: 91/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 92/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.5667  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_p5...
+  Text length: 258 chars
+    Running extract_unconditioned...
+  [calls: 93/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 94/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.8500  (blend pts: 4, thin: True)
+
+  Processing ref_v6_2_p6...
+  Text length: 434 chars
+    Running extract_unconditioned...
+  [calls: 95/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 96/130]
+    → 3 conditioned predicates
+    → Lensing Strain: 0.3333  (blend pts: 3, thin: True)
+
+  Processing ref_v6_2_p7...
+  Text length: 379 chars
+    Running extract_unconditioned...
+  [calls: 97/130]
+    → 2 unconditioned predicates
+    Running extract_conditioned...
+  [calls: 98/130]
+    → 2 conditioned predicates
+    → Lensing Strain: 0.7250  (blend pts: 4, thin: True)
+
+Blend deltas saved → /Users/klas.ehnemark/Github/plyknot-workspace/plyknot-com/plyknot-patent-fto/outputs/stage3-blend-deltas.json (49 entries)
+
+=== Part B: Code module extractions (37 modules) ===
+
+  Extracting agent_policy (9410 chars)...
+  [calls: 99/130]
+    → 18 units (obs_density=0.61)
+
+  Extracting analysis (46720 chars)...
+    (truncated to 12000 chars)
+  [calls: 100/130]
+    → 35 units (obs_density=0.40)
+
+  Extracting bio_analysis (5865 chars)...
+  [calls: 101/130]
+    → 12 units (obs_density=0.50)
+
+  Extracting calibration (5919 chars)...
+  [calls: 102/130]
+    → 15 units (obs_density=0.73)
+
+  Extracting canonicalization (18463 chars)...
+    (truncated to 12000 chars)
+  [calls: 103/130]
+    → 14 units (obs_density=0.57)
+
+  Extracting classifier (8113 chars)...
+  [calls: 104/130]
+    → 17 units (obs_density=0.18)
+
+  Extracting common_ground (11741 chars)...
+  [calls: 105/130]
+    → 0 units (obs_density=0.00)
+
+  Extracting comparable_count (2615 chars)...
+  [calls: 106/130]
+    → 11 units (obs_density=0.73)
+
+  Extracting concentration (3723 chars)...
+  [calls: 107/130]
+    → 10 units (obs_density=0.40)
+
+  Extracting concept_distance (15970 chars)...
+    (truncated to 12000 chars)
+  [calls: 108/130]
+    → 15 units (obs_density=0.60)
+
+  Extracting constants (782 chars)...
+  [calls: 109/130]
+    → 26 units (obs_density=1.00)
+
+  Extracting describe (18482 chars)...
+    (truncated to 12000 chars)
+  [calls: 110/130]
+    → 25 units (obs_density=0.56)
+
+  Extracting detector (5223 chars)...
+  [calls: 111/130]
+    → 9 units (obs_density=0.67)
+
+  Extracting detector_hash (2681 chars)...
+  [calls: 112/130]
+    → 13 units (obs_density=0.77)
+
+  Extracting disambiguation (11913 chars)...
+  [calls: 113/130]
+    → 32 units (obs_density=0.53)
+
+  Extracting discovery (7468 chars)...
+  [calls: 114/130]
+    → 12 units (obs_density=0.75)
+
+  Extracting emergence (25480 chars)...
+    (truncated to 12000 chars)
+  [calls: 115/130]
+    → 20 units (obs_density=0.60)
+
+  Extracting entity_history (3968 chars)...
+  [calls: 116/130]
+    → 10 units (obs_density=0.90)
+
+  Extracting evaluation (12944 chars)...
+    (truncated to 12000 chars)
+  [calls: 117/130]
+    → 12 units (obs_density=0.83)
+
+  Extracting fusion (9339 chars)...
+  [calls: 118/130]
+    → 25 units (obs_density=0.64)
+
+  Extracting grounding (25533 chars)...
+    (truncated to 12000 chars)
+  [calls: 119/130]
+    → 10 units (obs_density=0.70)
+
+  Extracting guided_extraction (27357 chars)...
+    (truncated to 12000 chars)
+  [calls: 120/130]
+    → 17 units (obs_density=0.59)
+
+  Extracting hub (34747 chars)...
+    (truncated to 12000 chars)
+  [calls: 121/130]
+    → 12 units (obs_density=0.83)
+
+  Extracting inference (27634 chars)...
+    (truncated to 12000 chars)
+  [calls: 122/130]
+    → 25 units (obs_density=0.60)
+
+  Extracting level_analysis (6036 chars)...
+  [calls: 123/130]
+    → 20 units (obs_density=0.35)
+
+  Extracting marker_passing (8416 chars)...
+  [calls: 124/130]
+    → 10 units (obs_density=0.60)
+
+  Extracting monitors (19934 chars)...
+    (truncated to 12000 chars)
+  [calls: 125/130]
+    → 17 units (obs_density=0.71)
+
+  Extracting phone_book (10685 chars)...
+  [calls: 126/130]
+    → 15 units (obs_density=0.80)
+
+  Extracting predicate_decomposition (11370 chars)...
+  [calls: 127/130]
+    → 13 units (obs_density=0.69)
+
+  Extracting query (17695 chars)...
+    (truncated to 12000 chars)
+  [calls: 128/130]
+    → 14 units (obs_density=0.64)
+
+  Extracting registry (18469 chars)...
+    (truncated to 12000 chars)
+  [calls: 129/130]
+    → 30 units (obs_density=0.70)
+
+  Extracting registry_labels (538 chars)...
+  [calls: 130/130]
+
+*** CALL CAP 130 REACHED. Stopping. ***
+
+Blend deltas saved → /Users/klas.ehnemark/Github/plyknot-workspace/plyknot-com/plyknot-patent-fto/outputs/stage3-blend-deltas.json (49 entries)

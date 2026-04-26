@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_2_8",
+  "text_length": 380,
+  "unconditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "Datasheets for Datasets as a documentation approach for dataset metadata",
+      "intensity": 0.9,
+      "pattern_id": "propose:datasheets_for_datasets_as_a_documentation_approach_for_dataset_metadata"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "Categorizing the work as document-level metadata for datasets",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorizing_the_work_as_document-level_metadata_for_datasets"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Same mitigation strategy as Model Cards for addressing dataset documentation",
+      "intensity": 0.7,
+      "pattern_id": "infer:same_mitigation_strategy_as_model_cards_for_addressing_dataset_documentation"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing the reference as Category C",
+      "intensity": 1.0,
+      "pattern_id": "classify:categorizing_the_reference_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "determining relevance of document-level metadata for datasets to system claims",
+      "intensity": 0.8,
+      "pattern_id": "infer:determining_relevance_of_document-level_metadata_for_datasets_to_system_claims"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_the_reference_as_category_c",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "classify:categorizing_the_work_as_document-level_metadata_for_datasets",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:determining_relevance_of_document-level_metadata_for_datasets_to_system_claims",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:same_mitigation_strategy_as_model_cards_for_addressing_dataset_documentation",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "propose:datasheets_for_datasets_as_a_documentation_approach_for_dataset_metadata",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.8400000000000001,
+  "n_uncond": 3,
+  "n_cond": 2,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

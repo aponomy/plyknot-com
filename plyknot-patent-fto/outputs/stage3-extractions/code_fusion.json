@@ -1,0 +1,269 @@
+{
+  "module": "fusion",
+  "source_length": 9339,
+  "extracted_length": 9339,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Two entities have combined data on shared properties\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"test\",\n      \"content\": \"Whether combined data fits single population better than two separate populations\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Fusion mirrors existing speciation detector structure\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Speciation splits one entity into two; fusion merges two into one\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"analyze_population_structure() is reused with min-size/\u0394BIC/min-separation guards\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Fusion calls analyze_population_structure with maxK=2 and reads bestK result\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"inference\",\n      \"verb\": \"interpret\",\n      \"content\": \"bestK==1 means single population fits, indicating fusion supported\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u6\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"collect\",\n      \"content\": \"Values from all measurers on entity grouped by property\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Shared properties between two entities\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"Combined entries per property from both entities\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"judge\",\n      \"content\": \"Property has insufficient data if combined count below threshold\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"compute\",\n      \"content\": \"BIC scores for k=1 and k=2 from analyze_population_structure result\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"calculate\",\n      \"content\": \"Delta BIC as difference between bic_k2 and bic_k1\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u12\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Fusion supported when result bestK equals 1\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u6\", \"u7\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"Number of properties with sufficient data for testing\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"inference\",\n      \"verb\": \"evaluate\",\n      \"content\": \"Insufficient data if tested properties below minimum threshold\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u15\"]\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"Recommend fusion if all tested properties support fusion\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u14\"]\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"Recommend distinct if some properties do not support fusion\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u14\"]\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"observation\",\n      \"verb\": \"sweep\",\n      \"content\": \"All ordered entity pairs in universe\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"filter\",\n      \"content\": \"Entity pairs with shared properties meeting minimum threshold\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u19\", \"u9\"]\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"observation\",\n      \"verb\": \"collect\",\n      \"content\": \"Entries from all couplings for hypothetical entity on declared properties\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Existing entities with entries on every declared property\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u21\"]\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Entities with \u22652 distinct measurers on each property\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u22\"]\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"observation\",\n      \"verb\": \"evaluate\",\n      \"content\": \"Status of values for each property is converged\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u23\"]\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"inference\",\n      \"verb\": \"identify\",\n      \"content\": \"Entities that would likely duplicate hypothetical entity are fusion candidates\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u22\", \"u23\", \"u24\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "Two entities have combined data on shared properties",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "test",
+      "content": "Whether combined data fits single population better than two separate populations",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "see",
+      "content": "Fusion mirrors existing speciation detector structure",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Speciation splits one entity into two; fusion merges two into one",
+      "intensity": 0.9,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "analyze_population_structure() is reused with min-size/\u0394BIC/min-separation guards",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Fusion calls analyze_population_structure with maxK=2 and reads bestK result",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "inference",
+      "verb": "interpret",
+      "content": "bestK==1 means single population fits, indicating fusion supported",
+      "intensity": 0.9,
+      "depends_on": [
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "collect",
+      "content": "Values from all measurers on entity grouped by property",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Shared properties between two entities",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "count",
+      "content": "Combined entries per property from both entities",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "judge",
+      "content": "Property has insufficient data if combined count below threshold",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "compute",
+      "content": "BIC scores for k=1 and k=2 from analyze_population_structure result",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "calculate",
+      "content": "Delta BIC as difference between bic_k2 and bic_k1",
+      "intensity": 0.9,
+      "depends_on": [
+        "u12"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Fusion supported when result bestK equals 1",
+      "intensity": 0.9,
+      "depends_on": [
+        "u6",
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "count",
+      "content": "Number of properties with sufficient data for testing",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "inference",
+      "verb": "evaluate",
+      "content": "Insufficient data if tested properties below minimum threshold",
+      "intensity": 0.85,
+      "depends_on": [
+        "u15"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "Recommend fusion if all tested properties support fusion",
+      "intensity": 0.9,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "Recommend distinct if some properties do not support fusion",
+      "intensity": 0.9,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u19",
+      "type": "observation",
+      "verb": "sweep",
+      "content": "All ordered entity pairs in universe",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "filter",
+      "content": "Entity pairs with shared properties meeting minimum threshold",
+      "intensity": 0.85,
+      "depends_on": [
+        "u19",
+        "u9"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "observation",
+      "verb": "collect",
+      "content": "Entries from all couplings for hypothetical entity on declared properties",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Existing entities with entries on every declared property",
+      "intensity": 0.85,
+      "depends_on": [
+        "u21"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Entities with \u22652 distinct measurers on each property",
+      "intensity": 0.85,
+      "depends_on": [
+        "u22"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u24",
+      "type": "observation",
+      "verb": "evaluate",
+      "content": "Status of values for each property is converged",
+      "intensity": 0.85,
+      "depends_on": [
+        "u23"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u25",
+      "type": "inference",
+      "verb": "identify",
+      "content": "Entities that would likely duplicate hypothetical entity are fusion candidates",
+      "intensity": 0.85,
+      "depends_on": [
+        "u22",
+        "u23",
+        "u24"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 25,
+  "error": null,
+  "observation_density": 0.64,
+  "grounding_ratio": 1.0
+}

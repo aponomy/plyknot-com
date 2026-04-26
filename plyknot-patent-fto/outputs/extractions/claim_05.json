@@ -1,0 +1,60 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "partition",
+      "content": "measurer's groups are partitioned by property identifier",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "identify",
+      "content": "at least one property subset where a specified fraction of the measurer's groups are classified as divergent or tension, exceeding a first threshold",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "identify",
+      "content": "at least one property subset where a specified fraction of the measurer's groups are classified as converged, falling below a second threshold distinct from the first",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "both a divergent-dominant subset and a converged-dominant subset exist for the same measurer simultaneously",
+      "intensity": 0.85,
+      "depends_on": ["u2", "u3"]
+    },
+    {
+      "id": "u5",
+      "type": "causal",
+      "verb": "emit",
+      "content": "the co-existence of both subsets causes emission of a universal-co-divergence signal identifying the measurer together with the divergent and non-divergent property subsets",
+      "intensity": 0.95,
+      "depends_on": ["u4"]
+    },
+    {
+      "id": "u6",
+      "type": "causal",
+      "verb": "route",
+      "content": "the universal-co-divergence signal is routed through the feedback-signal interface to the actor",
+      "intensity": 0.95,
+      "depends_on": ["u5"]
+    },
+    {
+      "id": "u7",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "distinguishing divergent from converged property subsets within a single measurer is significant enough to warrant a dedicated signal and actor notification",
+      "intensity": 0.8,
+      "depends_on": ["u4", "u5", "u6"]
+    }
+  ]
+}

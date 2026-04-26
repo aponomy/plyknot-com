@@ -1,0 +1,160 @@
+{
+  "module": "concept_distance",
+  "source_length": 15970,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"perceive\",\n      \"content\": \"Text describes a concept distance computation mechanism with process steps\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"interpret\",\n      \"content\": \"Concept distance decomposes into dimensions showing WHERE texts diverge\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Claim dataclass has fields: text, dimension, value, confidence, source_text_index\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"DimensionalContribution has distance field (0.0=identical, 1.0=maximally different)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Common claim dimensions include: mechanism, efficacy, safety, dosage, structure, function, interaction, population, measurement, prediction, definition, classification, comparison\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Claims are extracted using LLM with system prompt directing precision and no inference beyond stated text\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"_extract_claims function parses JSON response from LLM client with error handling for markdown wrapping\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"_match_claims function uses similarity threshold (0.7) and dimension matching to partition claims\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Two claims are shared if they have same dimension and text similarity >= 0.7, or matching numeric values within 5%\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Dimensional distance uses Jaccard-like formula: 1.0 - (2 * shared / total)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Quantitative claims with value divergence get blended distance (50% claim-matching, 50% value-divergence)\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Scalar distance is computed as RMS of dimensional distances weighted by claim count\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Evidence collection prioritizes divergent claims by confidence score, limited to 5 per side\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u12\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"ConceptComparison result includes robustness_score and extractor_agreement only when robustness_mode=True\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Robustness mode involves re-running with second extractor and computing cross-extractor agreement on dimensions\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u14\", \"u1\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "perceive",
+      "content": "Text describes a concept distance computation mechanism with process steps",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "interpret",
+      "content": "Concept distance decomposes into dimensions showing WHERE texts diverge",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Claim dataclass has fields: text, dimension, value, confidence, source_text_index",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "identify",
+      "content": "DimensionalContribution has distance field (0.0=identical, 1.0=maximally different)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Common claim dimensions include: mechanism, efficacy, safety, dosage, structure, function, interaction, population, measurement, prediction, definition, classification, comparison",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Claims are extracted using LLM with system prompt directing precision and no inference beyond stated text",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "identify",
+      "content": "_extract_claims function parses JSON response from LLM client with error handling for markdown wrapping",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "identify",
+      "content": "_match_claims function uses similarity threshold (0.7) and dimension matching to partition claims",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Two claims are shared if they have same dimension and text similarity >= 0.7, or matching numeric values within 5%",
+      "intensity": 0.85,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Dimensional distance uses Jaccard-like formula: 1.0 - (2 * shared / total)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Quantitative claims with value divergence get blended distance (50% claim-matching, 50% value-divergence)",
+      "intensity": 0.8,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Scalar distance is computed as RMS of dimensional distances weighted by claim count",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Evidence collection prioritizes divergent claims by confidence score, limited to 5 per side",
+      "intensity": 0.85,
+      "depends_on": [
+        "u12"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "observation",
+      "verb": "identify",
+      "content": "ConceptComparison result includes robustness_score and extractor_agreement only when robustness_mode=True",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Robustness mode involves re-running with second extractor and computing cross-extractor agreement on dimensions",
+      "intensity": 0.75,
+      "depends_on": [
+        "u14",
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 15,
+  "error": null,
+  "observation_density": 0.6,
+  "grounding_ratio": 1.0
+}

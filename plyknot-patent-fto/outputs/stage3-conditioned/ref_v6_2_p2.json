@@ -1,0 +1,65 @@
+{
+  "ref_id": "ref_v6_2_p2",
+  "text_length": 626,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "claim 8a as combining pre-registration with architectural-attribute-driven divergence prediction",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:claim_8a_as_combining_pre-registration_with_architectural-attribute-driven_divergence_prediction"
+    },
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "pre-registration for predictive modelling",
+      "intensity": 0.9,
+      "pattern_id": "propose:pre-registration_for_predictive_modelling"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "methodological proposal for pre-registration in predictive modelling",
+      "intensity": 1.0,
+      "pattern_id": "propose:methodological_proposal_for_pre-registration_in_predictive_modelling"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "claim 8a as combining pre-registration with architectural-attribute-driven divergence prediction",
+      "intensity": 1.0,
+      "pattern_id": "distinguish:claim_8a_as_combining_pre-registration_with_architectural-attribute-driven_divergence_prediction"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:claim_8a_as_combining_pre-registration_with_architectural-attribute-driven_divergence_prediction",
+      "unconditioned": 0.8,
+      "conditioned": 1.0,
+      "guided": 0.9,
+      "guidance_delta": 0.19999999999999996
+    },
+    {
+      "property_id": "propose:methodological_proposal_for_pre-registration_in_predictive_modelling",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "propose:pre-registration_for_predictive_modelling",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.7000000000000001,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,58 @@
+{
+  "ref_id": "ref_v6_2_12",
+  "text_length": 393,
+  "unconditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "AlphaFold predictions are valuable hypotheses that accelerate structure determination",
+      "intensity": 0.8,
+      "pattern_id": "propose:alphafold_predictions_are_valuable_hypotheses_that_accelerate_structure_determination"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "AlphaFold predictions do not replace experimental structure determination",
+      "intensity": 0.9,
+      "pattern_id": "infer:alphafold_predictions_do_not_replace_experimental_structure_determination"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "AlphaFold predictions are valuable hypotheses that accelerate structure determination",
+      "intensity": 0.8,
+      "pattern_id": "propose:alphafold_predictions_are_valuable_hypotheses_that_accelerate_structure_determination"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "AlphaFold predictions do not replace experimental structure determination",
+      "intensity": 0.7,
+      "pattern_id": "infer:alphafold_predictions_do_not_replace_experimental_structure_determination"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "infer:alphafold_predictions_do_not_replace_experimental_structure_determination",
+      "unconditioned": 0.9,
+      "conditioned": 0.7,
+      "guided": 0.8,
+      "guidance_delta": 0.20000000000000007
+    },
+    {
+      "property_id": "propose:alphafold_predictions_are_valuable_hypotheses_that_accelerate_structure_determination",
+      "unconditioned": 0.8,
+      "conditioned": 0.8,
+      "guided": 0.8,
+      "guidance_delta": 0.0
+    }
+  ],
+  "lensing_strain": 0.10000000000000003,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 2,
+  "thin_flag": true,
+  "error": null
+}

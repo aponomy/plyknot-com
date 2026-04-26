@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_2_19",
+  "text_length": 722,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "difference between ensemble-diversity measures operating on agreement patterns over model outputs versus claim 8a operating on symmetric difference of architectural attribute sets",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:difference_between_ensemble-diversity_measures_operating_on_agreement_patterns_over_model_outputs_versus_claim_8a_operating_on_symmetric_difference_of_architectural_attribute_sets"
+    },
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "ensemble-diversity measures (Q-statistic, disagreement measure, double-fault, correlation, kappa, six non-pairwise measures) operate on agreement patterns over model outputs on labelled dataset",
+      "intensity": 0.85,
+      "pattern_id": "observe:ensemble-diversity_measures_(q-statistic,_disagreement_measure,_double-fault,_correlation,_kappa,_six_non-pairwise_measures)_operate_on_agreement_patterns_over_model_outputs_on_labelled_dataset"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "input domains of ensemble-diversity measures and claim 8a are orthogonal",
+      "intensity": 0.8,
+      "pattern_id": "infer:input_domains_of_ensemble-diversity_measures_and_claim_8a_are_orthogonal"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "ensemble diversity measures operate on agreement patterns over model outputs on labelled dataset, while claim 8a operates on symmetric difference of architectural attribute sets",
+      "intensity": 0.95,
+      "pattern_id": "distinguish:ensemble_diversity_measures_operate_on_agreement_patterns_over_model_outputs_on_labelled_dataset,_while_claim_8a_operates_on_symmetric_difference_of_architectural_attribute_sets"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "Kuncheva & Whitaker reference as canonical for ensemble-diversity measures",
+      "intensity": 0.85,
+      "pattern_id": "classify:kuncheva_&_whitaker_reference_as_canonical_for_ensemble-diversity_measures"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:kuncheva_&_whitaker_reference_as_canonical_for_ensemble-diversity_measures",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "distinguish:difference_between_ensemble-diversity_measures_operating_on_agreement_patterns_over_model_outputs_versus_claim_8a_operating_on_symmetric_difference_of_architectural_attribute_sets",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:ensemble_diversity_measures_operate_on_agreement_patterns_over_model_outputs_on_labelled_dataset,_while_claim_8a_operates_on_symmetric_difference_of_architectural_attribute_sets",
+      "unconditioned": 0.0,
+      "conditioned": 0.95,
+      "guided": 0.475,
+      "guidance_delta": 0.95
+    },
+    {
+      "property_id": "infer:input_domains_of_ensemble-diversity_measures_and_claim_8a_are_orthogonal",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "observe:ensemble-diversity_measures_(q-statistic,_disagreement_measure,_double-fault,_correlation,_kappa,_six_non-pairwise_measures)_operate_on_agreement_patterns_over_model_outputs_on_labelled_dataset",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    }
+  ],
+  "lensing_strain": 0.8699999999999999,
+  "n_uncond": 3,
+  "n_cond": 2,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

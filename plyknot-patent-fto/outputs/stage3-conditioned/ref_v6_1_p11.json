@@ -1,0 +1,107 @@
+{
+  "ref_id": "ref_v6_1_p11",
+  "text_length": 568,
+  "unconditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "arXiv ID reportedly resolves to a different paper by a different author group",
+      "intensity": 0.7,
+      "pattern_id": "detect:arxiv_id_reportedly_resolves_to_a_different_paper_by_a_different_author_group"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "citation may be incorrect pending verification",
+      "intensity": 0.6,
+      "pattern_id": "infer:citation_may_be_incorrect_pending_verification"
+    },
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "entry should be corrected or removed before filing if arXiv ID resolves to wrong paper",
+      "intensity": 0.8,
+      "pattern_id": "propose:entry_should_be_corrected_or_removed_before_filing_if_arxiv_id_resolves_to_wrong_paper"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "arXiv ID reportedly resolves to a different paper by a different author group",
+      "intensity": 0.7,
+      "pattern_id": "detect:arxiv_id_reportedly_resolves_to_a_different_paper_by_a_different_author_group"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "canonical citation needs confirmation before IDS submission",
+      "intensity": 0.8,
+      "pattern_id": "infer:canonical_citation_needs_confirmation_before_ids_submission"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "entry categorized as C and retained as prudent pending verification",
+      "intensity": 0.9,
+      "pattern_id": "classify:entry_categorized_as_c_and_retained_as_prudent_pending_verification"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "arXiv ID may resolve to wrong paper as reported by prior-art audit",
+      "intensity": 0.7,
+      "pattern_id": "distinguish:arxiv_id_may_resolve_to_wrong_paper_as_reported_by_prior-art_audit"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:entry_categorized_as_c_and_retained_as_prudent_pending_verification",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "detect:arxiv_id_reportedly_resolves_to_a_different_paper_by_a_different_author_group",
+      "unconditioned": 0.7,
+      "conditioned": 0.7,
+      "guided": 0.7,
+      "guidance_delta": 0.0
+    },
+    {
+      "property_id": "distinguish:arxiv_id_may_resolve_to_wrong_paper_as_reported_by_prior-art_audit",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:canonical_citation_needs_confirmation_before_ids_submission",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:citation_may_be_incorrect_pending_verification",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "propose:entry_should_be_corrected_or_removed_before_filing_if_arxiv_id_resolves_to_wrong_paper",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.6333333333333333,
+  "n_uncond": 3,
+  "n_cond": 4,
+  "n_blend": 6,
+  "thin_flag": true,
+  "error": null
+}

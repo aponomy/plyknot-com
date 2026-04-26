@@ -1,0 +1,51 @@
+{
+  "ref_id": "ref_v6_1_p1",
+  "text_length": 489,
+  "unconditioned_raw": [
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "quantifying correlations of machine learning models",
+      "intensity": 0.8,
+      "pattern_id": "measure:quantifying_correlations_of_machine_learning_models"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "claim 8a is a system, not a mathematical framework",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:claim_8a_is_a_system,_not_a_mathematical_framework"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "claim 8a is a system, not a mathematical framework",
+      "intensity": 1.0,
+      "pattern_id": "distinguish:claim_8a_is_a_system,_not_a_mathematical_framework"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:claim_8a_is_a_system,_not_a_mathematical_framework",
+      "unconditioned": 0.9,
+      "conditioned": 1.0,
+      "guided": 0.95,
+      "guidance_delta": 0.09999999999999998
+    },
+    {
+      "property_id": "measure:quantifying_correlations_of_machine_learning_models",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.45,
+  "n_uncond": 2,
+  "n_cond": 1,
+  "n_blend": 2,
+  "thin_flag": true,
+  "error": null
+}

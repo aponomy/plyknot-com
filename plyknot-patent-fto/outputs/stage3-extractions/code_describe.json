@@ -1,0 +1,256 @@
+{
+  "module": "describe",
+  "source_length": 18482,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"Text can be converted into coupling map entries through a transduction pipeline\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"theorize\",\n      \"content\": \"Text-to-number conversion is a domain-specific measurement pipeline analogous to AlphaFold or CXR evaluation\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Two independent measurement channels exist: predicate frequency extraction and embedding distance\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"predict\",\n      \"content\": \"Channel convergence indicates structural validation\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"predict\",\n      \"content\": \"Channel divergence indicates a diagnostic crack\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"Human is the instrument, LLM/embedding model is the transducer, conceptual space is the target, float is the measurement\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"The ontology problem is not solved but measured\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"classify\",\n      \"content\": \"Sensory verbs include: see, hear, feel, touch, smell, taste, observe, notice, perceive, sense, detect, witness, watch, listen\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"classify\",\n      \"content\": \"Cognitive verbs include: think, know, believe, want, expect, assume, conclude, infer, predict, theorize, hypothesize, judge, evaluate, decide, hope, fear, interpret, understand, suppose, guess\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Predicate type classification determines whether an expression is sensory or cognitive\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u8\", \"u9\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"PredicateExtraction data structure contains verb, predicate type, content, intensity, and reference fields\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"DescriptionEntry data structure contains text, who, context, extractions, embedding, and other metadata\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Sensory predicates from entities with bodies are classified as measurements\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Sensory predicates from bodyless entities are rejected or classified as predictions\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"All cognitive predicates are classified as predictions\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Predicate frequency is computed as the proportion of entries containing a pattern\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Mean intensity is computed from aggregated predicate intensities\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Embedding coherence is computed as mean cosine similarity to centroid\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Embedding spread is computed as standard deviation of centroid similarities\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"compute\",\n      \"content\": \"Principal component analysis extracts top k embedding components via power iteration\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Cross-group distance is measured as cosine similarity between group centroid embeddings\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Distribution mean, standard deviation, and skewness are computed from value samples\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Number of modes is detected by threshold checking (bimodal if outliers >15% on both sides)\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u22\"]\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"Standard deviation represents ontological load of a concept\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"Multiple modes signal speciation rather than noise\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\"u23\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "Text can be converted into coupling map entries through a transduction pipeline",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "theorize",
+      "content": "Text-to-number conversion is a domain-specific measurement pipeline analogous to AlphaFold or CXR evaluation",
+      "intensity": 0.8,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Two independent measurement channels exist: predicate frequency extraction and embedding distance",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "predict",
+      "content": "Channel convergence indicates structural validation",
+      "intensity": 0.7,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "predict",
+      "content": "Channel divergence indicates a diagnostic crack",
+      "intensity": 0.7,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "Human is the instrument, LLM/embedding model is the transducer, conceptual space is the target, float is the measurement",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "The ontology problem is not solved but measured",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "classify",
+      "content": "Sensory verbs include: see, hear, feel, touch, smell, taste, observe, notice, perceive, sense, detect, witness, watch, listen",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "classify",
+      "content": "Cognitive verbs include: think, know, believe, want, expect, assume, conclude, infer, predict, theorize, hypothesize, judge, evaluate, decide, hope, fear, interpret, understand, suppose, guess",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Predicate type classification determines whether an expression is sensory or cognitive",
+      "intensity": 0.85,
+      "depends_on": [
+        "u8",
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "identify",
+      "content": "PredicateExtraction data structure contains verb, predicate type, content, intensity, and reference fields",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "identify",
+      "content": "DescriptionEntry data structure contains text, who, context, extractions, embedding, and other metadata",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Sensory predicates from entities with bodies are classified as measurements",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Sensory predicates from bodyless entities are rejected or classified as predictions",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "infer",
+      "content": "All cognitive predicates are classified as predictions",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Predicate frequency is computed as the proportion of entries containing a pattern",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Mean intensity is computed from aggregated predicate intensities",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u18",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Embedding coherence is computed as mean cosine similarity to centroid",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u19",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Embedding spread is computed as standard deviation of centroid similarities",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "compute",
+      "content": "Principal component analysis extracts top k embedding components via power iteration",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Cross-group distance is measured as cosine similarity between group centroid embeddings",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Distribution mean, standard deviation, and skewness are computed from value samples",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Number of modes is detected by threshold checking (bimodal if outliers >15% on both sides)",
+      "intensity": 0.75,
+      "depends_on": [
+        "u22"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u24",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "Standard deviation represents ontological load of a concept",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u25",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "Multiple modes signal speciation rather than noise",
+      "intensity": 0.75,
+      "depends_on": [
+        "u23"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 25,
+  "error": null,
+  "observation_density": 0.56,
+  "grounding_ratio": 0.8181818181818182
+}

@@ -1,0 +1,138 @@
+{
+  "module": "bio_analysis",
+  "source_length": 5865,
+  "extracted_length": 5865,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"knockout severity values extracted from universe knockout_phenotype_map\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"knockdown severity values extracted from universe knockdown_phenotype_map\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"severity delta calculated as absolute difference between knockout and knockdown severity\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u1\", \"u2\"]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"categorize\",\n      \"content\": \"genes classified as converged, tension, or divergent based on relative delta threshold\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"pathological gap is significant when knockout and knockdown phenotypes differ despite similar severity\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u4\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"interpret\",\n      \"content\": \"structural absence (knockout) triggers compensatory mechanisms that differ from partial reduction (knockdown)\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"mutation detection results in tissue biopsy samples extracted from universe biopsy_result_map\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"mutation detection results in liquid biopsy samples extracted from universe biopsy_result_map\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"concordance rate calculated as ratio of matching tissue-liquid detection pairs\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u7\", \"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"categorize\",\n      \"content\": \"biopsy results classified as converged, tension, or divergent based on concordance rate thresholds\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u9\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"pathological gap is significant when mutation detection differs between tissue and liquid biopsies\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"inference\",\n      \"verb\": \"interpret\",\n      \"content\": \"mutation profile is method-dependent rather than intrinsic property when tissue and liquid biopsies diverge\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u11\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "measure",
+      "content": "knockout severity values extracted from universe knockout_phenotype_map",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "measure",
+      "content": "knockdown severity values extracted from universe knockdown_phenotype_map",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "severity delta calculated as absolute difference between knockout and knockdown severity",
+      "intensity": 0.95,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "categorize",
+      "content": "genes classified as converged, tension, or divergent based on relative delta threshold",
+      "intensity": 0.85,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "pathological gap is significant when knockout and knockdown phenotypes differ despite similar severity",
+      "intensity": 0.8,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "interpret",
+      "content": "structural absence (knockout) triggers compensatory mechanisms that differ from partial reduction (knockdown)",
+      "intensity": 0.7,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "detect",
+      "content": "mutation detection results in tissue biopsy samples extracted from universe biopsy_result_map",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "detect",
+      "content": "mutation detection results in liquid biopsy samples extracted from universe biopsy_result_map",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "measure",
+      "content": "concordance rate calculated as ratio of matching tissue-liquid detection pairs",
+      "intensity": 0.95,
+      "depends_on": [
+        "u7",
+        "u8"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "categorize",
+      "content": "biopsy results classified as converged, tension, or divergent based on concordance rate thresholds",
+      "intensity": 0.85,
+      "depends_on": [
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "pathological gap is significant when mutation detection differs between tissue and liquid biopsies",
+      "intensity": 0.8,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "interpret",
+      "content": "mutation profile is method-dependent rather than intrinsic property when tissue and liquid biopsies diverge",
+      "intensity": 0.7,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 12,
+  "error": null,
+  "observation_density": 0.5,
+  "grounding_ratio": 1.0
+}

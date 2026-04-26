@@ -1,0 +1,128 @@
+{
+  "module": "discovery",
+  "source_length": 7468,
+  "extracted_length": 7468,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"code structure with dataclass StructuralHole containing from_chain, to_chain, missing_level, shared_deps fields\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"function _find_shared_deps compares dependency sets between two InferenceSteps\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"find_structural_holes iterates through inference chains organized by level (signal, measurement, pattern, model, hypothesis)\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"detect\",\n      \"content\": \"a structural hole exists when low and high level steps share dependencies but no mid-level step bridges them\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u2\", \"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"function create_llm_agent registers an LLM as a measurer entity with tags\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"function record_hypothesis stores hypothesis with confidence score from agent to target\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"function check_hypothesis_convergence calculates mean and spread of hypothesis values across agents\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"hypothesis agreement status is 'converged' when spread < 1%, 'tension' when < 5%, 'divergent' otherwise\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"render_discovery_report generates formatted text output with sections for crack connections, openings, and structural holes\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"crack connections show nodes shared by multiple inference chains with path strength metrics\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"openings show nodes that bridge solid chains with cross-level distance and complexity level sequences\",\n      \"intensity\": 1.0,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"cross-level connections (marked \u2b21) are significant findings worthy of highlighting\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u10\", \"u11\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "observe",
+      "content": "code structure with dataclass StructuralHole containing from_chain, to_chain, missing_level, shared_deps fields",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "observe",
+      "content": "function _find_shared_deps compares dependency sets between two InferenceSteps",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "observe",
+      "content": "find_structural_holes iterates through inference chains organized by level (signal, measurement, pattern, model, hypothesis)",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "detect",
+      "content": "a structural hole exists when low and high level steps share dependencies but no mid-level step bridges them",
+      "intensity": 0.9,
+      "depends_on": [
+        "u2",
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "observe",
+      "content": "function create_llm_agent registers an LLM as a measurer entity with tags",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "observe",
+      "content": "function record_hypothesis stores hypothesis with confidence score from agent to target",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "observe",
+      "content": "function check_hypothesis_convergence calculates mean and spread of hypothesis values across agents",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "infer",
+      "content": "hypothesis agreement status is 'converged' when spread < 1%, 'tension' when < 5%, 'divergent' otherwise",
+      "intensity": 0.85,
+      "depends_on": [
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "observe",
+      "content": "render_discovery_report generates formatted text output with sections for crack connections, openings, and structural holes",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "observe",
+      "content": "crack connections show nodes shared by multiple inference chains with path strength metrics",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "observe",
+      "content": "openings show nodes that bridge solid chains with cross-level distance and complexity level sequences",
+      "intensity": 1.0,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "cross-level connections (marked \u2b21) are significant findings worthy of highlighting",
+      "intensity": 0.7,
+      "depends_on": [
+        "u10",
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 12,
+  "error": null,
+  "observation_density": 0.75,
+  "grounding_ratio": 1.0
+}

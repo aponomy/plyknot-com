@@ -1,0 +1,207 @@
+{
+  "module": "systems",
+  "source_length": 6379,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"code structure defines physics force systems (gravity, coulomb, strong nuclear, weak decay) with Verlet integration\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"gravity function calculates pairwise gravitational forces between entities with mass\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"coulomb function computes electrostatic forces between charged entities\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"strong_nuclear function applies Yukawa potential for range-limited nuclear forces\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"weak_decay_system models radioactive decay with probabilistic branching channels\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"integrate function uses Verlet method to update positions from accelerations\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"integrate enforces speed limit at max_disp = C * dt * 0.999999\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"integrate applies relativistic time dilation via clock update using velocity and C2\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"integrate handles massless entities (photons) separately with constant speed C\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"compute_accounting_system tracks operational costs and entropy generation per entity\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"information field tallies entity state bits (space=384, mass=64, clock=64, charge=64, accel=192)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"each force calculation pair contributes 15-18 operations to total system cost\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u2\", \"u3\", \"u4\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"causal\",\n      \"verb\": \"attribute\",\n      \"content\": \"force magnitude determines acceleration change via F=ma divided by mass\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u2\", \"u3\", \"u4\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"distance-to calculation distance_to(sb, sa) underlies all pairwise force computations\",\n      \"intensity\": 0.95,\n      \"depends_on\": [\"u2\", \"u3\", \"u4\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"strong_nuclear force has range cutoff at PION_RANGE * 10\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"schwarzschild_radius function computes event horizon based on mass and gravitational constant\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"grav_time_dilation function returns zero when schwarzschild radius exceeds distance (black hole condition)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"derive function computes velocity from position delta or returns speed=C for massless entities\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u9\"]\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"all force system functions return SystemCost namedtuple with operations, energy, and pair counts\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"energy cost per operation is LANDAUER_CMB constant representing fundamental thermodynamic limit\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u19\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "code structure defines physics force systems (gravity, coulomb, strong nuclear, weak decay) with Verlet integration",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "detect",
+      "content": "gravity function calculates pairwise gravitational forces between entities with mass",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "coulomb function computes electrostatic forces between charged entities",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "detect",
+      "content": "strong_nuclear function applies Yukawa potential for range-limited nuclear forces",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "weak_decay_system models radioactive decay with probabilistic branching channels",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "detect",
+      "content": "integrate function uses Verlet method to update positions from accelerations",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "detect",
+      "content": "integrate enforces speed limit at max_disp = C * dt * 0.999999",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "detect",
+      "content": "integrate applies relativistic time dilation via clock update using velocity and C2",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "detect",
+      "content": "integrate handles massless entities (photons) separately with constant speed C",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "detect",
+      "content": "compute_accounting_system tracks operational costs and entropy generation per entity",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "detect",
+      "content": "information field tallies entity state bits (space=384, mass=64, clock=64, charge=64, accel=192)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "infer",
+      "content": "each force calculation pair contributes 15-18 operations to total system cost",
+      "intensity": 0.85,
+      "depends_on": [
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u13",
+      "type": "causal",
+      "verb": "attribute",
+      "content": "force magnitude determines acceleration change via F=ma divided by mass",
+      "intensity": 0.95,
+      "depends_on": [
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "infer",
+      "content": "distance-to calculation distance_to(sb, sa) underlies all pairwise force computations",
+      "intensity": 0.95,
+      "depends_on": [
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "detect",
+      "content": "strong_nuclear force has range cutoff at PION_RANGE * 10",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "detect",
+      "content": "schwarzschild_radius function computes event horizon based on mass and gravitational constant",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "detect",
+      "content": "grav_time_dilation function returns zero when schwarzschild radius exceeds distance (black hole condition)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "infer",
+      "content": "derive function computes velocity from position delta or returns speed=C for massless entities",
+      "intensity": 0.85,
+      "depends_on": [
+        "u9"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u19",
+      "type": "observation",
+      "verb": "detect",
+      "content": "all force system functions return SystemCost namedtuple with operations, energy, and pair counts",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u20",
+      "type": "inference",
+      "verb": "infer",
+      "content": "energy cost per operation is LANDAUER_CMB constant representing fundamental thermodynamic limit",
+      "intensity": 0.8,
+      "depends_on": [
+        "u19"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 20,
+  "error": null,
+  "observation_density": 0.75,
+  "grounding_ratio": 1.0
+}

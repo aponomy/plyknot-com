@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_1_p8",
+  "text_length": 254,
+  "unconditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "sensory",
+      "content": "autonomous etching process in semiconductor manufacturing",
+      "intensity": 0.7,
+      "pattern_id": "detect:autonomous_etching_process_in_semiconductor_manufacturing"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "closed-loop autonomy mechanism in the etching system",
+      "intensity": 0.8,
+      "pattern_id": "infer:closed-loop_autonomy_mechanism_in_the_etching_system"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "relevance assessment as distant but disclosed",
+      "intensity": 0.6,
+      "pattern_id": "classify:relevance_assessment_as_distant_but_disclosed"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing Kanarik et al. work as Category C",
+      "intensity": 0.9,
+      "pattern_id": "classify:categorizing_kanarik_et_al._work_as_category_c"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "determining relevance of closed-loop autonomy in semiconductor etching as distant but disclosed",
+      "intensity": 0.7,
+      "pattern_id": "infer:determining_relevance_of_closed-loop_autonomy_in_semiconductor_etching_as_distant_but_disclosed"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_kanarik_et_al._work_as_category_c",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "classify:relevance_assessment_as_distant_but_disclosed",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "detect:autonomous_etching_process_in_semiconductor_manufacturing",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:closed-loop_autonomy_mechanism_in_the_etching_system",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:determining_relevance_of_closed-loop_autonomy_in_semiconductor_etching_as_distant_but_disclosed",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.74,
+  "n_uncond": 3,
+  "n_cond": 2,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

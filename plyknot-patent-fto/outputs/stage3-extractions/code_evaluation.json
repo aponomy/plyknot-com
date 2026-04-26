@@ -1,0 +1,124 @@
+{
+  "module": "evaluation",
+  "source_length": 12944,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"source code structure: domain-agnostic evaluation framework with property registration, batch ingestion, two-pass analysis, cross-validation, report generation, and control framework\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"the framework processes domain-specific pipelines into standardized DataEntry objects which are ingested, analyzed through multiple passes, and reported\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u1\"]\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"PropertyDefinition dataclass defines property metadata including thresholds, circularity, speciation exclusion, units, and envelope parameters\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"DataEntry contains target, property, value, source, instrument, method, sigma, and metadata fields for measurement/prediction records\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"ingest_dataset() creates Universe entities for targets and instruments, then records measurements or predictions from DataEntry list\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"run_evaluation() performs two passes of coupling convergence analysis: pass1 filters for measurements only, pass2 uses all data\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"run_evaluation() analyzes prediction consensus, aggregates trust weights from event history, profiles measurers, detects speciation, and checks validation coverage\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"the two-pass design distinguishes measurement-only convergence from convergence including predictions, enabling comparative analysis\",\n      \"intensity\": 0.7,\n      \"depends_on\": [\"u6\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"cross_validate_populations() matches speciation results to convergence data and groups populations by metadata field to compute composition and purity\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"generate_report() summarizes convergence by property status, counts prediction consensus outcomes (confirmed/refuted/untested), and profiles measurers\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"generate_report() includes speciation results with BIC deltas and population statistics, plus validation warnings\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"ControlExpectation and ControlResult dataclasses structure verification of actual outcomes against expected convergence/speciation states\",\n      \"intensity\": 0.8,\n      \"depends_on\": []\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "source code structure: domain-agnostic evaluation framework with property registration, batch ingestion, two-pass analysis, cross-validation, report generation, and control framework",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "inference",
+      "verb": "infer",
+      "content": "the framework processes domain-specific pipelines into standardized DataEntry objects which are ingested, analyzed through multiple passes, and reported",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "PropertyDefinition dataclass defines property metadata including thresholds, circularity, speciation exclusion, units, and envelope parameters",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "DataEntry contains target, property, value, source, instrument, method, sigma, and metadata fields for measurement/prediction records",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "ingest_dataset() creates Universe entities for targets and instruments, then records measurements or predictions from DataEntry list",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "run_evaluation() performs two passes of coupling convergence analysis: pass1 filters for measurements only, pass2 uses all data",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "detect",
+      "content": "run_evaluation() analyzes prediction consensus, aggregates trust weights from event history, profiles measurers, detects speciation, and checks validation coverage",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "infer",
+      "content": "the two-pass design distinguishes measurement-only convergence from convergence including predictions, enabling comparative analysis",
+      "intensity": 0.7,
+      "depends_on": [
+        "u6"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "cross_validate_populations() matches speciation results to convergence data and groups populations by metadata field to compute composition and purity",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "detect",
+      "content": "generate_report() summarizes convergence by property status, counts prediction consensus outcomes (confirmed/refuted/untested), and profiles measurers",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "generate_report() includes speciation results with BIC deltas and population statistics, plus validation warnings",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "detect",
+      "content": "ControlExpectation and ControlResult dataclasses structure verification of actual outcomes against expected convergence/speciation states",
+      "intensity": 0.8,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    }
+  ],
+  "n_units": 12,
+  "error": null,
+  "observation_density": 0.8333333333333334,
+  "grounding_ratio": 1.0
+}

@@ -1,0 +1,375 @@
+{
+  "module": "analysis",
+  "source_length": 46720,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Analysis engine with functions for convergence, correlation, GMM, speciation, provenance, clusters, validation\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Direct translation of analysis.ts (1229 lines)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Code imports Universe, EntityID, CouplingEntry, CouplingSource and physical constants (C, G, H_PLANCK, CMB_TEMP, SOLAR_MASS, etc.)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_rotation_gap retrieves rotation observation data from universe for entity id\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Predicted velocity derived from disk enclosed mass and gravitational physics\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u4\"]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Missing mass calculated as discrepancy between required mass and observed luminous mass\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_hubble_gap retrieves redshift data for entity\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Comoving distance computed using three different Hubble constant values (Planck, Freedman, Shoes)\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u7\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Hubble gap calculated as percentage difference between Planck and Shoes distances\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u8\"]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_compact_object receives mass and distance list in Schwarzschild radii units\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Schwarzschild radius computed from mass\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u10\"]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Gravitational time dilation factor computed for each distance\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u10\", \"u11\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_cmb computes CMB properties from constants (temperature, wavelength constants)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Peak wavelength derived from Wien's displacement law\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u13\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Peak frequency and photon energy computed from wavelength and Planck constant\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u14\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_self_modeling_limit receives entity name, energy, radius, entity count, bits per entity, and optimality factor\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Bekenstein bound computed from radius and energy\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u16\"]\n    },\n    {\n      \"id\": \"u18\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Maximum entities modelable derived from Bekenstein bound and bits per entity\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u17\"]\n    },\n    {\n      \"id\": \"u19\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Maximum recursion depth computed from logarithmic relationship of Bekenstein bound\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u17\"]\n    },\n    {\n      \"id\": \"u20\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_universe_bekenstein uses fixed radius (46.5e9 ly) and energy (4.68e69 J) for observable universe\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u21\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Universal Bekenstein bound computed from universe-scale radius and total energy\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u20\"]\n    },\n    {\n      \"id\": \"u22\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_entity retrieves name, tags, frequency, and mass data for entity from universe\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u23\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Entity is theoretical if 'theoretical' tag is present\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u22\"]\n    },\n    {\n      \"id\": \"u24\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Unbound energy entity lacks proper clock if has frequency but no mass\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u22\"]\n    },\n    {\n      \"id\": \"u25\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_coupling_convergence iterates through universe coupling entries\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u26\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Source filter optionally applied to coupling entries\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u25\"]\n    },\n    {\n      \"id\": \"u27\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Mean value computed across all measurements for entity-property pair\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u25\"]\n    },\n    {\n      \"id\": \"u28\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Spread computed as max minus min value\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u25\"]\n    },\n    {\n      \"id\": \"u29\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Relative spread computed as spread divided by absolute mean\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u27\", \"u28\"]\n    },\n    {\n      \"id\": \"u30\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Convergence status determined by comparing relative spread to thresholds\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u29\"]\n    },\n    {\n      \"id\": \"u31\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Measurement count and prediction count tallied from coupling sources\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u25\"]\n    },\n    {\n      \"id\": \"u32\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Convergence type classified as measurement-only, prediction-only, measurement-prediction, or insufficient\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u31\"]\n    },\n    {\n      \"id\": \"u33\",\n      \"type\": \"observation\",\n      \"verb\": \"read\",\n      \"content\": \"Function analyze_prediction_consensus filters coupling entries where source is 'prediction'\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u34\",\n      \"type\": \"inference\",\n      \"verb\": \"calculate\",\n      \"content\": \"Consensus value and spread computed across multiple pipeline predictions\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u33\"]\n    },\n    {\n      \"id\": \"u35\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Consensus status determined as consensus or split based on relative spread threshold\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u34\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "Analysis engine with functions for convergence, correlation, GMM, speciation, provenance, clusters, validation",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "read",
+      "content": "Direct translation of analysis.ts (1229 lines)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Code imports Universe, EntityID, CouplingEntry, CouplingSource and physical constants (C, G, H_PLANCK, CMB_TEMP, SOLAR_MASS, etc.)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_rotation_gap retrieves rotation observation data from universe for entity id",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Predicted velocity derived from disk enclosed mass and gravitational physics",
+      "intensity": 0.85,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u6",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Missing mass calculated as discrepancy between required mass and observed luminous mass",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_hubble_gap retrieves redshift data for entity",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Comoving distance computed using three different Hubble constant values (Planck, Freedman, Shoes)",
+      "intensity": 0.85,
+      "depends_on": [
+        "u7"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Hubble gap calculated as percentage difference between Planck and Shoes distances",
+      "intensity": 0.8,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_compact_object receives mass and distance list in Schwarzschild radii units",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Schwarzschild radius computed from mass",
+      "intensity": 0.9,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Gravitational time dilation factor computed for each distance",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10",
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_cmb computes CMB properties from constants (temperature, wavelength constants)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Peak wavelength derived from Wien's displacement law",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Peak frequency and photon energy computed from wavelength and Planck constant",
+      "intensity": 0.85,
+      "depends_on": [
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_self_modeling_limit receives entity name, energy, radius, entity count, bits per entity, and optimality factor",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Bekenstein bound computed from radius and energy",
+      "intensity": 0.85,
+      "depends_on": [
+        "u16"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Maximum entities modelable derived from Bekenstein bound and bits per entity",
+      "intensity": 0.8,
+      "depends_on": [
+        "u17"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u19",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Maximum recursion depth computed from logarithmic relationship of Bekenstein bound",
+      "intensity": 0.8,
+      "depends_on": [
+        "u17"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u20",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_universe_bekenstein uses fixed radius (46.5e9 ly) and energy (4.68e69 J) for observable universe",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u21",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Universal Bekenstein bound computed from universe-scale radius and total energy",
+      "intensity": 0.85,
+      "depends_on": [
+        "u20"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_entity retrieves name, tags, frequency, and mass data for entity from universe",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u23",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Entity is theoretical if 'theoretical' tag is present",
+      "intensity": 0.85,
+      "depends_on": [
+        "u22"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u24",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Unbound energy entity lacks proper clock if has frequency but no mass",
+      "intensity": 0.8,
+      "depends_on": [
+        "u22"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u25",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_coupling_convergence iterates through universe coupling entries",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u26",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Source filter optionally applied to coupling entries",
+      "intensity": 0.85,
+      "depends_on": [
+        "u25"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u27",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Mean value computed across all measurements for entity-property pair",
+      "intensity": 0.85,
+      "depends_on": [
+        "u25"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u28",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Spread computed as max minus min value",
+      "intensity": 0.85,
+      "depends_on": [
+        "u25"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u29",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Relative spread computed as spread divided by absolute mean",
+      "intensity": 0.85,
+      "depends_on": [
+        "u27",
+        "u28"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u30",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Convergence status determined by comparing relative spread to thresholds",
+      "intensity": 0.8,
+      "depends_on": [
+        "u29"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u31",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Measurement count and prediction count tallied from coupling sources",
+      "intensity": 0.85,
+      "depends_on": [
+        "u25"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u32",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Convergence type classified as measurement-only, prediction-only, measurement-prediction, or insufficient",
+      "intensity": 0.8,
+      "depends_on": [
+        "u31"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u33",
+      "type": "observation",
+      "verb": "read",
+      "content": "Function analyze_prediction_consensus filters coupling entries where source is 'prediction'",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u34",
+      "type": "inference",
+      "verb": "calculate",
+      "content": "Consensus value and spread computed across multiple pipeline predictions",
+      "intensity": 0.85,
+      "depends_on": [
+        "u33"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u35",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Consensus status determined as consensus or split based on relative spread threshold",
+      "intensity": 0.8,
+      "depends_on": [
+        "u34"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 35,
+  "error": null,
+  "observation_density": 0.4,
+  "grounding_ratio": 1.0
+}

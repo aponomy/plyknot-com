@@ -1,0 +1,212 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "acquire",
+      "content": "physical measurement apparatus acquires at least one measurement record by interaction with a physical target",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "output",
+      "content": "apparatus outputs measurement record to storage",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "hold",
+      "content": "storage holds a plurality of measurement records, each a directed entry with six fields: producing measurer id, target entity id, property id, numerical value, method id, source tag",
+      "intensity": 0.95,
+      "depends_on": []
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "record",
+      "content": "source tag takes one of two values: first value indicates record produced by physical interaction; second value indicates record produced by computation",
+      "intensity": 0.95,
+      "depends_on": ["u3"]
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "operate",
+      "content": "storage operates on append-only basis: subsequent record with same composite key overwrites prior record in storage while prior record is preserved in append-only event log external to storage",
+      "intensity": 0.95,
+      "depends_on": ["u3"]
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "group",
+      "content": "convergence analyser groups records by (target, property) pair",
+      "intensity": 0.9,
+      "depends_on": ["u3"]
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "compute",
+      "content": "convergence analyser computes a relative-spread measure of numerical values for each group containing two or more records",
+      "intensity": 0.9,
+      "depends_on": ["u6"]
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "classify",
+      "content": "convergence analyser classifies each group as converged, tension, divergent, or single according to relative-spread measure against predetermined thresholds",
+      "intensity": 0.9,
+      "depends_on": ["u7"]
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "compute",
+      "content": "measurer-correlation analyser computes counts of each measurer's groups in each classification",
+      "intensity": 0.9,
+      "depends_on": ["u8"]
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "classify",
+      "content": "measurer-correlation analyser classifies a measurer as systemic-crack source when two or more of its groups are divergent or tension",
+      "intensity": 0.9,
+      "depends_on": ["u9"]
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "classify",
+      "content": "measurer-correlation analyser classifies a measurer as systemic-opening source when two or more of its groups are converged and none are divergent or tension",
+      "intensity": 0.9,
+      "depends_on": ["u9"]
+    },
+    {
+      "id": "u12",
+      "type": "inference",
+      "verb": "classify",
+      "content": "measurer-correlation analyser classifies a measurer as local-crack source when exactly one of its groups is divergent or tension",
+      "intensity": 0.9,
+      "depends_on": ["u9"]
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "determine",
+      "content": "population-decomposition analyser determines, for a (target, property) group classified as tension or divergent, whether distribution of numerical values admits decomposition into two or more components under a Gaussian-mixture model selected by BIC improvement threshold, subject to minimum-component-size and minimum-inter-component-separation guards",
+      "intensity": 0.9,
+      "depends_on": ["u8"]
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "propose",
+      "content": "when decomposition is found, analyser proposes split of target entity identifier into two or more sub-identifiers with each record assigned to exactly one sub-identifier",
+      "intensity": 0.85,
+      "depends_on": ["u13"]
+    },
+    {
+      "id": "u15",
+      "type": "observation",
+      "verb": "effect",
+      "content": "proposed split is effected on storage through rewriting of the target-entity identifier field of each record",
+      "intensity": 0.9,
+      "depends_on": ["u14"]
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "emit",
+      "content": "feedback-signal generator emits a machine-readable feedback signal encoding the analyser's output for each measurer classification and each proposed identifier split",
+      "intensity": 0.9,
+      "depends_on": ["u10", "u11", "u12", "u14"]
+    },
+    {
+      "id": "u17",
+      "type": "observation",
+      "verb": "route",
+      "content": "feedback-signal interface routes feedback signal to an actor configured to annotate the storage or to cause modification of how subsequent measurement records are acquired by the physical measurement apparatus",
+      "intensity": 0.9,
+      "depends_on": ["u16"]
+    },
+    {
+      "id": "u18",
+      "type": "inference",
+      "verb": "establish",
+      "content": "source tag is the sole basis for invoking the echo-chamber classifier and the pattern-requirement rule, gating downstream logic that distinguishes physical-interaction from computational evidence",
+      "intensity": 0.95,
+      "depends_on": ["u4"]
+    },
+    {
+      "id": "u19",
+      "type": "inference",
+      "verb": "classify",
+      "content": "physical-interaction records and computational records share the storage schema and are classified under the same grouping and relative-spread computations without reference to whether the producing measurer is a physical instrument or a computational measurer",
+      "intensity": 0.95,
+      "depends_on": ["u4", "u6", "u7", "u8"]
+    },
+    {
+      "id": "u20",
+      "type": "causal",
+      "verb": "gate",
+      "content": "source tag alone gates downstream logic distinguishing physical-interaction from computational evidence, because it is the sole distinguishing field on each directed entry",
+      "intensity": 0.95,
+      "depends_on": ["u18", "u19"]
+    },
+    {
+      "id": "u21",
+      "type": "observation",
+      "verb": "exclude",
+      "content": "system does not comprise an ontology layer assigning semantic types to entities, properties, or methods",
+      "intensity": 1.0,
+      "depends_on": []
+    },
+    {
+      "id": "u22",
+      "type": "observation",
+      "verb": "exclude",
+      "content": "system does not comprise a separate object-type or property-type registry external to the storage",
+      "intensity": 1.0,
+      "depends_on": []
+    },
+    {
+      "id": "u23",
+      "type": "observation",
+      "verb": "exclude",
+      "content": "system does not comprise a separate model-card, model-registry, or model-configuration record external to the storage for characterising a producing measurer",
+      "intensity": 1.0,
+      "depends_on": []
+    },
+    {
+      "id": "u24",
+      "type": "inference",
+      "verb": "hold",
+      "content": "any characterising attribute of a producing measurer held by the system is held as a directed entry in the storage under the same six-field schema as a measurement record of a physical target",
+      "intensity": 0.95,
+      "depends_on": ["u21", "u22", "u23", "u3"]
+    },
+    {
+      "id": "u25",
+      "type": "inference",
+      "verb": "perform",
+      "content": "all semantic labelling, if performed, is performed external to the claimed system and is not consumed by the convergence analyser, the measurer-correlation analyser, or the population-decomposition analyser",
+      "intensity": 0.95,
+      "depends_on": ["u21", "u22", "u23"]
+    },
+    {
+      "id": "u26",
+      "type": "causal",
+      "verb": "result",
+      "content": "because the system excludes all external ontology, registry, and model-card structures, any measurer characterisation must reside in the same storage schema as measurement records, making the schema self-contained and uniform",
+      "intensity": 0.9,
+      "depends_on": ["u21", "u22", "u23", "u24"]
+    }
+  ]
+}

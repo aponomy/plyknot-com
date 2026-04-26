@@ -1,0 +1,97 @@
+{
+  "module": "detector",
+  "source_length": 5223,
+  "extracted_length": 5223,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"notice\",\n      \"content\": \"Every detector in Plyknot is a pure function over coupling-map state\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"@detector decorator registers function and opts it into CI-enforced symmetry checks\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"identify\",\n      \"content\": \"Three legitimate exceptions exist with explicit encodings\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"@memoized_detector provides input-keyed caching that is functionally transparent\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"@seeded_detector with seed_source='input_hash' provides reproducible randomness from input\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"state\",\n      \"content\": \"LLM calls are forbidden in detectors entirely\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"evaluative\",\n      \"verb\": \"judge\",\n      \"content\": \"determinism, input-isolation, and no-mutation are required constraints for detectors\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"cache is functionally transparent because same input always produces same output with or without cache\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u4\"]\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"seed is derived from input hash making detector deterministic for same input\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u5\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "notice",
+      "content": "Every detector in Plyknot is a pure function over coupling-map state",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "observe",
+      "content": "@detector decorator registers function and opts it into CI-enforced symmetry checks",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "identify",
+      "content": "Three legitimate exceptions exist with explicit encodings",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "observe",
+      "content": "@memoized_detector provides input-keyed caching that is functionally transparent",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "observe",
+      "content": "@seeded_detector with seed_source='input_hash' provides reproducible randomness from input",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "state",
+      "content": "LLM calls are forbidden in detectors entirely",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "determinism, input-isolation, and no-mutation are required constraints for detectors",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u8",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "cache is functionally transparent because same input always produces same output with or without cache",
+      "intensity": 0.8,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "seed is derived from input hash making detector deterministic for same input",
+      "intensity": 0.8,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 9,
+  "error": null,
+  "observation_density": 0.6666666666666666,
+  "grounding_ratio": 0.6666666666666666
+}

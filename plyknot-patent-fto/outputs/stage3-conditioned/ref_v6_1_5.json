@@ -1,0 +1,86 @@
+{
+  "ref_id": "ref_v6_1_5",
+  "text_length": 345,
+  "unconditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing patent as Category A",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorizing_patent_as_category_a"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "determining relevance to claims based on patent family relationship",
+      "intensity": 0.7,
+      "pattern_id": "infer:determining_relevance_to_claims_based_on_patent_family_relationship"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "patent categorized as Category A",
+      "intensity": 0.9,
+      "pattern_id": "classify:patent_categorized_as_category_a"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "patent belongs to same family as US 7,962,495",
+      "intensity": 0.8,
+      "pattern_id": "infer:patent_belongs_to_same_family_as_us_7,962,495"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "patent has same mitigation as related patent",
+      "intensity": 0.8,
+      "pattern_id": "infer:patent_has_same_mitigation_as_related_patent"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_patent_as_category_a",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "classify:patent_categorized_as_category_a",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:determining_relevance_to_claims_based_on_patent_family_relationship",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "infer:patent_belongs_to_same_family_as_us_7,962,495",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:patent_has_same_mitigation_as_related_patent",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.8,
+  "n_uncond": 2,
+  "n_cond": 3,
+  "n_blend": 5,
+  "thin_flag": true,
+  "error": null
+}

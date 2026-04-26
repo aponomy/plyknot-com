@@ -1,0 +1,121 @@
+{
+  "ref_id": "ref_v6_1_p12",
+  "text_length": 401,
+  "unconditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing publication as Category C",
+      "intensity": 0.8,
+      "pattern_id": "classify:categorizing_publication_as_category_c"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "assigning publication date of 2024 with pending verification status",
+      "intensity": 0.6,
+      "pattern_id": "measure:assigning_publication_date_of_2024_with_pending_verification_status"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "evaluating relevance as structural biology evaluation",
+      "intensity": 0.7,
+      "pattern_id": "infer:evaluating_relevance_as_structural_biology_evaluation"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "verifying publication as distinct from Schapira 2024 and Gunasekaran 2024",
+      "intensity": 0.5,
+      "pattern_id": "distinguish:verifying_publication_as_distinct_from_schapira_2024_and_gunasekaran_2024"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing publication as Category C",
+      "intensity": 1.0,
+      "pattern_id": "classify:categorizing_publication_as_category_c"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "assigning publication date of 2024 with pending verification status",
+      "intensity": 0.7,
+      "pattern_id": "measure:assigning_publication_date_of_2024_with_pending_verification_status"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "evaluating relevance as structural biology evaluation",
+      "intensity": 0.8,
+      "pattern_id": "infer:evaluating_relevance_as_structural_biology_evaluation"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "differentiating this publication from Schapira 2024 and Gunasekaran 2024",
+      "intensity": 0.6,
+      "pattern_id": "distinguish:differentiating_this_publication_from_schapira_2024_and_gunasekaran_2024"
+    },
+    {
+      "verb": "require",
+      "type": "cognitive",
+      "content": "disclosure is conditional on identifying a separate publication",
+      "intensity": 0.9,
+      "pattern_id": "require:disclosure_is_conditional_on_identifying_a_separate_publication"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_publication_as_category_c",
+      "unconditioned": 0.8,
+      "conditioned": 1.0,
+      "guided": 0.9,
+      "guidance_delta": 0.19999999999999996
+    },
+    {
+      "property_id": "distinguish:differentiating_this_publication_from_schapira_2024_and_gunasekaran_2024",
+      "unconditioned": 0.0,
+      "conditioned": 0.6,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "distinguish:verifying_publication_as_distinct_from_schapira_2024_and_gunasekaran_2024",
+      "unconditioned": 0.5,
+      "conditioned": 0.0,
+      "guided": 0.25,
+      "guidance_delta": 0.5
+    },
+    {
+      "property_id": "infer:evaluating_relevance_as_structural_biology_evaluation",
+      "unconditioned": 0.7,
+      "conditioned": 0.8,
+      "guided": 0.75,
+      "guidance_delta": 0.10000000000000009
+    },
+    {
+      "property_id": "measure:assigning_publication_date_of_2024_with_pending_verification_status",
+      "unconditioned": 0.6,
+      "conditioned": 0.7,
+      "guided": 0.6499999999999999,
+      "guidance_delta": 0.09999999999999998
+    },
+    {
+      "property_id": "require:disclosure_is_conditional_on_identifying_a_separate_publication",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.39999999999999997,
+  "n_uncond": 4,
+  "n_cond": 5,
+  "n_blend": 6,
+  "thin_flag": false,
+  "error": null
+}

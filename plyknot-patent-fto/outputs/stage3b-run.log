@@ -1,0 +1,60 @@
+=== Stage 3b–3d Pipeline (Phases 2–10, local computation) ===
+
+Loaded 49 blend delta entries.
+
+Phase 2: Building predicate index...
+  Phase 2: 279 distinct predicate entities (IDs 100000–100278)
+
+Phase 3: Populating coupling map...
+  Phase 3: Universe has 864 couplings
+           Claims: 35, Modules: 37, References: 49
+  Saved → stage3-universe-state.json
+
+Phase 4: Convergence analysis...
+  Phase 4: 770 convergence entries. Status counts: {'divergent': 225, 'single': 523, 'converged': 22}
+  Saved → stage3-convergence.json
+
+Phase 5: Phenomenological mass per claim...
+  Phase 5: Mass computed for 35 claims. Range: 0.000–1.511, Mean: 0.272
+  Saved → stage3-mass-scores.json
+
+Phase 6: FTO verdicts (Lensing-modulated)...
+  Phase 6: 1715 verdicts. Counts: {'RESISTS_LENS': 1644, 'STRUCTURALLY_ABSENT': 70, 'MIXED': 1}
+  Saved → stage3-fto-verdicts.json
+  Saved → stage3-fto-report.md
+
+Phase 7: Shear analysis...
+  Phase 7: 0 §112 risks, 7 Strategic Shear candidates
+  Saved → stage3-enablement-risks.json
+
+Phase 7.5: Strategic Shear (IP pipeline)...
+  Saved → stage3-ip-pipeline.md
+
+Phase 8: Cracks and structural holes...
+  Phase 8: Built 33 claim chains, 49 prior-art chains
+  Phase 8: 11 patent cracks, 0 structural holes
+  Saved → stage3-patent-cracks.json
+  Saved → stage3-structural-holes.json
+
+Phase 9: Integrated final report...
+  Saved → stage3-final-report.md
+
+Phase 10: Spot-check comparison...
+  Saved → stage3-spot-check-comparison.md
+
+=== Stage 3b–3d COMPLETE ===
+Total API calls this session: 136 (all in Stage 3a.2 + extension)
+Phases 2–10: local computation only, zero API calls
+
+Output files:
+  ✓  stage3-universe-state.json
+  ✓  stage3-convergence.json
+  ✓  stage3-mass-scores.json
+  ✓  stage3-fto-verdicts.json
+  ✓  stage3-fto-report.md
+  ✓  stage3-enablement-risks.json
+  ✓  stage3-ip-pipeline.md
+  ✓  stage3-patent-cracks.json
+  ✓  stage3-structural-holes.json
+  ✓  stage3-final-report.md
+  ✓  stage3-spot-check-comparison.md

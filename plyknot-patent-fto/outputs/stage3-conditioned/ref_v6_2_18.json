@@ -1,0 +1,114 @@
+{
+  "ref_id": "ref_v6_2_18",
+  "text_length": 827,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "sensory",
+      "content": "inter-model output homogeneity across 70+ LLMs",
+      "intensity": 0.9,
+      "pattern_id": "observe:inter-model_output_homogeneity_across_70+_llms"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "observational homogeneity measurement",
+      "intensity": 0.85,
+      "pattern_id": "measure:observational_homogeneity_measurement"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "specification \u00a74.14 distinguishes observational homogeneity measurement and divergence-location prediction",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:specification_\u00a74.14_distinguishes_observational_homogeneity_measurement_and_divergence-location_prediction"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "post-September-2025 omission of reference would be conspicuous",
+      "intensity": 0.75,
+      "pattern_id": "infer:post-september-2025_omission_of_reference_would_be_conspicuous"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "sensory",
+      "content": "inter-model output homogeneity across 70+ LLMs",
+      "intensity": 1.0,
+      "pattern_id": "observe:inter-model_output_homogeneity_across_70+_llms"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "observational homogeneity measurement",
+      "intensity": 1.0,
+      "pattern_id": "measure:observational_homogeneity_measurement"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "distinguished in specification \u00a74.14",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:distinguished_in_specification_\u00a74.14"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "per-property divergence-location predictor",
+      "intensity": 0.9,
+      "pattern_id": "infer:per-property_divergence-location_predictor"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:distinguished_in_specification_\u00a74.14",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:specification_\u00a74.14_distinguishes_observational_homogeneity_measurement_and_divergence-location_prediction",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "infer:per-property_divergence-location_predictor",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "infer:post-september-2025_omission_of_reference_would_be_conspicuous",
+      "unconditioned": 0.75,
+      "conditioned": 0.0,
+      "guided": 0.375,
+      "guidance_delta": 0.75
+    },
+    {
+      "property_id": "measure:observational_homogeneity_measurement",
+      "unconditioned": 0.85,
+      "conditioned": 1.0,
+      "guided": 0.925,
+      "guidance_delta": 0.15000000000000002
+    },
+    {
+      "property_id": "observe:inter-model_output_homogeneity_across_70+_llms",
+      "unconditioned": 0.9,
+      "conditioned": 1.0,
+      "guided": 0.95,
+      "guidance_delta": 0.09999999999999998
+    }
+  ],
+  "lensing_strain": 0.5833333333333334,
+  "n_uncond": 4,
+  "n_cond": 4,
+  "n_blend": 6,
+  "thin_flag": true,
+  "error": null
+}

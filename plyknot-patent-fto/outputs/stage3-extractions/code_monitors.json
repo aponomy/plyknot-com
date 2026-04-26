@@ -1,0 +1,188 @@
+{
+  "module": "monitors",
+  "source_length": 19934,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Event Horizon Monitor detects when Level 5 entity accumulates enough independent physical couplings to cross into Levels 0-4\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Fission/Fusion Monitor detects speciation (\u0394BIC \u2265 10 signals hidden sub-populations) or fusion (lobe count decrease)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Shear Monitor detects divergence between entity's Phenomenological Canvas position and Epistemic Canvas position\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Shear indicates entity is understood differently depending on measurement vs theory\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u3\"]\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"count\",\n      \"content\": \"Total physical measurement couplings on an entity grouped by method\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Distinct measurement methods used for couplings\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Distinct entities that performed measurements\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u5\"]\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"Entity tagged as Level 5 or linguistic-only or signifier\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"Entity already has horizon-crossed tag\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"inference\",\n      \"verb\": \"determine\",\n      \"content\": \"Entity crossed Event Horizon based on meeting minimum coupling and method thresholds\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u5\", \"u6\", \"u8\"]\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Speciation candidates found via detect_speciation_candidates\",\n      \"intensity\": 0.85,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"match\",\n      \"content\": \"Candidate entity and property match query parameters\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u11\"]\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"measure\",\n      \"content\": \"Current lobe count from speciation candidate\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\"u12\"]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Fission detected when deltaBIC exceeds threshold and current lobes exceed previous\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u13\", \"u11\"]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Fusion detected when current lobe count decreased from previous observation\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u13\"]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"observation\",\n      \"verb\": \"check\",\n      \"content\": \"Entity-property no longer appears in speciation candidates\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\"u11\"]\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"Complete fusion occurred when previously multi-lobe entity not found in candidates\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\"u16\"]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Event Horizon Monitor detects when Level 5 entity accumulates enough independent physical couplings to cross into Levels 0-4",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Fission/Fusion Monitor detects speciation (\u0394BIC \u2265 10 signals hidden sub-populations) or fusion (lobe count decrease)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Shear Monitor detects divergence between entity's Phenomenological Canvas position and Epistemic Canvas position",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Shear indicates entity is understood differently depending on measurement vs theory",
+      "intensity": 0.8,
+      "depends_on": [
+        "u3"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "count",
+      "content": "Total physical measurement couplings on an entity grouped by method",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Distinct measurement methods used for couplings",
+      "intensity": 0.85,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Distinct entities that performed measurements",
+      "intensity": 0.85,
+      "depends_on": [
+        "u5"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "check",
+      "content": "Entity tagged as Level 5 or linguistic-only or signifier",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "observation",
+      "verb": "check",
+      "content": "Entity already has horizon-crossed tag",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u10",
+      "type": "inference",
+      "verb": "determine",
+      "content": "Entity crossed Event Horizon based on meeting minimum coupling and method thresholds",
+      "intensity": 0.85,
+      "depends_on": [
+        "u5",
+        "u6",
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u11",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Speciation candidates found via detect_speciation_candidates",
+      "intensity": 0.85,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "match",
+      "content": "Candidate entity and property match query parameters",
+      "intensity": 0.9,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "measure",
+      "content": "Current lobe count from speciation candidate",
+      "intensity": 0.9,
+      "depends_on": [
+        "u12"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Fission detected when deltaBIC exceeds threshold and current lobes exceed previous",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13",
+        "u11"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Fusion detected when current lobe count decreased from previous observation",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "observation",
+      "verb": "check",
+      "content": "Entity-property no longer appears in speciation candidates",
+      "intensity": 0.85,
+      "depends_on": [
+        "u11"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "infer",
+      "content": "Complete fusion occurred when previously multi-lobe entity not found in candidates",
+      "intensity": 0.8,
+      "depends_on": [
+        "u16"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 17,
+  "error": null,
+  "observation_density": 0.7058823529411765,
+  "grounding_ratio": 1.0
+}

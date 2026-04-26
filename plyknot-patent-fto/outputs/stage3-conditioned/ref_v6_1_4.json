@@ -1,0 +1,100 @@
+{
+  "ref_id": "ref_v6_1_4",
+  "text_length": 649,
+  "unconditioned_raw": [
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "measurer-as-entity under an ontology layer",
+      "intensity": 0.8,
+      "pattern_id": "measure:measurer-as-entity_under_an_ontology_layer"
+    },
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "measurer-as-entity bound to mechanism-1 marker-propagation dependency-graph",
+      "intensity": 0.7,
+      "pattern_id": "detect:measurer-as-entity_bound_to_mechanism-1_marker-propagation_dependency-graph"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "ontology disclaimer excludes object-type or property-type registry",
+      "intensity": 0.75,
+      "pattern_id": "infer:ontology_disclaimer_excludes_object-type_or_property-type_registry"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "measurer-as-entity under an ontology layer",
+      "intensity": 0.9,
+      "pattern_id": "propose:measurer-as-entity_under_an_ontology_layer"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "measurer-as-entity bound to mechanism-1 marker-propagation dependency-graph",
+      "intensity": 0.85,
+      "pattern_id": "classify:measurer-as-entity_bound_to_mechanism-1_marker-propagation_dependency-graph"
+    },
+    {
+      "verb": "exclude",
+      "type": "cognitive",
+      "content": "ontology disclaimer excludes object-type or property-type registry",
+      "intensity": 0.95,
+      "pattern_id": "exclude:ontology_disclaimer_excludes_object-type_or_property-type_registry"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:measurer-as-entity_bound_to_mechanism-1_marker-propagation_dependency-graph",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "detect:measurer-as-entity_bound_to_mechanism-1_marker-propagation_dependency-graph",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "exclude:ontology_disclaimer_excludes_object-type_or_property-type_registry",
+      "unconditioned": 0.0,
+      "conditioned": 0.95,
+      "guided": 0.475,
+      "guidance_delta": 0.95
+    },
+    {
+      "property_id": "infer:ontology_disclaimer_excludes_object-type_or_property-type_registry",
+      "unconditioned": 0.75,
+      "conditioned": 0.0,
+      "guided": 0.375,
+      "guidance_delta": 0.75
+    },
+    {
+      "property_id": "measure:measurer-as-entity_under_an_ontology_layer",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "propose:measurer-as-entity_under_an_ontology_layer",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    }
+  ],
+  "lensing_strain": 0.8250000000000001,
+  "n_uncond": 3,
+  "n_cond": 3,
+  "n_blend": 6,
+  "thin_flag": true,
+  "error": null
+}

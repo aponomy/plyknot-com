@@ -1,0 +1,186 @@
+{
+  "module": "guided_extraction",
+  "source_length": 27357,
+  "extracted_length": 12014,
+  "raw_response": "```json\n{\n  \"units\": [\n    {\n      \"id\": \"u1\",\n      \"type\": \"observation\",\n      \"verb\": \"recognize\",\n      \"content\": \"There is a software architecture with three components: Opus (orchestrator), Haiku (extraction instrument), describe.py (measurement framework)\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u2\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"A core mechanism exists with 5 steps: extract unconditioned, extract conditioned, blend using guidance formula, check stability, increase resolution if unstable\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u3\",\n      \"type\": \"inference\",\n      \"verb\": \"believe\",\n      \"content\": \"The approach implements classifier-free guidance for information extraction\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\n        \"u1\",\n        \"u2\"\n      ]\n    },\n    {\n      \"id\": \"u4\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"The code defines an ExtractionSchema class that constrains extraction without determining output\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u5\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"ExtractionSchema includes predicate categories: see, hear, feel, touch, think, know, want, believe, say\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\n        \"u4\"\n      ]\n    },\n    {\n      \"id\": \"u6\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"Function _call_haiku makes API calls to Claude Haiku with text and system prompts\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u7\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Function extract_unconditioned extracts predicates from text alone, without context anchors\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u8\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Function extract_conditioned extracts predicates from text with numerical context anchors\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u9\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"The context anchors constrain extraction without determining it, serving as a conditioning mechanism\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\n        \"u8\"\n      ]\n    },\n    {\n      \"id\": \"u10\",\n      \"type\": \"observation\",\n      \"verb\": \"see\",\n      \"content\": \"Function blend_extractions applies the formula: guided = unconditioned + guidance_scale \u00d7 (conditioned - unconditioned)\",\n      \"intensity\": 0.95,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u11\",\n      \"type\": \"inference\",\n      \"verb\": \"conclude\",\n      \"content\": \"At guidance_scale=0, text dominates; at scale=1, context dominates; intermediate values blend both\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\n        \"u10\"\n      ]\n    },\n    {\n      \"id\": \"u12\",\n      \"type\": \"observation\",\n      \"verb\": \"detect\",\n      \"content\": \"Function run_denoising_loop iterates through resolutions: document, paragraph, sentence\",\n      \"intensity\": 0.9,\n      \"depends_on\": []\n    },\n    {\n      \"id\": \"u13\",\n      \"type\": \"observation\",\n      \"verb\": \"observe\",\n      \"content\": \"The loop re-runs extraction N times to compute variance across re-runs for each property\",\n      \"intensity\": 0.9,\n      \"depends_on\": [\n        \"u12\"\n      ]\n    },\n    {\n      \"id\": \"u14\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"If variance is below convergence_threshold, the extraction has stabilized\",\n      \"intensity\": 0.8,\n      \"depends_on\": [\n        \"u13\"\n      ]\n    },\n    {\n      \"id\": \"u15\",\n      \"type\": \"causal\",\n      \"verb\": \"explain\",\n      \"content\": \"Low variance across re-runs causes the loop to converge and stop iterating\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\n        \"u13\",\n        \"u14\"\n      ]\n    },\n    {\n      \"id\": \"u16\",\n      \"type\": \"causal\",\n      \"verb\": \"explain\",\n      \"content\": \"High variance causes the loop to increase resolution (finer grain segmentation) and repeat\",\n      \"intensity\": 0.85,\n      \"depends_on\": [\n        \"u13\"\n      ]\n    },\n    {\n      \"id\": \"u17\",\n      \"type\": \"inference\",\n      \"verb\": \"infer\",\n      \"content\": \"The depth at which convergence occurs serves as a measurement of appropriate resolution for the text\",\n      \"intensity\": 0.75,\n      \"depends_on\": [\n        \"u12\",\n        \"u15\"\n      ]\n    }\n  ]\n}\n```",
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "recognize",
+      "content": "There is a software architecture with three components: Opus (orchestrator), Haiku (extraction instrument), describe.py (measurement framework)",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "detect",
+      "content": "A core mechanism exists with 5 steps: extract unconditioned, extract conditioned, blend using guidance formula, check stability, increase resolution if unstable",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u3",
+      "type": "inference",
+      "verb": "believe",
+      "content": "The approach implements classifier-free guidance for information extraction",
+      "intensity": 0.85,
+      "depends_on": [
+        "u1",
+        "u2"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u4",
+      "type": "observation",
+      "verb": "see",
+      "content": "The code defines an ExtractionSchema class that constrains extraction without determining output",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u5",
+      "type": "observation",
+      "verb": "detect",
+      "content": "ExtractionSchema includes predicate categories: see, hear, feel, touch, think, know, want, believe, say",
+      "intensity": 0.9,
+      "depends_on": [
+        "u4"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u6",
+      "type": "observation",
+      "verb": "observe",
+      "content": "Function _call_haiku makes API calls to Claude Haiku with text and system prompts",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u7",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Function extract_unconditioned extracts predicates from text alone, without context anchors",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u8",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Function extract_conditioned extracts predicates from text with numerical context anchors",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u9",
+      "type": "inference",
+      "verb": "infer",
+      "content": "The context anchors constrain extraction without determining it, serving as a conditioning mechanism",
+      "intensity": 0.8,
+      "depends_on": [
+        "u8"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u10",
+      "type": "observation",
+      "verb": "see",
+      "content": "Function blend_extractions applies the formula: guided = unconditioned + guidance_scale \u00d7 (conditioned - unconditioned)",
+      "intensity": 0.95,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u11",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "At guidance_scale=0, text dominates; at scale=1, context dominates; intermediate values blend both",
+      "intensity": 0.85,
+      "depends_on": [
+        "u10"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u12",
+      "type": "observation",
+      "verb": "detect",
+      "content": "Function run_denoising_loop iterates through resolutions: document, paragraph, sentence",
+      "intensity": 0.9,
+      "depends_on": [],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u13",
+      "type": "observation",
+      "verb": "observe",
+      "content": "The loop re-runs extraction N times to compute variance across re-runs for each property",
+      "intensity": 0.9,
+      "depends_on": [
+        "u12"
+      ],
+      "epistemological_route": "measure"
+    },
+    {
+      "id": "u14",
+      "type": "inference",
+      "verb": "infer",
+      "content": "If variance is below convergence_threshold, the extraction has stabilized",
+      "intensity": 0.8,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u15",
+      "type": "causal",
+      "verb": "explain",
+      "content": "Low variance across re-runs causes the loop to converge and stop iterating",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13",
+        "u14"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u16",
+      "type": "causal",
+      "verb": "explain",
+      "content": "High variance causes the loop to increase resolution (finer grain segmentation) and repeat",
+      "intensity": 0.85,
+      "depends_on": [
+        "u13"
+      ],
+      "epistemological_route": "predict"
+    },
+    {
+      "id": "u17",
+      "type": "inference",
+      "verb": "infer",
+      "content": "The depth at which convergence occurs serves as a measurement of appropriate resolution for the text",
+      "intensity": 0.75,
+      "depends_on": [
+        "u12",
+        "u15"
+      ],
+      "epistemological_route": "predict"
+    }
+  ],
+  "n_units": 17,
+  "error": null,
+  "observation_density": 0.5882352941176471,
+  "grounding_ratio": 1.0
+}

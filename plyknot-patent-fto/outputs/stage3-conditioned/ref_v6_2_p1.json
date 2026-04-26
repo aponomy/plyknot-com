@@ -1,0 +1,37 @@
+{
+  "ref_id": "ref_v6_2_p1",
+  "text_length": 386,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Extension of Kuncheva & Whitaker ensemble-diversity framework to Bregman and 0/1 losses",
+      "intensity": 0.7,
+      "pattern_id": "distinguish:extension_of_kuncheva_&_whitaker_ensemble-diversity_framework_to_bregman_and_0/1_losses"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "Extension of Kuncheva & Whitaker ensemble-diversity framework to Bregman and 0/1 losses",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:extension_of_kuncheva_&_whitaker_ensemble-diversity_framework_to_bregman_and_0/1_losses"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:extension_of_kuncheva_&_whitaker_ensemble-diversity_framework_to_bregman_and_0/1_losses",
+      "unconditioned": 0.7,
+      "conditioned": 0.8,
+      "guided": 0.75,
+      "guidance_delta": 0.10000000000000009
+    }
+  ],
+  "lensing_strain": 0.10000000000000009,
+  "n_uncond": 1,
+  "n_cond": 1,
+  "n_blend": 1,
+  "thin_flag": true,
+  "error": null
+}

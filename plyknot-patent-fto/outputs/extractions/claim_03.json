@@ -1,0 +1,52 @@
+{
+  "units": [
+    {
+      "id": "u1",
+      "type": "observation",
+      "verb": "read",
+      "content": "a time-ordered sequence of refuted-echo-chamber signals attributed to each measurer is read from the append-only event log",
+      "intensity": 0.9,
+      "depends_on": []
+    },
+    {
+      "id": "u2",
+      "type": "observation",
+      "verb": "compute",
+      "content": "a decay-weighted aggregate of refuted-echo-chamber signals is computed over a configurable time window",
+      "intensity": 0.9,
+      "depends_on": ["u1"]
+    },
+    {
+      "id": "u3",
+      "type": "observation",
+      "verb": "emit",
+      "content": "the aggregated value is emitted as the trust-weight argument optionally consumed by the measurer-correlation analyser",
+      "intensity": 0.9,
+      "depends_on": ["u2"]
+    },
+    {
+      "id": "u4",
+      "type": "inference",
+      "verb": "conclude",
+      "content": "the per-measurer trust weight is the product of reading, decay-weighting, and emitting the aggregated refuted-echo-chamber signals",
+      "intensity": 0.85,
+      "depends_on": ["u1", "u2", "u3"]
+    },
+    {
+      "id": "u5",
+      "type": "causal",
+      "verb": "leads to",
+      "content": "routing the trust-weight loop through the event log rather than through mutation of prior coupling entries results in the trust-weight loop operating via the append-only log",
+      "intensity": 0.9,
+      "depends_on": ["u3", "u4"]
+    },
+    {
+      "id": "u6",
+      "type": "evaluative",
+      "verb": "judge",
+      "content": "it is architecturally significant that the trust-weight loop operates through the event log rather than by mutating prior coupling entries",
+      "intensity": 0.85,
+      "depends_on": ["u5"]
+    }
+  ]
+}

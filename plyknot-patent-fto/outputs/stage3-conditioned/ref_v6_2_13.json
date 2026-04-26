@@ -1,0 +1,72 @@
+{
+  "ref_id": "ref_v6_2_13",
+  "text_length": 425,
+  "unconditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "benchmarking initiatives to bridge gap from AlphaFold to drug design",
+      "intensity": 0.7,
+      "pattern_id": "propose:benchmarking_initiatives_to_bridge_gap_from_alphafold_to_drug_design"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "relevance to claims same as Karelina reference",
+      "intensity": 0.6,
+      "pattern_id": "infer:relevance_to_claims_same_as_karelina_reference"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "bridging the gap from AlphaFold to drug design through big data and benchmarking initiatives",
+      "intensity": 0.7,
+      "pattern_id": "propose:bridging_the_gap_from_alphafold_to_drug_design_through_big_data_and_benchmarking_initiatives"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing the relevance of this work as equivalent to Karelina mitigation",
+      "intensity": 0.6,
+      "pattern_id": "classify:categorizing_the_relevance_of_this_work_as_equivalent_to_karelina_mitigation"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_the_relevance_of_this_work_as_equivalent_to_karelina_mitigation",
+      "unconditioned": 0.0,
+      "conditioned": 0.6,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "infer:relevance_to_claims_same_as_karelina_reference",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "propose:benchmarking_initiatives_to_bridge_gap_from_alphafold_to_drug_design",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    },
+    {
+      "property_id": "propose:bridging_the_gap_from_alphafold_to_drug_design_through_big_data_and_benchmarking_initiatives",
+      "unconditioned": 0.0,
+      "conditioned": 0.7,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.6499999999999999,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 4,
+  "thin_flag": true,
+  "error": null
+}

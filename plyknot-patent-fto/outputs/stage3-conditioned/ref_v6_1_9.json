@@ -1,0 +1,58 @@
+{
+  "ref_id": "ref_v6_1_9",
+  "text_length": 578,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "CAMEO distinguished by absence of measurer-correlation classifier, admissibility-filtered vocabulary, and echo-chamber three-way classification",
+      "intensity": 0.8,
+      "pattern_id": "distinguish:cameo_distinguished_by_absence_of_measurer-correlation_classifier,_admissibility-filtered_vocabulary,_and_echo-chamber_three-way_classification"
+    },
+    {
+      "verb": "measure",
+      "type": "cognitive",
+      "content": "measurer-correlation classifier absent in CAMEO",
+      "intensity": 0.7,
+      "pattern_id": "measure:measurer-correlation_classifier_absent_in_cameo"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "CAMEO system distinguished by absence of measurer-correlation classifier, admissibility-filtered vocabulary, and echo-chamber three-way classification",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:cameo_system_distinguished_by_absence_of_measurer-correlation_classifier,_admissibility-filtered_vocabulary,_and_echo-chamber_three-way_classification"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "distinguish:cameo_distinguished_by_absence_of_measurer-correlation_classifier,_admissibility-filtered_vocabulary,_and_echo-chamber_three-way_classification",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "distinguish:cameo_system_distinguished_by_absence_of_measurer-correlation_classifier,_admissibility-filtered_vocabulary,_and_echo-chamber_three-way_classification",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "measure:measurer-correlation_classifier_absent_in_cameo",
+      "unconditioned": 0.7,
+      "conditioned": 0.0,
+      "guided": 0.35,
+      "guidance_delta": 0.7
+    }
+  ],
+  "lensing_strain": 0.7999999999999999,
+  "n_uncond": 2,
+  "n_cond": 1,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

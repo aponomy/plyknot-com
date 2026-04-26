@@ -1,0 +1,65 @@
+{
+  "ref_id": "ref_v6_1_p10",
+  "text_length": 268,
+  "unconditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "sensory",
+      "content": "Non-English-language prior art located during initial search",
+      "intensity": 0.8,
+      "pattern_id": "detect:non-english-language_prior_art_located_during_initial_search"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "Full translations not pursued due to assessment of relevance",
+      "intensity": 0.6,
+      "pattern_id": "infer:full_translations_not_pursued_due_to_assessment_of_relevance"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "detect",
+      "type": "sensory",
+      "content": "Non-English-language prior art located during initial search",
+      "intensity": 0.9,
+      "pattern_id": "detect:non-english-language_prior_art_located_during_initial_search"
+    },
+    {
+      "verb": "propose",
+      "type": "cognitive",
+      "content": "Disclosure of prior art without full translations for transparency",
+      "intensity": 0.8,
+      "pattern_id": "propose:disclosure_of_prior_art_without_full_translations_for_transparency"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "detect:non-english-language_prior_art_located_during_initial_search",
+      "unconditioned": 0.8,
+      "conditioned": 0.9,
+      "guided": 0.8500000000000001,
+      "guidance_delta": 0.09999999999999998
+    },
+    {
+      "property_id": "infer:full_translations_not_pursued_due_to_assessment_of_relevance",
+      "unconditioned": 0.6,
+      "conditioned": 0.0,
+      "guided": 0.3,
+      "guidance_delta": 0.6
+    },
+    {
+      "property_id": "propose:disclosure_of_prior_art_without_full_translations_for_transparency",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.5,
+  "n_uncond": 2,
+  "n_cond": 2,
+  "n_blend": 3,
+  "thin_flag": true,
+  "error": null
+}

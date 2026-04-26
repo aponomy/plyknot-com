@@ -1,0 +1,100 @@
+{
+  "ref_id": "ref_v6_1_6",
+  "text_length": 714,
+  "unconditioned_raw": [
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "Palantir patents US 10,180,929 and US 10,803,106 are FTO-adjacent modular-ontology patents",
+      "intensity": 0.85,
+      "pattern_id": "observe:palantir_patents_us_10,180,929_and_us_10,803,106_are_fto-adjacent_modular-ontology_patents"
+    },
+    {
+      "verb": "detect",
+      "type": "cognitive",
+      "content": "Claims 1 and 13 contain tightened disclaimer items carving out ontology-layer and object-type/property-type registry subject matter",
+      "intensity": 0.9,
+      "pattern_id": "detect:claims_1_and_13_contain_tightened_disclaimer_items_carving_out_ontology-layer_and_object-type/property-type_registry_subject_matter"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "Patents categorized as Category A with relevance to FTO claims",
+      "intensity": 0.8,
+      "pattern_id": "classify:patents_categorized_as_category_a_with_relevance_to_fto_claims"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "categorizing patents as FTO-adjacent Palantir modular-ontology patents",
+      "intensity": 0.9,
+      "pattern_id": "classify:categorizing_patents_as_fto-adjacent_palantir_modular-ontology_patents"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "distinguishing ontology-layer subject matter as carved out by disclaimer",
+      "intensity": 0.85,
+      "pattern_id": "distinguish:distinguishing_ontology-layer_subject_matter_as_carved_out_by_disclaimer"
+    },
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "distinguishing object-type/property-type registry subject matter as carved out by disclaimer",
+      "intensity": 0.85,
+      "pattern_id": "distinguish:distinguishing_object-type/property-type_registry_subject_matter_as_carved_out_by_disclaimer"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:categorizing_patents_as_fto-adjacent_palantir_modular-ontology_patents",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "classify:patents_categorized_as_category_a_with_relevance_to_fto_claims",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "detect:claims_1_and_13_contain_tightened_disclaimer_items_carving_out_ontology-layer_and_object-type/property-type_registry_subject_matter",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:distinguishing_object-type/property-type_registry_subject_matter_as_carved_out_by_disclaimer",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "distinguish:distinguishing_ontology-layer_subject_matter_as_carved_out_by_disclaimer",
+      "unconditioned": 0.0,
+      "conditioned": 0.85,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "observe:palantir_patents_us_10,180,929_and_us_10,803,106_are_fto-adjacent_modular-ontology_patents",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    }
+  ],
+  "lensing_strain": 0.8583333333333334,
+  "n_uncond": 3,
+  "n_cond": 3,
+  "n_blend": 6,
+  "thin_flag": true,
+  "error": null
+}

@@ -1,0 +1,114 @@
+{
+  "ref_id": "ref_v6_2_3",
+  "text_length": 1068,
+  "unconditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "SOSA/SSN differs from the invention on three specification points regarding sensor characterization and measurement approaches",
+      "intensity": 0.9,
+      "pattern_id": "distinguish:sosa/ssn_differs_from_the_invention_on_three_specification_points_regarding_sensor_characterization_and_measurement_approaches"
+    },
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "SOSA/SSN characterises physical-sensor capability ranges while the invention characterises training-time design choices of computational measurers",
+      "intensity": 0.85,
+      "pattern_id": "observe:sosa/ssn_characterises_physical-sensor_capability_ranges_while_the_invention_characterises_training-time_design_choices_of_computational_measurers"
+    },
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "SOSA/SSN uses a specialised SystemProperty sub-schema whereas the invention uses the same six-field directed-entry schema",
+      "intensity": 0.85,
+      "pattern_id": "observe:sosa/ssn_uses_a_specialised_systemproperty_sub-schema_whereas_the_invention_uses_the_same_six-field_directed-entry_schema"
+    },
+    {
+      "verb": "infer",
+      "type": "cognitive",
+      "content": "SOSA/SSN provides no predictor of divergence between two sensors",
+      "intensity": 0.8,
+      "pattern_id": "infer:sosa/ssn_provides_no_predictor_of_divergence_between_two_sensors"
+    }
+  ],
+  "conditioned_raw": [
+    {
+      "verb": "distinguish",
+      "type": "cognitive",
+      "content": "SOSA/SSN distinguished from invention on three points: physical-sensor capability ranges vs computational measurer design choices, specialised SystemProperty sub-schema vs six-field directed-entry schema, and absence of divergence predictor",
+      "intensity": 1.0,
+      "pattern_id": "distinguish:sosa/ssn_distinguished_from_invention_on_three_points:_physical-sensor_capability_ranges_vs_computational_measurer_design_choices,_specialised_systemproperty_sub-schema_vs_six-field_directed-entry_schema,_and_absence_of_divergence_predictor"
+    },
+    {
+      "verb": "classify",
+      "type": "cognitive",
+      "content": "SOSA/SSN categorized as closest standards-side precedent for instrument node with characterising property edges pattern",
+      "intensity": 0.9,
+      "pattern_id": "classify:sosa/ssn_categorized_as_closest_standards-side_precedent_for_instrument_node_with_characterising_property_edges_pattern"
+    },
+    {
+      "verb": "observe",
+      "type": "cognitive",
+      "content": "sosa:Sensor is a first-class node with ssn-system:SystemProperty edges attaching accuracy, sensitivity, measurement range",
+      "intensity": 0.8,
+      "pattern_id": "observe:sosa:sensor_is_a_first-class_node_with_ssn-system:systemproperty_edges_attaching_accuracy,_sensitivity,_measurement_range"
+    }
+  ],
+  "blend_values": [
+    {
+      "property_id": "classify:sosa/ssn_categorized_as_closest_standards-side_precedent_for_instrument_node_with_characterising_property_edges_pattern",
+      "unconditioned": 0.0,
+      "conditioned": 0.9,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:sosa/ssn_differs_from_the_invention_on_three_specification_points_regarding_sensor_characterization_and_measurement_approaches",
+      "unconditioned": 0.9,
+      "conditioned": 0.0,
+      "guided": 0.45,
+      "guidance_delta": 0.9
+    },
+    {
+      "property_id": "distinguish:sosa/ssn_distinguished_from_invention_on_three_points:_physical-sensor_capability_ranges_vs_computational_measurer_design_choices,_specialised_systemproperty_sub-schema_vs_six-field_directed-entry_schema,_and_absence_of_divergence_predictor",
+      "unconditioned": 0.0,
+      "conditioned": 1.0,
+      "guided": 0.5,
+      "guidance_delta": 1.0
+    },
+    {
+      "property_id": "infer:sosa/ssn_provides_no_predictor_of_divergence_between_two_sensors",
+      "unconditioned": 0.8,
+      "conditioned": 0.0,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    },
+    {
+      "property_id": "observe:sosa/ssn_characterises_physical-sensor_capability_ranges_while_the_invention_characterises_training-time_design_choices_of_computational_measurers",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "observe:sosa/ssn_uses_a_specialised_systemproperty_sub-schema_whereas_the_invention_uses_the_same_six-field_directed-entry_schema",
+      "unconditioned": 0.85,
+      "conditioned": 0.0,
+      "guided": 0.425,
+      "guidance_delta": 0.85
+    },
+    {
+      "property_id": "observe:sosa:sensor_is_a_first-class_node_with_ssn-system:systemproperty_edges_attaching_accuracy,_sensitivity,_measurement_range",
+      "unconditioned": 0.0,
+      "conditioned": 0.8,
+      "guided": 0.4,
+      "guidance_delta": 0.8
+    }
+  ],
+  "lensing_strain": 0.8714285714285713,
+  "n_uncond": 4,
+  "n_cond": 3,
+  "n_blend": 7,
+  "thin_flag": true,
+  "error": null
+}
