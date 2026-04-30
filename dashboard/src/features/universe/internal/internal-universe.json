@@ -1,0 +1,1603 @@
+{
+  "_meta": {
+    "generated": "2026-04-27",
+    "description": "Internal R&D universe \u2014 Plyknot research mapped onto its own convergence framework"
+  },
+  "stats": {
+    "chainCount": 26,
+    "couplingCount": 57,
+    "entityCount": 26,
+    "crackCount": 6
+  },
+  "heatmap": {
+    "cells": [
+      {
+        "inferenceLevel": "signal",
+        "complexityLevel": 0,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "signal",
+        "complexityLevel": 1,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "signal",
+        "complexityLevel": 2,
+        "total": 2,
+        "cracked": 2,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "signal",
+        "complexityLevel": 3,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "signal",
+        "complexityLevel": 4,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "signal",
+        "complexityLevel": 5,
+        "total": 2,
+        "cracked": 2,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "measurement",
+        "complexityLevel": 0,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "measurement",
+        "complexityLevel": 1,
+        "total": 2,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "measurement",
+        "complexityLevel": 2,
+        "total": 5,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "measurement",
+        "complexityLevel": 3,
+        "total": 14,
+        "cracked": 1,
+        "status": "single"
+      },
+      {
+        "inferenceLevel": "measurement",
+        "complexityLevel": 4,
+        "total": 1,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "measurement",
+        "complexityLevel": 5,
+        "total": 1,
+        "cracked": 1,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "pattern",
+        "complexityLevel": 0,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "pattern",
+        "complexityLevel": 1,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "pattern",
+        "complexityLevel": 2,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "pattern",
+        "complexityLevel": 3,
+        "total": 1,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "pattern",
+        "complexityLevel": 4,
+        "total": 4,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "pattern",
+        "complexityLevel": 5,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "model",
+        "complexityLevel": 0,
+        "total": 3,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "model",
+        "complexityLevel": 1,
+        "total": 1,
+        "cracked": 1,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "model",
+        "complexityLevel": 2,
+        "total": 6,
+        "cracked": 1,
+        "status": "single"
+      },
+      {
+        "inferenceLevel": "model",
+        "complexityLevel": 3,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "model",
+        "complexityLevel": 4,
+        "total": 1,
+        "cracked": 0,
+        "status": "solid"
+      },
+      {
+        "inferenceLevel": "model",
+        "complexityLevel": 5,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "hypothesis",
+        "complexityLevel": 0,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "hypothesis",
+        "complexityLevel": 1,
+        "total": 1,
+        "cracked": 1,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "hypothesis",
+        "complexityLevel": 2,
+        "total": 3,
+        "cracked": 3,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "hypothesis",
+        "complexityLevel": 3,
+        "total": 0,
+        "cracked": 0,
+        "status": "empty"
+      },
+      {
+        "inferenceLevel": "hypothesis",
+        "complexityLevel": 4,
+        "total": 4,
+        "cracked": 4,
+        "status": "divergent"
+      },
+      {
+        "inferenceLevel": "hypothesis",
+        "complexityLevel": 5,
+        "total": 6,
+        "cracked": 6,
+        "status": "divergent"
+      }
+    ]
+  },
+  "chains": {
+    "chains": [
+      {
+        "name": "Convergence-Independence Hypothesis",
+        "entity": "Convergence-Independence Hypothesis",
+        "stepCount": 4,
+        "crackCount": 3
+      },
+      {
+        "name": "Lensing (lens verb)",
+        "entity": "Lensing (lens verb)",
+        "stepCount": 2,
+        "crackCount": 2
+      },
+      {
+        "name": "Layer 3 (LLM read-only)",
+        "entity": "Layer 3 (LLM read-only)",
+        "stepCount": 3,
+        "crackCount": 2
+      },
+      {
+        "name": "Echo Chamber Map",
+        "entity": "Echo Chamber Map",
+        "stepCount": 2,
+        "crackCount": 2
+      },
+      {
+        "name": "Patent FTO",
+        "entity": "Patent FTO",
+        "stepCount": 3,
+        "crackCount": 2
+      },
+      {
+        "name": "Plyknot ML",
+        "entity": "Plyknot ML",
+        "stepCount": 2,
+        "crackCount": 2
+      },
+      {
+        "name": "Consciousness as Instrument",
+        "entity": "Consciousness as Instrument",
+        "stepCount": 2,
+        "crackCount": 2
+      },
+      {
+        "name": "Canvas Architecture",
+        "entity": "Canvas Architecture",
+        "stepCount": 5,
+        "crackCount": 1
+      },
+      {
+        "name": "Cybernetics (act verb)",
+        "entity": "Cybernetics (act verb)",
+        "stepCount": 4,
+        "crackCount": 1
+      },
+      {
+        "name": "Foundation (Worldview)",
+        "entity": "Foundation (Worldview)",
+        "stepCount": 3,
+        "crackCount": 1
+      },
+      {
+        "name": "Text-as-Sensor (Satellite 2)",
+        "entity": "Text-as-Sensor (Satellite 2)",
+        "stepCount": 2,
+        "crackCount": 1
+      },
+      {
+        "name": "Emergence (Satellite 5)",
+        "entity": "Emergence (Satellite 5)",
+        "stepCount": 1,
+        "crackCount": 1
+      },
+      {
+        "name": "Concept Distance",
+        "entity": "Concept Distance",
+        "stepCount": 1,
+        "crackCount": 1
+      },
+      {
+        "name": "NSM Primes",
+        "entity": "NSM Primes",
+        "stepCount": 1,
+        "crackCount": 1
+      },
+      {
+        "name": "Structural Absence",
+        "entity": "Structural Absence",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "measure() / predict()",
+        "entity": "measure() / predict()",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "Convergence Detection",
+        "entity": "Convergence Detection",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "Speciation Detection",
+        "entity": "Speciation Detection",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "Echo Chamber Guard",
+        "entity": "Echo Chamber Guard",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "Marker Passing",
+        "entity": "Marker Passing",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "Integer Dependency Graph",
+        "entity": "Integer Dependency Graph",
+        "stepCount": 1,
+        "crackCount": 0
+      },
+      {
+        "name": "Holographic Coupling",
+        "entity": "Holographic Coupling",
+        "stepCount": 1,
+        "crackCount": 0
+      },
+      {
+        "name": "CXR (Satellite 1)",
+        "entity": "CXR (Satellite 1)",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "Materials & Pharma (Satellite 3)",
+        "entity": "Materials & Pharma (Satellite 3)",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "AlphaFold (Satellite 4)",
+        "entity": "AlphaFold (Satellite 4)",
+        "stepCount": 2,
+        "crackCount": 0
+      },
+      {
+        "name": "LLM Signifiers (Satellite 6)",
+        "entity": "LLM Signifiers (Satellite 6)",
+        "stepCount": 2,
+        "crackCount": 0
+      }
+    ]
+  },
+  "cracks": {
+    "cracks": [
+      {
+        "crack_id": "int-010-00",
+        "chain": "Convergence-Independence Hypothesis",
+        "level": "hypothesis",
+        "complexityLevel": 4,
+        "claim": "Independent convergence is informative; dependent convergence is not",
+        "convergence": "tension",
+        "sigmaTension": 1.8
+      },
+      {
+        "crack_id": "int-008-00",
+        "chain": "Lensing (lens verb)",
+        "level": "model",
+        "complexityLevel": 1,
+        "claim": "lens(target, frame) unifies shear, grounded extraction, correlation, prior-art comparison",
+        "convergence": "tension",
+        "sigmaTension": 1.5
+      },
+      {
+        "crack_id": "int-013-00",
+        "chain": "Foundation (Worldview)",
+        "level": "hypothesis",
+        "complexityLevel": 5,
+        "claim": "Fixed-ontology approaches fail through reflexive capture or misalignment",
+        "convergence": "tension",
+        "sigmaTension": 1.5
+      },
+      {
+        "crack_id": "int-021-00",
+        "chain": "Patent FTO",
+        "level": "measurement",
+        "complexityLevel": 5,
+        "claim": "Plyknot framework applies to patent prosecution",
+        "convergence": "tension",
+        "sigmaTension": 1.5
+      },
+      {
+        "crack_id": "int-015-01",
+        "chain": "Text-as-Sensor (Satellite 2)",
+        "level": "model",
+        "complexityLevel": 2,
+        "claim": "NSM+Scone decomposition enables text-as-instrument",
+        "convergence": "tension",
+        "sigmaTension": 1.3
+      },
+      {
+        "crack_id": "int-010-02",
+        "chain": "Convergence-Independence Hypothesis",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "Human researchers = more independent (Test 2v2 post-hoc)",
+        "convergence": "tension",
+        "sigmaTension": 1.2
+      },
+      {
+        "crack_id": "int-024-00",
+        "chain": "Consciousness as Instrument",
+        "level": "hypothesis",
+        "complexityLevel": 5,
+        "claim": "Consciousness has structural signature: recursive decay stack with sense/act interfaces",
+        "convergence": "single",
+        "sigmaTension": 4.0
+      },
+      {
+        "crack_id": "int-024-01",
+        "chain": "Consciousness as Instrument",
+        "level": "hypothesis",
+        "complexityLevel": 5,
+        "claim": "Three-system LLM comparison would validate",
+        "convergence": "single",
+        "sigmaTension": 4.0
+      },
+      {
+        "crack_id": "int-025-00",
+        "chain": "NSM Primes",
+        "level": "hypothesis",
+        "complexityLevel": 5,
+        "claim": "6 candidate primes for measurement-coordination consciousness",
+        "convergence": "single",
+        "sigmaTension": 4.0
+      },
+      {
+        "crack_id": "int-023-00",
+        "chain": "Plyknot ML",
+        "level": "hypothesis",
+        "complexityLevel": 2,
+        "claim": "GNN + contrastive learning for core-to-registry alignment",
+        "convergence": "single",
+        "sigmaTension": 3.5
+      },
+      {
+        "crack_id": "int-023-01",
+        "chain": "Plyknot ML",
+        "level": "hypothesis",
+        "complexityLevel": 4,
+        "claim": "Operationalist inductive bias confers advantage",
+        "convergence": "single",
+        "sigmaTension": 3.5
+      },
+      {
+        "crack_id": "int-010-03",
+        "chain": "Convergence-Independence Hypothesis",
+        "level": "hypothesis",
+        "complexityLevel": 4,
+        "claim": "Holds on a second independent human dataset",
+        "convergence": "single",
+        "sigmaTension": 3.0
+      },
+      {
+        "crack_id": "int-020-01",
+        "chain": "Echo Chamber Map",
+        "level": "hypothesis",
+        "complexityLevel": 5,
+        "claim": "Free tier converts to paid batch API",
+        "convergence": "single",
+        "sigmaTension": 3.0
+      },
+      {
+        "crack_id": "int-022-00",
+        "chain": "Concept Distance",
+        "level": "hypothesis",
+        "complexityLevel": 5,
+        "claim": "Two-text concept comparison via Epistemic Canvas",
+        "convergence": "single",
+        "sigmaTension": 3.0
+      },
+      {
+        "crack_id": "int-008-01",
+        "chain": "Lensing (lens verb)",
+        "level": "hypothesis",
+        "complexityLevel": 1,
+        "claim": "Residue = first-class definition of novelty",
+        "convergence": "single",
+        "sigmaTension": 2.5
+      },
+      {
+        "crack_id": "int-011-02",
+        "chain": "Layer 3 (LLM read-only)",
+        "level": "signal",
+        "complexityLevel": 2,
+        "claim": "Literature-tiering routes papers to appropriate canvas layers",
+        "convergence": "single",
+        "sigmaTension": 2.5
+      },
+      {
+        "crack_id": "int-020-00",
+        "chain": "Echo Chamber Map",
+        "level": "signal",
+        "complexityLevel": 5,
+        "claim": "Public convergence state of science as product",
+        "convergence": "single",
+        "sigmaTension": 2.5
+      },
+      {
+        "crack_id": "int-021-02",
+        "chain": "Patent FTO",
+        "level": "signal",
+        "complexityLevel": 2,
+        "claim": "Stage 2 multi-extractor stabilization",
+        "convergence": "single",
+        "sigmaTension": 2.5
+      },
+      {
+        "crack_id": "int-007-04",
+        "chain": "Canvas Architecture",
+        "level": "hypothesis",
+        "complexityLevel": 2,
+        "claim": "Real LLM drift detection across natural model versions",
+        "convergence": "single",
+        "sigmaTension": 2.0
+      },
+      {
+        "crack_id": "int-011-01",
+        "chain": "Layer 3 (LLM read-only)",
+        "level": "hypothesis",
+        "complexityLevel": 2,
+        "claim": "Read-only L3 keeps coupling map trustworthy",
+        "convergence": "single",
+        "sigmaTension": 2.0
+      },
+      {
+        "crack_id": "int-018-00",
+        "chain": "Emergence (Satellite 5)",
+        "level": "hypothesis",
+        "complexityLevel": 4,
+        "claim": "EEVR detects when patterns exceed ontological categories",
+        "convergence": "single",
+        "sigmaTension": 2.0
+      },
+      {
+        "crack_id": "int-009-03",
+        "chain": "Cybernetics (act verb)",
+        "level": "signal",
+        "complexityLevel": 5,
+        "claim": "Patent v6.3 covers combined approach",
+        "convergence": "single",
+        "sigmaTension": 1.8
+      },
+      {
+        "crack_id": "int-002-01",
+        "chain": "Convergence Detection",
+        "level": "pattern",
+        "complexityLevel": 4,
+        "claim": "25-50% divergence rates across all tested domains",
+        "convergence": "converged",
+        "sigmaTension": 0.8
+      },
+      {
+        "crack_id": "int-021-01",
+        "chain": "Patent FTO",
+        "level": "measurement",
+        "complexityLevel": 2,
+        "claim": "Smoke test passed: Claim 20 vs Palantir",
+        "convergence": "converged",
+        "sigmaTension": 0.8
+      },
+      {
+        "crack_id": "int-010-01",
+        "chain": "Convergence-Independence Hypothesis",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "AI models from shared pipeline = dependent convergence (Test 1 post-hoc)",
+        "convergence": "converged",
+        "sigmaTension": 0.6
+      },
+      {
+        "crack_id": "int-019-00",
+        "chain": "LLM Signifiers (Satellite 6)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "Tokenizer architecture (not training data) is operative mechanism",
+        "convergence": "converged",
+        "sigmaTension": 0.6
+      },
+      {
+        "crack_id": "int-000-01",
+        "chain": "Structural Absence",
+        "level": "pattern",
+        "complexityLevel": 4,
+        "claim": "Works across physics, biology, medical imaging, materials, text",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-004-00",
+        "chain": "Echo Chamber Guard",
+        "level": "model",
+        "complexityLevel": 2,
+        "claim": "Operational dependency graph discounts convergence from shared sources",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-007-00",
+        "chain": "Canvas Architecture",
+        "level": "model",
+        "complexityLevel": 2,
+        "claim": "Three projections: Phenomenological, Operational, Epistemic",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-009-00",
+        "chain": "Cybernetics (act verb)",
+        "level": "model",
+        "complexityLevel": 2,
+        "claim": "act() verb for reflexive domains where measurement changes thing measured",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-012-00",
+        "chain": "Holographic Coupling",
+        "level": "model",
+        "complexityLevel": 4,
+        "claim": "Entity IS its convergence pattern across substrate-independent measurers",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-015-00",
+        "chain": "Text-as-Sensor (Satellite 2)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "504 measurements extracted from 100 texts autonomously",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-016-01",
+        "chain": "Materials & Pharma (Satellite 3)",
+        "level": "measurement",
+        "complexityLevel": 2,
+        "claim": "Autonomous PMC paper-reading loop works",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-019-01",
+        "chain": "LLM Signifiers (Satellite 6)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "{Anthropic+OpenAI} vs {Google} does not generalize",
+        "convergence": "converged",
+        "sigmaTension": 0.5
+      },
+      {
+        "crack_id": "int-001-01",
+        "chain": "measure() / predict()",
+        "level": "pattern",
+        "complexityLevel": 4,
+        "claim": "Same run_evaluation() call works unchanged across 7 domains",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-003-00",
+        "chain": "Speciation Detection",
+        "level": "measurement",
+        "complexityLevel": 1,
+        "claim": "GMM+BIC finds hidden sub-populations in divergent measurements",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-005-00",
+        "chain": "Marker Passing",
+        "level": "model",
+        "complexityLevel": 2,
+        "claim": "Propagates cracks through dependency graph to find shared vulnerabilities",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-007-02",
+        "chain": "Canvas Architecture",
+        "level": "measurement",
+        "complexityLevel": 2,
+        "claim": "Event Horizon breach validated (Experiment C: Perceived Stress)",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-009-02",
+        "chain": "Cybernetics (act verb)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "Test 2v2: DCOI on McLean-Pontiff \u2014 STRONG PASS (rho=-0.29, p=0.010)",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-011-00",
+        "chain": "Layer 3 (LLM read-only)",
+        "level": "model",
+        "complexityLevel": 2,
+        "claim": "Three layers: L1 coupling values, L2 deterministic analysis, L3 LLM queries",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-013-02",
+        "chain": "Foundation (Worldview)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "Test 2: DCOI \u2014 PASSED, validates reflexive-decay claim",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-014-01",
+        "chain": "CXR (Satellite 1)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "347 echo chamber cases identified",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-017-01",
+        "chain": "AlphaFold (Satellite 4)",
+        "level": "pattern",
+        "complexityLevel": 4,
+        "claim": "Backbone converges (Q3 91%), sidechain/binding diverge",
+        "convergence": "converged",
+        "sigmaTension": 0.4
+      },
+      {
+        "crack_id": "int-000-00",
+        "chain": "Structural Absence",
+        "level": "model",
+        "complexityLevel": 0,
+        "claim": "Absence in Map = property does not exist (not zero)",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-002-00",
+        "chain": "Convergence Detection",
+        "level": "measurement",
+        "complexityLevel": 1,
+        "claim": "Sigma-tension between measurement distributions detects agreement/disagreement",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-004-01",
+        "chain": "Echo Chamber Guard",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "754 AlphaFold/ESMFold echo chambers detected",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-007-01",
+        "chain": "Canvas Architecture",
+        "level": "measurement",
+        "complexityLevel": 2,
+        "claim": "Shear detection works (Test 4d: bidirectional same-construct anchors)",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-007-03",
+        "chain": "Canvas Architecture",
+        "level": "measurement",
+        "complexityLevel": 2,
+        "claim": "Fusion detection validated (Experiment D: Hubble constant)",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-014-00",
+        "chain": "CXR (Satellite 1)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "0.999 correlation between AI disagreement and radiologist disagreement",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-016-00",
+        "chain": "Materials & Pharma (Satellite 3)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "70.5% DFT cross-database rejection rate",
+        "convergence": "converged",
+        "sigmaTension": 0.3
+      },
+      {
+        "crack_id": "int-001-00",
+        "chain": "measure() / predict()",
+        "level": "model",
+        "complexityLevel": 0,
+        "claim": "Two verbs separate observation from prediction architecturally",
+        "convergence": "converged",
+        "sigmaTension": 0.2
+      },
+      {
+        "crack_id": "int-003-01",
+        "chain": "Speciation Detection",
+        "level": "pattern",
+        "complexityLevel": 3,
+        "claim": "CDK2 DFG four conformational states reproduced exactly",
+        "convergence": "converged",
+        "sigmaTension": 0.2
+      },
+      {
+        "crack_id": "int-009-01",
+        "chain": "Cybernetics (act verb)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "Test 1: Ontological Shear on AlphaFold \u2014 STRONG PASS",
+        "convergence": "converged",
+        "sigmaTension": 0.2
+      },
+      {
+        "crack_id": "int-013-01",
+        "chain": "Foundation (Worldview)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "Test 1: Shear \u2014 PASSED, validates speciation against documented biology",
+        "convergence": "converged",
+        "sigmaTension": 0.2
+      },
+      {
+        "crack_id": "int-017-00",
+        "chain": "AlphaFold (Satellite 4)",
+        "level": "measurement",
+        "complexityLevel": 3,
+        "claim": "754 echo chambers across 1069 proteins",
+        "convergence": "converged",
+        "sigmaTension": 0.2
+      },
+      {
+        "crack_id": "int-005-01",
+        "chain": "Marker Passing",
+        "level": "measurement",
+        "complexityLevel": 4,
+        "claim": "Recovers cosmological principle blind from 1271 entries, zero false positives",
+        "convergence": "converged",
+        "sigmaTension": 0.1
+      },
+      {
+        "crack_id": "int-006-00",
+        "chain": "Integer Dependency Graph",
+        "level": "model",
+        "complexityLevel": 0,
+        "claim": "depends[] uses integer IDs not strings \u2014 no language in the core",
+        "convergence": "converged",
+        "sigmaTension": 0.1
+      }
+    ]
+  },
+  "inference_chains": [
+    {
+      "entity": "Structural Absence",
+      "steps": [
+        {
+          "claim": "Absence in Map = property does not exist (not zero)",
+          "level": "model",
+          "complexity": 0,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "ECS architecture"
+          ]
+        },
+        {
+          "claim": "Works across physics, biology, medical imaging, materials, text",
+          "level": "pattern",
+          "complexity": 4,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Structural Absence"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "measure() / predict()",
+      "steps": [
+        {
+          "claim": "Two verbs separate observation from prediction architecturally",
+          "level": "model",
+          "complexity": 0,
+          "convergence": "converged",
+          "sigma": 0.2,
+          "depends": []
+        },
+        {
+          "claim": "Same run_evaluation() call works unchanged across 7 domains",
+          "level": "pattern",
+          "complexity": 4,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "measure() / predict()"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Convergence Detection",
+      "steps": [
+        {
+          "claim": "Sigma-tension between measurement distributions detects agreement/disagreement",
+          "level": "measurement",
+          "complexity": 1,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "measure() / predict()"
+          ]
+        },
+        {
+          "claim": "25-50% divergence rates across all tested domains",
+          "level": "pattern",
+          "complexity": 4,
+          "convergence": "converged",
+          "sigma": 0.8,
+          "depends": [
+            "Convergence Detection"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Speciation Detection",
+      "steps": [
+        {
+          "claim": "GMM+BIC finds hidden sub-populations in divergent measurements",
+          "level": "measurement",
+          "complexity": 1,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Convergence Detection"
+          ]
+        },
+        {
+          "claim": "CDK2 DFG four conformational states reproduced exactly",
+          "level": "pattern",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.2,
+          "depends": [
+            "Speciation Detection",
+            "AlphaFold satellite"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Echo Chamber Guard",
+      "steps": [
+        {
+          "claim": "Operational dependency graph discounts convergence from shared sources",
+          "level": "model",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Integer dependency graph"
+          ]
+        },
+        {
+          "claim": "754 AlphaFold/ESMFold echo chambers detected",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "Echo Chamber Guard",
+            "AlphaFold satellite"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Marker Passing",
+      "steps": [
+        {
+          "claim": "Propagates cracks through dependency graph to find shared vulnerabilities",
+          "level": "model",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Integer dependency graph"
+          ]
+        },
+        {
+          "claim": "Recovers cosmological principle blind from 1271 entries, zero false positives",
+          "level": "measurement",
+          "complexity": 4,
+          "convergence": "converged",
+          "sigma": 0.1,
+          "depends": [
+            "Marker Passing"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Integer Dependency Graph",
+      "steps": [
+        {
+          "claim": "depends[] uses integer IDs not strings \u2014 no language in the core",
+          "level": "model",
+          "complexity": 0,
+          "convergence": "converged",
+          "sigma": 0.1,
+          "depends": []
+        }
+      ]
+    },
+    {
+      "entity": "Canvas Architecture",
+      "steps": [
+        {
+          "claim": "Three projections: Phenomenological, Operational, Epistemic",
+          "level": "model",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Structural Absence",
+            "Convergence Detection"
+          ]
+        },
+        {
+          "claim": "Shear detection works (Test 4d: bidirectional same-construct anchors)",
+          "level": "measurement",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "Canvas Architecture"
+          ]
+        },
+        {
+          "claim": "Event Horizon breach validated (Experiment C: Perceived Stress)",
+          "level": "measurement",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Canvas Architecture"
+          ]
+        },
+        {
+          "claim": "Fusion detection validated (Experiment D: Hubble constant)",
+          "level": "measurement",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "Canvas Architecture"
+          ]
+        },
+        {
+          "claim": "Real LLM drift detection across natural model versions",
+          "level": "hypothesis",
+          "complexity": 2,
+          "convergence": "single",
+          "sigma": 2.0,
+          "depends": [
+            "Canvas Architecture"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Lensing (lens verb)",
+      "steps": [
+        {
+          "claim": "lens(target, frame) unifies shear, grounded extraction, correlation, prior-art comparison",
+          "level": "model",
+          "complexity": 1,
+          "convergence": "tension",
+          "sigma": 1.5,
+          "depends": [
+            "Canvas Architecture",
+            "describe()"
+          ]
+        },
+        {
+          "claim": "Residue = first-class definition of novelty",
+          "level": "hypothesis",
+          "complexity": 1,
+          "convergence": "single",
+          "sigma": 2.5,
+          "depends": [
+            "Lensing (lens verb)"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Cybernetics (act verb)",
+      "steps": [
+        {
+          "claim": "act() verb for reflexive domains where measurement changes thing measured",
+          "level": "model",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "measure() / predict()"
+          ]
+        },
+        {
+          "claim": "Test 1: Ontological Shear on AlphaFold \u2014 STRONG PASS",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.2,
+          "depends": [
+            "Cybernetics (act verb)",
+            "Speciation Detection"
+          ]
+        },
+        {
+          "claim": "Test 2v2: DCOI on McLean-Pontiff \u2014 STRONG PASS (rho=-0.29, p=0.010)",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Cybernetics (act verb)"
+          ]
+        },
+        {
+          "claim": "Patent v6.3 covers combined approach",
+          "level": "signal",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 1.8,
+          "depends": [
+            "Cybernetics (act verb)"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Convergence-Independence Hypothesis",
+      "steps": [
+        {
+          "claim": "Independent convergence is informative; dependent convergence is not",
+          "level": "hypothesis",
+          "complexity": 4,
+          "convergence": "tension",
+          "sigma": 1.8,
+          "depends": [
+            "Echo Chamber Guard",
+            "Cybernetics (act verb)"
+          ]
+        },
+        {
+          "claim": "AI models from shared pipeline = dependent convergence (Test 1 post-hoc)",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.6,
+          "depends": [
+            "Convergence-Independence Hypothesis"
+          ]
+        },
+        {
+          "claim": "Human researchers = more independent (Test 2v2 post-hoc)",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "tension",
+          "sigma": 1.2,
+          "depends": [
+            "Convergence-Independence Hypothesis"
+          ]
+        },
+        {
+          "claim": "Holds on a second independent human dataset",
+          "level": "hypothesis",
+          "complexity": 4,
+          "convergence": "single",
+          "sigma": 3.0,
+          "depends": [
+            "Convergence-Independence Hypothesis"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Layer 3 (LLM read-only)",
+      "steps": [
+        {
+          "claim": "Three layers: L1 coupling values, L2 deterministic analysis, L3 LLM queries",
+          "level": "model",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Structural Absence",
+            "Convergence Detection"
+          ]
+        },
+        {
+          "claim": "Read-only L3 keeps coupling map trustworthy",
+          "level": "hypothesis",
+          "complexity": 2,
+          "convergence": "single",
+          "sigma": 2.0,
+          "depends": [
+            "Layer 3 (LLM read-only)"
+          ]
+        },
+        {
+          "claim": "Literature-tiering routes papers to appropriate canvas layers",
+          "level": "signal",
+          "complexity": 2,
+          "convergence": "single",
+          "sigma": 2.5,
+          "depends": [
+            "Layer 3 (LLM read-only)",
+            "Canvas Architecture"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Holographic Coupling",
+      "steps": [
+        {
+          "claim": "Entity IS its convergence pattern across substrate-independent measurers",
+          "level": "model",
+          "complexity": 4,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Convergence Detection",
+            "Canvas Architecture"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Foundation (Worldview)",
+      "steps": [
+        {
+          "claim": "Fixed-ontology approaches fail through reflexive capture or misalignment",
+          "level": "hypothesis",
+          "complexity": 5,
+          "convergence": "tension",
+          "sigma": 1.5,
+          "depends": []
+        },
+        {
+          "claim": "Test 1: Shear \u2014 PASSED, validates speciation against documented biology",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.2,
+          "depends": [
+            "Foundation (Worldview)",
+            "Speciation Detection"
+          ]
+        },
+        {
+          "claim": "Test 2: DCOI \u2014 PASSED, validates reflexive-decay claim",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Foundation (Worldview)",
+            "Cybernetics (act verb)"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "CXR (Satellite 1)",
+      "steps": [
+        {
+          "claim": "0.999 correlation between AI disagreement and radiologist disagreement",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        },
+        {
+          "claim": "347 echo chamber cases identified",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Text-as-Sensor (Satellite 2)",
+      "steps": [
+        {
+          "claim": "504 measurements extracted from 100 texts autonomously",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        },
+        {
+          "claim": "NSM+Scone decomposition enables text-as-instrument",
+          "level": "model",
+          "complexity": 2,
+          "convergence": "tension",
+          "sigma": 1.3,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Materials & Pharma (Satellite 3)",
+      "steps": [
+        {
+          "claim": "70.5% DFT cross-database rejection rate",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.3,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        },
+        {
+          "claim": "Autonomous PMC paper-reading loop works",
+          "level": "measurement",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "AlphaFold (Satellite 4)",
+      "steps": [
+        {
+          "claim": "754 echo chambers across 1069 proteins",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.2,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        },
+        {
+          "claim": "Backbone converges (Q3 91%), sidechain/binding diverge",
+          "level": "pattern",
+          "complexity": 4,
+          "convergence": "converged",
+          "sigma": 0.4,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Emergence (Satellite 5)",
+      "steps": [
+        {
+          "claim": "EEVR detects when patterns exceed ontological categories",
+          "level": "hypothesis",
+          "complexity": 4,
+          "convergence": "single",
+          "sigma": 2.0,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "LLM Signifiers (Satellite 6)",
+      "steps": [
+        {
+          "claim": "Tokenizer architecture (not training data) is operative mechanism",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.6,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        },
+        {
+          "claim": "{Anthropic+OpenAI} vs {Google} does not generalize",
+          "level": "measurement",
+          "complexity": 3,
+          "convergence": "converged",
+          "sigma": 0.5,
+          "depends": [
+            "Convergence Detection",
+            "Echo Chamber Guard"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Echo Chamber Map",
+      "steps": [
+        {
+          "claim": "Public convergence state of science as product",
+          "level": "signal",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 2.5,
+          "depends": []
+        },
+        {
+          "claim": "Free tier converts to paid batch API",
+          "level": "hypothesis",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 3.0,
+          "depends": []
+        }
+      ]
+    },
+    {
+      "entity": "Patent FTO",
+      "steps": [
+        {
+          "claim": "Plyknot framework applies to patent prosecution",
+          "level": "measurement",
+          "complexity": 5,
+          "convergence": "tension",
+          "sigma": 1.5,
+          "depends": []
+        },
+        {
+          "claim": "Smoke test passed: Claim 20 vs Palantir",
+          "level": "measurement",
+          "complexity": 2,
+          "convergence": "converged",
+          "sigma": 0.8,
+          "depends": []
+        },
+        {
+          "claim": "Stage 2 multi-extractor stabilization",
+          "level": "signal",
+          "complexity": 2,
+          "convergence": "single",
+          "sigma": 2.5,
+          "depends": []
+        }
+      ]
+    },
+    {
+      "entity": "Concept Distance",
+      "steps": [
+        {
+          "claim": "Two-text concept comparison via Epistemic Canvas",
+          "level": "hypothesis",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 3.0,
+          "depends": []
+        }
+      ]
+    },
+    {
+      "entity": "Plyknot ML",
+      "steps": [
+        {
+          "claim": "GNN + contrastive learning for core-to-registry alignment",
+          "level": "hypothesis",
+          "complexity": 2,
+          "convergence": "single",
+          "sigma": 3.5,
+          "depends": []
+        },
+        {
+          "claim": "Operationalist inductive bias confers advantage",
+          "level": "hypothesis",
+          "complexity": 4,
+          "convergence": "single",
+          "sigma": 3.5,
+          "depends": []
+        }
+      ]
+    },
+    {
+      "entity": "Consciousness as Instrument",
+      "steps": [
+        {
+          "claim": "Consciousness has structural signature: recursive decay stack with sense/act interfaces",
+          "level": "hypothesis",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 4.0,
+          "depends": []
+        },
+        {
+          "claim": "Three-system LLM comparison would validate",
+          "level": "hypothesis",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 4.0,
+          "depends": [
+            "Consciousness as Instrument"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "NSM Primes",
+      "steps": [
+        {
+          "claim": "6 candidate primes for measurement-coordination consciousness",
+          "level": "hypothesis",
+          "complexity": 5,
+          "convergence": "single",
+          "sigma": 4.0,
+          "depends": [
+            "Consciousness as Instrument"
+          ]
+        }
+      ]
+    }
+  ]
+}

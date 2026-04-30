@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { ChevronRight } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "../../components/ui/card";
 import { KpiCard } from "../../components/ui/kpi-card";
 import { DataSourceToggle } from "./DataSourceToggle";
@@ -19,6 +20,13 @@ import {
   type Crack,
   type HeatmapCell,
 } from "../../lib/hub-api";
+import {
+  fetchInternalStats,
+  fetchInternalHeatmap,
+  fetchInternalChains,
+  fetchInternalCracks,
+  getInternalChain,
+} from "./internal/internal-data";
 import { projects as allProjects, type Project, type ProjectKind } from "../../lib/mock-data";
 
 type ActiveView = "cracks" | "openings" | "chains" | "projects";
@@ -59,31 +67,32 @@ export function UniversePage() {
   const [selectedCell, setSelectedCell] = useState<CellSelection | null>(null);
   const [selectedCellData, setSelectedCellData] = useState<HeatmapCell | null>(null);
   const [crackFilter, setCrackFilter] = useState<"all" | "divergent" | "tension" | "solid" | "single">("all");
+  const [expandedChain, setExpandedChain] = useState<string | null>(null);
   const [projectsCell, setProjectsCell] = useState<ProjectCellSelection | null>(null);
   const [projectsCellProjects, setProjectsCellProjects] = useState<Project[]>([]);
   const [projectsShowArchived, setProjectsShowArchived] = useState(false);
 
   const stats = useQuery({
     queryKey: ["stats", source],
-    queryFn: () => fetchStats(source),
+    queryFn: () => source === "internal" ? fetchInternalStats() : fetchStats(source),
     retry: false,
   });
 
   const heatmap = useQuery({
     queryKey: ["heatmap", source],
-    queryFn: () => fetchHeatmap(source),
+    queryFn: () => source === "internal" ? fetchInternalHeatmap() : fetchHeatmap(source),
     retry: false,
   });
 
   const chains = useQuery({
     queryKey: ["chains", source],
-    queryFn: () => fetchChains(source),
+    queryFn: () => source === "internal" ? fetchInternalChains() : fetchChains(source),
     retry: false,
   });
 
   const cracks = useQuery({
     queryKey: ["cracks", source],
-    queryFn: () => fetchCracks(source),
+    queryFn: () => source === "internal" ? fetchInternalCracks() : fetchCracks(source),
     retry: false,
   });
 
@@ -119,9 +128,12 @@ export function UniversePage() {
     setCrackFilter("all");
   }
 
-  // Filter cracks to the selected cell's inference level
+  // Filter cracks to the selected cell (inference level + complexity level)
   const cellCracks: Crack[] = selectedCell && cracks.data
-    ? cracks.data.cracks.filter((c) => c.level === selectedCell.inferenceLevel)
+    ? cracks.data.cracks.filter((c) =>
+        c.level === selectedCell.inferenceLevel &&
+        (c.complexityLevel == null || c.complexityLevel === selectedCell.complexityLevel)
+      )
     : [];
 
   return (
@@ -133,6 +145,7 @@ export function UniversePage() {
             source === "plyknot.org" ? "open truth" :
             source === "plyknot.com" ? "hidden truth" :
             source === "cybernetics" ? "moving truth" :
+            source === "internal" ? "internal R&D" :
             "subjective truth"
           }</span>
         </h1>
@@ -150,8 +163,12 @@ export function UniversePage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <KpiCard title="Cracks" value={stats.data?.crackCount ?? "—"} delta={stats.data ? `across ${stats.data.chainCount} chains` : ""} trend={stats.data ? "down" : undefined} active={view === "cracks"} onClick={() => { setView("cracks"); deselect(); }} />
         <KpiCard title="Openings" value={stats.data ? openingsCount : "—"} delta={stats.data ? `of ${TOTAL_CELLS} positions` : ""} active={view === "openings"} onClick={() => { setView("openings"); deselect(); }} />
-        <KpiCard title="Chains" value={stats.data?.chainCount ?? "—"} active={view === "chains"} onClick={() => { setView("chains"); deselect(); }} />
-        <KpiCard title="Projects" value={activeProjectCount} delta={`${archivedProjectCount} archived`} active={view === "projects"} onClick={() => { setView("projects"); deselect(); setProjectsCell(null); }} />
+        <KpiCard title="Chains" value={stats.data?.chainCount ?? "—"} active={view === "chains"} onClick={() => { setView("chains"); deselect(); setExpandedChain(null); }} />
+        {source === "internal" ? (
+          <KpiCard title="Projects" value={stats.data?.couplingCount ?? "—"} delta={`${stats.data?.entityCount ?? 0} entities`} active={false} />
+        ) : (
+          <KpiCard title="Projects" value={activeProjectCount} delta={`${archivedProjectCount} archived`} active={view === "projects"} onClick={() => { setView("projects"); deselect(); setProjectsCell(null); }} />
+        )}
       </div>
 
       {/* Hub connection notice */}
@@ -348,34 +365,116 @@ export function UniversePage() {
           {chains.isLoading ? (
             <div className="h-24 flex items-center justify-center text-sm text-[var(--muted-foreground)]">Loading…</div>
           ) : chains.data ? (
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-xs text-[var(--muted-foreground)] border-b border-[var(--border)]">
-                  <th className="text-left py-2 font-medium">Chain</th>
-                  <th className="text-left py-2 font-medium">Entity</th>
-                  <th className="text-center py-2 font-medium">Steps</th>
-                  <th className="text-center py-2 font-medium">Cracks</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--border)]">
-                {chains.data.chains.map((chain) => (
-                  <tr key={chain.name} className="hover:bg-[var(--muted)] transition-colors">
-                    <td className="py-2 font-mono text-xs">{chain.name}</td>
-                    <td className="py-2">{chain.entity}</td>
-                    <td className="py-2 text-center font-mono">{chain.stepCount}</td>
-                    <td className="py-2 text-center">
-                      {chain.crackCount > 0 ? (
-                        <span className="text-xs px-1.5 py-0.5 rounded bg-[color:var(--color-danger)]/10 text-[var(--color-danger)] font-mono">
-                          {chain.crackCount}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-[var(--muted-foreground)]">0</span>
+            <div className="divide-y divide-[var(--border)]">
+              {/* Header */}
+              <div className="flex text-xs text-[var(--muted-foreground)] py-2 font-medium">
+                <div className="flex-1">Chain</div>
+                <div className="w-16 text-center">Steps</div>
+                <div className="w-16 text-center">Cracks</div>
+              </div>
+              {chains.data.chains.map((chain) => {
+                const isExpanded = expandedChain === chain.name;
+                const detail = source === "internal" ? getInternalChain(chain.entity) : null;
+                return (
+                  <div key={chain.name}>
+                    <button
+                      onClick={() => setExpandedChain(isExpanded ? null : chain.name)}
+                      className={cn(
+                        "w-full flex items-center py-2 text-sm transition-colors text-left",
+                        isExpanded ? "bg-[var(--muted)]" : "hover:bg-[var(--muted)]",
                       )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    >
+                      <div className="flex-1 flex items-center gap-2">
+                        <ChevronRight size={12} className={cn("text-[var(--muted-foreground)] transition-transform shrink-0", isExpanded && "rotate-90")} />
+                        <span className="font-medium truncate">{chain.entity}</span>
+                      </div>
+                      <div className="w-16 text-center font-mono text-xs">{chain.stepCount}</div>
+                      <div className="w-16 text-center">
+                        {chain.crackCount > 0 ? (
+                          <span className="text-xs px-1.5 py-0.5 rounded bg-[color:var(--color-danger)]/10 text-[var(--color-danger)] font-mono">
+                            {chain.crackCount}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-[var(--color-success)] font-mono">✓</span>
+                        )}
+                      </div>
+                    </button>
+                    {/* Expanded detail: inference steps */}
+                    {isExpanded && detail && (
+                      <div className="pl-6 pb-3 space-y-1.5">
+                        {detail.steps.map((step, si) => {
+                          const convColor =
+                            step.convergence === "converged" ? "var(--color-success)" :
+                            step.convergence === "tension" ? "var(--color-warning)" :
+                            step.convergence === "divergent" ? "var(--color-danger)" :
+                            "var(--muted-foreground)";
+                          return (
+                            <div key={si} className="flex items-start gap-2 py-1">
+                              <span className="shrink-0 mt-0.5 w-2 h-2 rounded-full" style={{ background: convColor }} />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">{step.level}</span>
+                                  <span className={cn(
+                                    "text-[9px] px-1 py-0.5 rounded",
+                                    step.convergence === "converged" ? "bg-[color:var(--color-success)]/10 text-[var(--color-success)]" :
+                                    step.convergence === "tension" ? "bg-[color:var(--color-warning)]/10 text-[var(--color-warning)]" :
+                                    step.convergence === "divergent" ? "bg-[color:var(--color-danger)]/10 text-[var(--color-danger)]" :
+                                    "bg-[var(--muted)] text-[var(--muted-foreground)]",
+                                  )}>
+                                    {step.convergence} {step.sigma > 0 ? `${step.sigma}σ` : ""}
+                                  </span>
+                                </div>
+                                <p className="text-xs mt-0.5">{step.claim}</p>
+                                {step.depends.length > 0 && (
+                                  <p className="text-[10px] text-[var(--muted-foreground)] mt-0.5">
+                                    depends: {step.depends.join(", ")}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {isExpanded && !detail && cracks.data && (() => {
+                      const chainCracks = cracks.data.cracks.filter((c) => c.chain === chain.name || c.chain === chain.entity);
+                      return chainCracks.length > 0 ? (
+                        <div className="pl-6 pb-3 space-y-1.5">
+                          {chainCracks.map((crack) => {
+                            const convColor =
+                              crack.convergence === "solid" || crack.convergence === "converged" ? "var(--color-success)" :
+                              crack.convergence === "tension" ? "var(--color-warning)" :
+                              crack.convergence === "divergent" ? "var(--color-danger)" :
+                              "var(--muted-foreground)";
+                            return (
+                              <div key={crack.crack_id} className="flex items-start gap-2 py-1">
+                                <span className="shrink-0 mt-0.5 w-2 h-2 rounded-full" style={{ background: convColor }} />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[10px] text-[var(--muted-foreground)] uppercase">{crack.level}</span>
+                                    <span className={cn(
+                                      "text-[9px] px-1 py-0.5 rounded",
+                                      crack.convergence === "divergent" ? "bg-[color:var(--color-danger)]/10 text-[var(--color-danger)]" :
+                                      crack.convergence === "tension" ? "bg-[color:var(--color-warning)]/10 text-[var(--color-warning)]" :
+                                      "bg-[var(--muted)] text-[var(--muted-foreground)]",
+                                    )}>
+                                      {crack.convergence} {crack.sigmaTension}σ
+                                    </span>
+                                  </div>
+                                  <p className="text-xs mt-0.5">{crack.claim}</p>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <p className="pl-6 pb-3 text-xs text-[var(--muted-foreground)]">No cracks in this chain.</p>
+                      );
+                    })()}
+                  </div>
+                );
+              })}
+            </div>
           ) : null}
         </Card>
       )}

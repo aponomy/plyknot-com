@@ -1,4 +1,4 @@
-export type DataSource = "plyknot.org" | "plyknot.com" | "cybernetics" | "existence";
+export type DataSource = "plyknot.org" | "plyknot.com" | "cybernetics" | "existence" | "internal";
 
 const isDev = import.meta.env.DEV;
 
@@ -7,6 +7,7 @@ const BASE_URLS: Record<DataSource, string> = {
   "plyknot.com": isDev ? "/api" : "https://hub.plyknot.com/v1",
   "cybernetics": isDev ? "/api" : "https://hub.plyknot.com/v1",
   "existence": isDev ? "/api" : "https://hub.plyknot.com/v1",
+  "internal": "", // loaded from static JSON, not API
 };
 
 export function hubUrl(source: DataSource, path: string): string {
@@ -50,6 +51,7 @@ export interface Crack {
   claim: string;
   convergence: string;
   sigmaTension: number;
+  complexityLevel?: number;
 }
 
 export interface CracksResponse {

@@ -1,20 +1,25 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronRight, ChevronDown } from "lucide-react";
-import {
-  fetchTrackerCategories,
-  fetchTrackerThemes,
-  fetchTrackerTheme,
-  fetchTrackerStats,
-  fetchTrackerComments,
-  createTrackerComment,
-  createTrackerIssue,
-  updateTrackerIssue,
-  deleteTrackerIssue,
-  markTrackerIssueDone,
-  type TrackerTheme,
-  type TrackerIssue,
-} from "../../lib/hub-api";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronRight, ChevronDown, FileText } from "lucide-react";
+import type { TrackerCategory, TrackerTheme, TrackerIssue, TrackerStats } from "../../lib/hub-api";
+import { MarkdownContent } from "../../lib/markdown";
+
+interface RoadmapData {
+  generated: string;
+  categories: TrackerCategory[];
+  themes: TrackerTheme[];
+  themeIssues: Record<string, TrackerIssue[]>;
+  stats: TrackerStats;
+}
+
+interface FolderManifest {
+  folder: string;
+  files: string[];
+  subFiles?: string[];
+  indexContent?: string | null;
+}
+
+type ViewTab = "roadmap" | "files";
 
 /* ── Tracker-specific color tokens (from dashboard.html) ────────────────── */
 
@@ -37,8 +42,7 @@ const WK_W = 45; // week cell width in px
 const OV_W = 55; // overflow column width
 const LABEL_W = 340;
 const CAT_ICONS: Record<string, string> = {
-  "plyknot-com": "🏢", "research-lab": "🔬", cybernetics: "🤖",
-  "plyknot-org": "🌐", research: "📄", "ip-legal": "⚖️", other: "📁",
+  papers: "📄", products: "🎯", project: "🗂️", synthesis: "🔬",
 };
 
 /* ── Week helpers ───────────────────────────────────────────────────────── */
@@ -88,13 +92,15 @@ function getWeekHeaders(ws: Date): WeekCol[] {
 /* ── Main component ─────────────────────────────────────────────────────── */
 
 export function TrackerPage() {
-  const qc = useQueryClient();
   const ws = useMemo(() => getWeekStart(), []);
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const wkH = useMemo(() => getWeekHeaders(ws), [ws]);
 
+  const [viewTab, setViewTab] = useState<ViewTab>("roadmap");
   const [selTheme, setSelTheme] = useState<string | null>(null);
   const [selIssue, setSelIssue] = useState<string | null>(null);
+  const [selFilePath, setSelFilePath] = useState<string | null>(null);
+  const prevThemeRef = useRef<string | null>(null);
   const [collapsed, setCollapsed] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem("trk-collapsed-cats") ?? "[]")); } catch { return new Set(); }
   });
@@ -110,68 +116,64 @@ export function TrackerPage() {
   const [clExp, setClExp] = useState(false);
   const [clInline, setClInline] = useState("");
 
-  /* Queries */
-  const { data: catD } = useQuery({ queryKey: ["trk-cat"], queryFn: fetchTrackerCategories });
-  const { data: themeD } = useQuery({ queryKey: ["trk-themes"], queryFn: () => fetchTrackerThemes() });
-  const { data: detail, isLoading: detailLoading } = useQuery({ queryKey: ["trk-detail", selTheme], queryFn: () => fetchTrackerTheme(selTheme!), enabled: !!selTheme });
-  const { data: statsD } = useQuery({ queryKey: ["trk-stats"], queryFn: fetchTrackerStats });
-  const cats = catD?.categories ?? [];
-  const themes = themeD?.themes ?? [];
-  const issues = detail?.issues ?? [];
-  const stats = statsD;
+  /* Live data from Vite dev plugin — reads todo.md files at request time */
+  const { data: roadmapData, isLoading: roadmapLoading } = useQuery<RoadmapData>({
+    queryKey: ["roadmap"],
+    queryFn: () => fetch("/research/tracker").then(r => { if (!r.ok) throw new Error("/research/tracker not available"); return r.json(); }),
+    staleTime: 30_000,
+  });
+  const cats   = roadmapData?.categories ?? [];
+  const themes = roadmapData?.themes ?? [];
+  const issues = selTheme ? (roadmapData?.themeIssues[selTheme] ?? []) : [];
+  const stats  = roadmapData?.stats ?? null;
+  const detail = themes.find(t => t.id === selTheme) ?? null;
+  const detailLoading = roadmapLoading && !!selTheme;
+
+  /* Files view: folder manifest + file content */
+  const [themePart, folderPart] = useMemo(() => {
+    if (!selTheme) return ["", ""];
+    const slash = selTheme.indexOf("/");
+    return slash >= 0 ? [selTheme.slice(0, slash), selTheme.slice(slash + 1)] : [selTheme, ""];
+  }, [selTheme]);
+
+  const { data: folderData, isLoading: folderLoading } = useQuery<FolderManifest>({
+    queryKey: ["tracker-folder", selTheme],
+    queryFn: () => fetch(`/research/folder/${encodeURIComponent(themePart)}/${encodeURIComponent(folderPart)}`).then(r => { if (!r.ok) throw new Error("not found"); return r.json(); }),
+    enabled: viewTab === "files" && !!selTheme && !!folderPart,
+    staleTime: 30_000,
+  });
+
+  const folderFiles = useMemo(() => {
+    if (!folderData) return [];
+    const all = [...folderData.files, ...(folderData.subFiles ?? [])];
+    const idx = all.findIndex(f => f.toLowerCase() === "index.md");
+    if (idx > 0) { const [item] = all.splice(idx, 1); all.unshift(item); }
+    return all;
+  }, [folderData]);
+
+  const { data: fileContentData, isLoading: fileContentLoading } = useQuery<string>({
+    queryKey: ["tracker-folder-file", selTheme, selFilePath],
+    queryFn: () => fetch(`/research/folder-file/${encodeURIComponent(themePart)}/${encodeURIComponent(folderPart)}/${encodeURIComponent(selFilePath!)}`)
+      .then(r => { if (!r.ok) throw new Error("not found"); return r.json(); })
+      .then((d: { content: string }) => d.content),
+    enabled: viewTab === "files" && !!selTheme && !!selFilePath,
+    staleTime: 30_000,
+  });
 
   const selectedIssue = useMemo(() => issues.find(i => i.id === selIssue) ?? null, [issues, selIssue]);
 
-  const inv = useCallback(() => {
-    qc.invalidateQueries({ queryKey: ["trk-cat"] });
-    qc.invalidateQueries({ queryKey: ["trk-themes"] });
-    qc.invalidateQueries({ queryKey: ["trk-detail", selTheme] });
-    qc.invalidateQueries({ queryKey: ["trk-stats"] });
-  }, [qc, selTheme]);
-
   const addCl = useCallback((t: string) => { if (t.trim()) setClog(p => [...p, t.trim()]); }, []);
 
-  /* ── Direct DB mutations ──────────────────────────────────────────────── */
+  /* ── Read-only: mutations are no-ops (data is loaded from static files) ── */
 
-  const chgPri = async (iss: TrackerIssue, np: string) => {
-    if (iss.priority !== np) { await updateTrackerIssue(iss.id, { priority: np as TrackerIssue["priority"] }); inv(); }
-    setPriPick(null);
-  };
-
-  const chgStatus = async (iss: TrackerIssue, ns: string) => {
-    ns === "done" ? await markTrackerIssueDone(iss.id) : await updateTrackerIssue(iss.id, { status: ns as TrackerIssue["status"] });
-    inv(); setCtx(null);
-  };
-
-  const doDelete = async (iss: TrackerIssue) => {
-    await deleteTrackerIssue(iss.id);
-    if (selIssue === iss.id) setSelIssue(null);
-    inv(); setCtx(null);
-  };
-
-  const chgDeadline = async (iss: TrackerIssue, wi: number) => {
-    const nd = weekToDate(ws, wi);
-    await updateTrackerIssue(iss.id, { target_date: nd }); inv();
-  };
-
-  const addNew = async () => {
-    if (!selTheme) return;
-    const t = prompt("Issue title:"); if (!t?.trim()) return;
-    await createTrackerIssue({ theme_id: selTheme, title: t.trim(), priority: "P2" }); inv();
-  };
-
-  const saveDetail = async (id: string, data: Partial<Pick<TrackerIssue, "title" | "description" | "section" | "priority" | "status" | "target_date">>) => {
-    await updateTrackerIssue(id, data); inv();
-  };
-
-  const startMove = (iss: TrackerIssue) => { setMoving(iss); setSelIssue(null); };
-
-  const moveToTheme = async (targetThemeId: string) => {
-    if (!moving) return;
-    await updateTrackerIssue(moving.id, { theme_id: targetThemeId });
-    setMoving(null);
-    inv();
-  };
+  const chgPri    = (_iss: TrackerIssue, _np: string) => { setPriPick(null); };
+  const chgStatus = (_iss: TrackerIssue, _ns: string) => { setCtx(null); };
+  const doDelete  = (iss: TrackerIssue) => { if (selIssue === iss.id) setSelIssue(null); setCtx(null); };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const chgDeadline = (_iss: TrackerIssue, _wi: number) => {};
+  const saveDetail = async (_id: string, _data: Partial<Pick<TrackerIssue, "title" | "description" | "section" | "priority" | "status" | "target_date">>) => {};
+  const startMove = (_iss: TrackerIssue) => {};
+  const moveToTheme = (_targetThemeId: string) => { setMoving(null); };
 
   // Existing sections in the currently selected theme (for dropdown)
   const existingSections = useMemo(() => {
@@ -233,6 +235,21 @@ export function TrackerPage() {
     }
   }, [themes, selTheme]);
 
+  /* Reset file selection when theme changes */
+  useEffect(() => {
+    if (prevThemeRef.current !== selTheme) {
+      prevThemeRef.current = selTheme;
+      setSelFilePath(null);
+    }
+  }, [selTheme]);
+
+  /* Auto-select first file when folder data arrives */
+  useEffect(() => {
+    if (viewTab === "files" && folderFiles.length > 0 && !selFilePath) {
+      setSelFilePath(folderFiles[0]);
+    }
+  }, [folderFiles, viewTab]); // eslint-disable-line react-hooks/exhaustive-deps
+
   /* Dismiss popups */
   useEffect(() => {
     const h = () => { setCtx(null); setPriPick(null); };
@@ -250,31 +267,48 @@ export function TrackerPage() {
       <div className="flex items-center h-11 px-4 gap-3 shrink-0" style={{ borderBottom: "1px solid var(--border)" }}>
         <h1 style={{ fontSize: 14, fontWeight: 600 }}>Plyknot Roadmap</h1>
         <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>
-          {stats ? `${sorted.length} visible / ${stats.total} total · ${stats.done} done` : ""}
+          {stats && viewTab === "roadmap" ? `${sorted.length} visible / ${stats.total} total · ${stats.done} done` : ""}
         </span>
-        <button onClick={addNew} style={{ marginLeft: "auto", padding: "4px 12px", borderRadius: 4, border: "1px solid var(--border)", background: "var(--card)", fontSize: 11, fontWeight: 500, cursor: "pointer" }}>+ New</button>
-        <div style={{ position: "relative" }}>
-          <button onClick={e => { e.stopPropagation(); setViewOpen(v => !v); }} style={{ padding: "4px 12px", borderRadius: 4, border: "1px solid var(--border)", background: "var(--card)", fontSize: 11, fontWeight: 500, cursor: "pointer" }}>View ▾</button>
-          {viewOpen && (
-            <div onClick={e => e.stopPropagation()} style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", padding: "6px 0", minWidth: 180, fontSize: 12, zIndex: 300 }}>
-              {([["todo","Todo"],["doing","Doing"],["done","Done"]] as const).map(([k,l]) => (
-                <label key={k} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 14px", cursor: "pointer" }}>
-                  <input type="checkbox" checked={filters[k]} onChange={() => tog(k)} style={{ accentColor: C.accent }} /> {l}
-                </label>
-              ))}
-              <div style={{ height: 1, background: "var(--border)", margin: "4px 0" }} />
-              {([["P0","P0 (critical)"],["P1","P1 (important)"],["P2","P2 (normal)"]] as const).map(([k,l]) => (
-                <label key={k} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 14px", cursor: "pointer" }}>
-                  <input type="checkbox" checked={filters[k]} onChange={() => tog(k)} style={{ accentColor: C.accent }} /> {l}
-                </label>
-              ))}
-              <div style={{ height: 1, background: "var(--border)", margin: "4px 0" }} />
-              <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 14px", cursor: "pointer" }}>
-                <input type="checkbox" checked={filters.nd} onChange={() => tog("nd")} style={{ accentColor: C.accent }} /> No deadline
-              </label>
-            </div>
-          )}
+        <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 8, background: "var(--muted)", color: "var(--muted-foreground)", fontWeight: 500 }}>
+          from files
+        </span>
+        {/* View tabs */}
+        <div style={{ display: "flex", alignItems: "center", borderRadius: 6, background: "var(--muted)", padding: 2, gap: 0 }}>
+          {(["roadmap", "files"] as const).map(t => (
+            <button key={t} onClick={() => setViewTab(t)}
+              style={{ padding: "2px 12px", borderRadius: 4, fontSize: 10, fontWeight: 500, border: "none", cursor: "pointer", transition: "all 0.1s", textTransform: "capitalize",
+                background: viewTab === t ? "var(--card)" : "transparent",
+                color: viewTab === t ? "var(--foreground)" : "var(--muted-foreground)",
+                boxShadow: viewTab === t ? "0 1px 2px rgba(0,0,0,0.08)" : "none" }}>
+              {t}
+            </button>
+          ))}
         </div>
+        <div style={{ marginLeft: "auto" }} />
+        {viewTab === "roadmap" && (
+          <div style={{ position: "relative" }}>
+            <button onClick={e => { e.stopPropagation(); setViewOpen(v => !v); }} style={{ padding: "4px 12px", borderRadius: 4, border: "1px solid var(--border)", background: "var(--card)", fontSize: 11, fontWeight: 500, cursor: "pointer" }}>View ▾</button>
+            {viewOpen && (
+              <div onClick={e => e.stopPropagation()} style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", padding: "6px 0", minWidth: 180, fontSize: 12, zIndex: 300 }}>
+                {([["todo","Todo"],["doing","Doing"],["done","Done"]] as const).map(([k,l]) => (
+                  <label key={k} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 14px", cursor: "pointer" }}>
+                    <input type="checkbox" checked={filters[k]} onChange={() => tog(k)} style={{ accentColor: C.accent }} /> {l}
+                  </label>
+                ))}
+                <div style={{ height: 1, background: "var(--border)", margin: "4px 0" }} />
+                {([["P0","P0 (critical)"],["P1","P1 (important)"],["P2","P2 (normal)"]] as const).map(([k,l]) => (
+                  <label key={k} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 14px", cursor: "pointer" }}>
+                    <input type="checkbox" checked={filters[k]} onChange={() => tog(k)} style={{ accentColor: C.accent }} /> {l}
+                  </label>
+                ))}
+                <div style={{ height: 1, background: "var(--border)", margin: "4px 0" }} />
+                <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 14px", cursor: "pointer" }}>
+                  <input type="checkbox" checked={filters.nd} onChange={() => tog("nd")} style={{ accentColor: C.accent }} /> No deadline
+                </label>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Main */}
@@ -321,143 +355,193 @@ export function TrackerPage() {
           </div>
         </div>
 
-        {/* ── Content: issues + timeline ───────────────────────────────────── */}
-        <div style={{ flex: 1, overflowX: "auto", overflowY: "auto" }}>
-          {selTheme && detail ? (
-            <div style={{ minWidth: "fit-content" }}>
-              {/* Sticky header */}
-              <div style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", background: "var(--muted)", borderBottom: "1px solid var(--border)", height: 36, minWidth: "fit-content" }}>
-                <div style={{ width: LABEL_W, minWidth: LABEL_W, display: "flex", alignItems: "center", padding: "0 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderRight: "1px solid var(--border)" }}>
-                  {detail.title}
-                </div>
-                <div style={{ display: "flex" }}>
-                  {wkH.map((wk, i) => (
-                    <div key={i} style={{ width: WK_W, minWidth: WK_W, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", fontSize: 10, color: "var(--muted-foreground)", flexShrink: 0 }}>
-                      {wk.label && <div style={{ fontWeight: 600 }}>{wk.label}</div>}
-                      <div style={{ fontSize: 9 }}>{wk.weekNum}</div>
+        {/* ── Content: roadmap (Gantt) or files ──────────────────────────── */}
+        {viewTab === "roadmap" ? (
+          <>
+            <div style={{ flex: 1, overflowX: "auto", overflowY: "auto" }}>
+              {selTheme && detail ? (
+                <div style={{ minWidth: "fit-content" }}>
+                  {/* Sticky header */}
+                  <div style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", background: "var(--muted)", borderBottom: "1px solid var(--border)", height: 36, minWidth: "fit-content" }}>
+                    <div style={{ width: LABEL_W, minWidth: LABEL_W, display: "flex", alignItems: "center", padding: "0 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderRight: "1px solid var(--border)" }}>
+                      {detail.title}
                     </div>
-                  ))}
-                  <div style={{ width: OV_W, minWidth: OV_W, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "var(--muted-foreground)", fontWeight: 500, flexShrink: 0, borderLeft: "1px solid var(--border)" }}>30+</div>
-                </div>
-              </div>
-
-              {/* Theme section header */}
-              <div style={{ display: "flex", background: "var(--muted)", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", minWidth: "fit-content" }}>
-                <div style={{ width: LABEL_W, minWidth: LABEL_W, padding: "5px 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderRight: "1px solid var(--border)" }}>
-                  {detail.title} <span style={{ fontWeight: 400 }}>{detail.done_count}/{detail.issue_count} done</span>
-                </div>
-                <div style={{ display: "flex" }}>
-                  {wkH.map((_, i) => <div key={i} style={{ width: WK_W, minWidth: WK_W, flexShrink: 0, borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }} />)}
-                  <div style={{ width: OV_W, minWidth: OV_W, flexShrink: 0, borderLeft: "1px solid var(--border)" }} />
-                </div>
-              </div>
-
-              {/* Issue rows grouped by section */}
-              {groupedIssues.map(group => {
-                const secCollapsed = group.section !== null && collapsedSections.has(group.section);
-                return (
-                  <div key={group.section ?? "__none__"}>
-                    {/* Section sub-header (only if section is set) */}
-                    {group.section !== null && (
-                      <div onClick={() => togSection(group.section!)}
-                        style={{ display: "flex", background: "var(--muted)", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", minWidth: "fit-content", cursor: "pointer" }}>
-                        <div style={{ width: LABEL_W, minWidth: LABEL_W, padding: "4px 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderRight: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 6 }}>
-                          {secCollapsed ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
-                          {group.section}
-                          <span style={{ fontWeight: 400, marginLeft: 4 }}>
-                            {group.issues.filter(i => i.status === "done").length}/{group.issues.length}
-                          </span>
+                    <div style={{ display: "flex" }}>
+                      {wkH.map((wk, i) => (
+                        <div key={i} style={{ width: WK_W, minWidth: WK_W, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", fontSize: 10, color: "var(--muted-foreground)", flexShrink: 0 }}>
+                          {wk.label && <div style={{ fontWeight: 600 }}>{wk.label}</div>}
+                          <div style={{ fontSize: 9 }}>{wk.weekNum}</div>
                         </div>
-                        <div style={{ display: "flex" }}>
-                          {wkH.map((_, i) => <div key={i} style={{ width: WK_W, minWidth: WK_W, flexShrink: 0, borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }} />)}
-                          <div style={{ width: OV_W, minWidth: OV_W, flexShrink: 0, borderLeft: "1px solid var(--border)" }} />
-                        </div>
-                      </div>
-                    )}
+                      ))}
+                      <div style={{ width: OV_W, minWidth: OV_W, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "var(--muted-foreground)", fontWeight: 500, flexShrink: 0, borderLeft: "1px solid var(--border)" }}>30+</div>
+                    </div>
+                  </div>
 
-                    {/* Issues in this section */}
-                    {!secCollapsed && group.issues.map(iss => {
-                      const wi = weekIndex(iss.target_date, ws);
-                      const overdue = !!iss.target_date && iss.target_date < today && iss.status !== "done";
-                      const diamondColor = overdue ? C.danger : iss.status === "doing" ? C.doing : iss.status === "done" ? C.done : C.todo;
-                      const isSel = selIssue === iss.id;
+                  {/* Theme section header */}
+                  <div style={{ display: "flex", background: "var(--muted)", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", minWidth: "fit-content" }}>
+                    <div style={{ width: LABEL_W, minWidth: LABEL_W, padding: "5px 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderRight: "1px solid var(--border)" }}>
+                      {detail.title} <span style={{ fontWeight: 400 }}>{detail.done_count}/{detail.issue_count} done</span>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      {wkH.map((_, i) => <div key={i} style={{ width: WK_W, minWidth: WK_W, flexShrink: 0, borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }} />)}
+                      <div style={{ width: OV_W, minWidth: OV_W, flexShrink: 0, borderLeft: "1px solid var(--border)" }} />
+                    </div>
+                  </div>
 
-                      return (
-                        <div key={iss.id}
-                          onClick={() => setSelIssue(iss.id)}
-                          onContextMenu={e => { e.preventDefault(); e.stopPropagation(); setCtx({ x: e.clientX, y: e.clientY, issue: iss }); }}
-                          style={{
-                            display: "flex", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", minHeight: 32, minWidth: "fit-content", cursor: "pointer",
-                            ...(iss.status === "doing" ? { boxShadow: `inset 3px 0 0 ${C.doing}` } : {}),
-                            ...(iss.status === "done" ? { opacity: 0.5 } : {}),
-                            ...(overdue ? { background: C.p0Bg } : {}),
-                            ...(isSel ? { background: C.accentBg } : {}),
-                          }}>
-                          {/* Label */}
-                          <div style={{ width: LABEL_W, minWidth: LABEL_W, padding: "5px 12px", display: "flex", alignItems: "center", gap: 6, fontSize: 11, borderRight: "1px solid var(--border)" }}>
-                            {iss.priority.match(/^P[012]$/) && (
-                              <span onClick={e => { e.stopPropagation(); const r = (e.target as HTMLElement).getBoundingClientRect(); setPriPick({ x: r.left, y: r.bottom + 4, issue: iss }); }}
-                                style={{ fontSize: 9, fontWeight: 700, padding: "0 4px", borderRadius: 2, whiteSpace: "nowrap", flexShrink: 0, cursor: "pointer", userSelect: "none",
-                                  background: iss.priority === "P0" ? C.p0Bg : iss.priority === "P1" ? C.p1Bg : C.p2Bg,
-                                  color: iss.priority === "P0" ? C.p0 : iss.priority === "P1" ? C.p1 : C.p2 }}>
-                                {iss.priority}
+                  {/* Issue rows grouped by section */}
+                  {groupedIssues.map(group => {
+                    const secCollapsed = group.section !== null && collapsedSections.has(group.section);
+                    return (
+                      <div key={group.section ?? "__none__"}>
+                        {group.section !== null && (
+                          <div onClick={() => togSection(group.section!)}
+                            style={{ display: "flex", background: "var(--muted)", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", minWidth: "fit-content", cursor: "pointer" }}>
+                            <div style={{ width: LABEL_W, minWidth: LABEL_W, padding: "4px 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderRight: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 6 }}>
+                              {secCollapsed ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
+                              {group.section}
+                              <span style={{ fontWeight: 400, marginLeft: 4 }}>
+                                {group.issues.filter(i => i.status === "done").length}/{group.issues.length}
                               </span>
-                            )}
-                            <span style={{ flex: 1, lineHeight: 1.4, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
-                              ...(iss.status === "done" ? { textDecoration: "line-through", color: "var(--muted-foreground)" } : {}),
-                              ...(overdue ? { color: C.danger } : {}) }}>
-                              {iss.title}
-                            </span>
-                            {iss.target_date && (
-                              <span style={{ fontSize: 10, whiteSpace: "nowrap", flexShrink: 0, color: overdue ? C.danger : "var(--muted-foreground)", ...(overdue ? { fontWeight: 600 } : {}) }}>
-                                {iss.target_date.slice(5)}
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Week cells */}
-                          <div style={{ display: "flex", alignItems: "center" }}>
-                            {wkH.map((_, w) => (
-                              <div key={w} onDoubleClick={e => { e.stopPropagation(); chgDeadline(iss, w); }}
-                                style={{ width: WK_W, minWidth: WK_W, height: "100%", flexShrink: 0, borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", position: "relative" }}>
-                                {((wi !== null && wi === w) || (wi === -1 && w === 0)) && (
-                                  <div style={{ position: "absolute", top: "50%", left: "50%", width: 10, height: 10, transform: "translate(-50%,-50%) rotate(45deg)", borderRadius: 2, background: diamondColor, cursor: "grab" }}
-                                    title={`${iss.target_date} · ${iss.priority}`} />
-                                )}
-                              </div>
-                            ))}
-                            <div style={{ width: OV_W, minWidth: OV_W, height: "100%", flexShrink: 0, borderLeft: "1px solid var(--border)", position: "relative" }}>
-                              {wi !== null && wi >= TOTAL_WEEKS && (
-                                <div style={{ position: "absolute", top: "50%", left: "50%", width: 10, height: 10, transform: "translate(-50%,-50%) rotate(45deg)", borderRadius: 2, background: diamondColor }} title={`${iss.target_date} · ${iss.priority}`} />
-                              )}
+                            </div>
+                            <div style={{ display: "flex" }}>
+                              {wkH.map((_, i) => <div key={i} style={{ width: WK_W, minWidth: WK_W, flexShrink: 0, borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)" }} />)}
+                              <div style={{ width: OV_W, minWidth: OV_W, flexShrink: 0, borderLeft: "1px solid var(--border)" }} />
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        )}
+
+                        {!secCollapsed && group.issues.map(iss => {
+                          const wi = weekIndex(iss.target_date, ws);
+                          const overdue = !!iss.target_date && iss.target_date < today && iss.status !== "done";
+                          const diamondColor = overdue ? C.danger : iss.status === "doing" ? C.doing : iss.status === "done" ? C.done : C.todo;
+                          const isSel = selIssue === iss.id;
+
+                          return (
+                            <div key={iss.id}
+                              onClick={() => setSelIssue(iss.id)}
+                              onContextMenu={e => { e.preventDefault(); e.stopPropagation(); setCtx({ x: e.clientX, y: e.clientY, issue: iss }); }}
+                              style={{
+                                display: "flex", borderBottom: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", minHeight: 32, minWidth: "fit-content", cursor: "pointer",
+                                ...(iss.status === "doing" ? { boxShadow: `inset 3px 0 0 ${C.doing}` } : {}),
+                                ...(iss.status === "done" ? { opacity: 0.5 } : {}),
+                                ...(overdue ? { background: C.p0Bg } : {}),
+                                ...(isSel ? { background: C.accentBg } : {}),
+                              }}>
+                              <div style={{ width: LABEL_W, minWidth: LABEL_W, padding: "5px 12px", display: "flex", alignItems: "center", gap: 6, fontSize: 11, borderRight: "1px solid var(--border)" }}>
+                                {iss.priority.match(/^P[012]$/) && (
+                                  <span onClick={e => { e.stopPropagation(); const r = (e.target as HTMLElement).getBoundingClientRect(); setPriPick({ x: r.left, y: r.bottom + 4, issue: iss }); }}
+                                    style={{ fontSize: 9, fontWeight: 700, padding: "0 4px", borderRadius: 2, whiteSpace: "nowrap", flexShrink: 0, cursor: "pointer", userSelect: "none",
+                                      background: iss.priority === "P0" ? C.p0Bg : iss.priority === "P1" ? C.p1Bg : C.p2Bg,
+                                      color: iss.priority === "P0" ? C.p0 : iss.priority === "P1" ? C.p1 : C.p2 }}>
+                                    {iss.priority}
+                                  </span>
+                                )}
+                                <span style={{ flex: 1, lineHeight: 1.4, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+                                  ...(iss.status === "done" ? { textDecoration: "line-through", color: "var(--muted-foreground)" } : {}),
+                                  ...(overdue ? { color: C.danger } : {}) }}>
+                                  {iss.title}
+                                </span>
+                                {iss.target_date && (
+                                  <span style={{ fontSize: 10, whiteSpace: "nowrap", flexShrink: 0, color: overdue ? C.danger : "var(--muted-foreground)", ...(overdue ? { fontWeight: 600 } : {}) }}>
+                                    {iss.target_date.slice(5)}
+                                  </span>
+                                )}
+                              </div>
+                              <div style={{ display: "flex", alignItems: "center" }}>
+                                {wkH.map((_, w) => (
+                                  <div key={w} onDoubleClick={e => { e.stopPropagation(); chgDeadline(iss, w); }}
+                                    style={{ width: WK_W, minWidth: WK_W, height: "100%", flexShrink: 0, borderRight: "1px solid color-mix(in srgb, var(--border) 50%, transparent)", position: "relative" }}>
+                                    {((wi !== null && wi === w) || (wi === -1 && w === 0)) && (
+                                      <div style={{ position: "absolute", top: "50%", left: "50%", width: 10, height: 10, transform: "translate(-50%,-50%) rotate(45deg)", borderRadius: 2, background: diamondColor, cursor: "grab" }}
+                                        title={`${iss.target_date} · ${iss.priority}`} />
+                                    )}
+                                  </div>
+                                ))}
+                                <div style={{ width: OV_W, minWidth: OV_W, height: "100%", flexShrink: 0, borderLeft: "1px solid var(--border)", position: "relative" }}>
+                                  {wi !== null && wi >= TOTAL_WEEKS && (
+                                    <div style={{ position: "absolute", top: "50%", left: "50%", width: 10, height: 10, transform: "translate(-50%,-50%) rotate(45deg)", borderRadius: 2, background: diamondColor }} title={`${iss.target_date} · ${iss.priority}`} />
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+
+                  {sorted.length === 0 && <div style={{ padding: "40px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: 12 }}>No matching issues</div>}
+                </div>
+              ) : (
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--muted-foreground)", fontSize: 12 }}>
+                  {selTheme && detailLoading ? "Loading…" : "Select a theme"}
+                </div>
+              )}
+            </div>
+
+            {selectedIssue && (
+              <IssueDetailPanel
+                issue={selectedIssue}
+                existingSections={existingSections}
+                onSave={saveDetail}
+                onDelete={doDelete}
+                onMove={startMove}
+                onClose={() => setSelIssue(null)}
+              />
+            )}
+          </>
+        ) : (
+          /* ── Files view: col2 file list + col3 content ─────────────── */
+          <>
+            {/* Col 2: file list */}
+            <div style={{ width: 260, minWidth: 260, borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+              <div style={{ height: 36, display: "flex", alignItems: "center", padding: "0 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
+                {detail?.title ?? (selTheme ? "Loading…" : "Files")}
+              </div>
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                {folderLoading ? (
+                  <div style={{ padding: "16px 12px", fontSize: 11, color: "var(--muted-foreground)" }}>Loading…</div>
+                ) : folderFiles.length > 0 ? (
+                  folderFiles.map(file => {
+                    const isActive = selFilePath === file;
+                    return (
+                      <button key={file} onClick={() => setSelFilePath(file)}
+                        style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", textAlign: "left", padding: "5px 12px", fontSize: 11, cursor: "pointer", border: "none", borderBottom: "1px solid color-mix(in srgb, var(--border) 30%, transparent)",
+                          background: isActive ? C.accentBg : "transparent",
+                          color: isActive ? C.accent : "var(--foreground)" }}>
+                        <FileText size={10} style={{ flexShrink: 0, opacity: 0.6 }} />
+                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {file.replace(/\.md$/, "")}
+                        </span>
+                      </button>
+                    );
+                  })
+                ) : selTheme ? (
+                  <div style={{ padding: "16px 12px", fontSize: 11, color: "var(--muted-foreground)" }}>No files found</div>
+                ) : (
+                  <div style={{ padding: "16px 12px", fontSize: 11, color: "var(--muted-foreground)" }}>Select a theme</div>
+                )}
+              </div>
+            </div>
+
+            {/* Col 3: file content */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+              {fileContentLoading ? (
+                <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>Loading…</div>
+              ) : fileContentData ? (
+                <>
+                  <div style={{ fontSize: 10, color: "var(--muted-foreground)", marginBottom: 12 }}>
+                    {selTheme} / {selFilePath}
                   </div>
-                );
-              })}
-
-              {sorted.length === 0 && <div style={{ padding: "40px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: 12 }}>No matching issues</div>}
+                  <MarkdownContent content={fileContentData} />
+                </>
+              ) : (
+                <div style={{ fontSize: 11, color: "var(--muted-foreground)", textAlign: "center", paddingTop: 40 }}>
+                  {selFilePath ? "File not found" : "Select a file"}
+                </div>
+              )}
             </div>
-          ) : (
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--muted-foreground)", fontSize: 12 }}>
-              {selTheme && detailLoading ? "Loading…" : "Select a theme"}
-            </div>
-          )}
-        </div>
-
-        {/* ── Detail panel (right column) ──────────────────────────────────── */}
-        {selectedIssue && (
-          <IssueDetailPanel
-            issue={selectedIssue}
-            existingSections={existingSections}
-            onSave={saveDetail}
-            onDelete={doDelete}
-            onMove={startMove}
-            onClose={() => setSelIssue(null)}
-          />
+          </>
         )}
       </div>
 
@@ -539,13 +623,12 @@ function IssueDetailPanel({ issue, existingSections, onSave, onDelete, onMove, o
   issue: TrackerIssue;
   existingSections: string[];
   onSave: (id: string, data: Partial<Pick<TrackerIssue, "title" | "description" | "section" | "priority" | "status" | "target_date">>) => Promise<void>;
-  onDelete: (iss: TrackerIssue) => Promise<void>;
+  onDelete: (iss: TrackerIssue) => void;
   onMove: (iss: TrackerIssue) => void;
   onClose: () => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [secDropOpen, setSecDropOpen] = useState(false);
-  const qc = useQueryClient();
   const [title, setTitle] = useState(issue.title);
   const [desc, setDesc] = useState(issue.description ?? "");
   const [section, setSection] = useState(issue.section ?? "");
@@ -555,13 +638,7 @@ function IssueDetailPanel({ issue, existingSections, onSave, onDelete, onMove, o
   const [saving, setSaving] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [posting, setPosting] = useState(false);
-
-  // Comments query
-  const { data: commentsData } = useQuery({
-    queryKey: ["trk-comments", issue.id],
-    queryFn: () => fetchTrackerComments(issue.id),
-  });
-  const comments = commentsData?.comments ?? [];
+  const comments: { id: string; author: string | null; body: string; created_at: string }[] = [];
 
   // Sync when switching issues
   useEffect(() => {
@@ -574,29 +651,9 @@ function IssueDetailPanel({ issue, existingSections, onSave, onDelete, onMove, o
     setNewComment("");
   }, [issue.id, issue.title, issue.description, issue.section, issue.priority, issue.status, issue.target_date]);
 
-  const dirty = title !== issue.title || desc !== (issue.description ?? "") || section !== (issue.section ?? "") || priority !== issue.priority || status !== issue.status || targetDate !== (issue.target_date ?? "");
-
-  const save = async () => {
-    setSaving(true);
-    const data: Partial<Pick<TrackerIssue, "title" | "description" | "section" | "priority" | "status" | "target_date">> = {};
-    if (title !== issue.title) data.title = title;
-    if (desc !== (issue.description ?? "")) data.description = desc || null;
-    if (section !== (issue.section ?? "")) data.section = section || null;
-    if (priority !== issue.priority) data.priority = priority;
-    if (status !== issue.status) data.status = status;
-    if (targetDate !== (issue.target_date ?? "")) data.target_date = targetDate || null;
-    if (Object.keys(data).length) await onSave(issue.id, data);
-    setSaving(false);
-  };
-
-  const postComment = async () => {
-    if (!newComment.trim() || posting) return;
-    setPosting(true);
-    await createTrackerComment(issue.id, newComment.trim());
-    setNewComment("");
-    qc.invalidateQueries({ queryKey: ["trk-comments", issue.id] });
-    setPosting(false);
-  };
+  const dirty = false; // read-only: no edits
+  const save = async () => { setSaving(false); void onSave; };
+  const postComment = async () => { setPosting(false); };
 
   const FL: React.CSSProperties = { fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted-foreground)", marginBottom: 4 };
   const FI: React.CSSProperties = { width: "100%", padding: "6px 8px", fontSize: 12, fontFamily: "inherit", border: "1px solid var(--border)", borderRadius: 4, background: "var(--background)", color: "var(--foreground)", outline: "none" };

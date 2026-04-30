@@ -4,9 +4,107 @@ import tailwindcss from "@tailwindcss/vite";
 import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-const SYNTHESIS_DIR = resolve(__dirname, "../../research/notes/synthesis");
-const PAPERS_DIR = resolve(__dirname, "../../research/papers");
-const CHAT_DIR = resolve(__dirname, "../../research/chat");
+const SYNTHESIS_DIR = resolve(__dirname, "../../research/synthesis");
+const PAPERS_DIR    = resolve(__dirname, "../../research/papers");
+const PRODUCTS_DIR  = resolve(__dirname, "../../research/products");
+const PROJECT_DIR   = resolve(__dirname, "../../research/project");
+const CHAT_DIR      = resolve(__dirname, "../../research/chat");
+const RESEARCH_ROOT = resolve(__dirname, "../../research");
+
+/* ── Tracker parsing (mirrors build-roadmap.py in Node.js) ─────────────── */
+
+const TRACKER_SKIP = new Set(["build", "archive", "outlines"]);
+
+function readFolderTitle(folderPath: string): string {
+  for (const name of ["index.md", "Index.md"]) {
+    const p = join(folderPath, name);
+    if (existsSync(p)) {
+      const m = readFileSync(p, "utf-8").match(/^title:\s*["']?(.+?)["']?\s*$/m);
+      if (m) return m[1].trim().replace(/^["']|["']$/g, "");
+    }
+  }
+  return folderPath.split("/").pop()!.replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+type IssueStatus = "todo" | "doing" | "done";
+interface TIssue {
+  id: string; theme_id: string; title: string; description: string | null;
+  section: string | null; priority: string; status: IssueStatus;
+  target_date: string | null; project_id: null; sort_order: number;
+  created_by: null; updated_by: null; comment_count: 0;
+  created_at: string; updated_at: string;
+}
+
+function parseTodoToIssues(content: string, themeId: string): TIssue[] {
+  const issues: TIssue[] = [];
+  let section: string | null = null;
+  let idx = 0;
+  const now = new Date().toISOString();
+  for (const line of content.split("\n")) {
+    const hm = line.match(/^#{2,3}\s+(.+)$/);
+    if (hm) { section = hm[1].trim(); continue; }
+    const im = line.match(/^\s*-\s+\[([  xX~])\]\s+(?:\*\*(P[0-3])\*\*\s+|(P[0-3]):\s+)?(.+)$/);
+    if (!im) continue;
+    const [, rawSt, pri1, pri2, rest] = im;
+    const priority = pri1 || pri2 || "-";
+    let status: IssueStatus = rawSt.toLowerCase() === "x" ? "done" : rawSt === "~" ? "doing" : "todo";
+    const dateM = rest.match(/\*\(target:\s*(\d{4}-\d{2}-\d{2})\)\*/);
+    const targetDate = dateM ? dateM[1] : null;
+    let cleaned = rest
+      .replace(/\*\(target:[^)]+\)\*/g, "").replace(/\*\(done[^)]*\)\*/g, "")
+      .replace(/\s*\[[a-z]{3,9}\]\s*$/i, "").replace(/~~(.+?)~~/g, "$1")
+      .replace(/\s+—\s*$/, "").trim();
+    if (/SUPERSEDED|DUPLICATE/i.test(cleaned)) status = "done";
+    let title = cleaned, description: string | null = null;
+    const di = cleaned.indexOf(" — ");
+    if (di >= 0) { title = cleaned.slice(0, di).trim(); description = cleaned.slice(di + 3).trim() || null; }
+    if (!title) continue;
+    issues.push({ id: `${themeId}/${idx}`, theme_id: themeId, title, description, section, priority,
+      status, target_date: targetDate, project_id: null, sort_order: idx,
+      created_by: null, updated_by: null, comment_count: 0, created_at: now, updated_at: now });
+    idx++;
+  }
+  return issues;
+}
+
+function buildTrackerData() {
+  const themes: { id: string; category_slug: string; category_label: string; title: string; sort_order: number; done_count: number; issue_count: number }[] = [];
+  const themeIssues: Record<string, TIssue[]> = {};
+  const categories: { slug: string; label: string; sort_order: number; theme_count: number; done_count: number; issue_count: number }[] = [];
+  const THEME_DEFS: [string, string, string][] = [
+    ["papers", "Papers", PAPERS_DIR], ["products", "Products", PRODUCTS_DIR],
+    ["project", "Project", PROJECT_DIR], ["synthesis", "Synthesis", SYNTHESIS_DIR],
+  ];
+  let themeSort = 0;
+  for (const [slug, label, dir] of THEME_DEFS) {
+    if (!existsSync(dir)) continue;
+    let catDone = 0, catTotal = 0, catCount = 0;
+    for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+      if (!entry.isDirectory() || entry.name.startsWith(".") || TRACKER_SKIP.has(entry.name)) continue;
+      const sub = join(dir, entry.name);
+      const todoPath = ["todo.md", "Todo.md", "TODO.md"].map(n => join(sub, n)).find(p => existsSync(p));
+      if (!todoPath) continue;
+      const themeId = `${slug}/${entry.name}`;
+      const issues = parseTodoToIssues(readFileSync(todoPath, "utf-8"), themeId);
+      const done = issues.filter(i => i.status === "done").length;
+      themes.push({ id: themeId, category_slug: slug, category_label: label, title: readFolderTitle(sub), sort_order: themeSort++, done_count: done, issue_count: issues.length });
+      themeIssues[themeId] = issues;
+      catDone += done; catTotal += issues.length; catCount++;
+    }
+    if (catCount > 0) categories.push({ slug, label, sort_order: categories.length, theme_count: catCount, done_count: catDone, issue_count: catTotal });
+  }
+  const all = Object.values(themeIssues).flat();
+  const total = all.length, done = all.filter(i => i.status === "done").length, doing = all.filter(i => i.status === "doing").length;
+  const byPri: Record<string, number> = {};
+  for (const i of all) byPri[i.priority] = (byPri[i.priority] ?? 0) + 1;
+  return {
+    generated: new Date().toISOString(), categories, themes, themeIssues,
+    stats: { total, done, doing, todo: total - done - doing, theme_count: themes.length,
+      by_priority: Object.entries(byPri).sort().map(([priority, count]) => ({ priority, count })),
+      by_category: categories.map(c => ({ slug: c.slug, label: c.label, total: c.issue_count, done: c.done_count })),
+    },
+  };
+}
 
 function scanFolder(folderPath: string, name: string) {
   const files = readdirSync(folderPath)
@@ -83,6 +181,41 @@ function researchFilesPlugin(): Plugin {
         res.setHeader("Content-Type", "application/json");
         res.setHeader("Access-Control-Allow-Origin", "*");
 
+        // GET /research/tracker — roadmap data parsed from todo.md files
+        if (req.url === "/research/tracker") {
+          try { res.end(JSON.stringify(buildTrackerData())); } catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
+          return;
+        }
+
+        // GET /research/folder/:theme/:folder — scanFolder for any theme subfolder
+        const thFolderMatch = req.url.match(/^\/research\/folder\/([^/]+)\/([^/]+)$/);
+        if (thFolderMatch) {
+          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
+          const themeDir = THEME_DIRS[thFolderMatch[1]];
+          if (!themeDir) { res.statusCode = 404; res.end(JSON.stringify({ error: "Unknown theme" })); return; }
+          const folderPath = join(themeDir, decodeURIComponent(thFolderMatch[2]));
+          if (!existsSync(folderPath)) { res.statusCode = 404; res.end(JSON.stringify({ error: "Not found" })); return; }
+          try { res.end(JSON.stringify(scanFolder(folderPath, thFolderMatch[2]))); }
+          catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
+          return;
+        }
+
+        // GET /research/folder-file/:theme/:folder/:file — read file from any theme subfolder
+        const thFolderFileMatch = req.url.match(/^\/research\/folder-file\/([^/]+)\/([^/]+)\/(.+)$/);
+        if (thFolderFileMatch) {
+          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
+          const themeDir = THEME_DIRS[thFolderFileMatch[1]];
+          if (!themeDir) { res.statusCode = 404; res.end(JSON.stringify({ error: "Unknown theme" })); return; }
+          const baseDir = join(themeDir, decodeURIComponent(thFolderFileMatch[2]));
+          const filePath = decodeURIComponent(thFolderFileMatch[3]);
+          const absPath = resolve(baseDir, filePath);
+          if (!absPath.startsWith(baseDir)) { res.statusCode = 403; res.end(JSON.stringify({ error: "Forbidden" })); return; }
+          if (!existsSync(absPath) || !statSync(absPath).isFile()) { res.statusCode = 404; res.end(JSON.stringify({ error: "Not found" })); return; }
+          try { res.end(JSON.stringify({ path: filePath, content: readFileSync(absPath, "utf-8") })); }
+          catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
+          return;
+        }
+
         // GET /research/manifest — synthesis folders
         if (req.url === "/research/manifest") {
           try {
@@ -102,7 +235,7 @@ function researchFilesPlugin(): Plugin {
         // GET /research/papers — papers manifest
         if (req.url === "/research/papers") {
           try {
-            const paperFolders = ["flagship", "satellite-1-cxr", "satellite-2-text", "satellite-3-materials", "satellite-4-alphafold", "satellite-5-emergence", "satellite-6"];
+            const paperFolders = ["flagship", "satellite-1-cxr", "satellite-2-text", "satellite-3-materials", "satellite-4-alphafold", "satellite-5-emergence", "satellite-6", "satellite-7-quantum-vqe"];
             const papers = paperFolders
               .filter((name) => existsSync(join(PAPERS_DIR, name)))
               .map((name) => scanFolder(join(PAPERS_DIR, name), name));
@@ -183,6 +316,30 @@ function researchFilesPlugin(): Plugin {
               fullContent,
               title: summaryFile ? summaryFile.replace(/^\d+-/, "").replace(/\.md$/, "").replace(/-/g, " ") : `Chat ${num}`,
             }));
+          } catch (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: String(err) }));
+          }
+          return;
+        }
+
+        // GET /research/article/<path> — read file from research root
+        const articleMatch = req.url.match(/^\/research\/article\/(.+)$/);
+        if (articleMatch) {
+          const relPath = decodeURIComponent(articleMatch[1]);
+          const absPath = resolve(RESEARCH_ROOT, relPath);
+          if (!absPath.startsWith(RESEARCH_ROOT)) {
+            res.statusCode = 403;
+            res.end(JSON.stringify({ error: "Forbidden" }));
+            return;
+          }
+          if (!existsSync(absPath) || !statSync(absPath).isFile()) {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ error: "Not found" }));
+            return;
+          }
+          try {
+            res.end(JSON.stringify({ path: relPath, content: readFileSync(absPath, "utf-8") }));
           } catch (err) {
             res.statusCode = 500;
             res.end(JSON.stringify({ error: String(err) }));
