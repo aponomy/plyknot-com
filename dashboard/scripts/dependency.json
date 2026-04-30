@@ -1,0 +1,733 @@
+{
+  "metadata": {
+    "title": "Plyknot Conceptual Dependency Graph",
+    "generated": "2026-04-28",
+    "description": "Directed graph: edge from X to Y means 'X depends on Y being solid for X to be solid'. Status uses the framework's own convergence vocabulary plus 'proposed' and 'superseded'.",
+    "status_legend": {
+      "converged": "● Implemented and empirically validated; can be relied on",
+      "tension": "◐ Implemented but validation is partial, or one prediction has not held",
+      "divergent": "○ Empirically contradicted in at least one place; original hypothesis needs revision",
+      "single": "◌ Implemented in code or one paper only; not yet replicated or independently validated",
+      "proposed": "◇ Designed or named but not yet implemented",
+      "superseded": "✕ Replaced by a newer concept; kept as design archaeology"
+    },
+    "kind_legend": {
+      "axiom": "Foundational architectural commitment that other concepts presuppose",
+      "primitive": "Computational/operational mechanism implemented in code",
+      "principle": "Named architectural principle that organizes multiple primitives",
+      "construct": "Higher-level concept built from primitives",
+      "infrastructure": "Pipeline, storage, or loop machinery",
+      "domain-finding": "Empirical result from a specific domain validation",
+      "patent-claim": "Specific claim in patent ladder",
+      "empirical-test": "Pre-registered or executed validation test",
+      "verb": "Plyknot operational verb (measure/predict/act/describe/lens)"
+    }
+  },
+
+  "nodes": [
+    {
+      "id": "coupling-map",
+      "label": "Coupling Map",
+      "kind": "axiom",
+      "status": "converged",
+      "locations": ["flagship §2", "plyknot/universe.py", "patent specification §4.3"],
+      "summary": "Sparse associative store keyed by (measurer, target, property). Every measurement record is a numerical entry in this map. Iteration over absent entries is structurally skipped."
+    },
+    {
+      "id": "depends-discipline",
+      "label": "Depends Discipline",
+      "kind": "axiom",
+      "status": "converged",
+      "locations": ["flagship §4", "plyknot/inference.py", "plyknot/registry.py", "patent §4.8"],
+      "summary": "`depends` arrays on inference steps must reference operational mechanisms only — physical or computational machinery. Theories and target assumptions are inadmissible. Validator raises TheoreticalPartitionError on violation."
+    },
+    {
+      "id": "registry-firewall",
+      "label": "Core ↛ Registry Firewall",
+      "kind": "axiom",
+      "status": "converged",
+      "locations": ["flagship §2", "plyknot/registry.py", "session-context"],
+      "summary": "Core (coupling map, depends graph) reads can flow into the registry; registry never enters core computation. Labels do not flow into computation."
+    },
+    {
+      "id": "measure-predict-distinction",
+      "label": "measure() vs predict() Source Tag",
+      "kind": "axiom",
+      "status": "converged",
+      "locations": ["flagship §2", "plyknot/universe.py"],
+      "summary": "Every coupling entry carries a source tag: measurement (physical interaction) or prediction (claim from a pipeline). Convergence treats them equally; epistemic distinction is preserved structurally."
+    },
+    {
+      "id": "anchor-is-measurement",
+      "label": "Anchor is Measurement, not Physics",
+      "kind": "axiom",
+      "status": "converged",
+      "locations": ["flagship §9", "findings-for-gemini.md Part 9", "synthesis: Mechanics as Instrument"],
+      "summary": "Three-question rule: produces a number → coupling map; instrument embodies it → depends; only said in words → registry. Levels are labels in the registry; the core is level-agnostic."
+    },
+    {
+      "id": "structural-absence",
+      "label": "Structural Absence",
+      "kind": "axiom",
+      "status": "converged",
+      "locations": ["flagship §2", "papers/0. Plyknot/sections/02-architecture.md"],
+      "summary": "Absent ≠ zero. A property that doesn't apply has no Map entry. Photon has no mass entry; gravity system iterates over the mass Map and the photon is invisible to it. No conditional check needed."
+    },
+    {
+      "id": "convergence-status",
+      "label": "Convergence Status (●/◐/○/◌)",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §3", "plyknot/analysis.py", "plyknot/inference.py"],
+      "summary": "Each coupling group classified as converged / tension / divergent / single based on relative spread. Computed function of group contents, not a primitive resolved value."
+    },
+    {
+      "id": "inference-levels",
+      "label": "Five Inference Levels",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §3", "plyknot/inference.py"],
+      "summary": "Signal → Measurement → Pattern → Model → Hypothesis. Marker passing drops different markers based on level + convergence status."
+    },
+    {
+      "id": "complexity-levels",
+      "label": "Six Complexity Levels (0-5)",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §3", "plyknot/inference.py"],
+      "summary": "Fundamental → nuclear → molecular → cellular → organismal → social. Orthogonal to inference levels. Earned through convergence, not declared."
+    },
+    {
+      "id": "pattern-map-promotion",
+      "label": "Pattern Map Promotion Rule",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §3", "plyknot/analysis.py"],
+      "summary": "A property earns Pattern Map status only when at least one measurement (not just predictions) is among the converging couplings. Theoretical consensus alone never promotes."
+    },
+    {
+      "id": "ontological-load",
+      "label": "Ontological Load",
+      "kind": "construct",
+      "status": "tension",
+      "locations": ["flagship §3", "Sat 2 §4", "plyknot/describe.py"],
+      "summary": "The degree to which the brain constructs the measured object. Operationalized via perturbation σ. Sensory σ ≈ 0.03; cognitive σ ≈ 0.18 in clinical text. Replication-rate correlation ρ = 0.619 (psych), 0.90 (mol bio)."
+    },
+    {
+      "id": "mechanics-as-instrument",
+      "label": "Mechanics as Instrument",
+      "kind": "principle",
+      "status": "tension",
+      "locations": ["synthesis: Mechanics as Instrument/", "flagship §9", "findings-for-gemini.md Part 9"],
+      "summary": "An instrument is anything that produces a number AND has a recordable depends chain naming operational mechanisms. Substrate-agnostic. Catalog: physical, computational, text/LLM, image, embedding, survey, patent, framework analysers."
+    },
+    {
+      "id": "triangulation",
+      "label": "Triangulation (depends-overlap test)",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["synthesis: Triangulation/", "canvas-architecture-design §7.1", "plyknot/analysis.py::find_blind_spots"],
+      "summary": "Substrate-independence test via depends-chain overlap. Three uses: graduation rule (canvas §7.1), blind-spot finder (find_blind_spots), multi-beam comparison (Strategic Shear / patent-FTO)."
+    },
+    {
+      "id": "pheno-mass",
+      "label": "Phenomenological Mass",
+      "kind": "construct",
+      "status": "tension",
+      "locations": ["canvas-architecture-design §2.5", "plyknot/analysis.py"],
+      "summary": "tier × convergence_score × log(1 + independent_measurers). Mass concept itself usable (Test 2, 316 pairs, range 0.000-7.784); Lensing-detector formulation null at Test 4 ceiling effect."
+    },
+    {
+      "id": "marker-passing",
+      "label": "Marker Passing",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §4 Mechanism 1", "plyknot/marker_passing.py", "patent claim 9-10"],
+      "summary": "BFS marker propagation on depends graph with per-hop decay. First-class markers on converged steps, second-class on cracked. Collisions classified opening/crack/bridge by marker type. Phase 1.5 Test 3 confirmed cyclic-graph termination."
+    },
+    {
+      "id": "measurer-correlation",
+      "label": "Measurer Correlation",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §4 Mechanism 2", "plyknot/analysis.py::analyze_measurer_correlation"],
+      "summary": "Per-measurer scan across coupling groups. Classifies measurer as systemic-crack (◆), systemic-opening (◈), or local. Validated across 7 domains."
+    },
+    {
+      "id": "echo-chamber-classification",
+      "label": "Echo Chamber Classification",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["flagship §4", "plyknot/analysis.py::analyze_prediction_consensus", "Sat 3", "patent claim 6"],
+      "summary": "Flags entity-property pairs where multiple predictions agree but at least one measurement diverges. Validated: materials 70.5% refutation rate (571 compounds), AlphaFold 754 echo chambers, MCL-1 12× divergence."
+    },
+    {
+      "id": "speciation",
+      "label": "Population Decomposition (GMM+BIC)",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["plyknot/analysis.py::detect_speciation_candidates", "patent claim 7"],
+      "summary": "GMM with BIC threshold detects when one entity ID conflates multiple physical referents. 8/8 method-purity controls; 100% accuracy on labeled cases. Three guards: minimum component size, ΔBIC ≥ 10, minimum separation."
+    },
+    {
+      "id": "blind-spot-triangulation",
+      "label": "Blind-Spot Triangulation",
+      "kind": "primitive",
+      "status": "single",
+      "locations": ["flagship §9", "plyknot/analysis.py::find_blind_spots"],
+      "summary": "Identifies entity pairs sharing depends but with no coupling between them. Ranks by shared-dependency count. Implemented but priority formula not yet calibrated against held-out data."
+    },
+    {
+      "id": "prediction-provenance",
+      "label": "Prediction Provenance Trace",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["plyknot/analysis.py::trace_provenance"],
+      "summary": "Recursive walk through inputs DAG of predict() entries. Reports upstream cracks. Used for transducer-degradation diagnostics."
+    },
+    {
+      "id": "structural-holes",
+      "label": "Structural Holes",
+      "kind": "primitive",
+      "status": "single",
+      "locations": ["plyknot/discovery.py::find_structural_holes", "patent-fto Stage 3"],
+      "summary": "Missing inference-level entries within an otherwise solid chain. Used in patent-FTO continuation analysis. Validated structurally in Stage 3 but not yet on a non-patent target."
+    },
+    {
+      "id": "cfg-denoising",
+      "label": "CFG-Denoising Mechanism",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["plyknot/guided_extraction.py", "Sat 2 §2.3", "patent Framing A (defensive)"],
+      "summary": "Two extraction passes (unconditioned, conditioned on coupling-map anchors) blended at scale ξ. U-shaped error curve confirms mechanism (optimum ξ=0.50). Iterative resolution descent (document → paragraph → sentence) with re-run variance stopping rule."
+    },
+    {
+      "id": "ontological-denoising",
+      "label": "Ontological Denoising",
+      "kind": "principle",
+      "status": "tension",
+      "locations": ["synthesis: Ontological Denoising/", "Sat 2 (treatment)", "notes/technical/denoising-paper-brain-dump.md"],
+      "summary": "Text-as-noisy-image, LLM-as-denoiser. CFG-denoising is the mechanism; the principle names what the mechanism does. Real-paired-data validation (BioVid, MIMIC) pending. Cross-provider convergence pending."
+    },
+    {
+      "id": "common-ground",
+      "label": "Common Ground Conditioning",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["plyknot/common_ground.py", "Sat 2 §2.5"],
+      "summary": "Accumulated structured prior context across documents. Order-independent at 100-paper scale (4 randomized orderings, identical final coupling map). Structural-only CG produces ρ=0.672 with replication."
+    },
+    {
+      "id": "predicate-decomposition",
+      "label": "Predicate Decomposition (sensory/cognitive)",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["plyknot/predicate_decomposition.py", "Sat 2 §2.2"],
+      "summary": "Decomposes text into predicate units, classifies as sensory or cognitive. 4/5 predicate types achieve κ=1.0 across 10 runs. Routes claims to measure() vs predict() at extraction time."
+    },
+    {
+      "id": "grounding",
+      "label": "Symbol Grounding (embedding-based)",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["plyknot/grounding.py", "Sat 2 §3.3", "flagship §9"],
+      "summary": "Sentence-transformer embedding maps natural language to integer entity IDs. 92.7% accuracy on 56-entity pharma registry; 100% on methodology terminology. Index IS the instrument — construction parameters in depends."
+    },
+    {
+      "id": "describe-pipeline",
+      "label": "Describe Pipeline",
+      "kind": "infrastructure",
+      "status": "converged",
+      "locations": ["plyknot/describe.py", "Sat 2"],
+      "summary": "End-to-end pipeline: predicate decomposition → grounding → CFG-anchored extraction → distribution shape → coupling-map entries. The integration path."
+    },
+    {
+      "id": "lens-verb",
+      "label": "Lens (verb)",
+      "kind": "verb",
+      "status": "tension",
+      "locations": ["synthesis: lensing/", "plyknot/guided_extraction.py (special cases)"],
+      "summary": "Read target through frame; the strain (CFG blend delta) is the measurement. Existing primitives (check_shear, extract_with_grounding, analyze_measurer_correlation, patent-FTO) are special cases."
+    },
+    {
+      "id": "open-values",
+      "label": "Open Values",
+      "kind": "principle",
+      "status": "single",
+      "locations": ["synthesis: Open Values/"],
+      "summary": "Computation operates on derived signals (status, mass, strain, σ, marker activation, provenance) without resolving ground-truth values. Operational dual to holographic coupling. Five mechanisms; just synthesized."
+    },
+    {
+      "id": "holographic-coupling",
+      "label": "Holographic Coupling",
+      "kind": "principle",
+      "status": "tension",
+      "locations": ["synthesis: Holographic Coupling/", "canvas-architecture-design (planned §2.6)", "patent-fto Stage 3"],
+      "summary": "Entity IS its convergence pattern across substrate-independent measurers. Five constituent primitives (mass, triangulation, Event Horizon, Fission, Lensing). Stage 3 empirical validation 2026-04-26."
+    },
+    {
+      "id": "canvas-architecture",
+      "label": "Canvas Architecture",
+      "kind": "construct",
+      "status": "tension",
+      "locations": ["synthesis: canvas architecture/", "canvas-architecture-design.md"],
+      "summary": "Three projections (Phenomenological, Operational, Epistemic) of the coupling-map tensor. Tests 2/3/5 + Experiment B positive; Test 4 (Lensing detector) null with known cause; Test 4b pending."
+    },
+    {
+      "id": "shear",
+      "label": "Shear",
+      "kind": "primitive",
+      "status": "converged",
+      "locations": ["canvas-architecture-design §6.2", "plyknot/monitors.py::check_shear"],
+      "summary": "Vector difference between an entity's motion on two canvases. Used in patent-FTO Strategic Shear and in transducer-degradation diagnostics. Validated structurally in Stage 3."
+    },
+    {
+      "id": "lensing-strain",
+      "label": "Lensing Strain",
+      "kind": "construct",
+      "status": "divergent",
+      "locations": ["canvas-architecture-design §6.3", "Test 4 report"],
+      "summary": "|epistemic_delta| / phenomenological_mass. Test 4 returned null (ceiling effect). Test 4b (predicate-intensity domain redesign) pending. Mass discrimination claim pending."
+    },
+    {
+      "id": "event-horizon",
+      "label": "Epistemic Event Horizon",
+      "kind": "construct",
+      "status": "converged",
+      "locations": ["canvas-architecture-design §8.1", "canvas Test 5 report"],
+      "summary": "Level-5 entities trapped inside Epistemic canvas until physical instruments arrive. Test 5 (2026-04-21): discrete tier jump 0→3 at SAM arrival on emotional arousal. Strong validation."
+    },
+    {
+      "id": "pheno-fission",
+      "label": "Phenomenological Fission",
+      "kind": "construct",
+      "status": "converged",
+      "locations": ["canvas-architecture-design §8.2", "Experiment B report"],
+      "summary": "Graduated entities with disagreeing measurers render as multi-lobed geometry. Experiment B on TMPRSS2: ΔBIC = 39.9, 100% lobe purity."
+    },
+    {
+      "id": "pheno-fusion",
+      "label": "Phenomenological Fusion",
+      "kind": "construct",
+      "status": "single",
+      "locations": ["canvas-architecture-design", "flagship §9 mention"],
+      "summary": "Two entities from different fields converging on all shared properties suggest the same phenomenon under different labels. Mentioned in flagship; not yet empirically demonstrated end-to-end."
+    },
+    {
+      "id": "imputed-dark-matter",
+      "label": "Imputed Dark Matter",
+      "kind": "construct",
+      "status": "tension",
+      "locations": ["canvas-architecture-design §4"],
+      "summary": "Empty-depends instruments anchor to domain-default substrate node. Within-vendor anchoring validated; cross-vendor pattern attributed specifically to alignment-method overlap."
+    },
+    {
+      "id": "emergence",
+      "label": "Emergence as Dual of Structural Absence",
+      "kind": "construct",
+      "status": "single",
+      "locations": ["flagship §2", "Sat 5 (planned)", "plyknot/emergence.py"],
+      "summary": "New Map entries appear on composite entities that no constituent possesses. Computed via measurement-vs-prediction divergence. Sat 5 thermodynamic-bounds treatment in progress."
+    },
+    {
+      "id": "thermodynamic-bounds",
+      "label": "Thermodynamic Irreducibility (Landauer/Bekenstein)",
+      "kind": "construct",
+      "status": "proposed",
+      "locations": ["Sat 5 outline"],
+      "summary": "Connecting emergence forms to Landauer, Bekenstein, Margolus-Levitin bounds as principled floor on reducibility. Worked-case selection unresolved; satellite deferred until Q2 2027."
+    },
+    {
+      "id": "act-verb",
+      "label": "act() verb (reflexivity / performativity)",
+      "kind": "verb",
+      "status": "proposed",
+      "locations": ["synthesis: act-verb/", "phase-1-synthesis.md"],
+      "summary": "Fourth verb alongside measure/predict/describe. Reflexive provenance with σ propagation. Designed; not yet implemented. Phase 2 trigger conjunctive on flagship arXiv + patent priority + bandwidth."
+    },
+    {
+      "id": "layer-3-llm-instrument",
+      "label": "LLM as Measurable Instrument (Layer 3)",
+      "kind": "principle",
+      "status": "tension",
+      "locations": ["synthesis: Layer 3/", "Sat 4"],
+      "summary": "Instrument-as-target dual representation: LLM produces measurements AND has architectural attributes recorded as coupling entries on itself. Symmetric difference predicts divergence. Validated for AF×ESMFold; LLM extension pending."
+    },
+    {
+      "id": "alphafold-attribute-set",
+      "label": "AlphaFold × ESMFold Attribute-Set Arithmetic",
+      "kind": "domain-finding",
+      "status": "converged",
+      "locations": ["Sat 4", "synthesis: Layer 3/", "alphafold-v3-instructions.md"],
+      "summary": "Symmetric difference of architectural attribute sets predicts divergence locations. 100% recall on 57 biological echo chambers across 1,069 proteins. Hardcoded baseline misses 26%."
+    },
+    {
+      "id": "cxr-echo-chambers",
+      "label": "CXR Echo Chambers (Sat 1)",
+      "kind": "domain-finding",
+      "status": "single",
+      "locations": ["Sat 1 (planned)", "notes/technical/cxr-evaluator-project.md"],
+      "summary": "Cross-comparison of multiple CXR AI models against radiologist panels. Identifies cases of unanimous model agreement against radiologist majority. Evaluator planned, not yet started."
+    },
+    {
+      "id": "materials-pharma-echoes",
+      "label": "Materials + Pharma Echo Chambers (Sat 3)",
+      "kind": "domain-finding",
+      "status": "converged",
+      "locations": ["Sat 3", "papers/3. Materials + pharma/"],
+      "summary": "DFT 70.5% refutation rate against calorimetry on 571 compounds (shared GGA-PBE functional). MCL-1 A-1210477 12× FEP+/docking divergence from experimental majority (calibration against SPR artifact)."
+    },
+    {
+      "id": "text-tmprss2-discovery",
+      "label": "TMPRSS2 Autonomous Discovery (Sat 2)",
+      "kind": "domain-finding",
+      "status": "single",
+      "locations": ["Sat 2 §3.2"],
+      "summary": "Autonomous extraction of 504 measurements from 100 PMC papers surfaced 20× enzyme-vs-cellular crack on N-0920 without human guidance. Single-point but non-circular result."
+    },
+    {
+      "id": "physics-lambda-cdm",
+      "label": "ΛCDM Systemic Crack",
+      "kind": "domain-finding",
+      "status": "converged",
+      "locations": ["flagship §5", "plyknot/inference.py COSMOLOGY_CHAIN"],
+      "summary": "Marker passer recovers ΛCDM as systemic-crack node connecting Hubble tension (5.8σ), S8 tension, and matter dipole. Recovery is blind to the concept name (cosmological principle excluded from operational vocabulary)."
+    },
+    {
+      "id": "physics-neutron-lifetime",
+      "label": "Neutron Lifetime 4.5σ Crack",
+      "kind": "domain-finding",
+      "status": "converged",
+      "locations": ["flagship §5"],
+      "summary": "Bottle vs beam methods diverge by 9.95s (4.5σ). Persistent local crack across 40 years; speciation candidate (the integer ID may represent two physical entities current methods conflate)."
+    },
+    {
+      "id": "patent-fto-stage-3",
+      "label": "Patent-FTO Stage 3 Multi-Beam Run",
+      "kind": "empirical-test",
+      "status": "tension",
+      "locations": ["synthesis: Patent-fto/stage-3-results-and-methodology.md"],
+      "summary": "35 claims × 49 references × 37 code modules through holographic coupling composition. 136 Haiku calls, ~3 hours, zero API spend. Composes correctly but verification work in §5 still open."
+    },
+    {
+      "id": "test-1-shear",
+      "label": "Foundation Asimov Test 1 (Shear)",
+      "kind": "empirical-test",
+      "status": "converged",
+      "locations": ["synthesis: foundation asimov/test-1-shear/"],
+      "summary": "Validates Ontological Shear mechanism. 1,068/1,069 protein conformance; speciation firing on 26 entities."
+    },
+    {
+      "id": "test-2-dcoi",
+      "label": "Foundation Asimov Test 2 (DCOI / McLean-Pontiff)",
+      "kind": "empirical-test",
+      "status": "divergent",
+      "locations": ["synthesis: foundation asimov/test-2-dcoi/"],
+      "summary": "Wrong-sign signal: substrate-overlap with prior literature predicts predictor robustness, not fragility (rho = -0.29, p = 0.010). Original commercial-thesis framing empirically contradicted on 97 stock-return predictors. Survives confound controls."
+    },
+    {
+      "id": "patent-claim-1-system",
+      "label": "Patent Claim 1 — System",
+      "kind": "patent-claim",
+      "status": "converged",
+      "locations": ["docs/patent/Plyknot/patent-claim-ladder-v6.1.md"],
+      "summary": "Coupling map + provenance records + convergence-status controller + calibration output controller. Distinguishes physical-sensor-grounded convergence from shared-substrate echo."
+    },
+    {
+      "id": "patent-claim-9-marker",
+      "label": "Patent Claim 9-10 — Marker Propagation",
+      "kind": "patent-claim",
+      "status": "converged",
+      "locations": ["docs/patent/Plyknot/patent-claim-ladder-v6.1.md"],
+      "summary": "Marker-propagation analyser with class-distinguished collisions (opening/crack/bridge). Decay-bounded BFS with sub-quadratic complexity guarantee."
+    },
+    {
+      "id": "patent-claim-7-speciation",
+      "label": "Patent Claim 7 — Population Decomposition",
+      "kind": "patent-claim",
+      "status": "converged",
+      "locations": ["docs/patent/Plyknot/patent-claim-ladder-v6.1.md"],
+      "summary": "GMM+BIC entity-splitting subroutine with three guards. Distinguishes apparent divergence from identifier-overloading."
+    },
+    {
+      "id": "patent-claim-6-echo",
+      "label": "Patent Claim 6 — Echo Chamber",
+      "kind": "patent-claim",
+      "status": "converged",
+      "locations": ["docs/patent/Plyknot/patent-claim-ladder-v6.1.md"],
+      "summary": "Echo-chamber detection subroutine flagging prediction-only consensus that diverges from at least one physical measurement."
+    },
+    {
+      "id": "patent-framing-b",
+      "label": "Patent Framing B — Source-Tagged Instrument",
+      "kind": "patent-claim",
+      "status": "proposed",
+      "locations": ["docs/patent/Text as instrument/Plan.md", "docs/patent/Text as instrument/Prior-art.md"],
+      "summary": "LLM extraction as first-class source-tagged instrument feeding the same reconciliation pipeline as physical sensors. Three distinguishing features: schema equivalence, closed-loop self-conditioning, same-analyser-classifies-extractor. To be filed as separate provisional."
+    },
+    {
+      "id": "patent-framing-a",
+      "label": "Patent Framing A — CFG-Denoising Mechanism",
+      "kind": "patent-claim",
+      "status": "superseded",
+      "locations": ["docs/patent/Text as instrument/Plan.md"],
+      "summary": "Cornered by Sanchez 2023 + Smirnov 2024 + DiffusionNER. Recommendation: drop from independent claims; defensive publication via arXiv Sat 2."
+    },
+    {
+      "id": "submission-architecture",
+      "label": "Submission Architecture",
+      "kind": "infrastructure",
+      "status": "tension",
+      "locations": ["project/Phases/submission-architecture/submission-architecture-v2.md"],
+      "summary": "10 modules (scope, disambiguation, comparable_count, calibration, classifier, concentration, fusion, entity_history, submission, agent_policy). 201 tests. Trust = computed from behavior. Bridge-first agent policy."
+    },
+    {
+      "id": "trust-weight-loop",
+      "label": "Trust-Weight Loop",
+      "kind": "infrastructure",
+      "status": "converged",
+      "locations": ["plyknot/evaluation.py", "patent §4.11"],
+      "summary": "Echo-chamber outcomes feed back into measurer-correlation classification on subsequent invocations. Closes the analyser-as-instrument loop."
+    },
+    {
+      "id": "operational-mechanism-vocabulary",
+      "label": "Operational-Mechanism Vocabulary Partition",
+      "kind": "infrastructure",
+      "status": "converged",
+      "locations": ["plyknot/registry.py", "patent §4.8", "patent claim 9 'characterised in that'"],
+      "summary": "Schema-level partition between admissible (operational mechanisms) and inadmissible (theoretical commitments). Validator enforces at registration time. ΛCDM-recovered-blind result depends on this."
+    },
+    {
+      "id": "act-verb-empirical-tests",
+      "label": "Act-Verb Phase 1.5 Tests",
+      "kind": "empirical-test",
+      "status": "converged",
+      "locations": ["synthesis: act-verb/phase-1.5-claude-code-instructions.md", "synthesis: act-verb/phase-1.5-completion-report.md"],
+      "summary": "σ-propagation correctness audit, source-field coverage tests, cyclic marker-passer behavior. Test 3 (cyclic graphs) passed cleanly."
+    },
+    {
+      "id": "alphafold-cancel-edge",
+      "label": "AlphaFold Cancel Edge",
+      "kind": "construct",
+      "status": "superseded",
+      "locations": ["synthesis: AlphaFold Cancel Edge/"],
+      "summary": "Symbolic instrument lineage with cancel-edge semantics. Superseded by Layer 3 attribute-set arithmetic over coupling-map entries."
+    },
+    {
+      "id": "ml-plyknot-prototype",
+      "label": "ML-Plyknot Prototype",
+      "kind": "construct",
+      "status": "proposed",
+      "locations": ["synthesis: ML-plyknot/"],
+      "summary": "Typed-hypergraph ML architecture with operationalist inductive bias. Tests whether moving-truth tasks (McLean-Pontiff decay prediction from pre-publication data) benefit from the bias. Idea status; gated on prior-art derisking and CRSP/Compustat access."
+    },
+    {
+      "id": "u-shaped-error-curve",
+      "label": "U-Shaped Error Curve (CFG sweep)",
+      "kind": "domain-finding",
+      "status": "converged",
+      "locations": ["Sat 2 §2.3"],
+      "summary": "Guidance sweep across ξ ∈ {0, 0.25, 0.50, 0.75, 1.0}: U shape with optimum at ξ = 0.50. Methodological sanity check that the CFG mechanism is real, not a single-sided shortcut."
+    },
+    {
+      "id": "perturbation-sigma-replication",
+      "label": "Perturbation σ ↔ Replication Rates",
+      "kind": "domain-finding",
+      "status": "tension",
+      "locations": ["Sat 2 §2.4"],
+      "summary": "Within-domain σ correlates with replication: ρ=0.619 (psych single-sentence), ρ=0.90 (mol bio three-sentence). Cross-domain null. Sample size small; needs scale-up."
+    },
+    {
+      "id": "common-ground-order-independence",
+      "label": "Order-Independent Common Ground at 100-paper scale",
+      "kind": "domain-finding",
+      "status": "converged",
+      "locations": ["Sat 2 §3.4"],
+      "summary": "Four randomized orderings of 100 PMC papers produced identical final coupling-map states. Per-paper extractions differ; final state invariant."
+    }
+  ],
+
+  "edges": [
+    {"from": "convergence-status", "to": "coupling-map", "rationale": "Convergence is computed over coupling-group contents"},
+    {"from": "convergence-status", "to": "measure-predict-distinction", "rationale": "Convergence treats both source tags equally but presupposes the distinction"},
+    {"from": "inference-levels", "to": "depends-discipline", "rationale": "Inference steps validated against operational-mechanism partition"},
+    {"from": "complexity-levels", "to": "convergence-status", "rationale": "Complexity earned through convergence, not declared"},
+    {"from": "complexity-levels", "to": "inference-levels", "rationale": "Orthogonal-but-coupled axes; both required to read convergence-strength gradient"},
+    {"from": "pattern-map-promotion", "to": "convergence-status", "rationale": "Promotion gates on converged status"},
+    {"from": "pattern-map-promotion", "to": "measure-predict-distinction", "rationale": "Requires at least one measurement; predictions alone never promote"},
+
+    {"from": "ontological-load", "to": "complexity-levels", "rationale": "Load increases along complexity gradient"},
+    {"from": "ontological-load", "to": "inference-levels", "rationale": "Load also varies along inference levels"},
+    {"from": "ontological-load", "to": "perturbation-sigma-replication", "rationale": "Operationalized as perturbation σ"},
+
+    {"from": "mechanics-as-instrument", "to": "depends-discipline", "rationale": "Instrumenthood defined by operational-mechanism embodiment in depends"},
+    {"from": "mechanics-as-instrument", "to": "anchor-is-measurement", "rationale": "The anchoring principle is the axiom; mechanics-as-instrument is its catalog form"},
+    {"from": "mechanics-as-instrument", "to": "registry-firewall", "rationale": "Instrument categories live in registry; do not enter core"},
+    {"from": "mechanics-as-instrument", "to": "operational-mechanism-vocabulary", "rationale": "Vocabulary partition enforces the principle"},
+
+    {"from": "triangulation", "to": "depends-discipline", "rationale": "Substrate-independence test reads depends chains"},
+    {"from": "triangulation", "to": "mechanics-as-instrument", "rationale": "Without instrument principle, depends has nothing to test overlap on"},
+
+    {"from": "pheno-mass", "to": "triangulation", "rationale": "Mass formula uses substrate-independent measurer count"},
+    {"from": "pheno-mass", "to": "convergence-status", "rationale": "Mass formula uses convergence_score"},
+
+    {"from": "marker-passing", "to": "depends-discipline", "rationale": "Markers propagate through depends graph"},
+    {"from": "marker-passing", "to": "convergence-status", "rationale": "Marker class assigned by convergence status of step"},
+    {"from": "marker-passing", "to": "inference-levels", "rationale": "Inference step is the marker carrier"},
+    {"from": "marker-passing", "to": "operational-mechanism-vocabulary", "rationale": "Cosmological-principle-recovered-blind result depends on partition"},
+
+    {"from": "measurer-correlation", "to": "coupling-map", "rationale": "Reads across coupling groups"},
+    {"from": "measurer-correlation", "to": "convergence-status", "rationale": "Per-group convergence is the input"},
+
+    {"from": "echo-chamber-classification", "to": "measure-predict-distinction", "rationale": "Detects prediction-only consensus diverging from measurements"},
+    {"from": "echo-chamber-classification", "to": "measurer-correlation", "rationale": "Operates on measurer-correlation outputs"},
+
+    {"from": "speciation", "to": "coupling-map", "rationale": "Operates within one coupling group"},
+    {"from": "speciation", "to": "convergence-status", "rationale": "Triggered on persistent local cracks"},
+
+    {"from": "blind-spot-triangulation", "to": "triangulation", "rationale": "Application of substrate-independence test for discovery"},
+    {"from": "blind-spot-triangulation", "to": "depends-discipline", "rationale": "Reads depends chains for shared mechanisms"},
+
+    {"from": "prediction-provenance", "to": "measure-predict-distinction", "rationale": "Traces predict() entries through inputs"},
+    {"from": "prediction-provenance", "to": "measurer-correlation", "rationale": "Reports upstream cracks via correlation pattern"},
+
+    {"from": "structural-holes", "to": "marker-passing", "rationale": "Composes with marker collisions on chains"},
+    {"from": "structural-holes", "to": "inference-levels", "rationale": "Identifies missing intermediate levels"},
+
+    {"from": "cfg-denoising", "to": "coupling-map", "rationale": "Anchors retrieved by entity ID from coupling map"},
+    {"from": "cfg-denoising", "to": "mechanics-as-instrument", "rationale": "LLM as instrument; CFG blend is the operation"},
+
+    {"from": "ontological-denoising", "to": "cfg-denoising", "rationale": "CFG-denoising is the mechanism; ontological denoising names what it does"},
+    {"from": "ontological-denoising", "to": "anchor-is-measurement", "rationale": "Text extraction operates under the anchoring principle"},
+    {"from": "ontological-denoising", "to": "lens-verb", "rationale": "Lens generalizes the dual-pass mechanism to any frame; ontological denoising is the numerical-anchor case"},
+
+    {"from": "common-ground", "to": "coupling-map", "rationale": "CG accumulates coupling-map state for conditioning"},
+    {"from": "common-ground", "to": "ontological-denoising", "rationale": "CG IS the conditioning anchor in CFG denoising"},
+
+    {"from": "predicate-decomposition", "to": "ontological-denoising", "rationale": "Routes claims at extraction time"},
+    {"from": "predicate-decomposition", "to": "measure-predict-distinction", "rationale": "Routes to measure() vs predict() per predicate"},
+
+    {"from": "grounding", "to": "coupling-map", "rationale": "Maps NL queries to entity IDs"},
+    {"from": "grounding", "to": "mechanics-as-instrument", "rationale": "Embedding model is a calibratable instrument"},
+
+    {"from": "describe-pipeline", "to": "predicate-decomposition", "rationale": "Pipeline component"},
+    {"from": "describe-pipeline", "to": "grounding", "rationale": "Pipeline component"},
+    {"from": "describe-pipeline", "to": "cfg-denoising", "rationale": "Pipeline component"},
+    {"from": "describe-pipeline", "to": "common-ground", "rationale": "Pipeline component"},
+
+    {"from": "lens-verb", "to": "cfg-denoising", "rationale": "Lens uses the CFG blend mechanism"},
+    {"from": "lens-verb", "to": "mechanics-as-instrument", "rationale": "Operates on text-bearing instruments"},
+
+    {"from": "open-values", "to": "holographic-coupling", "rationale": "Operational dual of holographic-coupling's ontological claim"},
+    {"from": "open-values", "to": "marker-passing", "rationale": "Marker passing on status — one of five mechanisms"},
+    {"from": "open-values", "to": "lensing-strain", "rationale": "Strain ratio — one of five mechanisms"},
+    {"from": "open-values", "to": "prediction-provenance", "rationale": "Provenance chain — one of five mechanisms"},
+    {"from": "open-values", "to": "structural-absence", "rationale": "Limit case — value doesn't exist, computation skips"},
+
+    {"from": "holographic-coupling", "to": "triangulation", "rationale": "Convergence pattern only meaningful given substrate-independence test"},
+    {"from": "holographic-coupling", "to": "pheno-mass", "rationale": "Mass IS the readout of the convergence pattern"},
+    {"from": "holographic-coupling", "to": "mechanics-as-instrument", "rationale": "The pattern is across instruments"},
+    {"from": "holographic-coupling", "to": "event-horizon", "rationale": "Constituent primitive: Level-5 entities trapped in Epistemic"},
+    {"from": "holographic-coupling", "to": "pheno-fission", "rationale": "Constituent primitive: graduated entities with disagreement render as multi-lobed"},
+    {"from": "holographic-coupling", "to": "lensing-strain", "rationale": "Constituent primitive: high mass anchors interpretation"},
+
+    {"from": "canvas-architecture", "to": "coupling-map", "rationale": "Three projections of the coupling-map tensor"},
+    {"from": "canvas-architecture", "to": "triangulation", "rationale": "Graduation rule"},
+    {"from": "canvas-architecture", "to": "pheno-mass", "rationale": "Mass anchors all canvas operations"},
+    {"from": "canvas-architecture", "to": "depends-discipline", "rationale": "Operational canvas is depends-graph projection"},
+
+    {"from": "shear", "to": "canvas-architecture", "rationale": "Defined as motion delta between two canvases"},
+    {"from": "shear", "to": "measure-predict-distinction", "rationale": "Shear most useful between code-as-measure and patent-as-predict"},
+
+    {"from": "lensing-strain", "to": "pheno-mass", "rationale": "Denominator of the strain ratio"},
+    {"from": "lensing-strain", "to": "shear", "rationale": "Strain interprets shear given mass"},
+
+    {"from": "event-horizon", "to": "triangulation", "rationale": "Crossing requires substrate-independent measurer arrival"},
+    {"from": "event-horizon", "to": "pheno-mass", "rationale": "Crossing produces mass projection"},
+
+    {"from": "pheno-fission", "to": "speciation", "rationale": "Multi-modal coupling group is fission geometry"},
+    {"from": "pheno-fission", "to": "pheno-mass", "rationale": "Each lobe carries its own mass"},
+
+    {"from": "pheno-fusion", "to": "convergence-status", "rationale": "Convergence on all shared properties suggests fusion"},
+    {"from": "pheno-fusion", "to": "blind-spot-triangulation", "rationale": "Cross-domain entity matching uses similar primitive"},
+
+    {"from": "imputed-dark-matter", "to": "depends-discipline", "rationale": "Empty-depends gets domain-default node"},
+    {"from": "imputed-dark-matter", "to": "triangulation", "rationale": "Affects substrate-independence calculation"},
+
+    {"from": "emergence", "to": "structural-absence", "rationale": "Emergence is the dual of structural absence"},
+    {"from": "emergence", "to": "convergence-status", "rationale": "Computed via measurement-prediction divergence at composite level"},
+    {"from": "emergence", "to": "complexity-levels", "rationale": "New entries appear as composite entities form at higher levels"},
+
+    {"from": "thermodynamic-bounds", "to": "emergence", "rationale": "Bounds the floor on emergence reducibility"},
+
+    {"from": "act-verb", "to": "measure-predict-distinction", "rationale": "Adds source=action as third tag"},
+    {"from": "act-verb", "to": "coupling-map", "rationale": "Action entries live in same map"},
+    {"from": "act-verb", "to": "act-verb-empirical-tests", "rationale": "Phase 1.5 tests gate Phase 2 implementation"},
+
+    {"from": "layer-3-llm-instrument", "to": "mechanics-as-instrument", "rationale": "Specialization of the instrument principle for LLMs"},
+    {"from": "layer-3-llm-instrument", "to": "coupling-map", "rationale": "Instrument-as-target uses same schema"},
+    {"from": "layer-3-llm-instrument", "to": "alphafold-attribute-set", "rationale": "Validated empirically on AF/ESMFold first"},
+
+    {"from": "alphafold-attribute-set", "to": "mechanics-as-instrument", "rationale": "Instruments-as-targets with attributes"},
+    {"from": "alphafold-attribute-set", "to": "echo-chamber-classification", "rationale": "Predicted divergence locations are echo-chamber candidates"},
+
+    {"from": "cxr-echo-chambers", "to": "echo-chamber-classification", "rationale": "Domain instance"},
+    {"from": "cxr-echo-chambers", "to": "mechanics-as-instrument", "rationale": "Radiologists, models, NLP-extraction all instruments"},
+
+    {"from": "materials-pharma-echoes", "to": "echo-chamber-classification", "rationale": "Domain instance"},
+    {"from": "materials-pharma-echoes", "to": "measure-predict-distinction", "rationale": "Refutation rate gates on at least one measurement"},
+
+    {"from": "text-tmprss2-discovery", "to": "describe-pipeline", "rationale": "Autonomous loop output"},
+    {"from": "text-tmprss2-discovery", "to": "common-ground-order-independence", "rationale": "Order-independence enables non-circular framing"},
+
+    {"from": "physics-lambda-cdm", "to": "marker-passing", "rationale": "ΛCDM recovered as systemic-crack via marker collisions"},
+    {"from": "physics-lambda-cdm", "to": "operational-mechanism-vocabulary", "rationale": "Cosmological-principle-blind recovery requires partition"},
+
+    {"from": "physics-neutron-lifetime", "to": "convergence-status", "rationale": "Persistent local crack across decades"},
+    {"from": "physics-neutron-lifetime", "to": "speciation", "rationale": "Speciation candidate"},
+
+    {"from": "patent-fto-stage-3", "to": "holographic-coupling", "rationale": "Empirical validation run"},
+    {"from": "patent-fto-stage-3", "to": "lens-verb", "rationale": "Patent-FTO is a lens use case"},
+    {"from": "patent-fto-stage-3", "to": "marker-passing", "rationale": "Cross-beam marker collisions identify FTO threats"},
+    {"from": "patent-fto-stage-3", "to": "shear", "rationale": "Strategic Shear used for IP-pipeline mapping"},
+    {"from": "patent-fto-stage-3", "to": "structural-holes", "rationale": "Continuation candidates from missing levels"},
+
+    {"from": "test-1-shear", "to": "shear", "rationale": "Validates the Shear mechanism"},
+    {"from": "test-2-dcoi", "to": "echo-chamber-classification", "rationale": "Tests echo-chamber-vulnerability hypothesis (refuted)"},
+
+    {"from": "patent-claim-1-system", "to": "coupling-map", "rationale": "First data structure"},
+    {"from": "patent-claim-1-system", "to": "measurer-correlation", "rationale": "Convergence-status controller"},
+    {"from": "patent-claim-1-system", "to": "depends-discipline", "rationale": "Provenance excludes target assumptions"},
+    {"from": "patent-claim-1-system", "to": "measure-predict-distinction", "rationale": "Source-tag equivalence between physical and computational instruments"},
+
+    {"from": "patent-claim-9-marker", "to": "marker-passing", "rationale": "Direct claim on the analyser"},
+    {"from": "patent-claim-9-marker", "to": "operational-mechanism-vocabulary", "rationale": "Vocabulary partition enables claim breadth"},
+    {"from": "patent-claim-9-marker", "to": "inference-levels", "rationale": "Claim references inference-step convergence-status annotation"},
+
+    {"from": "patent-claim-7-speciation", "to": "speciation", "rationale": "Direct claim on the subroutine"},
+    {"from": "patent-claim-6-echo", "to": "echo-chamber-classification", "rationale": "Direct claim on the subroutine"},
+
+    {"from": "patent-framing-b", "to": "mechanics-as-instrument", "rationale": "Source-tag equivalence is the principle stated as system claim"},
+    {"from": "patent-framing-b", "to": "layer-3-llm-instrument", "rationale": "LLM-as-malfunctioning-instrument is one distinguishing feature"},
+    {"from": "patent-framing-b", "to": "common-ground", "rationale": "Closed-loop self-conditioning is CG mechanism"},
+
+    {"from": "submission-architecture", "to": "coupling-map", "rationale": "Operates on existing Universe + GraphEvent state"},
+    {"from": "submission-architecture", "to": "mechanics-as-instrument", "rationale": "Trust = computed from measurer behavior"},
+    {"from": "submission-architecture", "to": "echo-chamber-classification", "rationale": "Calibration gates against echo-chamber outcomes"},
+
+    {"from": "trust-weight-loop", "to": "echo-chamber-classification", "rationale": "Echo outcomes feed trust weights"},
+    {"from": "trust-weight-loop", "to": "measurer-correlation", "rationale": "Trust weights modify subsequent classifications"},
+
+    {"from": "operational-mechanism-vocabulary", "to": "depends-discipline", "rationale": "Vocabulary IS the partition mechanism"},
+    {"from": "operational-mechanism-vocabulary", "to": "registry-firewall", "rationale": "Theoretical labels stay outside the active vocabulary"},
+
+    {"from": "alphafold-cancel-edge", "to": "alphafold-attribute-set", "rationale": "Superseded by attribute-set arithmetic"},
+
+    {"from": "ml-plyknot-prototype", "to": "act-verb", "rationale": "Operationalist inductive bias = encoded measure/predict/act discipline"},
+    {"from": "ml-plyknot-prototype", "to": "test-2-dcoi", "rationale": "Test target is McLean-Pontiff decay prediction"},
+
+    {"from": "u-shaped-error-curve", "to": "cfg-denoising", "rationale": "Empirical signature confirming the mechanism"},
+    {"from": "perturbation-sigma-replication", "to": "ontological-load", "rationale": "Operationalizes ontological-load gradient"},
+    {"from": "common-ground-order-independence", "to": "common-ground", "rationale": "Validates the order-independence property"}
+  ]
+}

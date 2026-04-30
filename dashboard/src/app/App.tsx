@@ -11,6 +11,8 @@ const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailP
 const TrackerPage = lazy(() => import("../features/tracker/TrackerPage").then((m) => ({ default: m.TrackerPage })));
 const TimelinePage = lazy(() => import("../features/timeline/TimelinePage").then((m) => ({ default: m.TimelinePage })));
 const ResearchPage = lazy(() => import("../features/research/ResearchPage").then((m) => ({ default: m.ResearchPage })));
+const ProductsPage = lazy(() => import("../features/products/ProductsPage").then((m) => ({ default: m.ProductsPage })));
+const MarketsPage = lazy(() => import("../features/markets/MarketsPage").then((m) => ({ default: m.MarketsPage })));
 const AccessControlPage = lazy(() => import("../features/settings/AccessControlPage").then((m) => ({ default: m.AccessControlPage })));
 
 function PageLoader() {
@@ -53,6 +55,8 @@ export function App() {
             <Route path="tracker" element={<TrackerPage />} />
             <Route path="timeline" element={<TimelinePage />} />
             <Route path="research" element={<ResearchPage />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="markets" element={<MarketsPage />} />
             <Route path="settings/access" element={<AccessControlPage />} />
             {/* Legacy redirects */}
             <Route path="projects" element={<Navigate to="/process" replace />} />

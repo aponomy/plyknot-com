@@ -2,6 +2,8 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { FileText, CheckSquare, MessageSquare, ChevronRight } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { MarkdownContent } from "../../lib/markdown";
+import { OverviewContent } from "../overview/OverviewContent";
 
 /* ── Types ──────────────────────────────────────────────────────────── */
 
@@ -18,7 +20,7 @@ interface SynthesisFolder {
 }
 
 interface Manifest { folders: SynthesisFolder[] }
-interface IndexMeta { title: string; status: string; body: string; chats: number[] }
+interface IndexMeta { title: string; status: string; body: string; chats: number[]; depends: string[] }
 
 /* ── API ────────────────────────────────────────────────────────────── */
 
@@ -51,7 +53,7 @@ async function fetchPaperFile(folder: string, file: string): Promise<string> {
 
 function parseIndexMeta(content: string): IndexMeta {
   let title = "", status = "idea", body = content;
-  let chats: number[] = [];
+  let chats: number[] = [], depends: string[] = [];
   const fm = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (fm) {
     body = fm[2].trim();
@@ -66,66 +68,23 @@ function parseIndexMeta(content: string): IndexMeta {
         const n = parseInt(raw); if (!isNaN(n)) chats = [n];
       }
     }
+    const d = fm[1].match(/depends:\s*(.+)/);
+    if (d) {
+      const raw = d[1].trim();
+      if (raw.startsWith("[")) {
+        depends = raw.replace(/[[\]]/g, "").split(",").map(s => s.trim()).filter(Boolean);
+      } else if (raw && raw !== "[]") {
+        depends = [raw.trim()];
+      }
+    }
   }
   if (!title) { const h = body.match(/^#\s+(.+)/m); title = h ? h[1] : "Untitled"; }
-  return { title, status, body, chats };
+  return { title, status, body, chats, depends };
 }
 
 function parseTodoStats(content: string) {
   const lines = content.split("\n").filter((l) => l.match(/^- \[[ x]\]/));
   return { total: lines.length, done: lines.filter((l) => l.startsWith("- [x]")).length, lines };
-}
-
-/* ── Markdown renderer ──────────────────────────────────────────────── */
-
-function renderMarkdown(content: string): string {
-  // Extract code blocks first, replace with placeholders to protect from inline transforms
-  const codeBlocks: string[] = [];
-  let out = content.replace(/```(\w*)\n([\s\S]*?)```/gm, (_m, _lang, code) => {
-    const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").trimEnd();
-    const idx = codeBlocks.length;
-    codeBlocks.push(`<pre class="text-[10px] font-mono bg-[var(--muted)] rounded px-3 py-2 my-2 overflow-x-auto whitespace-pre"><code>${escaped}</code></pre>`);
-    return `\x00CODEBLOCK${idx}\x00`;
-  });
-
-  // Tables — find consecutive lines starting with |
-  out = out.replace(/^(\|.+\|\n)+/gm, (block) => {
-    const rows = block.trim().split("\n");
-    const isAlignRow = (r: string) => /^\|[\s:-]+\|$/.test(r.replace(/\|/g, "|").replace(/[^|:-\s]/g, ""));
-    const dataRows = rows.filter((r) => !isAlignRow(r));
-    if (dataRows.length === 0) return block;
-    const toCell = (tag: string) => (r: string) =>
-      r.split("|").slice(1, -1).map((c) => `<${tag} class="px-2 py-1 border border-[var(--border)]">${c.trim()}</${tag}>`).join("");
-    const head = `<tr>${toCell("th")(dataRows[0])}</tr>`;
-    const body = dataRows.slice(1).map((r) => `<tr>${toCell("td")(r)}</tr>`).join("");
-    return `<div class="overflow-x-auto my-2"><table class="text-[10px] border-collapse w-max"><thead class="bg-[var(--muted)]">${head}</thead><tbody>${body}</tbody></table></div>`;
-  });
-
-  // Inline transforms (code blocks already extracted, safe from # matching)
-  out = out
-    .replace(/^#### (.+)$/gm, '<h4 class="text-xs font-semibold mt-3 mb-1">$1</h4>')
-    .replace(/^### (.+)$/gm, '<h3 class="text-sm font-semibold mt-4 mb-1">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-sm font-bold mt-5 mb-2">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="text-base font-bold mt-4 mb-2">$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/`(.+?)`/g, '<code class="text-[10px] px-1 py-0.5 rounded bg-[var(--muted)] font-mono">$1</code>')
-    .replace(/^\- \[x\] (.+)$/gm, '<div class="flex items-center gap-1.5 py-0.5"><span class="text-green-400">&#9745;</span><span class="line-through text-[var(--muted-foreground)]">$1</span></div>')
-    .replace(/^\- \[ \] (.+)$/gm, '<div class="flex items-center gap-1.5 py-0.5"><span class="text-[var(--muted-foreground)]">&#9744;</span><span>$1</span></div>')
-    .replace(/^- (.+)$/gm, '<div class="flex items-start gap-1.5 py-0.5"><span class="text-[var(--muted-foreground)] shrink-0">&bull;</span><span>$1</span></div>')
-    .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-[var(--muted)] pl-3 py-1 text-[var(--muted-foreground)] italic">$1</blockquote>')
-    .replace(/^---$/gm, '<hr class="border-[var(--border)] my-1.5" />')
-    .replace(/\n\n/g, '<div class="h-2"></div>')
-    .replace(/\n/g, "<br />");
-
-  // Restore code blocks
-  out = out.replace(/\x00CODEBLOCK(\d+)\x00/g, (_m, idx) => codeBlocks[parseInt(idx)]);
-  return out;
-}
-
-function MarkdownContent({ content }: { content: string }) {
-  const html = renderMarkdown(content);
-  return <div className="text-xs leading-relaxed text-[var(--foreground)] [&>hr+h1]:mt-1 [&>hr+h2]:mt-1 [&>hr+h3]:mt-1 [&>hr+h4]:mt-1 [&>hr+div+h1]:mt-1 [&>hr+div+h2]:mt-1 [&>hr+br+h1]:mt-1 [&>hr+br+h2]:mt-1" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 /* ── Parsed todo item ────────────────────────────────────────────────── */
@@ -138,12 +97,20 @@ interface TodoItem {
   phase: string | null;     // Phase 1, Phase 2, etc.
   date: string | null;      // [may], [jun], etc.
   description: string | null;
+  group: string | null;     // from ## headings in todo.md
 }
 
 function parseTodoItems(content: string): TodoItem[] {
   const lines = content.split("\n");
   const items: TodoItem[] = [];
+  let currentGroup: string | null = null;
   for (let i = 0; i < lines.length; i++) {
+    // Track ## headings as group labels
+    const headingMatch = lines[i].match(/^##\s+(.+)$/);
+    if (headingMatch) {
+      currentGroup = headingMatch[1].trim();
+      continue;
+    }
     const m = lines[i].match(/^- \[( |x)\] (.+)$/);
     if (!m) continue;
     const done = m[1] === "x";
@@ -171,14 +138,27 @@ function parseTodoItems(content: string): TodoItem[] {
       i++;
     }
 
+    // If label starts with **bold text**, split into short label + rest as description
+    let label = raw.trim();
+    let autoDesc: string | null = null;
+    const boldStart = label.match(/^\*\*(.+?)\*\*\s*(.*)/);
+    if (boldStart) {
+      label = boldStart[1];
+      if (boldStart[2]) autoDesc = boldStart[2];
+    }
+
+    const explicitDesc = descLines.length > 0 ? descLines.join(" ") : null;
+    const description = explicitDesc || autoDesc;
+
     items.push({
       idx: items.length,
       done,
-      label: raw.trim(),
+      label,
       priority,
       phase,
       date,
-      description: descLines.length > 0 ? descLines.join(" ") : null,
+      description,
+      group: currentGroup,
     });
   }
   return items;
@@ -186,41 +166,81 @@ function parseTodoItems(content: string): TodoItem[] {
 
 /* ── Todo list (clickable, sorted: open first, done last) ────────────── */
 
+function inlineMd(text: string): string {
+  return text
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`(.+?)`/g, '<code class="text-[10px] px-0.5 rounded bg-[var(--muted)] font-mono">$1</code>');
+}
+
+function TodoItemRow({ item, isActive, onSelect }: { item: TodoItem; isActive: boolean; onSelect: () => void }) {
+  return (
+    <button
+      onClick={onSelect}
+      className={cn(
+        "w-full text-left flex items-start gap-1.5 py-[3px] text-[11px] leading-tight rounded px-1 transition-colors",
+        isActive ? "bg-[var(--primary)]/10" : "hover:bg-[var(--muted)]/30",
+      )}
+    >
+      <span className={cn("shrink-0 mt-px", item.done ? "text-green-400" : "text-[var(--muted-foreground)]")}>
+        {item.done ? "\u2611" : "\u2610"}
+      </span>
+      <span className={cn("flex-1", item.done && "line-through text-[var(--muted-foreground)]")}>
+        {item.priority && <span className={cn(
+          "font-mono mr-1",
+          item.priority === "P0" ? "text-red-400" : item.priority === "P1" ? "text-amber-400" : "text-[var(--muted-foreground)]",
+        )}>{item.priority}</span>}
+        <span dangerouslySetInnerHTML={{ __html: inlineMd(item.label) }} />
+      </span>
+      {item.date && (
+        <span className="text-[9px] text-[var(--muted-foreground)] shrink-0 mt-px">{item.date}</span>
+      )}
+    </button>
+  );
+}
+
 function TodoList({ content, selectedIdx, onSelect }: { content: string; selectedIdx: number | null; onSelect: (idx: number) => void }) {
   const items = useMemo(() => parseTodoItems(content), [content]);
-  const open = items.filter((t) => !t.done);
-  const done = items.filter((t) => t.done);
-  const sorted = [...open, ...done];
+
+  // Group items by their ## heading, preserving order
+  const grouped = useMemo(() => {
+    const groups: { label: string | null; items: TodoItem[] }[] = [];
+    let current: { label: string | null; items: TodoItem[] } | null = null;
+    for (const item of items) {
+      if (!current || item.group !== current.label) {
+        current = { label: item.group, items: [] };
+        groups.push(current);
+      }
+      current.items.push(item);
+    }
+    // Sort within each group: open first, done last
+    for (const g of groups) {
+      const open = g.items.filter((t) => !t.done);
+      const done = g.items.filter((t) => t.done);
+      g.items = [...open, ...done];
+    }
+    return groups;
+  }, [items]);
 
   return (
     <div>
-      {sorted.map((item) => {
-        const isActive = selectedIdx === item.idx;
-        return (
-          <button
-            key={item.idx}
-            onClick={() => onSelect(item.idx)}
-            className={cn(
-              "w-full text-left flex items-start gap-1.5 py-[3px] text-[11px] leading-tight rounded px-1 transition-colors",
-              isActive ? "bg-[var(--primary)]/10" : "hover:bg-[var(--muted)]/30",
-            )}
-          >
-            <span className={cn("shrink-0 mt-px", item.done ? "text-green-400" : "text-[var(--muted-foreground)]")}>
-              {item.done ? "\u2611" : "\u2610"}
-            </span>
-            <span className={cn("flex-1", item.done && "line-through text-[var(--muted-foreground)]")}>
-              {item.priority && <span className={cn(
-                "font-mono mr-1",
-                item.priority === "P0" ? "text-red-400" : item.priority === "P1" ? "text-amber-400" : "text-[var(--muted-foreground)]",
-              )}>{item.priority}</span>}
-              {item.label}
-            </span>
-            {item.date && (
-              <span className="text-[9px] text-[var(--muted-foreground)] shrink-0 mt-px">{item.date}</span>
-            )}
-          </button>
-        );
-      })}
+      {grouped.map((group, gi) => (
+        <div key={gi} className="mb-3">
+          {group.label && (
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mt-3 mb-0.5 first:mt-0 px-1">
+              {group.label}
+            </p>
+          )}
+          {group.items.map((item) => (
+            <TodoItemRow
+              key={item.idx}
+              item={item}
+              isActive={selectedIdx === item.idx}
+              onSelect={() => onSelect(item.idx)}
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
@@ -269,7 +289,7 @@ function TodoDetail({ content, idx }: { content: string; idx: number }) {
       {/* Description */}
       {item.description ? (
         <div className="border-l-2 border-[var(--border)] pl-3">
-          <p className="text-xs leading-relaxed text-[var(--foreground)]">{item.description}</p>
+          <p className="text-xs leading-relaxed text-[var(--foreground)]" dangerouslySetInnerHTML={{ __html: inlineMd(item.description) }} />
         </div>
       ) : (
         <p className="text-xs text-[var(--muted-foreground)] italic">No description.</p>
@@ -278,7 +298,51 @@ function TodoDetail({ content, idx }: { content: string; idx: number }) {
   );
 }
 
-type ResearchTab = "synthesis" | "papers";
+/* ── Depends chips ──────────────────────────────────────────────────── */
+
+const DEP_ICONS: Record<string, string> = { papers: "📄", products: "🎯", project: "🗂️", synthesis: "🔬" };
+
+function DependsChips({
+  depends, allFolders, tab, onNavigate,
+}: {
+  depends: string[];
+  allFolders: SynthesisFolder[];
+  tab: ResearchTab;
+  onNavigate: (folder: string) => void;
+}) {
+  if (depends.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-1.5 mb-3">
+      <span className="text-[10px] text-[var(--muted-foreground)] self-center mr-1">depends on:</span>
+      {depends.map((dep) => {
+        const [depTheme, ...rest] = dep.split("/");
+        const folderName = rest.join("/");
+        const icon = DEP_ICONS[depTheme] ?? "🔗";
+        // Check if navigable in current view
+        const inCurrentTab = (tab === "synthesis" && depTheme === "synthesis") || (tab === "papers" && depTheme === "papers");
+        const exists = inCurrentTab && allFolders.some(f => f.folder === folderName);
+        return (
+          <button
+            key={dep}
+            onClick={() => { if (exists) onNavigate(folderName); }}
+            title={dep}
+            className={cn(
+              "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border transition-colors",
+              exists
+                ? "border-[var(--primary)]/40 bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 cursor-pointer"
+                : "border-[var(--border)] bg-[var(--muted)] text-[var(--muted-foreground)] cursor-default",
+            )}
+          >
+            <span>{icon}</span>
+            <span>{dep}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+type ResearchTab = "synthesis" | "papers" | "overview";
 
 /* ── Paper labels ───────────────────────────────────────────────────── */
 
@@ -416,31 +480,35 @@ export function ResearchPage() {
       {/* Header */}
       <h1 className="text-lg font-semibold">Research</h1>
 
-      {/* Three-column layout — each column scrolls independently */}
-      <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 140px)" }}>
+      {/* Tab toggle — sits above the columns */}
+      <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5 w-fit">
+        {(["synthesis", "papers", "overview"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => handleTabChange(t)}
+            className={cn(
+              "px-4 py-0.5 text-[10px] font-medium rounded transition-colors text-center capitalize",
+              tab === t
+                ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
+                : "text-[var(--muted-foreground)]",
+            )}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {/* Overview tab: its own three-column layout */}
+      {tab === "overview" ? (
+        <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 170px)" }}>
+          <OverviewContent />
+        </div>
+      ) : (
+      /* Synthesis / Papers: original three-column layout */
+      <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 170px)" }}>
 
         {/* Column 1: Folder cards */}
         <div className="w-[17rem] shrink-0 flex flex-col pr-1">
-          <h2 className="text-sm font-semibold mb-2">Content</h2>
-
-          {/* Synthesis / Papers toggle */}
-          <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5 mb-2">
-            {(["synthesis", "papers"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => handleTabChange(t)}
-                className={cn(
-                  "flex-1 px-2 py-0.5 text-[10px] font-medium rounded transition-colors text-center capitalize",
-                  tab === t
-                    ? "bg-[var(--card)] text-[var(--foreground)] shadow-sm"
-                    : "text-[var(--muted-foreground)]",
-                )}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-
           <div className="flex-1 overflow-y-auto divide-y divide-[var(--border)]">
           {folderCards.map(({ folder, meta, todoStats }) => {
             const isActive = selectedFolder === folder.folder;
@@ -629,6 +697,17 @@ export function ResearchPage() {
               <p className="text-[10px] text-[var(--muted-foreground)] mb-3">
                 {selectedFile.folder} / {selectedFile.file}
               </p>
+              {selectedFile.file.toLowerCase() === "index.md" && (() => {
+                const meta = parseIndexMeta(fileContent);
+                return meta.depends.length > 0 ? (
+                  <DependsChips
+                    depends={meta.depends}
+                    allFolders={folders}
+                    tab={tab}
+                    onNavigate={handleSelectFolder}
+                  />
+                ) : null;
+              })()}
               <MarkdownContent content={fileContent} />
             </div>
           ) : (
@@ -636,6 +715,7 @@ export function ResearchPage() {
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }
