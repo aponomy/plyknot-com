@@ -9,10 +9,6 @@ const FactoryPage = lazy(() => import("../features/factory/FactoryPage").then((m
 const ProcessPage = lazy(() => import("../features/process/ProcessPage").then((m) => ({ default: m.ProcessPage })));
 const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailPage").then((m) => ({ default: m.ProjectDetailPage })));
 const TrackerPage = lazy(() => import("../features/tracker/TrackerPage").then((m) => ({ default: m.TrackerPage })));
-const TimelinePage = lazy(() => import("../features/timeline/TimelinePage").then((m) => ({ default: m.TimelinePage })));
-const ResearchPage = lazy(() => import("../features/research/ResearchPage").then((m) => ({ default: m.ResearchPage })));
-const ProductsPage = lazy(() => import("../features/products/ProductsPage").then((m) => ({ default: m.ProductsPage })));
-const MarketsPage = lazy(() => import("../features/markets/MarketsPage").then((m) => ({ default: m.MarketsPage })));
 const AccessControlPage = lazy(() => import("../features/settings/AccessControlPage").then((m) => ({ default: m.AccessControlPage })));
 
 function PageLoader() {
@@ -52,13 +48,13 @@ export function App() {
             <Route path="factory" element={<FactoryPage />} />
             <Route path="process" element={<ProcessPage />} />
             <Route path="process/:id" element={<ProjectDetailPage />} />
-            <Route path="tracker" element={<TrackerPage />} />
-            <Route path="timeline" element={<TimelinePage />} />
-            <Route path="research" element={<ResearchPage />} />
-            <Route path="products" element={<ProductsPage />} />
-            <Route path="markets" element={<MarketsPage />} />
+            <Route path="research" element={<TrackerPage />} />
             <Route path="settings/access" element={<AccessControlPage />} />
             {/* Legacy redirects */}
+            <Route path="tracker" element={<Navigate to="/research" replace />} />
+            <Route path="timeline" element={<Navigate to="/research" replace />} />
+            <Route path="products" element={<Navigate to="/research" replace />} />
+            <Route path="markets" element={<Navigate to="/research" replace />} />
             <Route path="projects" element={<Navigate to="/process" replace />} />
             <Route path="projects/:id" element={<Navigate to="/process" replace />} />
             <Route path="findings" element={<Navigate to="/process" replace />} />

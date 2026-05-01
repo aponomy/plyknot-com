@@ -557,6 +557,8 @@ export interface TrackerTheme {
   sort_order: number;
   done_count: number;
   issue_count: number;
+  file_count?: number;
+  has_current?: boolean;
 }
 
 export interface TrackerIssue {

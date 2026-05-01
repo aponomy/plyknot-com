@@ -8,12 +8,13 @@ const SYNTHESIS_DIR = resolve(__dirname, "../../research/synthesis");
 const PAPERS_DIR    = resolve(__dirname, "../../research/papers");
 const PRODUCTS_DIR  = resolve(__dirname, "../../research/products");
 const PROJECT_DIR   = resolve(__dirname, "../../research/project");
-const CHAT_DIR      = resolve(__dirname, "../../research/chat");
+const CHAT_DIR      = resolve(__dirname, "../../research/project/chat");
+const MARKETS_DIR   = resolve(__dirname, "../../research/project/markets");
 const RESEARCH_ROOT = resolve(__dirname, "../../research");
 
 /* ── Tracker parsing (mirrors build-roadmap.py in Node.js) ─────────────── */
 
-const TRACKER_SKIP = new Set(["build", "archive", "outlines"]);
+const TRACKER_SKIP = new Set(["build", "archive", "outlines", "markets"]);
 
 function readFolderTitle(folderPath: string): string {
   for (const name of ["index.md", "Index.md"]) {
@@ -73,6 +74,7 @@ function buildTrackerData() {
   const categories: { slug: string; label: string; sort_order: number; theme_count: number; done_count: number; issue_count: number }[] = [];
   const THEME_DEFS: [string, string, string][] = [
     ["papers", "Papers", PAPERS_DIR], ["products", "Products", PRODUCTS_DIR],
+    ["markets", "Markets", MARKETS_DIR],
     ["project", "Project", PROJECT_DIR], ["synthesis", "Synthesis", SYNTHESIS_DIR],
   ];
   let themeSort = 0;
@@ -87,7 +89,23 @@ function buildTrackerData() {
       const themeId = `${slug}/${entry.name}`;
       const issues = parseTodoToIssues(readFileSync(todoPath, "utf-8"), themeId);
       const done = issues.filter(i => i.status === "done").length;
-      themes.push({ id: themeId, category_slug: slug, category_label: label, title: readFolderTitle(sub), sort_order: themeSort++, done_count: done, issue_count: issues.length });
+      // Count files recursively and check for current.md
+      let fileCount = 0;
+      let hasCurrent = false;
+      function countFiles(d: string) {
+        try {
+          for (const e of readdirSync(d, { withFileTypes: true })) {
+            if (e.name.startsWith(".")) continue;
+            if (e.isDirectory()) countFiles(join(d, e.name));
+            else if (e.name.endsWith(".md") || e.name.endsWith(".html") || e.name.endsWith(".svg")) {
+              fileCount++;
+              if (e.name.toLowerCase() === "current.md") hasCurrent = true;
+            }
+          }
+        } catch {}
+      }
+      countFiles(sub);
+      themes.push({ id: themeId, category_slug: slug, category_label: label, title: readFolderTitle(sub), sort_order: themeSort++, done_count: done, issue_count: issues.length, file_count: fileCount, has_current: hasCurrent });
       themeIssues[themeId] = issues;
       catDone += done; catTotal += issues.length; catCount++;
     }
@@ -108,7 +126,7 @@ function buildTrackerData() {
 
 function scanFolder(folderPath: string, name: string) {
   const files = readdirSync(folderPath)
-    .filter((f) => f.endsWith(".md") || f.endsWith(".svg"))
+    .filter((f) => f.endsWith(".md") || f.endsWith(".svg") || f.endsWith(".html"))
     .sort();
   const indexFile = files.find((f) => f.toLowerCase() === "index.md") || null;
   const todoFile = files.find((f) => f.toLowerCase() === "todo.md") || null;
@@ -118,20 +136,28 @@ function scanFolder(folderPath: string, name: string) {
   const indexContent = indexFile ? readFileSync(join(folderPath, indexFile), "utf-8") : null;
   const todoContent = todoFile ? readFileSync(join(folderPath, todoFile), "utf-8") : null;
 
-  // Also scan sub-folders (e.g. flagship/sections)
+  // Recursively scan sub-folders
   const subFolders: string[] = [];
   const subFiles: string[] = [];
-  try {
-    for (const entry of readdirSync(folderPath, { withFileTypes: true })) {
-      if (entry.isDirectory() && !entry.name.startsWith(".")) {
-        subFolders.push(entry.name);
-        const subPath = join(folderPath, entry.name);
-        for (const sf of readdirSync(subPath)) {
-          if (sf.endsWith(".md")) subFiles.push(`${entry.name}/${sf}`);
+  function walkDir(dir: string, prefix: string) {
+    try {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        if (entry.name.startsWith(".")) continue;
+        const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+        if (entry.isDirectory()) {
+          subFolders.push(rel);
+          walkDir(join(dir, entry.name), rel);
+        } else if (entry.name.endsWith(".md") || entry.name.endsWith(".html") || entry.name.endsWith(".svg")) {
+          subFiles.push(rel);
         }
       }
+    } catch {}
+  }
+  for (const entry of readdirSync(folderPath, { withFileTypes: true })) {
+    if (entry.isDirectory() && !entry.name.startsWith(".")) {
+      walkDir(join(folderPath, entry.name), entry.name);
     }
-  } catch {}
+  }
 
   // Resolve chat references from Index.md frontmatter
   let chatMeta: Array<{ num: number; title: string }> = [];
@@ -145,7 +171,7 @@ function scanFolder(folderPath: string, name: string) {
       } else {
         const n = parseInt(raw); if (!isNaN(n)) nums = [n];
       }
-      const summaryDir = resolve(__dirname, "../../research/chat/summary");
+      const summaryDir = resolve(__dirname, "../../research/project/chat/summary");
       try {
         const summaryFiles = readdirSync(summaryDir);
         chatMeta = nums.map((num) => {
@@ -190,7 +216,7 @@ function researchFilesPlugin(): Plugin {
         // GET /research/folder/:theme/:folder — scanFolder for any theme subfolder
         const thFolderMatch = req.url.match(/^\/research\/folder\/([^/]+)\/([^/]+)$/);
         if (thFolderMatch) {
-          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
+          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, markets: MARKETS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
           const themeDir = THEME_DIRS[thFolderMatch[1]];
           if (!themeDir) { res.statusCode = 404; res.end(JSON.stringify({ error: "Unknown theme" })); return; }
           const folderPath = join(themeDir, decodeURIComponent(thFolderMatch[2]));
@@ -203,7 +229,7 @@ function researchFilesPlugin(): Plugin {
         // GET /research/folder-file/:theme/:folder/:file — read file from any theme subfolder
         const thFolderFileMatch = req.url.match(/^\/research\/folder-file\/([^/]+)\/([^/]+)\/(.+)$/);
         if (thFolderFileMatch) {
-          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
+          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, markets: MARKETS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
           const themeDir = THEME_DIRS[thFolderFileMatch[1]];
           if (!themeDir) { res.statusCode = 404; res.end(JSON.stringify({ error: "Unknown theme" })); return; }
           const baseDir = join(themeDir, decodeURIComponent(thFolderFileMatch[2]));

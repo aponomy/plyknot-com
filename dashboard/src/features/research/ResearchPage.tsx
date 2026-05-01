@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { FileText, CheckSquare, MessageSquare, ChevronRight } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { MarkdownContent } from "../../lib/markdown";
-import { OverviewContent } from "../overview/OverviewContent";
 
 /* ── Types ──────────────────────────────────────────────────────────── */
 
@@ -342,7 +341,7 @@ function DependsChips({
   );
 }
 
-type ResearchTab = "synthesis" | "papers" | "overview";
+type ResearchTab = "synthesis" | "papers";
 
 /* ── Paper labels ───────────────────────────────────────────────────── */
 
@@ -354,6 +353,7 @@ const PAPER_LABELS: Record<string, string> = {
   "satellite-4-alphafold": "S4: AlphaFold Echo Chambers",
   "satellite-5-emergence": "S5: Emergence",
   "satellite-6": "S6: Cross-Vendor Clustering",
+  "satellite-7-quantum-vqe": "S7: Quantum VQE Echo Chambers",
 };
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -482,7 +482,7 @@ export function ResearchPage() {
 
       {/* Tab toggle — sits above the columns */}
       <div className="flex items-center rounded-md bg-[var(--muted)] p-0.5 w-fit">
-        {(["synthesis", "papers", "overview"] as const).map((t) => (
+        {(["synthesis", "papers"] as const).map((t) => (
           <button
             key={t}
             onClick={() => handleTabChange(t)}
@@ -498,13 +498,7 @@ export function ResearchPage() {
         ))}
       </div>
 
-      {/* Overview tab: its own three-column layout */}
-      {tab === "overview" ? (
-        <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 170px)" }}>
-          <OverviewContent />
-        </div>
-      ) : (
-      /* Synthesis / Papers: original three-column layout */
+      {/* Synthesis / Papers: three-column layout */}
       <div className="flex gap-4 overflow-hidden" style={{ height: "calc(100vh - 170px)" }}>
 
         {/* Column 1: Folder cards */}
@@ -708,14 +702,28 @@ export function ResearchPage() {
                   />
                 ) : null;
               })()}
-              <MarkdownContent content={fileContent} />
+              {selectedFile.file.endsWith(".html") ? (
+                <div
+                  className="w-full rounded border border-[var(--border)] bg-white overflow-auto"
+                  style={{ height: "calc(100vh - 240px)" }}
+                  dangerouslySetInnerHTML={{ __html: (() => {
+                    // Extract <style> and <body> content from full HTML document
+                    const styleMatch = fileContent.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+                    const bodyMatch = fileContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+                    const style = styleMatch ? `<style>${styleMatch[1]}</style>` : "";
+                    const body = bodyMatch ? bodyMatch[1] : fileContent;
+                    return style + body;
+                  })() }}
+                />
+              ) : (
+                <MarkdownContent content={fileContent} />
+              )}
             </div>
           ) : (
             <p className="text-xs text-[var(--muted-foreground)]">File not found.</p>
           )}
         </div>
       </div>
-      )}
     </div>
   );
 }

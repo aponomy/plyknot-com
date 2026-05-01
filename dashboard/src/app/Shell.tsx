@@ -6,8 +6,6 @@ import {
   Factory,
   Workflow,
   BookOpen,
-  ListChecks,
-  CalendarRange,
   Shield,
   Settings,
   LogOut,
@@ -15,8 +13,6 @@ import {
   ChevronDown,
   X,
   Sparkles,
-  Package,
-  Target,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useAuth } from "../lib/auth";
@@ -33,10 +29,6 @@ const navItems = [
   { to: "/factory", icon: Factory, label: "Factory" },
   { to: "/process", icon: Workflow, label: "Discovery" },
   { to: "/research", icon: BookOpen, label: "Research" },
-  { to: "/products", icon: Package, label: "Products" },
-  { to: "/markets", icon: Target, label: "Markets" },
-  { to: "/tracker", icon: ListChecks, label: "Tracker" },
-  { to: "/timeline", icon: CalendarRange, label: "Timeline" },
 ] as const;
 
 function NavRail() {

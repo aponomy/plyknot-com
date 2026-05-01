@@ -34,9 +34,24 @@ export function renderMarkdown(content: string): string {
     .replace(/`(.+?)`/g, '<code class="text-[10px] px-1 py-0.5 rounded bg-[var(--muted)] font-mono">$1</code>')
     .replace(/^\- \[x\] (.+)$/gm, '<div class="flex items-center gap-1.5 py-0.5"><span class="text-green-400">&#9745;</span><span class="line-through text-[var(--muted-foreground)]">$1</span></div>')
     .replace(/^\- \[ \] (.+)$/gm, '<div class="flex items-center gap-1.5 py-0.5"><span class="text-[var(--muted-foreground)]">&#9744;</span><span>$1</span></div>')
-    .replace(/^- (.+)$/gm, '<div class="flex items-start gap-1.5 py-0.5"><span class="text-[var(--muted-foreground)] shrink-0">&bull;</span><span>$1</span></div>')
+    .replace(/^- (.+)$/gm, '<li class="flex items-start gap-1.5 py-0.5 list-none"><span class="text-[var(--muted-foreground)] shrink-0">&bull;</span><span>$1</span></li>')
     .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-[var(--muted)] pl-3 py-1 text-[var(--muted-foreground)] italic">$1</blockquote>')
-    .replace(/^---$/gm, '<hr class="border-[var(--border)] my-1.5" />')
+    .replace(/^---$/gm, '<hr class="border-[var(--border)] my-1.5" />');
+
+  // Wrap consecutive <li> elements (possibly separated by blank lines) into <ul>
+  out = out.replace(/(<li[\s\S]*?<\/li>)(\n\n?(<li[\s\S]*?<\/li>))*/g, (block) => {
+    // Remove any \n between consecutive <li> items
+    const items = block.replace(/\n+/g, "");
+    return `<ul class="my-1 pl-0">${items}</ul>`;
+  });
+
+  // Same for checkbox items
+  out = out.replace(/((<div class="flex items-center gap-1\.5 py-0\.5">[\s\S]*?<\/div>)(\n\n?(<div class="flex items-center gap-1\.5 py-0\.5">[\s\S]*?<\/div>))*)/g, (block) => {
+    const items = block.replace(/\n+(?=<div class="flex items-center)/g, "");
+    return `<div class="my-1">${items}</div>`;
+  });
+
+  out = out
     .replace(/\n\n/g, '<div class="h-2"></div>')
     .replace(/\n/g, "<br />");
 

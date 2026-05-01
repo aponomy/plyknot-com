@@ -42,7 +42,7 @@ const WK_W = 45; // week cell width in px
 const OV_W = 55; // overflow column width
 const LABEL_W = 340;
 const CAT_ICONS: Record<string, string> = {
-  papers: "📄", products: "🎯", project: "🗂️", synthesis: "🔬",
+  papers: "📄", products: "🎯", markets: "🌍", project: "🗂️", synthesis: "🔬",
 };
 
 /* ── Week helpers ───────────────────────────────────────────────────────── */
@@ -89,6 +89,202 @@ function getWeekHeaders(ws: Date): WeekCol[] {
   return cols;
 }
 
+/* ── File tree with subfolder grouping ──────────────────────────────────── */
+
+function FileTree({ files, selected, onSelect, storageKey }: { files: string[]; selected: string | null; onSelect: (f: string) => void; storageKey?: string }) {
+  const lsKey = storageKey ? `ft-col-${storageKey}` : null;
+  const [collapsed, setCollapsed] = useState<Set<string>>(() => {
+    if (!lsKey) return new Set();
+    try { return new Set(JSON.parse(localStorage.getItem(lsKey) ?? "[]")); } catch { return new Set(); }
+  });
+  const toggle = (dir: string) => setCollapsed(prev => {
+    const n = new Set(prev);
+    n.has(dir) ? n.delete(dir) : n.add(dir);
+    if (lsKey) localStorage.setItem(lsKey, JSON.stringify([...n]));
+    return n;
+  });
+
+  // Group: root files, then top-level subfolders (collapsible), with deeper paths as dividers inside
+  const groups = useMemo(() => {
+    const rootFiles: string[] = [];
+    const dirs = new Map<string, string[]>();
+    for (const f of files) {
+      const slash = f.indexOf("/");
+      if (slash < 0) {
+        rootFiles.push(f);
+      } else {
+        const topDir = f.slice(0, slash);
+        if (!dirs.has(topDir)) dirs.set(topDir, []);
+        dirs.get(topDir)!.push(f);
+      }
+    }
+    return { rootFiles, dirs };
+  }, [files]);
+
+  // For files inside a top-level dir, indent by depth with folder labels
+  const renderDirFiles = (topDir: string, dirFiles: string[]) => {
+    const items: React.ReactNode[] = [];
+    let lastSubDir = "";
+    for (const f of dirFiles) {
+      const relPath = f.slice(topDir.length + 1);
+      const parts = relPath.split("/");
+      const depth = parts.length; // 1 = direct child, 2+ = nested
+      const label = parts[parts.length - 1];
+      // Insert folder label when sub-path changes
+      if (depth > 1) {
+        const subDir = parts.slice(0, -1).join("/");
+        if (subDir !== lastSubDir) {
+          items.push(
+            <div key={`dir-${subDir}`}
+              style={{ padding: `5px 12px 5px ${12 + (depth - 1) * 14}px`, fontSize: 10, fontWeight: 600,
+                color: "var(--muted-foreground)", borderBottom: "1px solid color-mix(in srgb, var(--border) 20%, transparent)" }}>
+              {parts[parts.length - 2]}/
+            </div>
+          );
+          lastSubDir = subDir;
+        }
+      }
+      const isActive = selected === f;
+      items.push(
+        <button key={f} onClick={() => onSelect(f)}
+          style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", textAlign: "left",
+            padding: `4px 12px 4px ${12 + depth * 14}px`, fontSize: 11, cursor: "pointer", border: "none",
+            borderBottom: "1px solid color-mix(in srgb, var(--border) 20%, transparent)",
+            background: isActive ? C.accentBg : "transparent",
+            color: isActive ? C.accent : "var(--foreground)" }}>
+          <FileText size={10} style={{ flexShrink: 0, opacity: 0.5 }} />
+          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {label.replace(/\.md$/, "").replace(/\.html$/, " ◇")}
+          </span>
+        </button>
+      );
+    }
+    return items;
+  };
+
+  return (
+    <>
+      {groups.rootFiles.map(f => {
+        const isActive = selected === f;
+        return (
+          <button key={f} onClick={() => onSelect(f)}
+            style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", textAlign: "left",
+              padding: "4px 12px", fontSize: 11, cursor: "pointer", border: "none",
+              borderBottom: "1px solid color-mix(in srgb, var(--border) 20%, transparent)",
+              background: isActive ? C.accentBg : "transparent",
+              color: isActive ? C.accent : "var(--foreground)" }}>
+            <FileText size={10} style={{ flexShrink: 0, opacity: 0.5 }} />
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {f.replace(/\.md$/, "").replace(/\.html$/, " ◇")}
+            </span>
+          </button>
+        );
+      })}
+      {Array.from(groups.dirs.entries()).map(([dir, dirFiles]) => {
+        const isCol = collapsed.has(dir);
+        return (
+          <div key={dir}>
+            <button onClick={() => toggle(dir)}
+              style={{ display: "flex", alignItems: "center", gap: 4, width: "100%", textAlign: "left",
+                padding: "5px 12px", fontSize: 10, fontWeight: 600, cursor: "pointer", border: "none",
+                borderBottom: "1px solid color-mix(in srgb, var(--border) 30%, transparent)",
+                background: "color-mix(in srgb, var(--muted) 50%, transparent)",
+                color: "var(--muted-foreground)", letterSpacing: "0.03em" }}>
+              {isCol ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
+              {dir}/ <span style={{ fontWeight: 400, marginLeft: "auto" }}>{dirFiles.length}</span>
+            </button>
+            {!isCol && renderDirFiles(dir, dirFiles)}
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+/* ── Frontmatter title block (architect drawing style) ─────────────────── */
+
+function FrontmatterBlock({ content, onChatClick }: { content: string; onChatClick?: (chatNum: number) => void }) {
+  const fm = useMemo(() => {
+    const m = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
+    if (!m) return null;
+    const fields: { key: string; value: string }[] = [];
+    let currentKey = "";
+    let currentValue = "";
+    for (const line of m[1].split("\n")) {
+      const kv = line.match(/^(\w[\w_-]*):\s*(.*)/);
+      if (kv) {
+        if (currentKey) fields.push({ key: currentKey, value: currentValue.trim() });
+        currentKey = kv[1];
+        currentValue = kv[2].replace(/^["']|["']$/g, "");
+      } else if (currentKey && (line.startsWith("  ") || line.startsWith("\t"))) {
+        currentValue += " " + line.trim().replace(/^- /, "").replace(/^["']|["']$/g, "");
+      }
+    }
+    if (currentKey) fields.push({ key: currentKey, value: currentValue.trim() });
+    return fields.length > 0 ? fields : null;
+  }, [content]);
+
+  if (!fm) return null;
+
+  const STATUS_COLORS: Record<string, string> = {
+    active: "#16a34a", converged: "#16a34a", tension: "#ca8a04",
+    divergent: "#dc2626", single: "#71717a", proposed: "#6366f1",
+    superseded: "#a1a1aa", idea: "#6366f1", pipeline: "#6366f1",
+  };
+
+  return (
+    <div style={{ border: "1px solid #d4d4d8", borderRadius: 4, marginBottom: 16, fontFamily: "Inter, system-ui, sans-serif", fontSize: 11, overflow: "hidden" }}>
+      {/* Title row */}
+      {fm.filter(f => f.key === "title").map(f => (
+        <div key="title" style={{ padding: "6px 10px", borderBottom: "1px solid #d4d4d8", fontWeight: 700, fontSize: 12, letterSpacing: "0.01em" }}>
+          {f.value}
+        </div>
+      ))}
+      {/* Fields grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+        {fm.filter(f => f.key !== "title" && f.key !== "summary").map((f, i) => {
+          const isStatus = f.key === "status";
+          const statusColor = isStatus ? STATUS_COLORS[f.value.toLowerCase()] : undefined;
+          return (
+            <div key={f.key} style={{
+              padding: "3px 10px", display: "flex", gap: 6, alignItems: "baseline",
+              borderBottom: "0.5px solid #e4e4e7",
+              borderRight: i % 2 === 0 ? "0.5px solid #e4e4e7" : "none",
+              minWidth: 0,
+            }}>
+              <span style={{ color: "#71717a", fontSize: 9, textTransform: "uppercase", letterSpacing: "0.05em", flexShrink: 0, minWidth: 50 }}>{f.key}</span>
+              {f.key === "chat" && onChatClick ? (
+                <span style={{ display: "flex", gap: 4, flexWrap: "wrap", minWidth: 0 }}>
+                  {f.value.replace(/[[\]]/g, "").split(/[,\s]+/).filter(Boolean).map((v, ci) => {
+                    const num = parseInt(v);
+                    return !isNaN(num) ? (
+                      <button key={ci} onClick={() => onChatClick(num)}
+                        style={{ color: "#6366f1", fontWeight: 500, cursor: "pointer", border: "none", background: "none", padding: 0, fontSize: 11, textDecoration: "underline" }}>
+                        #{num}
+                      </button>
+                    ) : <span key={ci} style={{ fontSize: 11 }}>{v}</span>;
+                  })}
+                </span>
+              ) : (
+                <span style={{
+                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0,
+                  ...(isStatus && statusColor ? { color: statusColor, fontWeight: 600 } : {}),
+                }}>{f.value}</span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {/* Summary row (full width) */}
+      {fm.filter(f => f.key === "summary").map(f => (
+        <div key="summary" style={{ padding: "5px 10px", color: "#71717a", fontSize: 10, lineHeight: 1.5 }}>
+          {f.value}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ── Main component ─────────────────────────────────────────────────────── */
 
 export function TrackerPage() {
@@ -96,10 +292,11 @@ export function TrackerPage() {
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const wkH = useMemo(() => getWeekHeaders(ws), [ws]);
 
-  const [viewTab, setViewTab] = useState<ViewTab>("roadmap");
+  const [viewTab, setViewTab] = useState<ViewTab>("files");
   const [selTheme, setSelTheme] = useState<string | null>(null);
   const [selIssue, setSelIssue] = useState<string | null>(null);
   const [selFilePath, setSelFilePath] = useState<string | null>(null);
+  const [pendingChat, setPendingChat] = useState<number | null>(null);
   const prevThemeRef = useRef<string | null>(null);
   const [collapsed, setCollapsed] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem("trk-collapsed-cats") ?? "[]")); } catch { return new Set(); }
@@ -163,6 +360,19 @@ export function TrackerPage() {
   const selectedIssue = useMemo(() => issues.find(i => i.id === selIssue) ?? null, [issues, selIssue]);
 
   const addCl = useCallback((t: string) => { if (t.trim()) setClog(p => [...p, t.trim()]); }, []);
+
+  /* Resolve pending chat click — find the summary file when folder data loads */
+  useEffect(() => {
+    if (pendingChat !== null && folderFiles.length > 0 && selTheme === "project/chat") {
+      const pad = String(pendingChat).padStart(2, "0");
+      const match = folderFiles.find(f => f.includes(`/${pad}-`) || f.startsWith(`${pad}-`));
+      if (match) {
+        setSelFilePath(match);
+        setViewTab("files");
+      }
+      setPendingChat(null);
+    }
+  }, [pendingChat, folderFiles, selTheme]);
 
   /* ── Read-only: mutations are no-ops (data is loaded from static files) ── */
 
@@ -265,16 +475,10 @@ export function TrackerPage() {
     <div className="flex flex-col -m-6" style={{ height: "calc(100vh - 48px)", fontSize: 13 }}>
       {/* Header */}
       <div className="flex items-center h-11 px-4 gap-3 shrink-0" style={{ borderBottom: "1px solid var(--border)" }}>
-        <h1 style={{ fontSize: 14, fontWeight: 600 }}>Plyknot Roadmap</h1>
-        <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>
-          {stats && viewTab === "roadmap" ? `${sorted.length} visible / ${stats.total} total · ${stats.done} done` : ""}
-        </span>
-        <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 8, background: "var(--muted)", color: "var(--muted-foreground)", fontWeight: 500 }}>
-          from files
-        </span>
-        {/* View tabs */}
+        <h1 style={{ fontSize: 14, fontWeight: 600, margin: 0, lineHeight: 1 }}>Research</h1>
+        {/* View tabs — right after header */}
         <div style={{ display: "flex", alignItems: "center", borderRadius: 6, background: "var(--muted)", padding: 2, gap: 0 }}>
-          {(["roadmap", "files"] as const).map(t => (
+          {(["files", "roadmap"] as const).map(t => (
             <button key={t} onClick={() => setViewTab(t)}
               style={{ padding: "2px 12px", borderRadius: 4, fontSize: 10, fontWeight: 500, border: "none", cursor: "pointer", transition: "all 0.1s", textTransform: "capitalize",
                 background: viewTab === t ? "var(--card)" : "transparent",
@@ -284,6 +488,9 @@ export function TrackerPage() {
             </button>
           ))}
         </div>
+        <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>
+          {stats && viewTab === "roadmap" ? `${sorted.length} visible / ${stats.total} total · ${stats.done} done` : ""}
+        </span>
         <div style={{ marginLeft: "auto" }} />
         {viewTab === "roadmap" && (
           <div style={{ position: "relative" }}>
@@ -314,7 +521,7 @@ export function TrackerPage() {
       {/* Main */}
       <div className="flex flex-1 min-h-0">
         {/* ── Nav column ──────────────────────────────────────────────────── */}
-        <div style={{ width: 240, minWidth: 240, borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{ width: 320, minWidth: 320, borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ height: 36, display: "flex", alignItems: "center", padding: "0 12px", fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", color: moving ? C.accent : "var(--muted-foreground)", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
             {moving ? (
               <><span>Click destination theme</span><button onClick={() => setMoving(null)} style={{ marginLeft: "auto", border: "none", background: "none", color: "var(--muted-foreground)", cursor: "pointer", fontSize: 11 }}>Cancel</button></>
@@ -330,21 +537,33 @@ export function TrackerPage() {
                     {col ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
                     <span style={{ fontSize: 12 }}>{CAT_ICONS[cat.slug]||"📁"}</span>
                     {cat.slug.toUpperCase()}
-                    <span style={{ marginLeft: "auto", fontSize: 10, color: "var(--muted-foreground)", background: "color-mix(in srgb, var(--border) 50%, transparent)", padding: "1px 5px", borderRadius: 8 }}>{cat.issue_count}</span>
+                    <span style={{ marginLeft: "auto", fontSize: 10, color: "var(--muted-foreground)", background: "color-mix(in srgb, var(--border) 50%, transparent)", padding: "1px 5px", borderRadius: 8 }}>
+                      {viewTab === "files" ? ct.reduce((s, t) => s + (t.file_count ?? 0), 0) : cat.issue_count - cat.done_count}
+                    </span>
                   </div>
                   {!col && ct.map(th => {
                     const sel = selTheme === th.id;
+                    const current = !!th.has_current;
                     return (
                       <div key={th.id} onClick={() => { if (moving) { moveToTheme(th.id); } else { setSelTheme(th.id); setSelIssue(null); } }}
                         style={{ padding: "5px 12px 5px 30px", fontSize: 12, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid color-mix(in srgb, var(--border) 30%, transparent)",
-                          ...(sel && !moving ? { background: C.accentBg, color: C.accent, fontWeight: 600 } : {}),
+                          ...(sel && !moving ? { background: current ? "#dbeafe" : C.accentBg, color: current ? "#2563eb" : C.accent, fontWeight: 600 } : {}),
+                          ...(current && !sel ? { color: "#2563eb", fontWeight: 600 } : {}),
                           ...(moving ? { outline: `1px dashed ${C.accent}`, outlineOffset: -1 } : {}) }}>
                         <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{th.title}</span>
+                        {current && <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#2563eb", flexShrink: 0, marginLeft: -2 }} />}
                         <span style={{ display: "flex", gap: 3 }}>
-                          <NBadge n={0} bg={C.doingBg} fg={C.doing} />
-                          <NBadge n={0} bg={C.p0Bg} fg={C.p0} />
-                          <NBadge n={th.issue_count - th.done_count} bg={C.doneBg} fg={C.done} />
-                          <NBadge n={th.issue_count} bg="color-mix(in srgb, var(--border) 50%, transparent)" fg="var(--muted-foreground)" />
+                          {viewTab === "files" ? (
+                            <span style={{ fontSize: 10, color: "var(--muted-foreground)" }}>{th.file_count ?? 0}</span>
+                          ) : (() => {
+                            const thIssues = roadmapData?.themeIssues[th.id] ?? [];
+                            const p0 = thIssues.filter(i => i.priority === "P0" && i.status !== "done").length;
+                            const notDone = th.issue_count - th.done_count;
+                            return <>
+                              <NBadge n={p0} bg={C.p0Bg} fg={C.p0} />
+                              <NBadge n={notDone} bg={C.doneBg} fg={C.done} />
+                            </>;
+                          })()}
                         </span>
                       </div>
                     );
@@ -502,20 +721,7 @@ export function TrackerPage() {
                 {folderLoading ? (
                   <div style={{ padding: "16px 12px", fontSize: 11, color: "var(--muted-foreground)" }}>Loading…</div>
                 ) : folderFiles.length > 0 ? (
-                  folderFiles.map(file => {
-                    const isActive = selFilePath === file;
-                    return (
-                      <button key={file} onClick={() => setSelFilePath(file)}
-                        style={{ display: "flex", alignItems: "center", gap: 6, width: "100%", textAlign: "left", padding: "5px 12px", fontSize: 11, cursor: "pointer", border: "none", borderBottom: "1px solid color-mix(in srgb, var(--border) 30%, transparent)",
-                          background: isActive ? C.accentBg : "transparent",
-                          color: isActive ? C.accent : "var(--foreground)" }}>
-                        <FileText size={10} style={{ flexShrink: 0, opacity: 0.6 }} />
-                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                          {file.replace(/\.md$/, "")}
-                        </span>
-                      </button>
-                    );
-                  })
+                  <FileTree files={folderFiles} selected={selFilePath} onSelect={setSelFilePath} storageKey={selTheme ?? undefined} />
                 ) : selTheme ? (
                   <div style={{ padding: "16px 12px", fontSize: 11, color: "var(--muted-foreground)" }}>No files found</div>
                 ) : (
@@ -533,7 +739,29 @@ export function TrackerPage() {
                   <div style={{ fontSize: 10, color: "var(--muted-foreground)", marginBottom: 12 }}>
                     {selTheme} / {selFilePath}
                   </div>
-                  <MarkdownContent content={fileContentData} />
+                  {selFilePath?.endsWith(".html") ? (
+                    <div
+                      className="w-full rounded border bg-white overflow-auto"
+                      style={{ height: "calc(100vh - 240px)" }}
+                      dangerouslySetInnerHTML={{ __html: (() => {
+                        const styleMatch = fileContentData.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+                        const bodyMatch = fileContentData.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+                        const style = styleMatch ? `<style>${styleMatch[1]}</style>` : "";
+                        const body = bodyMatch ? bodyMatch[1] : fileContentData;
+                        return style + body;
+                      })() }}
+                    />
+                  ) : (
+                    <>
+                      <FrontmatterBlock content={fileContentData} onChatClick={(num) => {
+                        setSelTheme("project/chat");
+                        setSelIssue(null);
+                        // Set a pending chat number; the file will be selected when folder data loads
+                        setPendingChat(num);
+                      }} />
+                      <MarkdownContent content={fileContentData.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, "")} />
+                    </>
+                  )}
                 </>
               ) : (
                 <div style={{ fontSize: 11, color: "var(--muted-foreground)", textAlign: "center", paddingTop: 40 }}>
