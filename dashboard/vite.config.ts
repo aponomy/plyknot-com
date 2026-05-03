@@ -9,12 +9,12 @@ const PAPERS_DIR    = resolve(__dirname, "../../research/papers");
 const PRODUCTS_DIR  = resolve(__dirname, "../../research/products");
 const PROJECT_DIR   = resolve(__dirname, "../../research/project");
 const CHAT_DIR      = resolve(__dirname, "../../research/project/chat");
-const MARKETS_DIR   = resolve(__dirname, "../../research/project/markets");
+const NETWORK_DIR   = resolve(__dirname, "../../research/network");
 const RESEARCH_ROOT = resolve(__dirname, "../../research");
 
 /* ── Tracker parsing (mirrors build-roadmap.py in Node.js) ─────────────── */
 
-const TRACKER_SKIP = new Set(["build", "archive", "outlines", "markets"]);
+const TRACKER_SKIP = new Set(["build", "archive", "outlines"]);
 
 function readFolderTitle(folderPath: string): string {
   for (const name of ["index.md", "Index.md"]) {
@@ -74,7 +74,6 @@ function buildTrackerData() {
   const categories: { slug: string; label: string; sort_order: number; theme_count: number; done_count: number; issue_count: number }[] = [];
   const THEME_DEFS: [string, string, string][] = [
     ["papers", "Papers", PAPERS_DIR], ["products", "Products", PRODUCTS_DIR],
-    ["markets", "Markets", MARKETS_DIR],
     ["project", "Project", PROJECT_DIR], ["synthesis", "Synthesis", SYNTHESIS_DIR],
   ];
   let themeSort = 0;
@@ -216,7 +215,7 @@ function researchFilesPlugin(): Plugin {
         // GET /research/folder/:theme/:folder — scanFolder for any theme subfolder
         const thFolderMatch = req.url.match(/^\/research\/folder\/([^/]+)\/([^/]+)$/);
         if (thFolderMatch) {
-          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, markets: MARKETS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
+          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
           const themeDir = THEME_DIRS[thFolderMatch[1]];
           if (!themeDir) { res.statusCode = 404; res.end(JSON.stringify({ error: "Unknown theme" })); return; }
           const folderPath = join(themeDir, decodeURIComponent(thFolderMatch[2]));
@@ -229,7 +228,7 @@ function researchFilesPlugin(): Plugin {
         // GET /research/folder-file/:theme/:folder/:file — read file from any theme subfolder
         const thFolderFileMatch = req.url.match(/^\/research\/folder-file\/([^/]+)\/([^/]+)\/(.+)$/);
         if (thFolderFileMatch) {
-          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, markets: MARKETS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
+          const THEME_DIRS: Record<string, string> = { papers: PAPERS_DIR, products: PRODUCTS_DIR, project: PROJECT_DIR, synthesis: SYNTHESIS_DIR };
           const themeDir = THEME_DIRS[thFolderFileMatch[1]];
           if (!themeDir) { res.statusCode = 404; res.end(JSON.stringify({ error: "Unknown theme" })); return; }
           const baseDir = join(themeDir, decodeURIComponent(thFolderFileMatch[2]));
@@ -370,6 +369,125 @@ function researchFilesPlugin(): Plugin {
             res.statusCode = 500;
             res.end(JSON.stringify({ error: String(err) }));
           }
+          return;
+        }
+
+        // GET /research/network — network folder manifest
+        if (req.url === "/research/network") {
+          try {
+            const sections = ["opcos", "markets", "organization", "researchers", "bridges"];
+            const folders = sections
+              .filter((s) => existsSync(join(NETWORK_DIR, s)))
+              .map((s) => {
+                const sDir = join(NETWORK_DIR, s);
+                const entries = readdirSync(sDir, { withFileTypes: true });
+                const subfolders = entries
+                  .filter((e) => e.isDirectory() && !e.name.startsWith("."))
+                  .map((e) => scanFolder(join(sDir, e.name), e.name))
+                  .sort((a, b) => a.folder.localeCompare(b.folder));
+                // Read section-level index/todo
+                const sectionIndex = existsSync(join(sDir, "index.md")) ? readFileSync(join(sDir, "index.md"), "utf-8") : null;
+                const sectionTodo = ["todo.md", "Todo.md"].map((n) => join(sDir, n)).find((p) => existsSync(p));
+                return {
+                  section: s,
+                  indexContent: sectionIndex,
+                  todoContent: sectionTodo ? readFileSync(sectionTodo, "utf-8") : null,
+                  subfolders,
+                  files: entries.filter((e) => e.isFile() && (e.name.endsWith(".md") || e.name.endsWith(".html"))).map((e) => e.name).sort(),
+                };
+              });
+            // Also read network/index.md
+            const netIndex = existsSync(join(NETWORK_DIR, "index.md")) ? readFileSync(join(NETWORK_DIR, "index.md"), "utf-8") : null;
+            res.end(JSON.stringify({ generated: new Date().toISOString(), indexContent: netIndex, folders }));
+          } catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
+          return;
+        }
+
+        // GET /research/network-folder/:section/:folder? — read a sub-folder under network/
+        const netFolderMatch = req.url.match(/^\/research\/network-folder\/([^/]+)(?:\/([^/]+))?$/);
+        if (netFolderMatch) {
+          const section = netFolderMatch[1];
+          const folder = netFolderMatch[2];
+          const sDir = folder ? join(NETWORK_DIR, section, decodeURIComponent(folder)) : join(NETWORK_DIR, section);
+          if (!existsSync(sDir)) { res.statusCode = 404; res.end(JSON.stringify({ error: "Not found" })); return; }
+          try { res.end(JSON.stringify(scanFolder(sDir, folder || section))); }
+          catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
+          return;
+        }
+
+        // GET /research/network-folder-file/:section/:folder/:file — read a file under network/
+        const netFileMatch = req.url.match(/^\/research\/network-folder-file\/([^/]+)\/([^/]+)\/(.+)$/);
+        if (netFileMatch) {
+          const baseDir = join(NETWORK_DIR, netFileMatch[1], decodeURIComponent(netFileMatch[2]));
+          const filePath = decodeURIComponent(netFileMatch[3]);
+          const absPath = resolve(baseDir, filePath);
+          if (!absPath.startsWith(baseDir)) { res.statusCode = 403; res.end(JSON.stringify({ error: "Forbidden" })); return; }
+          if (!existsSync(absPath) || !statSync(absPath).isFile()) { res.statusCode = 404; res.end(JSON.stringify({ error: "Not found" })); return; }
+          try { res.end(JSON.stringify({ path: filePath, content: readFileSync(absPath, "utf-8") })); }
+          catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
+          return;
+        }
+
+        // GET /research/affiliates — aggregate per-paper affiliates.md
+        if (req.url === "/research/affiliates") {
+          try {
+            const paperFolders = readdirSync(PAPERS_DIR, { withFileTypes: true })
+              .filter((e) => e.isDirectory() && !e.name.startsWith(".") && !e.name.startsWith("archive"))
+              .map((e) => e.name).sort();
+            const rosters = paperFolders.map((pf) => {
+              const afPath = join(PAPERS_DIR, pf, "affiliates.md");
+              if (!existsSync(afPath)) {
+                return { paper: pf, paperTitle: readFolderTitle(join(PAPERS_DIR, pf)), domain: null, status: "missing", lastReviewed: null, gapNote: null, opco: null, outsideFishing: null, tiers: [], history: [], rawMarkdown: "" };
+              }
+              const raw = readFileSync(afPath, "utf-8");
+              // Parse frontmatter
+              const fmMatch = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
+              const fm: Record<string, string> = {};
+              if (fmMatch) {
+                for (const line of fmMatch[1].split("\n")) {
+                  const kv = line.match(/^(\w[\w_]*)\s*:\s*(.*)$/);
+                  if (kv) fm[kv[1]] = kv[2].replace(/^["']|["']$/g, "").trim();
+                }
+              }
+              // Parse tiers
+              const tiers: { tier: string; label: string; entries: any[] }[] = [];
+              let currentTier: { tier: string; label: string; entries: any[] } | null = null;
+              const history: string[] = [];
+              let inHistory = false;
+              const body = fmMatch ? raw.slice(fmMatch[0].length) : raw;
+              for (const line of body.split("\n")) {
+                const tierMatch = line.match(/^## (T[0-4])\s*(?:—\s*(.+))?$/);
+                if (tierMatch) {
+                  currentTier = { tier: tierMatch[1], label: tierMatch[2]?.trim() || "", entries: [] };
+                  tiers.push(currentTier);
+                  inHistory = false;
+                  continue;
+                }
+                if (line.match(/^## History/i)) { inHistory = true; currentTier = null; continue; }
+                if (inHistory && line.startsWith("- ")) { history.push(line.slice(2).trim()); continue; }
+                if (currentTier && line.startsWith("- ")) {
+                  const entryRaw = line.slice(2).trim();
+                  const isOpen = entryRaw.startsWith("(open)");
+                  const nameMatch = entryRaw.match(/^\*\*([^*]+)\*\*\s*(?:\(([^)]+)\))?/);
+                  const statusMatch = entryRaw.match(/Status:\s*([^.]+)\./);
+                  const actionMatch = entryRaw.match(/Action:\s*(.+?)\.?\s*$/);
+                  const starred = entryRaw.includes("⭐");
+                  tiers[tiers.length - 1].entries.push({
+                    raw: entryRaw, name: nameMatch?.[1] || null, affiliation: nameMatch?.[2] || null,
+                    status: statusMatch?.[1]?.trim() || null, action: actionMatch?.[1]?.trim() || null,
+                    starred, open: isOpen, notes: nameMatch ? entryRaw.replace(/^[^—]*—\s*/, "").replace(/Status:.*/, "").trim() || null : entryRaw,
+                  });
+                }
+              }
+              return {
+                paper: fm.paper || pf, paperTitle: readFolderTitle(join(PAPERS_DIR, pf)),
+                domain: fm.domain || null, status: fm.status || null, lastReviewed: fm.last_reviewed || null,
+                gapNote: fm.gap_note || null, opco: fm.opco || null, outsideFishing: fm.outside_fishing || null,
+                tiers, history, rawMarkdown: raw,
+              };
+            });
+            res.end(JSON.stringify({ generated: new Date().toISOString(), rosters }));
+          } catch (err) { res.statusCode = 500; res.end(JSON.stringify({ error: String(err) })); }
           return;
         }
 

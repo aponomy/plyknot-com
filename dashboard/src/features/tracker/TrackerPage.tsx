@@ -42,7 +42,7 @@ const WK_W = 45; // week cell width in px
 const OV_W = 55; // overflow column width
 const LABEL_W = 340;
 const CAT_ICONS: Record<string, string> = {
-  papers: "📄", products: "🎯", markets: "🌍", project: "🗂️", synthesis: "🔬",
+  papers: "📄", products: "🎯", project: "🗂️", synthesis: "🔬",
 };
 
 /* ── Week helpers ───────────────────────────────────────────────────────── */

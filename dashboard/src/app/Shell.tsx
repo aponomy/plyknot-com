@@ -6,6 +6,7 @@ import {
   Factory,
   Workflow,
   BookOpen,
+  Network,
   Shield,
   Settings,
   LogOut,
@@ -29,6 +30,7 @@ const navItems = [
   { to: "/factory", icon: Factory, label: "Factory" },
   { to: "/process", icon: Workflow, label: "Discovery" },
   { to: "/research", icon: BookOpen, label: "Research" },
+  { to: "/network", icon: Network, label: "Network" },
 ] as const;
 
 function NavRail() {

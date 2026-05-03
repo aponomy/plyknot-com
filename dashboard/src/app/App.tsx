@@ -10,6 +10,7 @@ const ProcessPage = lazy(() => import("../features/process/ProcessPage").then((m
 const ProjectDetailPage = lazy(() => import("../features/projects/ProjectDetailPage").then((m) => ({ default: m.ProjectDetailPage })));
 const TrackerPage = lazy(() => import("../features/tracker/TrackerPage").then((m) => ({ default: m.TrackerPage })));
 const AccessControlPage = lazy(() => import("../features/settings/AccessControlPage").then((m) => ({ default: m.AccessControlPage })));
+const NetworkPage = lazy(() => import("../features/network/NetworkPage").then((m) => ({ default: m.NetworkPage })));
 
 function PageLoader() {
   return (
@@ -49,6 +50,7 @@ export function App() {
             <Route path="process" element={<ProcessPage />} />
             <Route path="process/:id" element={<ProjectDetailPage />} />
             <Route path="research" element={<TrackerPage />} />
+            <Route path="network" element={<NetworkPage />} />
             <Route path="settings/access" element={<AccessControlPage />} />
             {/* Legacy redirects */}
             <Route path="tracker" element={<Navigate to="/research" replace />} />
